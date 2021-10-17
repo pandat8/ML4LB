@@ -1,0 +1,12 @@
+objective value:                                  -11
+t_n_8                                               1 	(obj:-1)
+t_n_449                                             1 	(obj:-1)
+t_n_496                                             1 	(obj:-1)
+t_n_621                                             1 	(obj:-1)
+t_n_681                                             1 	(obj:-1)
+t_n_712                                             1 	(obj:-1)
+t_n_802                                             1 	(obj:-1)
+t_n_839                                             1 	(obj:-1)
+t_n_860                                             1 	(obj:-1)
+t_n_916                                             1 	(obj:-1)
+t_n_920                                             1 	(obj:-1)
