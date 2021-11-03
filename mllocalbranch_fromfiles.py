@@ -47,6 +47,7 @@ class MlLocalbranch:
         torch.manual_seed(seed)
         random.seed(seed)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        print(self.device)
 
     def initialize_ecole_env(self):
 
