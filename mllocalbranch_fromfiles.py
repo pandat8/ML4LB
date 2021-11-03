@@ -36,6 +36,7 @@ class MlLocalbranch:
         self.incumbent_mode = incumbent_mode
         self.lbconstraint_mode = lbconstraint_mode
         self.seed = seed
+        print('seed: {}'.format(str(seed)))
         self.directory = './result/generated_instances/' + self.instance_type + '/' + self.instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
         # self.generator = generator_switcher(self.instance_type + self.instance_size)
 
