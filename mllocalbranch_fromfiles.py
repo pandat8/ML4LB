@@ -3740,8 +3740,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print("Solving time: ", elapsed_time)
         print('\n')
 
-        objs_regression_reset = lb_model3.primal_objs
-        times_regression_reset = lb_model3.primal_times
+        objs_regression_reset = np.array(lb_model3.primal_objs).reshape(-1)
+        times_regression_reset = np.array(lb_model3.primal_times).reshape(-1)
 
         MIP_model_copy3.freeProb()
         del sol_MIP_copy3
@@ -3942,8 +3942,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             device=device
         )
 
-        objs_regression_reset = lb_model3.primal_objs
-        times_regression_reset = lb_model3.primal_times
+        objs_regression_reset = np.array(lb_model3.primal_objs).reshape(-1)
+        times_regression_reset = np.array(lb_model3.primal_times).reshape(-1)
 
         print("Instance:", MIP_model_copy3.getProbName())
         print("Status of LB: ", status)
@@ -4127,8 +4127,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             device=device
         )
 
-        objs = lb_model.primal_objs
-        times = lb_model.primal_times
+        objs = np.array(lb_model.primal_objs).reshape(-1)
+        times = np.array(lb_model.primal_times).reshape(-1)
 
         print("Instance:", MIP_model_copy.getProbName())
         print("Status of LB: ", status)
@@ -4243,14 +4243,14 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         if baseline:
             self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
         else:
             if not merged:
                 self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-                    node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+                    node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             else:
                 self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-                    node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+                    node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
         index_instance = 160 # 160, 0
@@ -6400,7 +6400,7 @@ class RlLocalbranch(MlLocalbranch):
 
         return train_dataset, valid_dataset, test_dataset
 
-    def mdp_localbranch(self, localbranch=None, is_symmetric=True, reset_k_at_2nditeration=False, agent=None, optimizer=None, device=None):
+    def mdp_localbranch(self, localbranch=None, is_symmetric=True, reset_k_at_2nditeration=False, agent=None, optimizer=None, device=None, enable_adapt_t=False):
 
         # self.total_time_limit = total_time_limit
         localbranch.total_time_available = localbranch.total_time_limit
@@ -6475,7 +6475,7 @@ class RlLocalbranch(MlLocalbranch):
 
             # execute one iteration of LB, get the state and rewards
 
-            state, reward, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
+            state, reward, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits, enable_adapt_t=enable_adapt_t)
 
             if agent is not None:
                 agent.rewards.append(reward)
@@ -7143,7 +7143,7 @@ class RlLocalbranch(MlLocalbranch):
                                                            )
 
     def evaluate_lb_per_instance_rlactive(self, MIP_model, incumbent, node_time_limit, total_time_limit, reset_k_at_2nditeration=False,
-                                 agent1=None, agent2=None
+                                 agent1=None, agent2=None, enable_adapt_t=False
                                  ):
         """
         evaluate a single MIP instance by two algorithms: lb-baseline and lb-pred_k
@@ -7299,15 +7299,16 @@ class RlLocalbranch(MlLocalbranch):
             reset_k_at_2nditeration=reset_k_at_2nditeration,
             agent=agent1,
             optimizer=None,
-            device=device)
+            device=device,
+            enable_adapt_t=enable_adapt_t)
         print("Instance:", MIP_model_copy3.getProbName())
         print("Status of LB: ", status)
         print("Best obj of LB: ", obj_best)
         print("Solving time: ", elapsed_time)
         print('\n')
 
-        objs_regression_reinforce = lb_model3.primal_objs
-        times_regression_reinforce = lb_model3.primal_times
+        objs_regression_reinforce = np.array(lb_model3.primal_objs).reshape(-1)
+        times_regression_reinforce = np.array(lb_model3.primal_times).reshape(-1)
 
         MIP_model_copy3.freeProb()
         del sol_MIP_copy3
@@ -7333,8 +7334,8 @@ class RlLocalbranch(MlLocalbranch):
             optimizer=None,
             device=device)
 
-        objs_noregression_reinforce = lb_model2.primal_objs
-        times_noregression_reinforce = lb_model2.primal_times
+        objs_noregression_reinforce = np.array(lb_model2.primal_objs).reshape(-1)
+        times_noregression_reinforce = np.array(lb_model2.primal_times).reshape(-1)
 
 
         print("Instance:", MIP_model_copy2.getProbName())
@@ -7362,7 +7363,7 @@ class RlLocalbranch(MlLocalbranch):
 
     def evaluate_localbranching_rlactive(self, evaluation_instance_size='-small', total_time_limit=60, node_time_limit=30,
                                 reset_k_at_2nditeration=False, greedy=False, lr=None, regression_model_path='',
-                    rl_model_path=''):
+                    rl_model_path='', enable_adapt_t=False):
 
         self.regression_dataset = self.instance_type + '-small'
         # self.evaluation_dataset = self.instance_type + evaluation_instance_size
@@ -7392,9 +7393,15 @@ class RlLocalbranch(MlLocalbranch):
         self.regression_model_gnn.to(self.device)
 
         evaluation_directory = './result/generated_instances/' + self.instance_type + '/' + evaluation_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
-        self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
+        if enable_adapt_t:
+            self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(
-            total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_baseline/'
+            total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_baseline/seed'+ str(self.seed) + '/'
+        else:
+            self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
+                node_time_limit) + 's' + '-t_total' + str(
+                total_time_limit) + 's' + evaluation_instance_size + '/rlactive/seed' + str(
+                self.seed) + '/'
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
         rl_policy1 = SimplePolicy(7, 4)
@@ -7443,7 +7450,9 @@ class RlLocalbranch(MlLocalbranch):
                                                            total_time_limit=total_time_limit,
                                                            reset_k_at_2nditeration=reset_k_at_2nditeration,
                                                            agent1=agent1,
-                                                           agent2=agent2)
+                                                           agent2=agent2,
+                                                           enable_adapt_t=enable_adapt_t
+                                                            )
 
             agent1, optim1, R = self.update_agent(agent1, optim1)
             agent2, optim2, R = self.update_agent(agent2, optim2)
