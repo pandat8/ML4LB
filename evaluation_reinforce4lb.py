@@ -33,7 +33,7 @@ instance_size = instancesizes[0]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 61
+total_time_limit = 60
 node_time_limit = 10
 
 reset_k_at_2nditeration = True
