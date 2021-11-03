@@ -1,9 +1,45 @@
 nohup: ignoring input
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+learning rate: 0.0001
+setcovering-small
+firstsol
+asymmetric
+merged :, False
+baseline : False
+original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 5000 constraints
+setcovering-160_transformed
+N of variables: 2000
+N of binary vars: 2000
+N of constraints: 5000
+MIP copies are created
+incumbent solution is copied to MIP copies
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  20
+k_prime:  1769.0
+Initial obj before LB: 99504.0
+binary support:  2000
 Traceback (most recent call last):
-  File "evaluation_regression_k_prime.py", line 5, in <module>
-    from mllocalbranch_fromfiles import RegressionInitialK_KPrime
-  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 13, in <module>
-    from localbranching import addLBConstraint, addLBConstraintAsymmetric
-  File "/home/liudefen/projects/ML4LocalBranch_extend/localbranching.py", line 5, in <module>
-    from memory_profiler import profile
-ModuleNotFoundError: No module named 'memory_profiler'
+  File "evaluation_regression_k_prime.py", line 76, in <module>
+    regression_init_k.evaluate_localbranching_k_prime(test_instance_size=test_instance_size,train_instance_size='-small', total_time_limit=total_time_limit, node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration, merged=merged, baseline=baseline, regression_model_path=regression_model_path)
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 4285, in evaluate_localbranching_k_prime
+    index_instance = self.evaluate_lb_per_instance_k_prime(node_time_limit=node_time_limit,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 3676, in evaluate_lb_per_instance_k_prime
+    k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/liudefen/projects/ML4LocalBranch_extend/models.py", line 288, in forward
+    constraint_features = self.cons_embedding(constraint_features)
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/torch/nn/modules/container.py", line 117, in forward
+    input = module(input)
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/torch/nn/modules/linear.py", line 93, in forward
+    return F.linear(input, self.weight, self.bias)
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/torch/nn/functional.py", line 1692, in linear
+    output = input.matmul(weight.t())
+RuntimeError: Tensor for 'out' is on CPU, Tensor for argument #1 'self' is on CPU, but expected them to be on GPU (while checking arguments for addmm)
