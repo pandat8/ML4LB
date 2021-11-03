@@ -24,7 +24,7 @@ reset_k_at_2nditeration = True
 
 merged = False
 baseline = True
-seed = 101
+seed = 100
 lr = 0.0001
 print('learning rate:', lr)
 
