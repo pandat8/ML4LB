@@ -138,7 +138,7 @@ class LocalBranching:
 
         self.subMIP_model.optimize()
 
-    def step_localbranch(self, k_action, t_action, lb_bits):
+    def step_localbranch(self, k_action, t_action, lb_bits, enable_adapt_t=False):
 
         self.k = self.update_k(k_action, self.k_stepsize)
         self.t_node = self.update_t(t_action, self.t_stepsize)
@@ -304,11 +304,14 @@ class LocalBranching:
         self.subMIP_model.releasePyCons(self.constraint_LB)
         del self.constraint_LB
 
-        if self.primal_no_improvement_account > 0 and self.primal_no_improvement_account % 5 == 0:
-            self.default_node_time_limit *= self.t_stepsize
+        # simple t-adpatation algorithm
+        if enable_adapt_t:
+            if self.primal_no_improvement_account > 0 and self.primal_no_improvement_account % 5 == 0:
+                self.default_node_time_limit *= self.t_stepsize
 
-        if self.default_node_time_limit > self.default_initial_node_time_limit and self.primal_no_improvement_account == 0:
-            self.default_node_time_limit /= self.t_stepsize
+            if self.default_node_time_limit > self.default_initial_node_time_limit and self.primal_no_improvement_account == 0:
+                self.default_node_time_limit /= self.t_stepsize
+
 
         print('LB round: {:.0f}'.format(lb_bits),
               'Solving time: {:.4f}'.format(self.total_time_limit - self.total_time_available),
