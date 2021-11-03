@@ -20,7 +20,7 @@ instance_size = instancesizes[0]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 60
+total_time_limit = 600
 node_time_limit = 10
 
 reset_k_at_2nditeration = True
@@ -34,14 +34,14 @@ l = [3, 4, 1]
 # for lr in lr_list:
 #     print('learning rate = ', lr)
 #     print('epsilon = ', epsilon)
-for i in range(0, 5):
+for i in range(3, 4):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(0, 2):
+    for j in range(0, 1):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
@@ -71,6 +71,6 @@ for i in range(0, 5):
             if i< 3:
                 reinforce_localbranch.primal_integral(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
             elif (i == 3 and k == 0) or (i == 4 and k == 0):
-                reinforce_localbranch.primal_integral_03(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
+                reinforce_localbranch.primal_integral_hybrid_03(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
 
             # regression_init_k.solve2opt_evaluation(test_instance_size='-small')

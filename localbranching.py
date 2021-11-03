@@ -27,6 +27,8 @@ class LocalBranching:
         self.n_binvars = self.MIP_model.getNBinVars()
 
         self.default_node_time_limit = node_time_limit
+        self.default_initial_node_time_limit = node_time_limit
+        self.primal_no_improvement_account = 0
         self.total_time_limit = total_time_limit
         self.total_time_available = self.total_time_limit
         self.total_time_expired = 0
@@ -48,7 +50,7 @@ class LocalBranching:
         self.actions = {'reset': 0, 'unchange':1, 'increase': 2, 'decrease':3, 'free':4}
 
         self.k_stepsize = 1/2
-        self.t_stepsize = 1/2
+        self.t_stepsize = 3
         self.alpha = 0.01
 
         self.primal_objs = []
@@ -156,6 +158,8 @@ class LocalBranching:
 
         # node_time_limit = self.node_time_limit
 
+        self.primal_no_improvement_account += 1
+
         t_leftbranch = self.subMIP_model.getSolvingTime()
         self.total_time_available -= t_leftbranch
         subMIP_status = self.subMIP_model.getStatus()
@@ -171,12 +175,16 @@ class LocalBranching:
 
         state = np.zeros((7, ))
 
-        if self.subMIP_model.getNSols() > 0:
+        n_sols_subMIP = self.subMIP_model.getNSols()
+        subMIP_obj_best = None
+
+        if n_sols_subMIP > 0:
             subMIP_sol_best = self.subMIP_model.getBestSol()
             subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
             if subMIP_obj_best < self.MIP_obj_best:
                 primal_bounds = self.primalbound_handler.primal_bounds
                 primal_times = self.primalbound_handler.primal_times
+                self.primal_no_improvement_account = 0
 
                 for i in range(len(primal_times)):
                     primal_times[i] += self.total_time_expired
@@ -296,10 +304,17 @@ class LocalBranching:
         self.subMIP_model.releasePyCons(self.constraint_LB)
         del self.constraint_LB
 
+        if self.primal_no_improvement_account > 0 and self.primal_no_improvement_account % 5 == 0:
+            self.default_node_time_limit *= self.t_stepsize
+
+        if self.default_node_time_limit > self.default_initial_node_time_limit and self.primal_no_improvement_account == 0:
+            self.default_node_time_limit /= self.t_stepsize
+
         print('LB round: {:.0f}'.format(lb_bits),
               'Solving time: {:.4f}'.format(self.total_time_limit - self.total_time_available),
               'Best Obj: {:.4f}'.format(self.MIP_obj_best),
-              # 'Best Obj subMIP: {:.4f}'.format(self.subMIP_model.getObjVal()),
+              # 'Obj_subMIP: {:.4f}'.format(str(subMIP_obj_best)),
+              'n_sols_subMIP: {:.0f}'.format(n_sols_subMIP),
               'K: {:.0f}'.format(k_pre),
               'self.div: {:.0f}'.format(div_pre),
               'LB Status: {}'.format(subMIP_status)
