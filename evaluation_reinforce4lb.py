@@ -47,7 +47,7 @@ l = [3, 4, 1]
 # for lr in lr_list:
 #     print('learning rate = ', lr)
 #     print('epsilon = ', epsilon)
-for i in range(0, 1):
+for i in range(0, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -57,7 +57,7 @@ for i in range(0, 1):
     for j in range(0, 1):
         incumbent_mode = incumbent_modes[j]
 
-        for k in range(1, 2):
+        for k in range(0, 2):
             test_instance_size = instancesizes[k]
 
             print(instance_type + test_instance_size)
