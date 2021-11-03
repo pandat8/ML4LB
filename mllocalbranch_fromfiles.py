@@ -30,7 +30,7 @@ from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
 from dataset import InstanceDataset, custom_collate
 
 class MlLocalbranch:
-    def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode='firstsol', seed=100):
+    def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode='firstsol', seed=100, enable_gpu=False):
         self.instance_type = instance_type
         self.instance_size = instance_size
         self.incumbent_mode = incumbent_mode
@@ -46,7 +46,11 @@ class MlLocalbranch:
         np.random.seed(seed)
         torch.manual_seed(seed)
         random.seed(seed)
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.enable_gpu = enable_gpu
+        if self.enable_gpu:
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        else:
+            self.device = torch.device('cpu')
         print(self.device)
 
     def initialize_ecole_env(self):
@@ -286,7 +290,7 @@ class RegressionInitialK:
         torch.manual_seed(seed)
         random.seed(seed)
 
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        # self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def initialize_ecole_env(self):
 
@@ -2421,27 +2425,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
     def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100):
         super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed)
-        self.instance_type = instance_type
-        self.instance_size = instance_size
-        self.incumbent_mode = incumbent_mode
-        self.lbconstraint_mode = lbconstraint_mode
+
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
             self.is_symmetric = False
-        self.seed = seed
-        self.directory = './result/generated_instances/' + self.instance_type + '/' + self.instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
         # self.generator = generator_switcher(self.instance_type + self.instance_size)
-
-        self.initialize_ecole_env()
-
-        self.env.seed(self.seed)  # environment (SCIP)
-        torch.manual_seed(seed)
-        torch.cuda.manual_seed(seed)
-        np.random.seed(seed)
-        torch.manual_seed(seed)
-        random.seed(seed)
-
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def sample_k_per_instance_k_prime(self, t_limit, index_instance):
 
@@ -5654,7 +5642,7 @@ class ImitationLocalbranch(MlLocalbranch):
         rl_policy = SimplePolicy(7, 4)
         optimizer = torch.optim.Adam(rl_policy.parameters(), lr=lr)
         criterion = nn.CrossEntropyLoss()
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        device = self.device
 
         rl_policy = rl_policy.to(device)
         criterion = criterion.to(device)
@@ -5823,7 +5811,7 @@ class ImitationLocalbranch(MlLocalbranch):
         rl_policy = SimplePolicy(7, 4)
         optimizer = torch.optim.Adam(rl_policy.parameters(), lr=lr)
         criterion = nn.CrossEntropyLoss()
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        device = self.device
 
         rl_policy = rl_policy.to(device)
         criterion = criterion.to(device)
@@ -6115,7 +6103,7 @@ class ImitationLocalbranch(MlLocalbranch):
 
         rl_policy.eval()
         criterion = nn.CrossEntropyLoss()
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        device = self.device
 
         greedy = greedy
         rl_policy = rl_policy.to(device)
