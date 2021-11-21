@@ -32122,3 +32122,196 @@ LB round: 6 Solving time: 3.7634 Best Obj: -119240.8780 n_sols_subMIP: 5 K: 102 
 LB round: 7 Solving time: 8.7379 Best Obj: -128481.8752 n_sols_subMIP: 15 K: 153 self.div: 0 LB Status: optimal
 LB round: 8 Solving time: 18.7390 Best Obj: -130957.7683 n_sols_subMIP: 14 K: 153 self.div: 0 LB Status: timelimit
 LB round: 9 Solving time: 28.7423 Best Obj: -130960.3216 n_sols_subMIP: 20 K: 230 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 38.7535 Best Obj: -130960.3216 n_sols_subMIP: 17 K: 345 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 44.0902 Best Obj: -131152.4814 n_sols_subMIP: 17 K: 20 self.div: 0 LB Status: optimal
+LB round: 12 Solving time: 53.4466 Best Obj: -131321.9056 n_sols_subMIP: 23 K: 30 self.div: 0 LB Status: optimal
+LB round: 13 Solving time: 57.4960 Best Obj: -131321.9056 n_sols_subMIP: 8 K: 20 self.div: 0 LB Status: infeasible
+LB round: 14 Solving time: 60.0021 Best Obj: -131321.9056 n_sols_subMIP: 5 K: 30 self.div: 0 LB Status: timelimit
+K_final: 30 div_final: 1
+Instance: combinatorialauction-181_transformed_noregression-rl
+Status of LB:  unknown
+Best obj of LB:  -131321.90560964588
+Solving time:  60.00207099999999
+
+
+original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 3482 constraints
+combinatorialauction-182_transformed
+N of variables: 2000
+N of binary vars: 2000
+N of constraints: 3482
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  55
+Initial obj before LB: -40955.547399442716
+binary support:  309
+GNN prediction:  0.2913629412651062
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 2.8722 Best Obj: -94520.6887 n_sols_subMIP: 67 K: 106 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 3.3328 Best Obj: -100211.2068 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 3.8689 Best Obj: -107378.7427 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 4.3870 Best Obj: -113099.2620 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 5.0353 Best Obj: -119588.9526 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 5.7941 Best Obj: -123571.8985 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 7.1411 Best Obj: -127063.1270 n_sols_subMIP: 11 K: 68 self.div: 0 LB Status: optimal
+LB round: 8 Solving time: 14.9729 Best Obj: -129944.0152 n_sols_subMIP: 10 K: 102 self.div: 0 LB Status: optimal
+LB round: 9 Solving time: 24.9818 Best Obj: -130669.4645 n_sols_subMIP: 9 K: 153 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 35.0096 Best Obj: -130685.8268 n_sols_subMIP: 20 K: 230 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 41.2077 Best Obj: -130958.0344 n_sols_subMIP: 13 K: 20 self.div: 0 LB Status: optimal
+LB round: 12 Solving time: 49.1977 Best Obj: -131121.8581 n_sols_subMIP: 16 K: 20 self.div: 0 LB Status: optimal
+LB round: 13 Solving time: 59.1980 Best Obj: -131121.8581 n_sols_subMIP: 13 K: 30 self.div: 0 LB Status: timelimit
+LB round: 14 Solving time: 60.0018 Best Obj: -131121.8581 n_sols_subMIP: 5 K: 20 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 1
+Instance: combinatorialauction-182_transformed_regression-rl
+Status of LB:  unknown
+Best obj of LB:  -131121.85813937348
+Solving time:  60.001807
+
+
+LB round: 1 Solving time: 0.2982 Best Obj: -57068.1609 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 0.6969 Best Obj: -68154.5266 n_sols_subMIP: 2 K: 20 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 0.9579 Best Obj: -77487.1611 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 1.4575 Best Obj: -88495.7238 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 2.0376 Best Obj: -101434.2306 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 2.7621 Best Obj: -115371.3213 n_sols_subMIP: 3 K: 68 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 3.8808 Best Obj: -125582.0755 n_sols_subMIP: 8 K: 102 self.div: 0 LB Status: optimal
+LB round: 8 Solving time: 13.8816 Best Obj: -130431.0194 n_sols_subMIP: 14 K: 153 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 20.7319 Best Obj: -130690.1071 n_sols_subMIP: 18 K: 20 self.div: 0 LB Status: optimal
+LB round: 10 Solving time: 30.7326 Best Obj: -130710.8427 n_sols_subMIP: 12 K: 30 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 40.7333 Best Obj: -130710.8427 n_sols_subMIP: 19 K: 30 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 50.7342 Best Obj: -130922.8226 n_sols_subMIP: 18 K: 45 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 57.1046 Best Obj: -131093.0242 n_sols_subMIP: 14 K: 20 self.div: 0 LB Status: optimal
+LB round: 14 Solving time: 60.0013 Best Obj: -131093.0242 n_sols_subMIP: 2 K: 30 self.div: 0 LB Status: timelimit
+K_final: 30 div_final: 0
+Instance: combinatorialauction-182_transformed_noregression-rl
+Status of LB:  unknown
+Best obj of LB:  -131093.0242155356
+Solving time:  60.00129200000001
+
+
+original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 3494 constraints
+combinatorialauction-183_transformed
+N of variables: 2000
+N of binary vars: 2000
+N of constraints: 3494
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  43
+Initial obj before LB: -33822.27784387662
+binary support:  262
+GNN prediction:  0.2523955702781677
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.3085 Best Obj: -82229.6390 n_sols_subMIP: 3 K: 96 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 0.9798 Best Obj: -88657.1841 n_sols_subMIP: 2 K: 20 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 1.4288 Best Obj: -94262.2443 n_sols_subMIP: 2 K: 20 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 1.9702 Best Obj: -101302.7302 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 2.5381 Best Obj: -109306.2555 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 3.4521 Best Obj: -117293.7108 n_sols_subMIP: 8 K: 68 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 5.7531 Best Obj: -122759.8566 n_sols_subMIP: 11 K: 102 self.div: 0 LB Status: optimal
+LB round: 8 Solving time: 15.7541 Best Obj: -125536.9173 n_sols_subMIP: 14 K: 153 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 19.8967 Best Obj: -125749.1779 n_sols_subMIP: 12 K: 20 self.div: 0 LB Status: optimal
+LB round: 10 Solving time: 28.2641 Best Obj: -125985.2410 n_sols_subMIP: 16 K: 30 self.div: 0 LB Status: optimal
+LB round: 11 Solving time: 30.5081 Best Obj: -125985.2410 n_sols_subMIP: 5 K: 15 self.div: 0 LB Status: infeasible
+LB round: 12 Solving time: 36.7272 Best Obj: -125985.2410 n_sols_subMIP: 5 K: 23 self.div: 0 LB Status: infeasible
+LB round: 13 Solving time: 36.7757 Best Obj: -125985.2410 n_sols_subMIP: 0 K: 23 self.div: 1 LB Status: infeasible
+LB round: 14 Solving time: 36.8157 Best Obj: -125985.2410 n_sols_subMIP: 0 K: 20 self.div: 2 LB Status: infeasible
+LB round: 15 Solving time: 37.0163 Best Obj: -125985.2410 n_sols_subMIP: 1 K: 30 self.div: 3 LB Status: sollimit
+LB round: 16 Solving time: 38.1244 Best Obj: -125985.2410 n_sols_subMIP: 10 K: 20 self.div: 3 LB Status: optimal
+LB round: 17 Solving time: 48.1268 Best Obj: -125985.2410 n_sols_subMIP: 4 K: 30 self.div: 3 LB Status: timelimit
+LB round: 18 Solving time: 58.1275 Best Obj: -125985.2410 n_sols_subMIP: 15 K: 20 self.div: 3 LB Status: timelimit
+LB round: 19 Solving time: 60.0002 Best Obj: -125985.2410 n_sols_subMIP: 10 K: 30 self.div: 3 LB Status: timelimit
+K_final: 30 div_final: 3
+Instance: combinatorialauction-183_transformed_regression-rl
+Status of LB:  unknown
+Best obj of LB:  -125985.24099525562
+Solving time:  60.000196
+
+
+LB round: 1 Solving time: 0.2875 Best Obj: -48382.8982 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 0.9413 Best Obj: -59469.7602 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 1.6836 Best Obj: -72422.1075 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 2.2287 Best Obj: -87422.7312 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 2.8503 Best Obj: -102886.0270 n_sols_subMIP: 3 K: 68 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 3.8675 Best Obj: -115795.7803 n_sols_subMIP: 11 K: 102 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 13.8681 Best Obj: -123135.2799 n_sols_subMIP: 14 K: 153 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 14.7697 Best Obj: -123881.7933 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+LB round: 9 Solving time: 18.8756 Best Obj: -124520.4992 n_sols_subMIP: 16 K: 30 self.div: 0 LB Status: optimal
+LB round: 10 Solving time: 28.8765 Best Obj: -125109.9470 n_sols_subMIP: 10 K: 45 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 38.8774 Best Obj: -125621.9970 n_sols_subMIP: 17 K: 45 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 48.8785 Best Obj: -125750.5127 n_sols_subMIP: 16 K: 20 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 54.5794 Best Obj: -125901.7216 n_sols_subMIP: 15 K: 20 self.div: 0 LB Status: optimal
+LB round: 14 Solving time: 60.0098 Best Obj: -125901.7216 n_sols_subMIP: 6 K: 30 self.div: 0 LB Status: timelimit
+K_final: 30 div_final: 0
+Instance: combinatorialauction-183_transformed_noregression-rl
+Status of LB:  unknown
+Best obj of LB:  -125901.72162157565
+Solving time:  60.00982299999999
+
+
+original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 3534 constraints
+combinatorialauction-184_transformed
+N of variables: 2000
+N of binary vars: 2000
+N of constraints: 3534
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  100
+Initial obj before LB: -29753.728192821334
+binary support:  253
+GNN prediction:  0.22960418462753296
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.3493 Best Obj: -81818.1681 n_sols_subMIP: 6 K: 91 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 1.0393 Best Obj: -89159.2343 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 1.8170 Best Obj: -98400.5440 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 2.3801 Best Obj: -109036.3466 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 3.2498 Best Obj: -119511.9926 n_sols_subMIP: 7 K: 68 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 4.0875 Best Obj: -122726.2422 n_sols_subMIP: 3 K: 34 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 4.8896 Best Obj: -124024.9070 n_sols_subMIP: 3 K: 17 self.div: 0 LB Status: optimal
+LB round: 8 Solving time: 6.0099 Best Obj: -125676.1585 n_sols_subMIP: 9 K: 26 self.div: 0 LB Status: optimal
+LB round: 9 Solving time: 7.5847 Best Obj: -127601.7636 n_sols_subMIP: 9 K: 39 self.div: 0 LB Status: optimal
+LB round: 10 Solving time: 12.9617 Best Obj: -128874.4103 n_sols_subMIP: 17 K: 39 self.div: 0 LB Status: optimal
+LB round: 11 Solving time: 22.9628 Best Obj: -130090.1952 n_sols_subMIP: 8 K: 59 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 25.0595 Best Obj: -130565.4080 n_sols_subMIP: 9 K: 20 self.div: 0 LB Status: optimal
+LB round: 13 Solving time: 26.6881 Best Obj: -131199.5215 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 14 Solving time: 30.2822 Best Obj: -131710.0599 n_sols_subMIP: 18 K: 30 self.div: 0 LB Status: optimal
+LB round: 15 Solving time: 38.5173 Best Obj: -132101.2617 n_sols_subMIP: 18 K: 30 self.div: 0 LB Status: optimal
+LB round: 16 Solving time: 48.5179 Best Obj: -132224.2616 n_sols_subMIP: 8 K: 45 self.div: 0 LB Status: timelimit
+LB round: 17 Solving time: 58.5186 Best Obj: -132441.6497 n_sols_subMIP: 13 K: 45 self.div: 0 LB Status: timelimit
+LB round: 18 Solving time: 60.0003 Best Obj: -132441.6497 n_sols_subMIP: 4 K: 45 self.div: 0 LB Status: timelimit
+K_final: 45 div_final: 0
+Instance: combinatorialauction-184_transformed_regression-rl
+Status of LB:  unknown
+Best obj of LB:  -132441.64966318084
+Solving time:  60.00034799999999
+
+
+LB round: 1 Solving time: 0.2823 Best Obj: -45883.1402 n_sols_subMIP: 3 K: 20 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 0.9514 Best Obj: -58044.7596 n_sols_subMIP: 2 K: 20 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 1.7315 Best Obj: -72679.9260 n_sols_subMIP: 3 K: 30 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 2.2970 Best Obj: -89625.4780 n_sols_subMIP: 3 K: 45 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 2.9611 Best Obj: -107637.2177 n_sols_subMIP: 3 K: 68 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 4.0586 Best Obj: -122587.3754 n_sols_subMIP: 6 K: 102 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 14.0596 Best Obj: -130051.8784 n_sols_subMIP: 15 K: 153 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 24.0695 Best Obj: -131736.6396 n_sols_subMIP: 19 K: 230 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 27.4226 Best Obj: -132465.1125 n_sols_subMIP: 12 K: 20 self.div: 0 LB Status: optimal
+LB round: 10 Solving time: 37.4233 Best Obj: -132708.7392 n_sols_subMIP: 14 K: 30 self.div: 0 LB Status: timelimit
