@@ -7456,10 +7456,10 @@ class RlLocalbranch(MlLocalbranch):
         # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/'
-            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
+            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/'
-            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
+            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
         # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
         # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
@@ -7475,11 +7475,11 @@ class RlLocalbranch(MlLocalbranch):
             # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
             #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
             directory_lb_test_baseline_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
 
 
         elif self.incumbent_mode == 'rootsol':
@@ -7487,20 +7487,20 @@ class RlLocalbranch(MlLocalbranch):
             # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
             #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
             directory_lb_test_baseline_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
 
         # k_prime trained by data without merge
         directory_lb_test_k_prime = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
         # k_prime trained by data with merge
         directory_lb_test_k_prime_merged = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
         directory_lb_test_baseline = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
 
         primal_int_baselines = []
         primal_int_regressions_merged = []
@@ -7991,6 +7991,8 @@ class RlLocalbranch(MlLocalbranch):
                 # with gzip.open(filename, 'rb') as f:
                 #     data = pickle.load(f)
                 # objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
+
+                instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
 
                 # test from k_prime_merged
                 filename = f'{directory_lb_test_k_prime_merged}lb-test-{instance_name}.pkl'
