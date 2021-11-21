@@ -29,12 +29,7 @@ seed = args.seed
 lr = 0.0001
 print('learning rate:', lr)
 
-
-
-
-
-
-for i in range(0, 5):
+for i in range(3, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
