@@ -7341,8 +7341,8 @@ class RlLocalbranch(MlLocalbranch):
         data = [objs_noregression_reinforce, times_noregression_reinforce, objs_regression_reinforce, times_regression_reinforce]
         # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
-        # with gzip.open(filename, 'wb') as f:
-        #     pickle.dump(data, f)
+        with gzip.open(filename, 'wb') as f:
+            pickle.dump(data, f)
 
         del data
         del lb_model2
