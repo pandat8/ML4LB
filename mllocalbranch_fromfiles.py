@@ -8432,11 +8432,11 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs_reinforce_hybrid, times_reinforce_hybrid, objs_regresison_reinforce_hybrid, times_regression_reinforce_hybrid = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_hybrid_2}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_reinforce_hybrid_2, times_reinforce_hybrid_2, objs_regresison_reinforce_hybrid_2, times_regression_reinforce_hybrid_2 = data  # objs contains objs of a single instance of a lb test
+                filename = f'{directory_lb_test_hybrid_2}lb-test-{instance_name}.pkl'
+
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_reinforce_hybrid_2, times_reinforce_hybrid_2, objs_regresison_reinforce_hybrid_2, times_regression_reinforce_hybrid_2 = data  # objs contains objs of a single instance of a lb test
 
 
 
@@ -8454,6 +8454,8 @@ class RlLocalbranch(MlLocalbranch):
                 # with gzip.open(filename, 'rb') as f:
                 #     data = pickle.load(f)
                 # objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
+
+                instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
 
                 # test from k_prime_merged
                 filename = f'{directory_lb_test_k_prime_merged}lb-test-{instance_name}.pkl'
@@ -8495,8 +8497,8 @@ class RlLocalbranch(MlLocalbranch):
                 objs_regresison_reinforce_hybrid = np.array(objs_regresison_reinforce_hybrid).reshape(-1)
                 times_regression_reinforce_hybrid = np.array(times_regression_reinforce_hybrid).reshape(-1)
 
-                # objs_reinforce_hybrid_2 = np.array(objs_reinforce_hybrid_2).reshape(-1)
-                # objs_regresison_reinforce_hybird_2 = np.array(objs_regresison_reinforce_hybrid_2).reshape(-1)
+                objs_reinforce_hybrid_2 = np.array(objs_reinforce_hybrid_2).reshape(-1)
+                objs_regresison_reinforce_hybrid_2 = np.array(objs_regresison_reinforce_hybrid_2).reshape(-1)
 
                 objs = np.array(objs).reshape(-1)
                 times = np.array(times).reshape(-1)
@@ -8514,7 +8516,7 @@ class RlLocalbranch(MlLocalbranch):
                 objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
                 # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
-                a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min(), objs_reinforce_hybrid.min(), objs_regresison_reinforce_hybrid.min()] # , objs_reinforce_hybrid_2.min(), objs_regresison_reinforce_hybrid_2.min(),
+                a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min(), objs_reinforce_hybrid.min(), objs_regresison_reinforce_hybrid.min(), objs_reinforce_hybrid_2.min(), objs_regresison_reinforce_hybrid_2.min()] #
                 obj_opt = np.amin(a)
 
                 # lb-baseline:
