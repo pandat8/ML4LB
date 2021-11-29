@@ -3,7 +3,7 @@ import numpy as np
 import pyscipopt
 import argparse
 from mllocalbranch_fromfiles import RegressionInitialK_KPrime
-from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, regression_mode
+from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, regression_modes
 
 # Argument setting
 parser = argparse.ArgumentParser()
@@ -45,7 +45,7 @@ for i in range(0, 3):
             print(lbconstraint_mode)
 
             for m in range(0, 3):
-                regre_mode = regression_mode[m]
+                regre_mode = regression_modes[m]
                 if regre_mode == 'homo':
                     merged = False
                     baseline= False

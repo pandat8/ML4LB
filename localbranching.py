@@ -15,7 +15,7 @@ from event import PrimalBoundChangeEventHandler
 
 class LocalBranching:
 
-    def __init__(self, MIP_model, MIP_sol_bar, k=20,  node_time_limit=30, total_time_limit=3600, is_symmetric=True):
+    def __init__(self, MIP_model, MIP_sol_bar, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True):
         self.MIP_model = MIP_model
         self.MIP_sol_best = self.copy_solution( self.MIP_model, MIP_sol_bar)
         self.MIP_obj_best = self.MIP_model.getSolObjVal(self.MIP_sol_best)
@@ -36,7 +36,10 @@ class LocalBranching:
         self.default_k = k
         self.eps = eps = .0000001
         self.t_node = self.default_node_time_limit
+        self.t_node_lowerbound = 2.5
+        self.t_node_upperbound = 80
         self.k = k
+        self.k_lowerbound = 10
         self.first = False
         self.diversify = False
         self.div = 0
@@ -50,7 +53,8 @@ class LocalBranching:
         self.actions = {'reset': 0, 'unchange':1, 'increase': 2, 'decrease':3, 'free':4}
 
         self.k_stepsize = 1/2
-        self.t_stepsize = 3
+        self.t_stepsize = 2
+        self.t_default_stepsize = 3
         self.alpha = 0.01
 
         self.primal_objs = []
@@ -153,6 +157,14 @@ class LocalBranching:
             self.diversify = False
             self.first = False
 
+        # control k and t_node within the bound limits.
+        if self.k < self.k_lowerbound:
+            self.k = self.k_lowerbound
+        if self.t_node < self.t_node_lowerbound:
+            self.t_node = self.t_node_lowerbound
+        elif self.t_node > self.t_node_upperbound:
+            self.t_node = self.t_node_upperbound
+
         t_node = np.minimum(self.t_node, self.total_time_available)
         self.left_branch(t_node, is_symmetric=self.is_symmetric)  # execute 1 iteration of lb
 
@@ -171,6 +183,7 @@ class LocalBranching:
 
         div_pre = self.div
         k_pre = self.k
+        t_pre = self.t_node
         MIP_obj_best_pre = self.MIP_obj_best
 
         state = np.zeros((7, ))
@@ -307,10 +320,10 @@ class LocalBranching:
         # simple t-adpatation algorithm
         if enable_adapt_t:
             if self.primal_no_improvement_account > 0 and self.primal_no_improvement_account % 5 == 0:
-                self.default_node_time_limit *= self.t_stepsize
+                self.default_node_time_limit *= self.t_default_stepsize
 
             if self.default_node_time_limit > self.default_initial_node_time_limit and self.primal_no_improvement_account == 0:
-                self.default_node_time_limit /= self.t_stepsize
+                self.default_node_time_limit /= self.t_default_stepsize
 
 
         print('LB round: {:.0f}'.format(lb_bits),
@@ -319,6 +332,7 @@ class LocalBranching:
               # 'Obj_subMIP: {:.4f}'.format(str(subMIP_obj_best)),
               'n_sols_subMIP: {:.0f}'.format(n_sols_subMIP),
               'K: {:.0f}'.format(k_pre),
+              't_node: {:.1f}'.format(t_pre),
               'self.div: {:.0f}'.format(div_pre),
               'LB Status: {}'.format(subMIP_status)
               )
@@ -358,13 +372,15 @@ class LocalBranching:
 
         # reward 3
         obj_improve_local = np.abs(MIP_obj_best_pre - self.MIP_obj_best) / np.abs(self.MIP_obj_init)
-        reward = obj_improve_local * self.total_time_available
+        reward_k = obj_improve_local * self.total_time_available
+
+        reward_t = reward_k # + t_leftbranch / t_node
 
         done = (self.total_time_available <= 0) or (self.k >= self.n_binvars)
         info = None
 
         self.total_time_expired += t_leftbranch
-        return state, reward, done, info
+        return state, reward_k, reward_t, done, info
 
     def solve_rightbranch(self):
         """
@@ -440,8 +456,8 @@ class LocalBranching:
         switcher = {
             self.actions['reset']: self.default_node_time_limit,
             self.actions['unchange']: self.t_node,
-            self.actions['decrease']: self.t_node - t_stepsize * self.t_node,
-            self.actions['increase']: self.t_node + t_stepsize * self.t_node,
+            self.actions['decrease']: self.t_node / t_stepsize,
+            self.actions['increase']: self.t_node * t_stepsize,
             self.actions['free']: self.MIP_model.infinity()
         }
         return switcher.get(action, 'Error: Invilid k action!')
@@ -475,7 +491,7 @@ class LocalBranching:
             lb_bits += 1
 
             # execute one iteration of LB and get the state and rewards
-            state, rewards, done, _ = self.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
+            state, reward_k, reward_t, done, _ = self.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
 
             # k_vanilla, t_action = self.policy_vanilla(state)
             # k_action = k_vanilla
@@ -874,7 +890,6 @@ class LocalBranching:
 
         # for j in range(0, n_binvars):  # release cons_vars variables after creating a constraint
         #     self.subMIP_model.releaseVar(cons_vars[j])
-
 
     def add_LBconstraintAsym(self):
         """symmetric local branching constraint over all binary variables"""
