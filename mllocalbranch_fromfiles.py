@@ -9,7 +9,7 @@ import pickle
 import json
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utility import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym
+from utility import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, t_reward_types, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym
 from localbranching import addLBConstraint, addLBConstraintAsymmetric
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
 from models import GraphDataset, GNNPolicy, BipartiteNodeData
@@ -6366,7 +6366,12 @@ class RlLocalbranch(MlLocalbranch):
         train_instances_directory = instances_directory + 'train/'
         instance_files = [str(path) for path in sorted(pathlib.Path(train_instances_directory).glob(instance_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
-        instance_train_files = instance_files[:int(7/80 * len(instance_files))]
+        if self.instance_type == instancetypes[3]:
+            instance_train_files = instance_files[:int(2 / 80 * len(instance_files))]
+        elif self.instance_type == instancetypes[4]:
+            instance_train_files = instance_files[:int(1 / 29 * len(instance_files))]
+        else:
+            instance_train_files = instance_files[:int(1/80 * len(instance_files))]
         instance_valid_files = instance_files[int(7/8 * len(instance_files)):]
 
         test_instances_directory = instances_directory + 'test/'
@@ -6377,7 +6382,12 @@ class RlLocalbranch(MlLocalbranch):
         train_sols_directory = sols_directory + 'train/'
         sol_files = [str(path) for path in sorted(pathlib.Path(train_sols_directory).glob(sol_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
-        sol_train_files = sol_files[:int(7/80 * len(sol_files))]
+        if self.instance_type == instancetypes[3]:
+            sol_train_files = sol_files[:int(2 / 80 * len(sol_files))]
+        elif self.instance_type == instancetypes[4]:
+            sol_train_files = sol_files[:int(1 / 29 * len(sol_files))]
+        else:
+            sol_train_files = sol_files[:int(1/80 * len(sol_files))]
         sol_valid_files = sol_files[int(7/8 * len(sol_files)):]
 
         test_sols_directory = sols_directory + 'test/'
@@ -6390,7 +6400,7 @@ class RlLocalbranch(MlLocalbranch):
 
         return train_dataset, valid_dataset, test_dataset
 
-    def mdp_localbranch(self, localbranch=None, is_symmetric=True, reset_k_at_2nditeration=False, agent=None, optimizer=None, device=None, enable_adapt_t=False):
+    def mdp_localbranch(self, localbranch=None, is_symmetric=True, reset_k_at_2nditeration=False, agent_k=None, optimizer_k=None, agent_t=None, optimizer_t=None, device=None, enable_adapt_t=False, t_reward_type=t_reward_types[0]):
 
         # self.total_time_limit = total_time_limit
         localbranch.total_time_available = localbranch.total_time_limit
@@ -6416,7 +6426,7 @@ class RlLocalbranch(MlLocalbranch):
 
         # initialize the env to state_0
         lb_bits += 1
-        state, reward, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
+        state, reward_k, reward_time , done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
         localbranch.MIP_obj_init = localbranch.MIP_obj_best
         lb_bits_list.append(lb_bits)
         t_list.append(localbranch.total_time_limit - localbranch.total_time_available)
@@ -6433,8 +6443,9 @@ class RlLocalbranch(MlLocalbranch):
             localbranch.diversify = False
             localbranch.first = False
 
-            state, reward, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action,
+            state, reward_k, reward_time, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action,
                                                                    lb_bits=lb_bits)
+
             localbranch.MIP_obj_init = localbranch.MIP_obj_best
             lb_bits_list.append(lb_bits)
             t_list.append(localbranch.total_time_limit - localbranch.total_time_available)
@@ -6454,8 +6465,11 @@ class RlLocalbranch(MlLocalbranch):
             #     pickle.dump(data_sample, f)
 
             k_action = k_vanilla
-            if agent is not None:
-                k_action = agent.select_action(state)
+            if agent_k is not None:
+                k_action = agent_k.select_action(state)
+
+            if agent_t is not None:
+                t_action = agent_t.select_action(state)
 
                 # # for online learning, update policy
                 # if optimizer is not None:
@@ -6465,10 +6479,16 @@ class RlLocalbranch(MlLocalbranch):
 
             # execute one iteration of LB, get the state and rewards
 
-            state, reward, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits, enable_adapt_t=enable_adapt_t)
+            state, reward_k, reward_time, done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits, enable_adapt_t=enable_adapt_t)
 
-            if agent is not None:
-                agent.rewards.append(reward)
+            if agent_k is not None:
+                agent_k.rewards.append(reward_k)
+            if agent_t is not None:
+                if t_reward_type == t_reward_types[1]:
+                    reward_t = reward_k + reward_time
+                else:
+                    reward_t = reward_k
+                agent_t.rewards.append(reward_t)
 
             lb_bits_list.append(lb_bits)
             t_list.append(localbranch.total_time_limit - localbranch.total_time_available)
@@ -6496,39 +6516,39 @@ class RlLocalbranch(MlLocalbranch):
         objs_list = np.array(obj_list).reshape(-1)
         k_list = np.array(k_list).reshape(-1)
 
-        plt.clf()
-        fig, ax = plt.subplots(2, 1, figsize=(8, 6.4))
-        fig.suptitle(self.instance_type + 'large' + '-' + self.incumbent_mode, fontsize=13)
-        # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
-
-        ax[0].plot(times_list, objs_list, label='lb-rl', color='tab:red')
-        ax[0].set_xlabel('time /s', fontsize=12)
-        ax[0].set_ylabel("objective", fontsize=12)
-        ax[0].legend()
-        ax[0].grid()
-
-        ax[1].plot(times_list, k_list, label='lb-rl', color='tab:red')
-        ax[1].set_xlabel('time /s', fontsize=12)
-        ax[1].set_ylabel("k", fontsize=12)
-        ax[1].legend()
-        ax[1].grid()
-        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # fig.tight_layout()
-        # plt.savefig(
-        #     './result/plots/' + self.instance_type + '_' + self.instance_size + '_' + self.incumbent_mode + '.png')
-        plt.show()
-        plt.clf()
+        # plt.clf()
+        # fig, ax = plt.subplots(2, 1, figsize=(8, 6.4))
+        # fig.suptitle(self.instance_type + 'large' + '-' + self.incumbent_mode, fontsize=13)
+        # # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
+        #
+        # ax[0].plot(times_list, objs_list, label='lb-rl', color='tab:red')
+        # ax[0].set_xlabel('time /s', fontsize=12)
+        # ax[0].set_ylabel("objective", fontsize=12)
+        # ax[0].legend()
+        # ax[0].grid()
+        #
+        # ax[1].plot(times_list, k_list, label='lb-rl', color='tab:red')
+        # ax[1].set_xlabel('time /s', fontsize=12)
+        # ax[1].set_ylabel("k", fontsize=12)
+        # ax[1].legend()
+        # ax[1].grid()
+        # # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
+        # # fig.tight_layout()
+        # # plt.savefig(
+        # #     './result/plots/' + self.instance_type + '_' + self.instance_size + '_' + self.incumbent_mode + '.png')
+        # plt.show()
+        # plt.clf()
 
         del localbranch.subMIP_sol_best
         del localbranch.MIP_sol_bar
         del localbranch.MIP_sol_best
 
 
-        return status, localbranch.MIP_obj_best, elapsed_time, lb_bits_list, times_list, objs_list, agent
+        return status, localbranch.MIP_obj_best, elapsed_time, lb_bits_list, times_list, objs_list, agent_k, agent_t
 
-    def train_agent_per_instance(self, MIP_model, incumbent_solution, node_time_limit, total_time_limit, index_instance,
-                                 reset_k_at_2nditeration=False, agent=None, optimizer=None,
-                                 device=None):
+    def train_rl_policy_per_instance(self, MIP_model, incumbent_solution, node_time_limit, total_time_limit, index_instance,
+                                     reset_k_at_2nditeration=False, agent_k=None, optimizer_k=None, agent_t=None, optimizer_t=None,
+                                     device=None, t_reward_type = t_reward_types[0]):
         """
         evaluate a single MIP instance by two algorithms: lb-baseline and lb-pred_k
         :param node_time_limit:
@@ -6628,13 +6648,16 @@ class RlLocalbranch(MlLocalbranch):
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit,
                                    is_symmetric=self.is_symmetric)
-        status, obj_best, elapsed_time, lb_bits_pred_reset, times_pred_reset_, objs_pred_reset_, agent = self.mdp_localbranch(
+        status, obj_best, elapsed_time, lb_bits_pred_reset, times_pred_reset_, objs_pred_reset_, agent_k, agent_t = self.mdp_localbranch(
             localbranch=lb_model3,
             is_symmetric=self.is_symmetric,
             reset_k_at_2nditeration=reset_k_at_2nditeration,
-            agent=agent,
-            optimizer=optimizer,
-            device=device)
+            agent_k=agent_k,
+            optimizer_k=optimizer_k,
+            agent_t=agent_t,
+            optimizer_t=optimizer_t,
+            device=device,
+            t_reward_type=t_reward_type)
 
         print("Instance:", MIP_model_copy3.getProbName())
         print("Status of LB: ", status)
@@ -6664,7 +6687,7 @@ class RlLocalbranch(MlLocalbranch):
 
         index_instance += 1
         del instance
-        return index_instance, agent, primal_integral, primal_gap_final
+        return index_instance, agent_k, agent_t, primal_integral, primal_gap_final
 
     def update_agent(self, agent, optimizer):
 
@@ -6695,8 +6718,8 @@ class RlLocalbranch(MlLocalbranch):
         return agent, optimizer, R
 
 
-    def train_agent(self, train_instance_size='-small', total_time_limit=60, node_time_limit=10,
-                    reset_k_at_2nditeration=False, lr=0.001, n_epochs=20, epsilon=0, use_checkpoint=False):
+    def train_agent_policy_k(self, train_instance_size='-small', total_time_limit=60, node_time_limit=10,
+                             reset_k_at_2nditeration=False, lr=0.001, n_epochs=20, epsilon=0, use_checkpoint=False):
 
         train_instance_type = self.instance_type
         direc = './data/generated_instances/' + train_instance_type + '/' + train_instance_size + '/'
@@ -6736,31 +6759,31 @@ class RlLocalbranch(MlLocalbranch):
         #     self.saved_model_directory + 'trained_params_' + self.regression_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth'))
         # self.regression_model_gnn.to(device)
 
-        self.saved_rlmodels_directory = self.saved_model_directory + 'rl/reinforce/' + train_instance_type + '/'
-        pathlib.Path( self.saved_rlmodels_directory).mkdir(parents=True, exist_ok=True)
+        self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/k_policy/' + train_instance_type + '/'
+        pathlib.Path(self.saved_rlmodels_k_policy_directory).mkdir(parents=True, exist_ok=True)
 
         train_directory = './result/generated_instances/' + self.instance_type + '/' + train_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        self.reinforce_train_directory = train_directory + 'rl/' + 'reinforce/train/data/'
+        self.reinforce_train_directory = train_directory + 'rl/' + 'reinforce/train/k_policy/data/'
         pathlib.Path(self.reinforce_train_directory).mkdir(parents=True, exist_ok=True)
         # self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
         #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
         # pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
-        rl_policy = SimplePolicy(7, 4)
+        rl_policy_k = SimplePolicy(7, 4)
         # rl_policy.load_state_dict(torch.load(
         #     # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'
         #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_imitation.pth'
         # ))
-        rl_policy.train()
+        rl_policy_k.train()
 
 
-        optim = torch.optim.Adam(rl_policy.parameters(), lr=lr)
+        optim_k = torch.optim.Adam(rl_policy_k.parameters(), lr=lr)
 
-        greedy = False
-        rl_policy = rl_policy.to(device)
-        agent = AgentReinforce(rl_policy, device, greedy, optim, epsilon)
+        greedy_k = False
+        rl_policy_k = rl_policy_k.to(device)
+        agent_k = AgentReinforce(rl_policy_k, device, greedy_k, optim_k, epsilon)
 
-        returns = []
+        returns_k = []
         epochs = []
         primal_integrals = []
         primal_gaps = []
@@ -6779,27 +6802,27 @@ class RlLocalbranch(MlLocalbranch):
                 # self.saved_rlmodels_directory + 'good_models/' + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(
                 #     lr) + '_epsilon' + str(epsilon) + '_epoch210.pth'
 
-                self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr) + '_epochs' + str(45) + '.pth'
+                self.saved_rlmodels_k_policy_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr) + '_epochs' + str(45) + '.pth'
                 # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(3) + '.pth'
 
             )
-            rl_policy.load_state_dict(checkpoint['model_state_dict'])
-            optim.load_state_dict(checkpoint['optimizer_state_dict'])
+            rl_policy_k.load_state_dict(checkpoint['model_state_dict'])
+            optim_k.load_state_dict(checkpoint['optimizer_state_dict'])
             data = checkpoint['loss_data']
-            epochs, returns, primal_integrals, primal_gaps = data
-            rl_policy.train()
+            epochs, returns_k, primal_integrals, primal_gaps = data
+            rl_policy_k.train()
 
             epoch_start = checkpoint['epoch'] + 1
             epoch_end = epoch_start + n_epochs
-            optimizer = optim
+            optimizer_k = optim_k
 
         for epoch in range(epoch_start,epoch_end):
             del data
             print(f"Epoch {epoch}")
             if epoch == epoch_init:
-                optimizer = None
+                optimizer_k = None
             elif epoch == epoch_init + 1:
-                optimizer = optim
+                optimizer_k = optim_k
 
             index_instance = 0
             # size_trainset = 5
@@ -6812,18 +6835,18 @@ class RlLocalbranch(MlLocalbranch):
                 MIP_model = batch['mip_model'][0]
                 incumbent_solution = batch['incumbent_solution'][0]
                 # train_previous rl_policy
-                index_instance, agent, primal_integral, primal_gap_final = self.train_agent_per_instance(MIP_model=MIP_model,
-                                                                                                    incumbent_solution=incumbent_solution,
-                                                                                                    node_time_limit=node_time_limit,
-                                                                                                    total_time_limit=total_time_limit,
-                                                                                                    index_instance=index_instance,
-                                                                                                    reset_k_at_2nditeration=reset_k_at_2nditeration,
-                                                                                                    agent=agent,
-                                                                                                    optimizer=optimizer,
-                                                                                                    device=device
-                                                                                                    )
+                index_instance, agent_k, _ , primal_integral, primal_gap_final = self.train_rl_policy_per_instance(MIP_model=MIP_model,
+                                                                                                               incumbent_solution=incumbent_solution,
+                                                                                                               node_time_limit=node_time_limit,
+                                                                                                               total_time_limit=total_time_limit,
+                                                                                                               index_instance=index_instance,
+                                                                                                               reset_k_at_2nditeration=reset_k_at_2nditeration,
+                                                                                                               agent_k=agent_k,
+                                                                                                               optimizer_k=optimizer_k,
+                                                                                                               device=device
+                                                                                                               )
 
-                agent, optimizer, R = self.update_agent(agent, optimizer)
+                agent_k, optimizer_k, R = self.update_agent(agent_k, optimizer_k)
                 return_epoch += R
 
                 primal_integral_epoch += primal_integral
@@ -6833,7 +6856,7 @@ class RlLocalbranch(MlLocalbranch):
             primal_integral_epoch = primal_integral_epoch/size_trainset
             primal_gap_epoch = primal_gap_epoch/size_trainset
 
-            returns.append(return_epoch)
+            returns_k.append(return_epoch)
             epochs.append(epoch)
             primal_integrals.append(primal_integral_epoch)
             primal_gaps.append(primal_gap_epoch)
@@ -6841,7 +6864,7 @@ class RlLocalbranch(MlLocalbranch):
             print(f"Return: {return_epoch:0.6f}")
             print(f"Primal ingtegral: {primal_integral_epoch:0.6f}")
 
-            data = [epochs, returns, primal_integrals, primal_gaps]
+            data = [epochs, returns_k, primal_integrals, primal_gaps]
 
             if epoch > 0:
                 filename = f'{self.reinforce_train_directory}lb-rl-checkpoint-reward3-simplepolicy-0.1trainset-lr{str(lr)}-epochs{str(epoch)}.pkl'  # instance 10% of testset
@@ -6854,13 +6877,13 @@ class RlLocalbranch(MlLocalbranch):
                 # save checkpoint
                 torch.save({
                             'epoch': epoch,
-                            'model_state_dict': rl_policy.state_dict(),
-                            'optimizer_state_dict': optimizer.state_dict(),
+                            'model_state_dict': rl_policy_k.state_dict(),
+                            'optimizer_state_dict': optimizer_k.state_dict(),
                             'loss_data':data,
                             },
                            # self.saved_rlmodels_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '_60s_talored4independentset-small-firstsol.pth'
 
-                            self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
+                    self.saved_rlmodels_k_policy_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
                             # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
 
                            # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
@@ -6870,32 +6893,273 @@ class RlLocalbranch(MlLocalbranch):
                 #            self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr' + str(lr) +'_epsilon' + str(epsilon) + '.pth'
                 #            )
 
-        epochs_np = np.array(epochs).reshape(-1)
-        returns_np = np.array(returns).reshape(-1)
-        primal_integrals_np = np.array(primal_integrals).reshape(-1)
-        primal_gaps_np = np.array(primal_gaps).reshape(-1)
+        # epochs_np = np.array(epochs).reshape(-1)
+        # returns_np = np.array(returns_k).reshape(-1)
+        # primal_integrals_np = np.array(primal_integrals).reshape(-1)
+        # primal_gaps_np = np.array(primal_gaps).reshape(-1)
+        #
+        # plt.close('all')
+        # plt.clf()
+        # fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
+        # fig.suptitle(self.regression_dataset)
+        # fig.subplots_adjust(top=0.5)
+        # ax[0].set_title('lr= ' + str(lr) + ', epsilon=' + str(epsilon), loc='right')
+        # ax[0].plot(epochs_np, returns_np, label='loss')
+        # ax[0].set_xlabel('epoch')
+        # ax[0].set_ylabel("return")
+        #
+        # ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
+        # ax[1].set_xlabel('epoch')
+        # ax[1].set_ylabel("primal integral")
+        # # ax[1].set_ylim([0, 1.1])
+        # ax[1].legend()
+        #
+        # ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
+        # ax[2].set_xlabel('epoch')
+        # ax[2].set_ylabel("primal gap")
+        # ax[2].legend()
+        # plt.show()
 
-        plt.close('all')
-        plt.clf()
-        fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
-        fig.suptitle(self.regression_dataset)
-        fig.subplots_adjust(top=0.5)
-        ax[0].set_title('lr= ' + str(lr) + ', epsilon=' + str(epsilon), loc='right')
-        ax[0].plot(epochs_np, returns_np, label='loss')
-        ax[0].set_xlabel('epoch')
-        ax[0].set_ylabel("return")
+    def train_agent_policy_t(self, train_instance_size='-small', train_incumbent_mode=incumbent_modes[0], total_time_limit=60, node_time_limit=10,
+                             reset_k_at_2nditeration=False, lr_k=0.001, lr_t=0.01, n_epochs=20, epsilon=0, use_checkpoint=False, rl_k_policy_path ='', t_reward_type = t_reward_types[0]):
 
-        ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
-        ax[1].set_xlabel('epoch')
-        ax[1].set_ylabel("primal integral")
-        # ax[1].set_ylim([0, 1.1])
-        ax[1].legend()
+        train_instance_type = self.instance_type
+        train_data =  train_instance_type + train_instance_size
+        direc = './data/generated_instances/' + train_instance_type + '/' + train_instance_size + '/'
 
-        ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
-        ax[2].set_xlabel('epoch')
-        ax[2].set_ylabel("primal gap")
-        ax[2].legend()
-        plt.show()
+        instances_directory = direc + 'transformedmodel' + '/'
+        sols_directory = direc + 'firstsol' + '/'
+        train_dataset_first, valid_dataset_first, test_dataset_first = self.load_mip_dataset(instances_directory=instances_directory, sols_directory=sols_directory, incumbent_mode='firstsol')
+        sols_directory = direc + 'rootsol' + '/'
+        train_dataset_root, valid_dataset_root, test_dataset_root = self.load_mip_dataset(instances_directory=instances_directory,
+                                                                           sols_directory=sols_directory, incumbent_mode='rootsol')
+        train_datasets = [train_dataset_first, train_dataset_root]
+        firstroot_dataset = ConcatDataset(train_datasets)
+
+        if train_incumbent_mode == incumbent_modes[0]:
+            train_dataset = train_dataset_first
+        elif train_incumbent_mode == incumbent_modes[1]:
+            train_dataset = train_dataset_root
+        else:
+            train_dataset = firstroot_dataset
+
+        train_loader = DataLoader(train_dataset_first, shuffle=True, batch_size=1, collate_fn=custom_collate)
+        size_trainset = len(train_loader.dataset)
+        print(size_trainset)
+
+        device = self.device
+        # self.regression_dataset = train_instance_type + '-small'
+        # self.evaluation_dataset = self.instance_type + train_instance_size
+
+        # direc = './data/generated_instances/' + self.instance_type + '/' + train_instance_size + '/'
+        # self.directory_transformedmodel = direc + 'transformedmodel' + '/'
+        # self.directory_sol = direc + self.incumbent_mode + '/'
+
+        self.k_baseline = 20
+
+        self.is_symmetric = True
+        if self.lbconstraint_mode == 'asymmetric':
+            self.is_symmetric = False
+            self.k_baseline = self.k_baseline / 2
+        total_time_limit = total_time_limit
+        node_time_limit = node_time_limit
+
+        self.saved_model_directory = './result/saved_models/'
+        # self.regression_model_gnn = GNNPolicy()
+        # self.regression_model_gnn.load_state_dict(torch.load(
+        #     self.saved_model_directory + 'trained_params_' + self.regression_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth'))
+        # self.regression_model_gnn.to(device)
+
+        self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/k_policy/' + train_instance_type + '/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/'
+        pathlib.Path( self.saved_rlmodels_k_policy_directory).mkdir(parents=True, exist_ok=True)
+
+        self.saved_rlmodels_t_policy_directory = self.saved_model_directory + 'rl/reinforce/t_policy/' + train_instance_type + '/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/'
+        pathlib.Path(self.saved_rlmodels_t_policy_directory).mkdir(parents=True, exist_ok=True)
+
+        train_directory = './result/generated_instances/' + train_instance_type + '/' + train_instance_size + '/' + self.lbconstraint_mode + '/' + train_incumbent_mode + '/'
+        self.reinforce_train_t_policy_directory = train_directory + 'rl/' + 'reinforce/train/t_policy/data/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/'
+        pathlib.Path(self.reinforce_train_t_policy_directory).mkdir(parents=True, exist_ok=True)
+        # self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
+        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+        # pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
+
+        rl_policy_k = SimplePolicy(7, 4)
+        checkpoint = torch.load(
+            # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
+            # self.saved_model_directory + '/rl_noimitation/good_models/checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_epoch210.pth'
+            rl_k_policy_path)
+        rl_policy_k.load_state_dict(checkpoint['model_state_dict'])
+        # rl_policy.load_state_dict(torch.load(
+        #     # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'
+        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_imitation.pth'
+        # ))
+        rl_policy_k.eval()
+
+        rl_policy_t = SimplePolicy(7, 4)
+        rl_policy_t.train()
+
+        optim_k = None
+        optim_t = torch.optim.Adam(rl_policy_t.parameters(), lr=lr_k)
+
+        greedy_k = False
+        greedy_t  = False
+        rl_policy_k = rl_policy_k.to(device)
+        rl_policy_t = rl_policy_t.to(device)
+        agent_k = AgentReinforce(rl_policy_k, device, greedy_k, optim_k, epsilon)
+        agent_t = AgentReinforce(rl_policy_t, device, greedy_t, optim_t, epsilon)
+
+        returns_k = []
+        returns_t = []
+        epochs = []
+        primal_integrals = []
+        primal_gaps = []
+        data = None
+        epochs_np = None
+        returns_np = None
+        primal_integrals_np = None
+        primal_gaps_np = None
+        epoch_init = 0
+        epoch_start = epoch_init  # 50
+        epoch_end = epoch_start+n_epochs+1
+
+        if use_checkpoint:
+            checkpoint = torch.load(
+                # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
+                # self.saved_rlmodels_directory + 'good_models/' + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(
+                #     lr) + '_epsilon' + str(epsilon) + '_epoch210.pth'
+
+                self.saved_rlmodels_t_policy_directory + 'checkpoint_trained_reward_t_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr_t) + '_epochs' + str(45) + '.pth'
+                # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(3) + '.pth'
+
+            )
+            rl_policy_t.load_state_dict(checkpoint['model_state_dict'])
+            optim_t.load_state_dict(checkpoint['optimizer_state_dict'])
+            data = checkpoint['loss_data']
+            epochs, returns_k, returns_t, primal_integrals, primal_gaps = data
+            rl_policy_t.train()
+
+            epoch_start = checkpoint['epoch'] + 1
+            epoch_end = epoch_start + n_epochs
+            optimizer_t = optim_t
+
+        for epoch in range(epoch_start,epoch_end):
+            del data
+            print(f"Epoch {epoch}")
+            if epoch == epoch_init:
+                optimizer_k = None
+                optimizer_t = None
+            elif epoch == epoch_init + 1:
+                optimizer_k = optim_k
+                optimizer_t = optim_t
+
+            index_instance = 0
+            # size_trainset = 5
+            return_epoch_k = 0
+            return_epoch_t = 0
+            primal_integral_epoch = 0
+            primal_gap_epoch = 0
+
+            # while index_instance < size_trainset:
+            for batch in (train_loader):
+                MIP_model = batch['mip_model'][0]
+                incumbent_solution = batch['incumbent_solution'][0]
+                # train_previous rl_policy
+                index_instance, agent_k, agent_t, primal_integral, primal_gap_final = self.train_rl_policy_per_instance(
+                    MIP_model=MIP_model,
+                    incumbent_solution=incumbent_solution,
+                    node_time_limit=node_time_limit,
+                    total_time_limit=total_time_limit,
+                    index_instance=index_instance,
+                    reset_k_at_2nditeration=reset_k_at_2nditeration,
+                    agent_k=agent_k,
+                    optimizer_k=optimizer_k,
+                    agent_t=agent_t,
+                    optimizer_t=optimizer_t,
+                    device=device,
+                    t_reward_type=t_reward_type
+                                                                                                               )
+
+
+                agent_k, optimizer_k, R_k = self.update_agent(agent_k, optimizer_k)
+                return_epoch_k += R_k
+
+                agent_t, optimizer_t, R_t = self.update_agent(agent_t, optimizer_t)
+                return_epoch_t += R_t
+
+                primal_integral_epoch += primal_integral
+                primal_gap_epoch += primal_gap_final
+
+            return_epoch_k = return_epoch_k/size_trainset
+            return_epoch_t = return_epoch_t / size_trainset
+            primal_integral_epoch = primal_integral_epoch/size_trainset
+            primal_gap_epoch = primal_gap_epoch/size_trainset
+
+            returns_k.append(return_epoch_k)
+            returns_t.append(return_epoch_t)
+            epochs.append(epoch)
+            primal_integrals.append(primal_integral_epoch)
+            primal_gaps.append(primal_gap_epoch)
+
+            print(f"Return policy k: {return_epoch_k:0.6f}")
+            print(f"Return policy t: {return_epoch_t:0.6f}")
+            print(f"Primal ingtegral: {primal_integral_epoch:0.6f}")
+
+            data = [epochs, returns_k, returns_t, primal_integrals, primal_gaps]
+
+            if epoch > 0:
+                filename = f'{self.reinforce_train_t_policy_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr_t)}.pkl'  # instance 10% of testset
+                # filename = f'{self.reinforce_train_directory}lb-rl-checkpoint-reward3-simplepolicy-lr{str(lr)}-epochs{str(epoch)}.pkl'
+
+                # filename = f'{self.reinforce_train_directory}lb-rl-noregression-noimitation-reward3-train-lr{str(lr)}-epsilon{str(epsilon)}_60s_talored.pkl'  # instance 100-199
+                with gzip.open(filename, 'wb') as f:
+                    pickle.dump(data, f)
+
+                # save checkpoint
+                torch.save({
+                            'epoch': epoch,
+                            'model_state_dict': rl_policy_t.state_dict(),
+                            'optimizer_state_dict': optimizer_t.state_dict(),
+                            'loss_data':data,
+                            },
+                           # self.saved_rlmodels_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '_60s_talored4independentset-small-firstsol.pth'
+
+                    self.saved_rlmodels_t_policy_directory + 'checkpoint_rl4lb_trained_-t_policy-simplepolicy-' + t_reward_type + '_reinforce_0.1trainset_' + train_instance_type + train_instance_size + '_' + train_incumbent_mode + '_0.1trainset_lr' + str(lr_t) + '.pth' # + '_epochs' + str(epoch) +
+                            # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
+
+                           # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
+                           )
+                # torch.save(rl_policy.state_dict(),
+                #            # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce-checkpoint50_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
+                #            self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr' + str(lr) +'_epsilon' + str(epsilon) + '.pth'
+                #            )
+
+                if epoch % 5 ==0:
+                    epochs_np = np.array(epochs).reshape(-1)
+                    returns_np = np.array(returns_t).reshape(-1)
+                    primal_integrals_np = np.array(primal_integrals).reshape(-1)
+                    primal_gaps_np = np.array(primal_gaps).reshape(-1)
+
+                    plt.close('all')
+                    plt.clf()
+                    fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
+                    fig.suptitle(train_data)
+                    fig.subplots_adjust(top=0.5)
+                    ax[0].set_title('lr= ' + str(lr_t) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
+                    ax[0].plot(epochs_np, returns_np, label='loss')
+                    ax[0].set_xlabel('epoch')
+                    ax[0].set_ylabel("return k")
+
+                    ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
+                    ax[1].set_xlabel('epoch')
+                    ax[1].set_ylabel("primal integral")
+                    # ax[1].set_ylim([0, 1.1])
+                    ax[1].legend()
+
+                    ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
+                    ax[2].set_xlabel('epoch')
+                    ax[2].set_ylabel("primal gap")
+                    ax[2].legend()
+                    plt.show()
 
     def evaluate_lb_per_instance(self, node_time_limit, total_time_limit, index_instance, reset_k_at_2nditeration=False, agent=None,
                              ):
@@ -7106,13 +7370,13 @@ class RlLocalbranch(MlLocalbranch):
 
         rl_policy = SimplePolicy(7, 4)
 
-        self.saved_rlmodels_directory = self.saved_gnn_directory + 'rl_noimitation/'
+        self.saved_rlmodels_k_policy_directory = self.saved_gnn_directory + 'rl_noimitation/'
         # checkpoint = torch.load(
         #     self.saved_rlmodels_directory + 'checkpoint_noimitation_reward2_simplepolicy_rl4lb_reinforce_lr0.05_epsilon0.0.pth')
         # rl_policy.load_state_dict(checkpoint['model_state_dict'])
         checkpoint = torch.load(
             # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-            self.saved_rlmodels_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_60s_talored4independentset-small-firstsol.pth'
+            self.saved_rlmodels_k_policy_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_60s_talored4independentset-small-firstsol.pth'
         )
         rl_policy.load_state_dict(checkpoint['model_state_dict'])
 
@@ -7218,6 +7482,9 @@ class RlLocalbranch(MlLocalbranch):
 
         k_pred = np.ceil(k_pred)
 
+        if k_pred < 10:
+            k_pred = 10
+
         del k_model
         del graph
         del observation
@@ -7283,12 +7550,12 @@ class RlLocalbranch(MlLocalbranch):
         #     device=device
         # )
 
-        status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1 = self.mdp_localbranch(
+        status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, _ = self.mdp_localbranch(
             localbranch=lb_model3,
             is_symmetric=self.is_symmetric,
             reset_k_at_2nditeration=reset_k_at_2nditeration,
-            agent=agent1,
-            optimizer=None,
+            agent_k=agent1,
+            optimizer_k=None,
             device=device,
             enable_adapt_t=enable_adapt_t)
         print("Instance:", MIP_model_copy3.getProbName())
@@ -7316,12 +7583,12 @@ class RlLocalbranch(MlLocalbranch):
         #     device=device
         # )
 
-        status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2 = self.mdp_localbranch(
+        status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, _ = self.mdp_localbranch(
             localbranch=lb_model2,
             is_symmetric=self.is_symmetric,
             reset_k_at_2nditeration=reset_k_at_2nditeration,
-            agent=agent2,
-            optimizer=None,
+            agent_k=agent2,
+            optimizer_k=None,
             device=device)
 
         objs_noregression_reinforce = np.array(lb_model2.primal_objs).reshape(-1)
@@ -7398,7 +7665,7 @@ class RlLocalbranch(MlLocalbranch):
         rl_policy2 = SimplePolicy(7, 4)
 
         # self.saved_rlmodels_directory = self.saved_gnn_directory + 'rl_noimitation/good_models/'
-        self.saved_rlmodels_directory = self.saved_model_directory + 'rl/reinforce/' + 'setcovering' + '/'
+        # self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/' + 'setcovering' + '/'
 
         # checkpoint = torch.load(
         #     self.saved_rlmodels_directory + 'checkpoint_noimitation_reward2_simplepolicy_rl4lb_reinforce_lr0.05_epsilon0.0.pth')
@@ -7434,14 +7701,14 @@ class RlLocalbranch(MlLocalbranch):
             MIP_model = batch['mip_model'][0]
             incumbent_solution = batch['incumbent_solution'][0]
             agent1, agent2 = self.evaluate_lb_per_instance_rlactive(
-                                                           MIP_model=MIP_model,
-                                                           incumbent=incumbent_solution,
-                                                           node_time_limit=node_time_limit,
-                                                           total_time_limit=total_time_limit,
-                                                           reset_k_at_2nditeration=reset_k_at_2nditeration,
-                                                           agent1=agent1,
-                                                           agent2=agent2,
-                                                           enable_adapt_t=enable_adapt_t
+                MIP_model=MIP_model,
+                incumbent=incumbent_solution,
+                node_time_limit=node_time_limit,
+                total_time_limit=total_time_limit,
+                reset_k_at_2nditeration=reset_k_at_2nditeration,
+                agent1=agent1,
+                agent2=agent2,
+                enable_adapt_t=enable_adapt_t
                                                             )
 
             agent1, optim1, R = self.update_agent(agent1, optim1)

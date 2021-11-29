@@ -2,7 +2,7 @@ import ecole
 import numpy as np
 import pyscipopt
 from mllocalbranch_fromfiles import RegressionInitialK_KPrime
-from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, regression_mode
+from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, regression_modes
 
 instance_size = instancesizes[0]
 instance_type = instancetypes[0]
