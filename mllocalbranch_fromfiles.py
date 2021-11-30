@@ -6921,7 +6921,7 @@ class RlLocalbranch(MlLocalbranch):
         # plt.show()
 
     def train_agent_policy_t(self, train_instance_size='-small', train_incumbent_mode=incumbent_modes[0], total_time_limit=60, node_time_limit=10,
-                             reset_k_at_2nditeration=False, lr_k=0.001, lr_t=0.01, n_epochs=20, epsilon=0, use_checkpoint=False, rl_k_policy_path ='', t_reward_type = t_reward_types[0]):
+                             reset_k_at_2nditeration=False, lr_k=0.01, lr_t=0.01, n_epochs=20, epsilon=0, use_checkpoint=False, rl_k_policy_path ='', t_reward_type = t_reward_types[0]):
 
         train_instance_type = self.instance_type
         train_data =  train_instance_type + train_instance_size
@@ -6999,7 +6999,7 @@ class RlLocalbranch(MlLocalbranch):
         rl_policy_t.train()
 
         optim_k = None
-        optim_t = torch.optim.Adam(rl_policy_t.parameters(), lr=lr_k)
+        optim_t = torch.optim.Adam(rl_policy_t.parameters(), lr=lr_t)
 
         greedy_k = False
         greedy_t  = False
