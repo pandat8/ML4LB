@@ -73,7 +73,7 @@ for i in range(4, 5):
                                                    total_time_limit=total_time_limit,
                                                    node_time_limit=node_time_limit,
                                                    reset_k_at_2nditeration=reset_k_at_2nditeration,
-                                                   lr_k=lr,
+                                                   lr_t=lr,
                                                    n_epochs=301,
                                                    epsilon=epsilon,
                                                    use_checkpoint=use_checkpoint,
