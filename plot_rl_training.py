@@ -131,7 +131,7 @@ t_reward_type = t_reward_types[args.t_reward_type]
 
 lr = args.learning_rate
 epsilon = 0.0
-instance_type = instancetypes[0]
+instance_type = instancetypes[3]
 lbconstraint_mode = 'asymmetric'
 train_instance_size = instancesizes[0]
 incumbent_mode = incumbent_modes[0]
@@ -179,7 +179,7 @@ ax[2].set_ylabel("primal gap")
 ax[2].grid()
 ax[2].legend()
 
-plt.savefig('./result/plots/rl_reinforce_train_t_policy' + instance_type + '_' + incumbent_mode + '.png')
+plt.savefig('./result/plots/rl_reinforce_train_t_policy' + instance_type + '_' + train_instance_size +  '_' + incumbent_mode + '_' + t_reward_type + '_lr ' + str(lr) + '.png')
 plt.show()
 
 # a = []
