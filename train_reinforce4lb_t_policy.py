@@ -43,7 +43,7 @@ incumbent_mode = incumbent_modes[args.incumbent_mode]
 # incumbent_mode = 'firstsol'
 samples_time_limit = 3
 
-total_time_limit = 300
+total_time_limit = 200
 node_time_limit = 10
 print('total_time_limit = ', total_time_limit)
 print('initial_node_time_limit = ', node_time_limit)
