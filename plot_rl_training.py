@@ -131,7 +131,7 @@ t_reward_type = t_reward_types[args.t_reward_type]
 
 lr = args.learning_rate
 epsilon = 0.0
-instance_type = instancetypes[3]
+instance_type = instancetypes[4]
 if instance_type == instancetypes[0]:
     lbconstraint_mode = 'asymmetric'
 else:
