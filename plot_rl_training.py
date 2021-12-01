@@ -131,64 +131,69 @@ parser.add_argument('--incumbent_mode', type=int, default=0, help='Instance Type
 args = parser.parse_args()
 
 t_reward_type = t_reward_types[args.t_reward_type]
-
+lr_list = [0.1, 0.01, 0.001, 0.0001]
 lr = args.learning_rate
-epsilon = 0.0
-
 instance_type = instancetypes[args.instance_type]
 train_instance_size = instancesizes[args.instance_size]
 incumbent_mode = incumbent_modes[args.incumbent_mode]
 
-if instance_type == instancetypes[0]:
-    lbconstraint_mode = 'asymmetric'
-else:
-    lbconstraint_mode = 'symmetric'
-epoch = 7
-total_time_limit = 600
-node_time_limit = 10
+epsilon = 0.0
+for lr in lr_list:
+    for r in range(0, 2):
+        t_reward_type = t_reward_types[r]
+        for i in range(3, 5):
+            instance_type = instancetypes[i]
 
-train_dataset = instance_type + train_instance_size
-train_directory = './result/generated_instances/' + instance_type + '/' + train_instance_size + '/' + lbconstraint_mode + '/' + incumbent_mode + '/'
-reinforce_train_directory = train_directory + 'rl/' + 'reinforce/train/t_policy/data/'
-reinforce_train_directory = reinforce_train_directory + 't_node'+ str(node_time_limit) + 's-t_total' + str(total_time_limit) + 's' + '/'
+            if instance_type == instancetypes[0]:
+                lbconstraint_mode = 'asymmetric'
+            else:
+                lbconstraint_mode = 'symmetric'
+            epoch = 7
+            total_time_limit = 600
+            node_time_limit = 10
 
-filename = f'{reinforce_train_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr)}.pkl'  # instance 100-199
+            train_dataset = instance_type + train_instance_size
+            train_directory = './result/generated_instances/' + instance_type + '/' + train_instance_size + '/' + lbconstraint_mode + '/' + incumbent_mode + '/'
+            reinforce_train_directory = train_directory + 'rl/' + 'reinforce/train/t_policy/data/'
+            reinforce_train_directory = reinforce_train_directory + 't_node'+ str(node_time_limit) + 's-t_total' + str(total_time_limit) + 's' + '/'
 
-with gzip.open(filename, 'rb') as f:
-    data = pickle.load(f)
+            filename = f'{reinforce_train_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr)}.pkl'  # instance 100-199
 
-epochs_np, returns_k_np, returns_t_np, primal_integrals_np, primal_gaps_np = data
+            with gzip.open(filename, 'rb') as f:
+                data = pickle.load(f)
 
-# returns_np = np.array(returns_np).reshape(-1)
-# returns_np = (returns_np - returns_np.mean()) / (returns_np.std() + np.finfo(np.float32).eps.item())
+            epochs_np, returns_k_np, returns_t_np, primal_integrals_np, primal_gaps_np = data
 
-plt.close('all')
-plt.clf()
-fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
-fig.suptitle(train_dataset)
-fig.subplots_adjust()
-ax[0].set_title('lr= ' + str(lr) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
-ax[0].plot(epochs_np, returns_t_np, label=t_reward_type)
-ax[0].set_xlabel('epoch')
-ax[0].set_ylabel("return")
-ax[0].grid()
-ax[2].legend()
+            # returns_np = np.array(returns_np).reshape(-1)
+            # returns_np = (returns_np - returns_np.mean()) / (returns_np.std() + np.finfo(np.float32).eps.item())
 
-ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
-ax[1].set_xlabel('epoch')
-ax[1].set_ylabel("primal integral")
-# ax[1].set_ylim([0, 1.1])
-ax[1].legend()
-ax[1].grid()
+            plt.close('all')
+            plt.clf()
+            fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
+            fig.suptitle(train_dataset)
+            fig.subplots_adjust()
+            ax[0].set_title('lr= ' + str(lr) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
+            ax[0].plot(epochs_np, returns_t_np, label=t_reward_type)
+            ax[0].set_xlabel('epoch')
+            ax[0].set_ylabel("return")
+            ax[0].grid()
+            ax[2].legend()
 
-ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
-ax[2].set_xlabel('epoch')
-ax[2].set_ylabel("primal gap")
-ax[2].grid()
-ax[2].legend()
+            ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
+            ax[1].set_xlabel('epoch')
+            ax[1].set_ylabel("primal integral")
+            # ax[1].set_ylim([0, 1.1])
+            ax[1].legend()
+            ax[1].grid()
 
-plt.savefig('./result/plots/rl_reinforce_train_t_policy' + instance_type + '_' + train_instance_size +  '_' + incumbent_mode + '_' + t_reward_type + '_lr ' + str(lr) + '.png')
-plt.show()
+            ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
+            ax[2].set_xlabel('epoch')
+            ax[2].set_ylabel("primal gap")
+            ax[2].grid()
+            ax[2].legend()
+
+            plt.savefig('./result/plots/rl_reinforce_train_t_policy' + instance_type + '_' + train_instance_size +  '_' + incumbent_mode + '_' + t_reward_type + '_lr ' + str(lr) + '.png')
+            plt.show()
 
 # a = []
 # a.append(1)
