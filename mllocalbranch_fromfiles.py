@@ -6369,7 +6369,7 @@ class RlLocalbranch(MlLocalbranch):
         if self.instance_type == instancetypes[3]:
             instance_train_files = instance_files[:int(2 / 80 * len(instance_files))]
         elif self.instance_type == instancetypes[4]:
-            instance_train_files = instance_files[:int(10 / 29 * len(instance_files))]
+            instance_train_files = instance_files[:int(4 / 29 * len(instance_files))]
         else:
             instance_train_files = instance_files[:int(1/80 * len(instance_files))]
         instance_valid_files = instance_files[int(7/8 * len(instance_files)):]
@@ -6385,7 +6385,7 @@ class RlLocalbranch(MlLocalbranch):
         if self.instance_type == instancetypes[3]:
             sol_train_files = sol_files[:int(2 / 80 * len(sol_files))]
         elif self.instance_type == instancetypes[4]:
-            sol_train_files = sol_files[:int(10 / 29 * len(sol_files))]
+            sol_train_files = sol_files[:int(4 / 29 * len(sol_files))]
         else:
             sol_train_files = sol_files[:int(1/80 * len(sol_files))]
         sol_valid_files = sol_files[int(7/8 * len(sol_files)):]
