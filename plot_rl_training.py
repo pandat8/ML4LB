@@ -131,7 +131,7 @@ parser.add_argument('--incumbent_mode', type=int, default=0, help='Instance Type
 args = parser.parse_args()
 
 t_reward_type = t_reward_types[args.t_reward_type]
-lr_list = [0.1, 0.01, 0.001, 0.0001]
+lr_list = [0.1, 0.01, 0.001]
 lr = args.learning_rate
 instance_type = instancetypes[args.instance_type]
 train_instance_size = instancesizes[args.instance_size]
