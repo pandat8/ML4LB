@@ -139,9 +139,9 @@ incumbent_mode = incumbent_modes[args.incumbent_mode]
 
 epsilon = 0.0
 for lr in lr_list:
-    for r in range(0, 2):
+    for r in range(0, 1):
         t_reward_type = t_reward_types[r]
-        for i in range(0, 1):
+        for i in range(4, 5):
             instance_type = instancetypes[i]
 
             if instance_type == instancetypes[0]:
