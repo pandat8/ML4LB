@@ -139,9 +139,9 @@ incumbent_mode = incumbent_modes[args.incumbent_mode]
 
 epsilon = 0.0
 for lr in lr_list:
-    for r in range(0, 1):
+    for r in range(0, 2):
         t_reward_type = t_reward_types[r]
-        for i in range(4, 5):
+        for i in range(0, 1):
             instance_type = instancetypes[i]
 
             if instance_type == instancetypes[0]:
@@ -149,7 +149,7 @@ for lr in lr_list:
             else:
                 lbconstraint_mode = 'symmetric'
             epoch = 7
-            total_time_limit = 300
+            total_time_limit = 200
             node_time_limit = 10
 
             train_dataset = instance_type + train_instance_size
