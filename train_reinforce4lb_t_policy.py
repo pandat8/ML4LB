@@ -18,6 +18,7 @@ parser.add_argument('--learning_rate', type=float, default=0.1, help='learning r
 parser.add_argument('--instance_type', type=int, default=0, help='Instance Type 0: sc, 1: mis, 2: ca, 3: gis, 4: miplib ')
 parser.add_argument('--instance_size', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
 parser.add_argument('--incumbent_mode', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
+parser.add_argument('--t_total', type=int, default=600, help='total time limit')
 args = parser.parse_args()
 
 # regression_model_path = args.regression_model_path
@@ -43,7 +44,7 @@ incumbent_mode = incumbent_modes[args.incumbent_mode]
 # incumbent_mode = 'firstsol'
 samples_time_limit = 3
 
-total_time_limit = 300
+total_time_limit = args.t_total
 node_time_limit = 10
 print('total_time_limit = ', total_time_limit)
 print('initial_node_time_limit = ', node_time_limit)
