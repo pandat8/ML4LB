@@ -1,0 +1,27 @@
+nohup: ignoring input
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+t_reward_type:  reward_k
+total_time_limit =  300
+initial_node_time_limit =  10
+learning rate =  0.1
+epsilon =  0.0
+miplib_39binary-small
+firstsol
+symmetric
+seed: 100
+cpu
+5
+Epoch 0
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1734 Best Obj: 4974.0000 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 2 Solving time: 0.9407 Best Obj: 2821.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 0 LB Status: optimal
