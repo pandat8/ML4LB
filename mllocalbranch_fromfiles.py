@@ -6367,9 +6367,9 @@ class RlLocalbranch(MlLocalbranch):
         instance_files = [str(path) for path in sorted(pathlib.Path(train_instances_directory).glob(instance_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
         if self.instance_type == instancetypes[3]:
-            instance_train_files = instance_files[:int(2 / 80 * len(instance_files))]
+            instance_train_files = instance_files[:int(4 / 80 * len(instance_files))]
         elif self.instance_type == instancetypes[4]:
-            instance_train_files = instance_files[:int(4 / 29 * len(instance_files))]
+            instance_train_files = instance_files[:int(5 / 29 * len(instance_files))]
         else:
             instance_train_files = instance_files[:int(1/80 * len(instance_files))]
         instance_valid_files = instance_files[int(7/8 * len(instance_files)):]
@@ -6383,9 +6383,9 @@ class RlLocalbranch(MlLocalbranch):
         sol_files = [str(path) for path in sorted(pathlib.Path(train_sols_directory).glob(sol_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
         if self.instance_type == instancetypes[3]:
-            sol_train_files = sol_files[:int(2 / 80 * len(sol_files))]
+            sol_train_files = sol_files[:int(4 / 80 * len(sol_files))]
         elif self.instance_type == instancetypes[4]:
-            sol_train_files = sol_files[:int(4 / 29 * len(sol_files))]
+            sol_train_files = sol_files[:int(5 / 29 * len(sol_files))]
         else:
             sol_train_files = sol_files[:int(1/80 * len(sol_files))]
         sol_valid_files = sol_files[int(7/8 * len(sol_files)):]

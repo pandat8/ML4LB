@@ -36,7 +36,7 @@ class LocalBranching:
         self.default_k = k
         self.eps = eps = .0000001
         self.t_node = self.default_node_time_limit
-        self.t_node_lowerbound = 2.5
+        self.t_node_lowerbound = 10
         self.t_node_upperbound = 80
         self.k = k
         self.k_lowerbound = 10
