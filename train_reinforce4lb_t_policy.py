@@ -19,6 +19,9 @@ parser.add_argument('--instance_type', type=int, default=0, help='Instance Type 
 parser.add_argument('--instance_size', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
 parser.add_argument('--incumbent_mode', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
 parser.add_argument('--t_total', type=int, default=600, help='total time limit')
+parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable enable the hand-made t adaptation policy')
+parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
+parser.set_defaults(enable_adapt_t=False)
 args = parser.parse_args()
 
 # regression_model_path = args.regression_model_path
@@ -48,6 +51,8 @@ total_time_limit = args.t_total
 node_time_limit = 10
 print('total_time_limit = ', total_time_limit)
 print('initial_node_time_limit = ', node_time_limit)
+
+enable_adapt_t = args.enable_adapt_t
 
 reset_k_at_2nditeration = False
 use_checkpoint = False
