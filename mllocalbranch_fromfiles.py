@@ -6548,7 +6548,7 @@ class RlLocalbranch(MlLocalbranch):
 
     def train_rl_policy_per_instance(self, MIP_model, incumbent_solution, node_time_limit, total_time_limit, index_instance,
                                      reset_k_at_2nditeration=False, agent_k=None, optimizer_k=None, agent_t=None, optimizer_t=None,
-                                     device=None, t_reward_type = t_reward_types[0]):
+                                     device=None, t_reward_type = t_reward_types[0], enable_adapt_t=False):
         """
         evaluate a single MIP instance by two algorithms: lb-baseline and lb-pred_k
         :param node_time_limit:
@@ -6657,7 +6657,9 @@ class RlLocalbranch(MlLocalbranch):
             agent_t=agent_t,
             optimizer_t=optimizer_t,
             device=device,
-            t_reward_type=t_reward_type)
+            t_reward_type=t_reward_type,
+            enable_adapt_t=enable_adapt_t
+        )
 
         print("Instance:", MIP_model_copy3.getProbName())
         print("Status of LB: ", status)
@@ -6921,7 +6923,7 @@ class RlLocalbranch(MlLocalbranch):
         # plt.show()
 
     def train_agent_policy_t(self, train_instance_size='-small', train_incumbent_mode=incumbent_modes[0], total_time_limit=60, node_time_limit=10,
-                             reset_k_at_2nditeration=False, lr_k=0.01, lr_t=0.01, n_epochs=20, epsilon=0, use_checkpoint=False, rl_k_policy_path ='', t_reward_type = t_reward_types[0]):
+                             reset_k_at_2nditeration=False, lr_k=0.01, lr_t=0.01, n_epochs=20, epsilon=0, use_checkpoint=False, rl_k_policy_path ='', t_reward_type = t_reward_types[0], enable_adapt_t=False):
 
         train_instance_type = self.instance_type
         train_data =  train_instance_type + train_instance_size
@@ -7076,7 +7078,8 @@ class RlLocalbranch(MlLocalbranch):
                     agent_t=agent_t,
                     optimizer_t=optimizer_t,
                     device=device,
-                    t_reward_type=t_reward_type
+                    t_reward_type=t_reward_type,
+                    enable_adapt_t=enable_adapt_t
                                                                                                                )
 
 
@@ -7107,7 +7110,10 @@ class RlLocalbranch(MlLocalbranch):
             data = [epochs, returns_k, returns_t, primal_integrals, primal_gaps]
 
             if epoch > 0:
-                filename = f'{self.reinforce_train_t_policy_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr_t)}.pkl'  # instance 10% of testset
+                if enable_adapt_t:
+                    filename = f'{self.reinforce_train_t_policy_directory}lb-rl-checkpoint-enable_vanilla_t_policy-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr_t)}.pkl'
+                else:
+                    filename = f'{self.reinforce_train_t_policy_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr_t)}.pkl'  # instance 10% of testset
                 # filename = f'{self.reinforce_train_directory}lb-rl-checkpoint-reward3-simplepolicy-lr{str(lr)}-epochs{str(epoch)}.pkl'
 
                 # filename = f'{self.reinforce_train_directory}lb-rl-noregression-noimitation-reward3-train-lr{str(lr)}-epsilon{str(epsilon)}_60s_talored.pkl'  # instance 100-199

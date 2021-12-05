@@ -1,4 +1,4 @@
-from pyscipopt import Model
+# from pyscipopt import Model
 #
 #
 # model = Model("MILP")
@@ -15,7 +15,6 @@ from pyscipopt import Model
 # print("y: {}".format(sol[y]))
 import matplotlib.pyplot as plt
 import numpy
-
 from geco.mips.loading.miplib import Loader
 
 # miplib2017_binary39 = ['10teams',
@@ -225,3 +224,16 @@ for i in range(len(miplib2017_binary39)): #
 #
 #
 #
+
+# import argparse
+# # Argument setting
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--afoo', dest='foo', action='store_true')
+# parser.add_argument('--no-afoo', dest='foo', action='store_false')
+# parser.set_defaults(foo=False)
+# args = parser.parse_args()
+#
+# if args.foo:
+#     print(True)
+# else:
+#     print(False)
