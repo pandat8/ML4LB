@@ -131,7 +131,7 @@ parser.add_argument('--incumbent_mode', type=int, default=0, help='Instance Type
 args = parser.parse_args()
 
 t_reward_type = t_reward_types[args.t_reward_type]
-lr_list = [0.1, 0.01, 0.001]
+lr_list = [0.1, 0.01, 0.001, 0.0001]
 lr = args.learning_rate
 instance_type = instancetypes[args.instance_type]
 train_instance_size = instancesizes[args.instance_size]
@@ -149,7 +149,7 @@ for lr in lr_list:
             else:
                 lbconstraint_mode = 'symmetric'
             epoch = 7
-            total_time_limit = 300
+            total_time_limit = 600
             node_time_limit = 10
 
             train_dataset = instance_type + train_instance_size
