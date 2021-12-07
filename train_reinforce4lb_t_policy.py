@@ -90,7 +90,9 @@ reinforce_localbranch.train_agent_policy_t(train_instance_size=instance_size,
                                            epsilon=epsilon,
                                            use_checkpoint=use_checkpoint,
                                            rl_k_policy_path=rl_k_policy_path,
-                                           t_reward_type=t_reward_type)
+                                           t_reward_type=t_reward_type,
+                                           enable_adapt_t=enable_adapt_t
+                                           )
 
         # reinforce_localbranch.evaluate_localbranching(evaluation_instance_size='-small', total_time_limit=total_time_limit, node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration)
 
