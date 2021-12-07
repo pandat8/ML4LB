@@ -153,7 +153,7 @@ for lr in lr_list:
             else:
                 lbconstraint_mode = 'symmetric'
             epoch = 7
-            total_time_limit = 600
+            total_time_limit = 300
             node_time_limit = 10
 
             train_dataset = instance_type + train_instance_size
