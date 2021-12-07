@@ -1,0 +1,9 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "plot_rl_training.py", line 170, in <module>
+    with gzip.open(filename, 'rb') as f:
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 58, in open
+    binary_file = GzipFile(filename, gz_mode, compresslevel)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 173, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/generalized_independentset/-small/symmetric/firstsol/rl/reinforce/train/t_policy/data/t_node10s-t_total600s/lb-rl-checkpoint-enable_vanilla_t_policy-t_policy-simplepolicy-reward_k-0.1trainset-lr0.1.pkl'
