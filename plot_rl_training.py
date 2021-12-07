@@ -128,14 +128,18 @@ parser.add_argument('--learning_rate', type=float, default=0.01, help='learning 
 parser.add_argument('--instance_type', type=int, default=0, help='Instance Type 0: sc, 1: mis, 2: ca, 3: gis, 4: miplib ')
 parser.add_argument('--instance_size', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
 parser.add_argument('--incumbent_mode', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
+parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable enable the hand-made t adaptation policy')
+parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
+parser.set_defaults(enable_adapt_t=False)
 args = parser.parse_args()
 
 t_reward_type = t_reward_types[args.t_reward_type]
-lr_list = [0.1, 0.01, 0.001, 0.0001]
+lr_list = [0.1, 0.01, 0.001]
 lr = args.learning_rate
 instance_type = instancetypes[args.instance_type]
 train_instance_size = instancesizes[args.instance_size]
 incumbent_mode = incumbent_modes[args.incumbent_mode]
+enable_adapt_t = args.enable_adapt_t
 
 epsilon = 0.0
 for lr in lr_list:
@@ -155,9 +159,13 @@ for lr in lr_list:
             train_dataset = instance_type + train_instance_size
             train_directory = './result/generated_instances/' + instance_type + '/' + train_instance_size + '/' + lbconstraint_mode + '/' + incumbent_mode + '/'
             reinforce_train_directory = train_directory + 'rl/' + 'reinforce/train/t_policy/data/'
+
             reinforce_train_directory = reinforce_train_directory + 't_node'+ str(node_time_limit) + 's-t_total' + str(total_time_limit) + 's' + '/'
 
-            filename = f'{reinforce_train_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr)}.pkl'  # instance 100-199
+            if enable_adapt_t:
+                filename = f'{reinforce_train_directory}lb-rl-checkpoint-enable_vanilla_t_policy-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr)}.pkl'  # instance 100-199
+            else:
+                filename = f'{reinforce_train_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr)}.pkl'  # instance 100-199
 
             with gzip.open(filename, 'rb') as f:
                 data = pickle.load(f)
