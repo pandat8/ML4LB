@@ -143,9 +143,9 @@ enable_adapt_t = args.enable_adapt_t
 
 epsilon = 0.0
 for lr in lr_list:
-    for r in range(0, 1):
+    for r in range(0, 2):
         t_reward_type = t_reward_types[r]
-        for i in range(3, 4):
+        for i in range(4, 5):
             instance_type = instancetypes[i]
 
             if instance_type == instancetypes[0]:
@@ -153,7 +153,7 @@ for lr in lr_list:
             else:
                 lbconstraint_mode = 'symmetric'
             epoch = 7
-            total_time_limit = 300
+            total_time_limit = 600
             node_time_limit = 10
 
             train_dataset = instance_type + train_instance_size
