@@ -200,7 +200,11 @@ for lr in lr_list:
             ax[2].grid()
             ax[2].legend()
 
-            plt.savefig('./result/plots/rl_reinforce_train_t_policy' + instance_type + '_' + train_instance_size +  '_' + incumbent_mode + '_' + t_reward_type +'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr) + '.png')
+            if enable_adapt_t:
+                plt.savefig('./result/plots/rl_reinforce_enable_vanilla_t_train_t_policy' + instance_type + '_' + train_instance_size +  '_' + incumbent_mode + '_' + t_reward_type +'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr) + '.png')
+            else:
+                plt.savefig('./result/plots/rl_reinforce_train_t_policy' + instance_type + '_' + train_instance_size + '_' + incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr) + '.png')
+
             plt.show()
 
 # a = []
