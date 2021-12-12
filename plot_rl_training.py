@@ -134,7 +134,7 @@ parser.set_defaults(enable_adapt_t=False)
 args = parser.parse_args()
 
 t_reward_type = t_reward_types[args.t_reward_type]
-lr_list = [0.1, 0.01, 0.001]
+lr_list = [0.1, 0.01, 0.001, 0.0001]
 lr = args.learning_rate
 instance_type = instancetypes[args.instance_type]
 train_instance_size = instancesizes[args.instance_size]
@@ -145,7 +145,7 @@ epsilon = 0.0
 for lr in lr_list:
     for r in range(0, 1):
         t_reward_type = t_reward_types[r]
-        for i in range(3, 5):
+        for i in range(3, 4):
             instance_type = instancetypes[i]
 
             if instance_type == instancetypes[0]:
