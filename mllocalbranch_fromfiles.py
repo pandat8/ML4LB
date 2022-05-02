@@ -9,7 +9,7 @@ import pickle
 import json
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utility import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, t_reward_types, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym
+from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, t_reward_types, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, copy_sol
 from localbranching import addLBConstraint, addLBConstraintAsymmetric
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
 from models import GraphDataset, GNNPolicy, BipartiteNodeData
@@ -19,8 +19,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset, ConcatDataset
 from scipy.interpolate import interp1d
-
 from localbranching import LocalBranching
+from event import StopWhenFirstLPSolvedEventHandler
 
 import gc
 import sys
@@ -1180,7 +1180,6 @@ class RegressionInitialK:
         print('average phi_star :', ave_phi_star )
         print('average phi_prime: ', ave_phi_prime)
         # print('average phi_lp2relax: ', ave_phi_lp2relax)
-
 
     def load_dataset(self, dataset_directory=None):
 
@@ -2635,6 +2634,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             # stage = subMIP_model2.getStage()
             # n_sols = subMIP_model2.getNSols()
             # time = subMIP_model2.getSolvingTime()
+            # n_lp_2 = subMIP_model2.getNLPs()
             # print("* Model status: %s" % status)
             # print("* Solve stage: %s" % stage)
             # print("* LP status: %s" % lp_status)
@@ -2661,7 +2661,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             # n_nodes.append(n_node)
             # firstlp_times.append(firstlp_time)
             # presolve_times.append(presolve_time)
-            # n_lps.append(n_lp)
+            # n_lps.append(n_lp_2)
 
 
             subMIP_model.freeTransform()
@@ -2740,6 +2740,406 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         return index_instance
 
+    def sample_k_integrality_grip_per_instance_k_prime(self, t_limit, index_instance):
+
+        filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
+        sol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
+
+        MIP_model = Model()
+        MIP_model.readProblem(filename)
+        instance_name = MIP_model.getProbName()
+        print(instance_name)
+        n_vars = MIP_model.getNVars()
+        n_binvars = MIP_model.getNBinVars()
+        print("N of variables: {}".format(n_vars))
+        print("N of binary vars: {}".format(n_binvars))
+        print("N of constraints: {}".format(MIP_model.getNConss()))
+
+        incumbent = MIP_model.readSolFile(sol_filename)
+
+        feas = MIP_model.checkSol(incumbent)
+        try:
+            MIP_model.addSol(incumbent, False)
+        except:
+            print('Error: the root solution of ' + instance_name + ' is not feasible!')
+
+        initial_obj = MIP_model.getSolObjVal(incumbent)
+        print("Initial obj before LB: {}".format(initial_obj))
+
+        n_supportbinvars = binary_support(MIP_model, incumbent)
+        print('binary support: ', n_supportbinvars)
+
+        MIP_model.resetParams()
+
+        neigh_sizes = []
+        objs = []
+        t = []
+        n_supportbins = []
+        statuss = []
+
+        relax_grips = []
+        RINS_fixing_ratios = []
+        n_nodes = []
+        firstlp_times = []
+        n_lps = []
+        presolve_times = []
+
+        nsample = 11  # 101
+        if self.instance_type == instancetypes[2]:
+            nsample = 60
+        if self.instance_type == instancetypes[1] and self.incumbent_mode == incumbent_modes[1]:
+            nsample = 60
+
+        # # create a copy of the MIP to be 'locally branched'
+        # MIP_copy, subMIP_model_vars, success = MIP_model.createCopy(problemName='MIPCopy',
+        #                                                            origcopy=False)
+        # MIP_copy.resetParams()
+        # sol_MIP_copy = MIP_copy.createSol()
+        #
+        # # create a primal solution for the copy MIP by copying the solution of original MIP
+        # n_vars = MIP_model.getNVars()
+        # subMIP_vars = MIP_model.getVars()
+        #
+        # for j in range(n_vars):
+        #     val = MIP_model.getSolVal(incumbent, subMIP_vars[j])
+        #     MIP_copy.setSolVal(sol_MIP_copy, subMIP_model_vars[j], val)
+        # feasible = MIP_copy.checkSol(solution=sol_MIP_copy)
+        #
+        # if feasible:
+        #     # print("the trivial solution of subMIP is feasible ")
+        #     MIP_copy.addSol(sol_MIP_copy, False)
+        #     # print("the feasible solution of subMIP_model is added to subMIP_model")
+        # else:
+        #     print("Warn: the trivial solution of subMIP_model is not feasible!")
+        #
+        # n_supportbinvars = binary_support(MIP_copy, sol_MIP_copy)
+        # print('binary support: ', n_supportbinvars)
+        # print('Number of solutions: ', MIP_copy.getNSols())
+
+        k_base = n_binvars
+        if self.is_symmetric == False:
+            k_base = n_supportbinvars
+        # solve the root node and get the LP solution
+        k_prime = self.compute_k_prime(MIP_model, incumbent)
+        phi_prime = k_prime / k_base
+        print('phi_prime :', phi_prime)
+
+        MIP_model.freeProb()
+        # del MIP_model
+        subMIP_model2 = Model()
+
+        for i in range(nsample):
+
+            # # create a copy of the MIP to be 'locally branched'
+            # subMIP_model, subMIP_model_vars, success = MIP_copy.createCopy(problemName='MIPCopy',
+            #                                                              origcopy=False)
+            # subMIP_model.resetParams()
+            # sol_subMIP_model = subMIP_model.createSol()
+            #
+            # # create a primal solution for the copy MIP by copying the solution of original MIP
+            # n_vars = MIP_copy.getNVars()
+            # MIP_copy_vars = MIP_copy.getVars()
+            #
+            # for j in range(n_vars):
+            #     val = MIP_copy.getSolVal(sol_MIP_copy, MIP_copy_vars[j])
+            #     subMIP_model.setSolVal(sol_subMIP_model, subMIP_model_vars[j], val)
+            # feasible = subMIP_model.checkSol(solution=sol_subMIP_model)
+            #
+            # if feasible:
+            #     # print("the trivial solution of subMIP is feasible ")
+            #     subMIP_model.addSol(sol_subMIP_model, False)
+            #     # print("the feasible solution of subMIP_model is added to subMIP_model")
+            # else:
+            #     print("Warn: the trivial solution of subMIP_model is not feasible!")
+
+            subMIP_model = MIP_model
+            # sol_subMIP_model = sol_MIP_copy
+
+
+            subMIP_model.readProblem(filename)
+            sol_subMIP_model = subMIP_model.readSolFile(sol_filename)
+            feas = subMIP_model.checkSol(sol_subMIP_model)
+            try:
+                subMIP_model.addSol(sol_subMIP_model, False)
+            except:
+                print('Error: the root solution of ' + instance_name + ' is not feasible!')
+
+            # add LB constraint to subMIP model
+            alpha = 0.1 * (i)
+            # if nsample == 41:
+            #     if i<11:
+            #         alpha = 0.01*i
+            #     elif i<31:
+            #         alpha = 0.02*(i-5)
+            #     else:
+            #         alpha = 0.05*(i-20)
+
+            # neigh_size = np.ceil(alpha * k_base)
+            if self.lbconstraint_mode == 'asymmetric':
+                neigh_size = np.ceil(alpha * k_prime)
+                subMIP_model, constraint_lb = addLBConstraintAsymmetric(subMIP_model, sol_subMIP_model, neigh_size)
+            else:
+                neigh_size = np.ceil(alpha * k_prime)
+                subMIP_model, constraint_lb = addLBConstraint(subMIP_model, sol_subMIP_model, neigh_size)
+
+            print('\n Neigh size:', alpha)
+            print('solve LB subMIP')
+            # stage = subMIP_model.getStage()
+            # print("* subMIP stage before solving: %s" % stage)
+
+
+            subMIP_model.resetParams()
+            subMIP_model.setParam('limits/time', t_limit)
+            subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+            subMIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
+            subMIP_model.setParam("display/verblevel", 0)
+
+            subMIP_model.optimize()
+
+            status_subMIP = subMIP_model.getStatus()
+            lp_status = subMIP_model.getLPSolstat()
+
+            print("Solve status :",status_subMIP)
+            print("LP status: %s" % lp_status)
+
+            best_obj = subMIP_model.getSolObjVal(subMIP_model.getBestSol())
+            solving_time = subMIP_model.getSolvingTime()  # total time used for solving (including presolving) the current problem
+            n_node = subMIP_model.getNTotalNodes()
+            firstlp_time = subMIP_model.getFirstLpTime()  # time for solving first LP rexlaxation at the root node
+            print('sovling time: ', solving_time)
+            print('first LP time', firstlp_time)
+
+            presolve_time = subMIP_model.getPresolvingTime()
+            n_lp = subMIP_model.getNLPs()
+            print('number of LP sol : ', n_lp)
+
+            best_sol = subMIP_model.getBestSol()
+
+            vars_subMIP = subMIP_model.getVars()
+            n_binvars_subMIP = subMIP_model.getNBinVars()
+            n_supportbins_subMIP = 0
+            for i in range(n_binvars_subMIP):
+                val = subMIP_model.getSolVal(best_sol, vars_subMIP[i])
+                assert subMIP_model.isFeasIntegral(val), "Error: Value of a binary varialbe is not integral!"
+                if subMIP_model.isFeasEQ(val, 1.0):
+                    n_supportbins_subMIP += 1
+
+            # test of integrality grip
+            print('re-solve LP relaxation')
+
+            subMIP_model.freeTransform()
+
+            # subMIP_model2 = subMIP_model
+            # sol_subMIP2_init = sol_subMIP_model
+
+            subMIP_model2, subMIP_model2_vars, success = subMIP_model.createCopy(problemName='SolveLPRelax', origcopy=True)
+            subMIP_model2, sol_subMIP2_init = copy_sol(subMIP_model, subMIP_model2, sol_subMIP_model, subMIP_model2_vars)
+
+            n_bins = subMIP_model2.getNBinVars()
+            n_integers = subMIP_model2.getNIntVars()
+            n_all_integer_vars = n_bins + n_integers
+
+            vars_subMIP2 = subMIP_model2.getVars()
+            n_vars_subMIP2 = subMIP_model2.getNVars()
+
+            vartypes = np.empty(n_vars_subMIP2, dtype=object)
+            for i in range(n_vars_subMIP2):
+                vartype = vars_subMIP2[i].vtype()
+                vartypes[i] = vartype
+                if vartype == 'CONTINUOUS':
+                    continue
+                else:
+                    subMIP_model2.chgVarType(vars_subMIP2[i],'C')
+
+            subMIP_model2.resetParams()
+            subMIP_model2.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+            subMIP_model2.setParam('presolving/maxrounds', 0)
+            subMIP_model2.setParam('presolving/maxrestarts', 0)
+
+            subMIP_model2.setHeuristics(pyscipopt.SCIP_PARAMSETTING.OFF)
+            subMIP_model2.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
+            subMIP_model2.setIntParam("lp/solvefreq", 0)
+            subMIP_model2.setParam("limits/nodes", 1)
+            subMIP_model2.setParam('limits/time', 3600)
+            # subMIP_model2.setParam("limits/solutions", 1)
+            subMIP_model2.setParam("display/verblevel", 0)
+
+            subMIP_model2.setParam("lp/disablecutoff", 1)
+
+            stage = subMIP_model2.getStage()
+            n_sols = subMIP_model2.getNSols()
+            print('before re-solving LP:')
+            print('* number of LP sol : ', subMIP_model2.getNLPs())
+            print('* number of sol : ', n_sols)
+            print("* Solve stage: %s" % stage)
+
+            # subMIP_model2.setParam("limits/solutions", 1)
+
+            if alpha == 0:
+                stopWhenFirstLPSolvedEventHandler = StopWhenFirstLPSolvedEventHandler()
+                subMIP_model2.includeEventhdlr(stopWhenFirstLPSolvedEventHandler, 'stop solving after first LP is solved', 'store the optimal LP solution if one is found')
+
+            subMIP_model2.optimize()
+
+            status = subMIP_model2.getStatus()
+            lp_status = subMIP_model2.getLPSolstat()
+            firstlp_time_2 = subMIP_model2.getFirstLpTime()
+            stage = subMIP_model2.getStage()
+            n_sols = subMIP_model2.getNSols()
+            time = subMIP_model2.getSolvingTime()
+            n_lp_2 = subMIP_model2.getNLPs()
+            # sol_lp_2 = subMIP_model2.createLPSol()
+
+            print('after solving subMIP2:')
+            print('* solving time: ', time)
+            print('*  first LP time: ', firstlp_time_2)
+            print("* Model status: %s" % status)
+            print("* Solve stage: %s" % stage)
+            print("* LP status: %s" % lp_status)
+            print('* number of LP sol : ', n_lp_2)
+            print('* number of sol : ', n_sols)
+
+            # n_lp_2 = stopWhenFirstLPSolvedEventHandler.n_lps
+            # lp_status_2 = stopWhenFirstLPSolvedEventHandler.lp_status
+            if n_lp_2 <= 1:
+                print('Optimal LP sol is found after solving the first LP.')
+                # sol_lp_2 = subMIP_model2.createLPSol()
+                n_lp_integral_vars = 0
+                n_rins_fixing = 0
+                for i in range(n_all_integer_vars):
+                    # check the integrality of LP solution for all the integer variables
+                    # lp_val = subMIP_model2.getSolVal(sol_lp_2, vars_subMIP2[i])
+                    lp_val = vars_subMIP2[i].getLPSol()
+                    if subMIP_model2.isFeasIntegral(lp_val):
+                        n_lp_integral_vars += 1
+
+                    # check if LP val and incumbent val are equal for all the integer variables
+                    val_incumbent_init = subMIP_model2.getSolVal(sol_subMIP2_init, vars_subMIP2[i])
+                    if subMIP_model2.isFeasEQ(lp_val, val_incumbent_init):
+                        n_rins_fixing += 1
+
+                # lpcands, lpcandssol, lpcadsfrac, nlpcands, npriolpcands, nfracimplvars = subMIP_model2.getLPBranchCands()
+                relax_grip = n_lp_integral_vars / n_all_integer_vars
+                rins_fixing_ratio = n_rins_fixing / n_all_integer_vars
+
+                print('num binary vars: ', n_bins)
+                print('num all integer vars: ', n_all_integer_vars)
+                print('num lp_integral: ', n_lp_integral_vars)
+                print('num RINS_fixing: ', n_rins_fixing)
+                # print('nbranchingcands :', nlpcands)
+                # print('nfracimplintvars :', nfracimplvars)
+                print('relaxation grip :', relax_grip)
+                print('RINS fixing ratio :', rins_fixing_ratio)
+
+                relax_grips.append(relax_grip)
+                RINS_fixing_ratios.append(rins_fixing_ratio)
+            else:
+                print('No LP sol is found after solving the first LP!')
+
+
+            # restore the original type of interger and binary variables
+            subMIP_model2.freeTransform()
+            for i in range(n_vars_subMIP2):
+                vartype = vartypes[i]
+                if vartype == 'CONTINUOUS':
+                    continue
+                else:
+                    subMIP_model2.chgVarType(vars_subMIP2[i], vartype)
+            del vartypes
+
+            neigh_sizes.append(alpha)
+            objs.append(best_obj)
+            t.append(solving_time)
+            n_supportbins.append(n_supportbins_subMIP)
+            statuss.append(status_subMIP)
+
+
+            n_nodes.append(n_node)
+            firstlp_times.append(firstlp_time)
+            presolve_times.append(presolve_time)
+            n_lps.append(n_lp_2)
+
+            subMIP_model.freeTransform()
+            subMIP_model.resetParams()
+            subMIP_model.delCons(constraint_lb)
+            subMIP_model.releasePyCons(constraint_lb)
+            del constraint_lb
+            print('Number of solutions: ', subMIP_model.getNSols())
+            subMIP_model.freeProb()
+            # print('Number of solutions: ', subMIP_model.getNSols())
+            del subMIP_model
+
+        for i in range(len(t)):
+            print('Neighsize: {:.4f}'.format(neigh_sizes[i]),
+                  'Best obj: {:.4f}'.format(objs[i]),
+                  'Binary supports:{}'.format(n_supportbins[i]),
+                  'Solving time: {:.4f}'.format(t[i]),
+                  'Presolve_time: {:.4f}'.format(presolve_times[i]),
+                  'FirstLP time: {:.4f}'.format(firstlp_times[i]),
+                  'solved LPs: {:.4f}'.format(n_lps[i]),
+                  'B&B nodes: {:.4f}'.format(n_nodes[i]),
+                  'Relaxation grip: {:.4f}'.format(relax_grips[i]),
+                  'Status: {}'.format(statuss[i])
+                  )
+
+        neigh_sizes = np.array(neigh_sizes).reshape(-1)
+        t = np.array(t).reshape(-1)
+        objs = np.array(objs).reshape(-1)
+        relax_grips = np.array(relax_grips).reshape(-1)
+        RINS_fixing_ratios = np.array(RINS_fixing_ratios).reshape(-1)
+
+        # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
+        # f = self.k_samples_directory + saved_name
+        # np.savez(f, neigh_sizes=neigh_sizes, objs=objs, t=t)
+
+        # normalize the objective and solving time
+        t = t / t_limit
+        objs_abs = objs
+        objs = (objs_abs - np.min(objs_abs))
+        objs = objs / np.max(objs)
+
+        t = mean_filter(t, 5)
+        objs = mean_filter(objs, 5)
+
+        # t = mean_forward_filter(t,10)
+        # objs = mean_forward_filter(objs, 10)
+
+        # compute the performance score
+        alpha = 1 / 2
+        perf_score = alpha * t + (1 - alpha) * objs
+        phi_bests = neigh_sizes[np.where(perf_score == perf_score.min())]
+        if len(phi_bests) > 0:
+            phi_init = phi_bests[0]
+            if phi_init > self.phi_max:
+                self.phi_max = phi_init
+            print('phi_0_star:', phi_init)
+            print('phi_0_max:', self.phi_max)
+
+        plt.clf()
+        fig, ax = plt.subplots(4, 1, figsize=(6.4, 6.4))
+        fig.suptitle("Evaluation of size of lb neighborhood")
+        fig.subplots_adjust(top=0.5)
+        ax[0].plot(neigh_sizes, objs)
+        ax[0].set_title(instance_name, loc='right')
+        ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
+        ax[0].set_ylabel("Objective")
+        ax[1].plot(neigh_sizes, t)
+        # ax[1].set_ylim([0,31])
+        ax[1].set_ylabel("Solving time")
+        ax[2].plot(neigh_sizes, perf_score)
+        ax[2].set_ylabel("Cost")
+        if len(neigh_sizes) == len(relax_grips):
+            ax[3].set_title('all_int_vars:' + str(n_all_integer_vars) + ', bin_vars' + str(n_bins), fontsize=14)
+            ax[3].plot(neigh_sizes, relax_grips, label='Relaxation grip')
+            ax[3].plot(neigh_sizes, RINS_fixing_ratios, '--', label='incumbent and LP consistency')
+            ax[3].set_ylabel("ratio")
+            ax[3].legend()
+        plt.show()
+
+        index_instance += 1
+
+        return index_instance
+
     def generate_k_samples_k_prime(self, t_limit, instance_size='-small'):
         """
         For each MIP instance, sample k from [0,1] * n_binary(symmetric) or [0,1] * n_binary_support(asymmetric),
@@ -2753,10 +3153,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         pathlib.Path(self.k_samples_directory).mkdir(parents=True, exist_ok=True)
 
         direc = './data/generated_instances/' + self.instance_type + '/' + instance_size + '/'
-        self.directory_transformedmodel = direc + 'transformedmodel' + '/'
-        self.directory_sol = direc + self.incumbent_mode + '/'
 
-        index_instance = 100
+        index_instance = 0
         self.phi_max = 0
 
         # while index_instance < 86:
@@ -2768,7 +3166,14 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         #     index_instance += 1
 
         while index_instance < 200:
-            index_instance = self.sample_k_per_instance_k_prime(t_limit, index_instance)
+            if index_instance < 160:
+                self.directory_transformedmodel = direc + 'transformedmodel' + '/' + 'train/'
+                self.directory_sol = direc + self.incumbent_mode + '/' + 'train/'
+            else:
+                self.directory_transformedmodel = direc + 'transformedmodel' + '/' + 'test/'
+                self.directory_sol = direc + self.incumbent_mode + '/' + 'test/'
+
+            index_instance = self.sample_k_integrality_grip_per_instance_k_prime(t_limit, index_instance)
             # instance = next(self.generator)
             # MIP_model = instance.as_pyscipopt()
             # MIP_model.setProbName(self.instance_type + '-' + str(index_instance))
@@ -2882,12 +3287,13 @@ class RegressionInitialK_KPrime(MlLocalbranch):
     def two_examples(self):
 
         plt.clf()
-        fig, ax = plt.subplots(2, 1, figsize=(6.0, 4.0))
+        plt.rcParams.update({'font.size': 14})
+        fig, ax = plt.subplots(2, 1, figsize=(6, 4))
         # fig.suptitle("Evaluation of size of lb neighborhood")
         # fig.subplots_adjust(top=0.5)
-        ax[0].set_xlabel(r'$\ r $   ' + '(neighborhood size: ' + r'$k = r \times N$)')  #
+        ax[0].set_xlabel(r'$\ r $')  #
         ax[0].set_ylabel("Objective")
-        ax[1].set_ylabel("Solving time")
+        ax[1].set_ylabel("Time")
         t_limit = 3
         for i in range(2):
 
@@ -2920,13 +3326,21 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             k_init = k_bests[0]
             print('phi_0_star :', k_init)
 
+            if instancetypes[i] == 'setcovering':
+                ins_name = 'sc'
+            elif instancetypes[i] == 'independentset':
+                ins_name = 'mis'
+            instance_name = ins_name + '-' + str(i)
+
             ax[0].plot(k, objs, label=instance_name)
             ax[1].plot(k, t, label=instance_name)
         # ax[1].set_ylim([0,31])
         # ax[2].plot(k, perf_score)
         # ax[2].set_ylabel("Performance score")
         ax[0].legend()
+        ax[0].grid()
         ax[1].legend()
+        ax[1].grid()
         plt.show()
 
     def generate_regression_samples_k_prime(self, t_limit, instance_size='-small'):
@@ -3038,7 +3452,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         self.directory_transformedmodel = direc + 'transformedmodel' + '/'
         self.directory_sol = direc + self.incumbent_mode + '/'
 
-        index_instance = 0
+        index_instance = 1
         list_phi_prime = []
         list_phi_lp2relax = []
         list_phi_star = []

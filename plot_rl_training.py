@@ -5,7 +5,7 @@ import numpy as np
 import pathlib
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utility import instancetypes, generator_switcher, instancesizes
+from utilities import instancetypes, generator_switcher, instancesizes
 import sys
 #
 # def solve_prob(model):
@@ -115,7 +115,7 @@ import sys
 import gzip
 import pickle
 import matplotlib.pyplot as plt
-from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, t_reward_types
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, t_reward_types
 import argparse
 
 # Argument setting

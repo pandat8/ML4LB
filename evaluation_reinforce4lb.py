@@ -3,7 +3,7 @@ import numpy as np
 import pyscipopt
 import argparse
 from mllocalbranch_fromfiles import RlLocalbranch
-from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 import torch
 import random
 

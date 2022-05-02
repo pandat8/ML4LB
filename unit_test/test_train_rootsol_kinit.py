@@ -5,7 +5,7 @@ import numpy as np
 import pathlib
 import gzip
 import pickle
-from utility import instancetypes, modes
+from utilities import instancetypes, modes
 from models import *
 import matplotlib.pyplot as plt
 

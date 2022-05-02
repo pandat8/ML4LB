@@ -6,7 +6,7 @@ import pathlib
 import matplotlib.pyplot as plt
 import gzip
 import pickle
-from utility import instancetypes, generator_switcher, instancesizes, incumbent_modes
+from utilities import instancetypes, generator_switcher, instancesizes, incumbent_modes
 from event import PrimalBoundChangeEventHandler
 from geco.mips.loading.miplib import Loader
 

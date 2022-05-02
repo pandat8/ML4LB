@@ -2,7 +2,7 @@ import ecole
 import numpy as np
 import pyscipopt
 from instance_generation import ImitationLocalbranch
-from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 
 # instance_type = instancetypes[1]
 instance_size = instancesizes[0]

@@ -4,7 +4,7 @@
 
 ## Installation
 
-1. Please install Python 3.7, PyscipOPt 3.1.1, and SCIP 7.01 in your own computer environment
+1. Please install Python 3.7, PyscipOPt 3.1.1, and SCIP 7.01 on your computer
 
 2. install package ecole according to the following instructions:
     - go into the folder 'ecole'

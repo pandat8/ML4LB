@@ -6,7 +6,7 @@ import pathlib
 import matplotlib.pyplot as plt
 from geco.mips.miplib.base import Loader
 from improvelp import improvelp
-from utility import lbconstraint_modes, instancetypes, instancesizes, generator_switcher
+from utilities import lbconstraint_modes, instancetypes, instancesizes, generator_switcher
 # instancetype = instancetypes[2]
 
 lbconstraint_mode = lbconstraint_modes[0]

@@ -4,7 +4,7 @@ import ecole
 import numpy
 import matplotlib.pyplot as plt
 from localbranching import addLBConstraint, addLBConstraintAsymmetric
-from utility import binary_support
+from utilities import binary_support
 
 
 def improvelp(MIP_model, directory, mode, index_instance, t_limit):
