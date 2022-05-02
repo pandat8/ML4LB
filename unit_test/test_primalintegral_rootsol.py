@@ -1,6 +1,6 @@
 import pathlib
 import numpy as np
-from utility import instancetypes
+from utilities import instancetypes
 import gzip
 import pickle
 import matplotlib.pyplot as plt

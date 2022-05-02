@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # from improvelp import improvelp
 import gzip
 import pickle
-from utility import instancetypes, generator_switcher, instancesizes, binary_support
+from utilities import instancetypes, generator_switcher, instancesizes, binary_support
 
 # instancetype = instancetypes[2]
 

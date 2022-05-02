@@ -13,7 +13,7 @@ class SimpleConfiguringDynamics(ecole.dynamics.ConfiguringDynamics):
 
         # Let the parent class get the model to the root node and return
         # the done flag / action_set
-        return super().reset_dynamics(model)
+        return super().models.py(model)
 
 class DynamicsEnablecuts(ecole.dynamics.ConfiguringDynamics):
 

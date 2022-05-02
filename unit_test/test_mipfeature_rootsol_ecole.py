@@ -5,7 +5,7 @@ import pathlib
 import gzip
 import pickle
 import matplotlib.pyplot as plt
-from utility import generator_switcher, instancetypes, lbconstraint_modes
+from utilities import generator_switcher, instancetypes, lbconstraint_modes
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts
 
 

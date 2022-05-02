@@ -2,10 +2,10 @@ import ecole
 import numpy as np
 import pyscipopt
 from instance_generation import InstanceGeneration
-from utility import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 
 
-for i in range(0, 5):
+for i in range(5, 6):
     for j in range(0, 2):
         instance_type = instancetypes[i]
         instance_size = instancesizes[j]
@@ -25,3 +25,5 @@ for i in range(0, 5):
             mllb.generate_instances_generalized_independentset()
         elif i == 4 and j == 0:
             mllb.generate_instances_miplib_39binary()
+        elif i == 5 and j == 0:
+            mllb.initialize_instances_floorplan()

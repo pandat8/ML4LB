@@ -4,7 +4,7 @@ import pyscipopt
 import pathlib
 import gzip
 import pickle
-from utility import generator_switcher, instancetypes, modes
+from utilities import generator_switcher, instancetypes, modes
 from geco.mips.loading.miplib import Loader
 
 env = ecole.environment.Configuring(

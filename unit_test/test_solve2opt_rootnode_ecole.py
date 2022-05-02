@@ -8,7 +8,7 @@ from geco.mips.miplib.base import Loader
 from improvelp import improvelp
 import gzip
 import pickle
-from utility import instancetypes, generator_switcher, instancesizes
+from utilities import instancetypes, generator_switcher, instancesizes
 
 # instancetype = instancetypes[2]
 

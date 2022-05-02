@@ -8,7 +8,7 @@ from geco.mips.miplib.base import Loader
 from improvelp import improvelp
 from localbranching import LocalBranching
 from models import *
-from utility import copy_sol, binary_support, modes, instancetypes, generator_switcher
+from utilities import copy_sol, binary_support, modes, instancetypes, generator_switcher
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts
 # modes = ['tree-improve-supportbinvars', 'tree-improve-binvars']
 # instancetype = instancetypes[2]

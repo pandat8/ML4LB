@@ -6,12 +6,11 @@ from memory_profiler import profile
 
 from models_rl import SimplePolicy
 import torch
-from utility import imitation_accuracy
+from utilities import imitation_accuracy
 import pathlib
 import gzip
 import pickle
 from event import PrimalBoundChangeEventHandler
-
 
 class LocalBranching:
 
