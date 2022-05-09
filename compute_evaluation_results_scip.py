@@ -59,8 +59,7 @@ for i in range(3, 5):
             if is_heuristic:
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
-            result_directory_4 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(
+            result_directory_4 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
 
             # result directory of localbranch
