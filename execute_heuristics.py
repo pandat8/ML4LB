@@ -858,7 +858,7 @@ class ExecuteHeuristic:
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(instance_name + '-' + 'primal gap' , fontsize=13) # instance_name
         ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
-        ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        # ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
         ax.plot(t, primalgap_baseline_ave, label='scip-lb', color='tab:blue')
         ax.plot(t, primalgap_lns_random_ave, label='scip-lb-regression', color='tab:orange')
         ax.plot(t, primalgap_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
@@ -875,7 +875,7 @@ class ExecuteHeuristic:
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + incumbent_mode + '_scip.png')
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + incumbent_mode + '_scip.png')
         plt.show()
         plt.clf()
 
