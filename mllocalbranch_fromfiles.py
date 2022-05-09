@@ -8006,7 +8006,7 @@ class RlLocalbranch(MlLocalbranch):
         status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, _ = self.mdp_localbranch(
             localbranch=lb_model2,
             is_symmetric=self.is_symmetric,
-            reset_k_at_2nditeration=reset_k_at_2nditeration,
+            reset_k_at_2nditeration=reset_k_at_2nditeration, #False
             agent_k=agent2,
             optimizer_k=None,
             device=device)

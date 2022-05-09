@@ -110,6 +110,54 @@ def copy_sol_from_subMIP_to_MIP(subMIP_model, MIP_model, sol_subMIP, subMIP_vars
     #     print("Error: the trivial solution of " + MIP_model.getProbName() + " is not feasible!")
     return MIP_model, sol_mip_target, feasible
 
+def copy_sol_from_subMIP_to_MIP_heur(heur, subMIP_model, MIP_model, sol_subMIP, subMIP_vars, check_feasibility=True, add_sol=True):
+    """
+    copy the sol of original MIP to target MIP(copy of mip original)
+    :param subMIP_model:
+    :param MIP_model:
+    :param sol_subMIP:
+    :param mip_target_vars:
+    :return:
+    """
+
+    # print("start copying solution of subMIP to MIP")
+    if check_feasibility:
+        feasible = subMIP_model.checkSol(solution=sol_subMIP)
+        assert feasible, "Error: the trivial solution of the subMIP model " + subMIP_model.getProbName() + " is not feasible!"
+
+    sol_mip_target = MIP_model.createSol(heur)
+    # print("a new solution is initialized!")
+
+    # create a primal solution for the copy MIP by copying the solution of original MIP
+    n_vars = MIP_model.getNVars()
+    MIP_vars = MIP_model.getVars()
+    # print('Number of variables in subMIP_vars vector', len(subMIP_vars))
+    # print("Number of bin variables subMIP", subMIP_model.getNBinVars())
+    # print("Number of variables original MIP", MIP_model.getNVars())
+    # print("Number of bin variables original MIP", MIP_model.getNBinVars())
+    for j in range(n_vars):
+        val = subMIP_model.getSolVal(sol_subMIP, subMIP_vars[j])
+        MIP_model.setSolVal(sol_mip_target, MIP_vars[j], val)
+    if check_feasibility:
+        feasible = MIP_model.checkSol(solution=sol_mip_target)
+    else:
+        feasible = True
+
+    # assert feasible, "Error: the trivial solution of the target problem " + MIP_model.getProbName() + " is not feasible!"
+
+    # if feasible:
+    #     print('copied solution from subMIP is feasible for master MIP')
+    if add_sol and feasible:
+        MIP_model.addSol(sol_mip_target, False)
+    # print('Obj of master MIP: ', MIP_model.getSolObjVal(sol_mip_target))
+    # print("the feasible solution of " + subMIP_model.getProbName() + " is added to original MIP model!")
+
+    # if feasible:
+    #     MIP_model.addSol(sol_mip_target, False)
+    #     print("the feasible solution of " + MIP_model.getProbName() + " is added to original MIP model")
+    # else:
+    #     print("Error: the trivial solution of " + MIP_model.getProbName() + " is not feasible!")
+    return MIP_model, sol_mip_target, feasible
 
 def binary_support(mip, sol):
     n_binvars = mip.getNBinVars()
