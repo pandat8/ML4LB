@@ -88,8 +88,11 @@ original problem has 5325 variables (5323 bin, 0 int, 0 impl, 2 cont) and 3411 c
 original problem has 10958 variables (96 bin, 0 int, 0 impl, 10862 cont) and 4480 constraints
 original problem has 5174 variables (2349 bin, 0 int, 0 impl, 2825 cont) and 26509 constraints
 original problem has 6621 variables (6620 bin, 0 int, 0 impl, 1 cont) and 721 constraints
-original problem has 769 variables (768 bin, 0 int, 0 impl, 1 cont) and 64 constraints
-original problem has 2756 variables (2756 bin, 0 int, 0 impl, 0 cont) and 729 constraints
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py:741: RuntimeWarning: invalid value encountered in double_scalars
+  primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
+/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py:753: RuntimeWarning: invalid value encountered in double_scalars
+  primal_gap_final_reinforce_ave = primal_gap_final_reinforces.sum() / len(
 /home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py:741: RuntimeWarning: invalid value encountered in double_scalars
   primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
 /home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py:753: RuntimeWarning: invalid value encountered in double_scalars
@@ -147,6 +150,28 @@ firstsol
 symmetric
 seed: 0
 cpu
+miplib_39binary
+firstsolSolution
+scip-baseline primal integral:  5.836412765908415
+localbranch primal integral:  12.11379646360409
+lns-random primal integral:  10.465583338829147
+lns_guided_by_lblp primal integral:  11.68317442517972
+lns_guided_by_lblpmcts primal integral:  10.526096875102379
+rl primal integral:  nan
+
+
+scip-baseline primal gap:  6.302157184899565
+localbranch primal gap:  6.1538871230107
+lns-random primal gap:  8.1227497588972
+lns_guided_by_lblp primal gap:  6.898481753548982
+lns_guided_by_lblpmcts primal gap:  7.0798747542494835
+rl primal gap:  nan
+seed mcts:  0
+miplib_39binary-small
+rootsol
+symmetric
+seed: 0
+cpu
 Traceback (most recent call last):
   File "compute_evaluation_results_scip.py", line 101, in <module>
     run_localbranch.primal_integral_03(
@@ -156,4 +181,4 @@ Traceback (most recent call last):
     binary_file = GzipFile(filename, gz_mode, compresslevel)
   File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 173, in __init__
     fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/miplib_39binary/-small/firstsol/scip/heuristic_mode/lb-from-firstsol-t_total60s-small_lb_k0_rl/seed0/lb-test-miplib_39binary-21_transformed_p2756.pkl'
+FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total60s-small_lb_k0_rl/seed0/lb-test-miplib_39binary-0_transformed_a1c1s1.pkl'
