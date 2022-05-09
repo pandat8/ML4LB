@@ -67,7 +67,7 @@ for i in range(3, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_lb_baseline/seed' + str(seed) + '/'
+                total_time_limit) + 's' + instance_size + '_lb_k0_regression/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
             scip_as_baseline = Execute_LB_Regression(instance_directory,
