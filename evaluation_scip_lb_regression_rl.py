@@ -2,11 +2,13 @@ import ecole
 import numpy as np
 import pyscipopt
 import argparse
-from execute_heuristics import ExecuteHeuristic
+from execute_heuristics import Execute_LB_Regression_RL
 from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 import torch
 import random
 import pathlib
+from models import GNNPolicy
+from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
 
 # Argument setting
 parser = argparse.ArgumentParser()
@@ -29,15 +31,50 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 600 # 60 # 600# 60
+total_time_limit = 60 # 60 # 600# 60
 node_time_limit = 10 #10 # 60 # 5
 is_heuristic = True
-no_improve_iteration_limit = 10 # 3
+no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
+
+lr = 0.01
+
+regression_model_gnn = GNNPolicy()
+regression_model_gnn.load_state_dict(torch.load(regression_model_path))
+
+rl_policy1 = SimplePolicy(7, 4)
+checkpoint = torch.load(rl_model_path)
+rl_policy1.load_state_dict(checkpoint['model_state_dict'])
+
+# rl_policy.load_state_dict(torch.load(
+#     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
+
+rl_policy1.train()
+
+# criterion = nn.CrossEntropyLoss()
+
+optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
+
+
+optim1.load_state_dict(checkpoint['optimizer_state_dict'])
+
+
+greedy = False
+enable_gpu = False
+if enable_gpu:
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+else:
+    device = torch.device('cpu')
+rl_policy1 = rl_policy1.to(device)
+agent1 = AgentReinforce(rl_policy1, device, greedy, optim1, 0.0)
 
 
 for i in range(3, 5):
     instance_type = instancetypes[i]
+    if instance_type == instancetypes[0]:
+        lbconstraint_mode = 'asymmetric'
+    else:
+        lbconstraint_mode = 'symmetric'
 
     for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
@@ -59,14 +96,22 @@ for i in range(3, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
+                total_time_limit) + 's' + instance_size + '_lb_k0_regression_rl/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
-            scip_as_baseline = ExecuteHeuristic(instance_directory,
-                                                solution_directory,
-                                                result_directory,
-                                                no_improve_iteration_limit=no_improve_iteration_limit,
-                                                seed=seed)
+            scip_as_baseline = Execute_LB_Regression_RL(instance_directory,
+                                                   solution_directory,
+                                                   result_directory,
+                                                   lbconstraint_mode=lbconstraint_mode,
+                                                   no_improve_iteration_limit=no_improve_iteration_limit,
+                                                   seed=seed,
+                                                   is_heuristic=is_heuristic,
+                                                   instance_type=instance_type,
+                                                   incumbent_mode=incumbent_mode,
+                                                   regression_model_gnn=regression_model_gnn,
+                                                   agent_k=agent1,
+                                                   optim_k=optim1,
+                                                   )
 
             if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
                 scip_as_baseline.execute_heuristic_baseline(

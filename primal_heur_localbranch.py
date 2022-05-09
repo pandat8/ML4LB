@@ -1,6 +1,7 @@
 from pyscipopt import Model, Heur, SCIP_RESULT, SCIP_PARAMSETTING, SCIP_HEURTIMING
 from utilities import copy_sol, copy_sol_from_subMIP_to_MIP, copy_sol_from_subMIP_to_MIP_heur
 import numpy as np
+import torch
 
 from localbranching import LocalBranching
 
@@ -9,11 +10,12 @@ t_reward_types = ['reward_k', 'reward_k+t']
 
 class HeurLocalbranch(Heur):
 
-    def __init__(self, k_0, node_time_limit, total_time_limit, is_symmetric, is_heuristic, reset_k_at_2nditeration, no_improve_iteration_limit, device, agent_k=None, agent_t=None):
+    def __init__(self, k_0, node_time_limit, total_time_limit, is_symmetric, is_heuristic, reset_k_at_2nditeration, no_improve_iteration_limit, device, agent_k=None, agent_t=None, optim_k=None):
         super().__init__()
         self.k_0 = k_0
         self.agent_k = agent_k
         self.agent_t =agent_t
+        self.optim_k = optim_k
         self.node_time_limit = node_time_limit
         self.total_time_limit  = total_time_limit
         self.is_symmetric = is_symmetric
@@ -21,6 +23,10 @@ class HeurLocalbranch(Heur):
         self.reset_k_at_2nditeration = reset_k_at_2nditeration
         self.device = device
         self.no_improve_iteration_limit = no_improve_iteration_limit
+
+        self.alpha = 0.01
+        self.gamma = 0.99
+        self.eps = np.finfo(np.float32).eps.item()
 
     def heurexec(self, heurtiming, nodeinfeasible):
 
@@ -67,6 +73,9 @@ class HeurLocalbranch(Heur):
             agent_t=self.agent_t,
             optimizer_k=None,
             device=self.device)
+
+        if agent_k is not None:
+            self.agent_k, self.optim_k, R = self.update_agent(agent_k, self.optim_k)
 
         if success_lb:
             return {"result": SCIP_RESULT.FOUNDSOL}
@@ -244,6 +253,34 @@ class HeurLocalbranch(Heur):
         del localbranch.MIP_sol_best
 
         return status, localbranch.MIP_obj_best, elapsed_time, agent_k, agent_t, success
+
+    def update_agent(self, agent, optimizer):
+
+        R = 0
+        policy_losses = []
+        returns = []
+        # calculate the return
+        for r in agent.rewards[::-1]:
+            R = r + self.gamma * R
+            returns.insert(0,R)
+        returns = torch.tensor(returns)
+        returns = (returns - returns.mean()) / (returns.std() + self.eps)
+
+        # calculate loss
+        with torch.set_grad_enabled(optimizer is not None):
+            for log_prob, Return in zip(agent.log_probs, returns):
+                policy_losses.append(-log_prob * Return)
+
+            # optimize policy network
+            if optimizer is not None:
+                optimizer.zero_grad()
+                policy_losses = torch.cat(policy_losses).sum()
+                policy_losses.backward()
+                optimizer.step()
+
+        del agent.rewards[:]
+        del agent.log_probs[:]
+        return agent, optimizer, R
 
 
 
