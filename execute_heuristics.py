@@ -859,11 +859,11 @@ class ExecuteHeuristic:
         fig.suptitle(instance_name + '-' + 'primal gap' , fontsize=13) # instance_name
         ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
         ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
-        ax.plot(t, primalgap_baseline_ave, label='expert policy', color='tab:blue')
-        ax.plot(t, primalgap_lns_random_ave, label='LNS-mutation', color='tab:orange')
-        ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_expert', color='tab:red')
+        ax.plot(t, primalgap_baseline_ave, label='scip-lb', color='tab:blue')
+        ax.plot(t, primalgap_lns_random_ave, label='scip-lb-regression', color='tab:orange')
+        ax.plot(t, primalgap_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        # ax.plot(t, primalgap_lns_lblpmcts_ave, label='lns_guided_by_lblpmcts', color='tab:green')
+        ax.plot(t, primalgap_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
         # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         #
         # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
@@ -875,7 +875,7 @@ class ExecuteHeuristic:
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + incumbent_mode + '.png')
+        plt.savefig('./plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + incumbent_mode + '_scip.png')
         plt.show()
         plt.clf()
 
