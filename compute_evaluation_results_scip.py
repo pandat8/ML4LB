@@ -58,29 +58,22 @@ for i in range(3, 5):
             evaluation_directory = './result/generated_instances/' + instance_type + '/' + instance_size + '/' + incumbent_mode + '/' + 'scip/'
             if is_heuristic:
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
+
             result_directory_4 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
-            pathlib.Path(result_directory_4).mkdir(parents=True, exist_ok=True)
 
             # result directory of localbranch
-            if is_heuristic:
-                evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_lb_baseline/seed' + str(seed) + '/'
 
             # result directory of lns-random, scip-lb-regressiono
 
-            if is_heuristic:
-                evaluation_directory = evaluation_directory + 'heuristic_mode/'
-
             result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_lb_k0_regression/seed' + str(seed) + '/'
 
             # result directory of lns-lb, scip-lb-rl
-            if is_heuristic:
-                evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_lb_k0_rl/seed' + str(seed) + '/'
@@ -95,8 +88,6 @@ for i in range(3, 5):
             # pathlib.Path(result_directory_3).mkdir(parents=True, exist_ok=True)
 
             # result directory of lns-lb-mcts, scip-lb-regression-rl
-            if is_heuristic:
-                evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_lb_k0_regression_rl/seed' + str(seed) + '/'
