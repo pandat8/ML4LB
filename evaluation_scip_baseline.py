@@ -36,7 +36,7 @@ no_improve_iteration_limit = 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(4, 5):
+for i in range(3, 5):
     instance_type = instancetypes[i]
 
     for j in range(0, 2):
