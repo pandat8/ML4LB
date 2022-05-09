@@ -6,7 +6,7 @@ from memory_profiler import profile
 
 from models_rl import SimplePolicy
 import torch
-from utilities import imitation_accuracy
+from utilities import imitation_accuracy, getBestFeasiSol
 import pathlib
 import gzip
 import pickle
@@ -14,7 +14,7 @@ from event import PrimalBoundChangeEventHandler
 
 class LocalBranching:
 
-    def __init__(self, MIP_model, MIP_sol_bar, MIP_vars=None, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True):
+    def __init__(self, MIP_model, MIP_sol_bar, MIP_vars=None, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True, is_heuristic=False):
         self.MIP_model = MIP_model
         self.MIP_vars = MIP_vars
         self.MIP_sol_best = self.copy_solution( self.MIP_model, MIP_sol_bar)
@@ -65,6 +65,8 @@ class LocalBranching:
         self.primalbound_handler = PrimalBoundChangeEventHandler()
         self.MIP_model.includeEventhdlr(self.primalbound_handler, 'primal_bound_update_handler',
                                         'store every new primal bound and its time stamp')
+
+        self.is_heuristic = is_heuristic
 
     def create_subMIP(self):
 
@@ -137,7 +139,8 @@ class LocalBranching:
         if self.first:
             self.subMIP_model.setParam('limits/solutions', 1)
 
-        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+        # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
         self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.FAST)
 
         self.subMIP_model.optimize()
@@ -194,9 +197,17 @@ class LocalBranching:
         subMIP_obj_best = None
 
         if n_sols_subMIP > 0:
-            subMIP_sol_best = self.subMIP_model.getBestSol()
-            subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
-            if subMIP_obj_best < self.MIP_obj_best:
+            # subMIP_sol_best = self.subMIP_model.getBestSol()
+            # subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
+            feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
+            feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
+            assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
+
+            if feasible and subMIP_obj_best < self.MIP_obj_best:
+                self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
+                self.MIP_obj_best = subMIP_obj_best
+                success = True
+
                 primal_bounds = self.primalbound_handler.primal_bounds
                 primal_times = self.primalbound_handler.primal_times
                 self.primal_no_improvement_account = 0
@@ -218,20 +229,21 @@ class LocalBranching:
             self.subMIP_model.freeTransform()
 
             # add the reversed right branch constraint to MIP_model
-            if self.is_symmetric == True:
-                self.rightbranch_reverse(k=self.k)
-            else:
-                self.rightbranch_reverse_asym(k=self.k)
+            if not self.is_heuristic:
+                if self.is_symmetric == True:
+                    self.rightbranch_reverse(k=self.k)
+                else:
+                    self.rightbranch_reverse_asym(k=self.k)
 
             # update best MIP_sol_bar
             self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_bar)
 
             self.MIP_obj_bar = subMIP_obj_best
-            # update MIP_sol_best and best obj of original MIP
-            if subMIP_obj_best < self.MIP_obj_best:
-                self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-                self.MIP_obj_best = subMIP_obj_best
-                success = True
+            # # update MIP_sol_best and best obj of original MIP
+            # if subMIP_obj_best < self.MIP_obj_best:
+            #     self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
+            #     self.MIP_obj_best = subMIP_obj_best
+            #     success = True
 
             self.diversify = False
             self.first = False
@@ -244,10 +256,11 @@ class LocalBranching:
 
             self.subMIP_model.freeTransform()
             # add the reversed right branch constraint to MIP_model
-            if self.is_symmetric == True:
-                self.rightbranch_reverse(k=self.k)
-            else:
-                self.rightbranch_reverse_asym(k=self.k)
+            if not self.is_heuristic:
+                if self.is_symmetric == True:
+                    self.rightbranch_reverse(k=self.k)
+                else:
+                    self.rightbranch_reverse_asym(k=self.k)
 
             state[0:5] = [0, 1, 0, 0, 0]
 
@@ -271,10 +284,11 @@ class LocalBranching:
                 self.subMIP_model.freeTransform()
                 if not self.first:
                     # add the reversed right branch constraint to exclude MIP_sol_bar
-                    if self.is_symmetric == True:
-                        self.rightbranch_reverse(k=0.0)
-                    else:
-                        self.rightbranch_reverse_asym(k=0.0)
+                    if not self.is_heuristic:
+                        if self.is_symmetric == True:
+                            self.rightbranch_reverse(k=0.0)
+                        else:
+                            self.rightbranch_reverse_asym(k=0.0)
 
                 # to do: refine best solution
 
@@ -282,11 +296,11 @@ class LocalBranching:
 
                 self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_bar)
                 self.MIP_obj_bar = subMIP_obj_best
-                # update best obj of original MIP
-                if subMIP_obj_best < self.MIP_obj_best:
-                    self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-                    self.MIP_obj_best = subMIP_obj_best
-                    success = True
+                # # update best obj of original MIP
+                # if subMIP_obj_best < self.MIP_obj_best:
+                #     self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
+                #     self.MIP_obj_best = subMIP_obj_best
+                #     success = True
 
                 self.diversify = False
                 self.first = False
@@ -303,10 +317,11 @@ class LocalBranching:
 
                 if self.diversify:
                     # to do: add the reversed right branch constraint to exclude MIP_sol_bar
-                    if self.is_symmetric == True:
-                        self.rightbranch_reverse(k=0.0)
-                    else:
-                        self.rightbranch_reverse_asym(k=0.0)
+                    if not self.is_heuristic:
+                        if self.is_symmetric == True:
+                            self.rightbranch_reverse(k=0.0)
+                        else:
+                            self.rightbranch_reverse_asym(k=0.0)
 
                     self.div += 1
                     # node_time_limit = self.subMIP_model.infinity()
