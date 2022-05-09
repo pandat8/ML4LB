@@ -14,8 +14,9 @@ from event import PrimalBoundChangeEventHandler
 
 class LocalBranching:
 
-    def __init__(self, MIP_model, MIP_sol_bar, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True):
+    def __init__(self, MIP_model, MIP_sol_bar, MIP_vars=None, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True):
         self.MIP_model = MIP_model
+        self.MIP_vars = MIP_vars
         self.MIP_sol_best = self.copy_solution( self.MIP_model, MIP_sol_bar)
         self.MIP_obj_best = self.MIP_model.getSolObjVal(self.MIP_sol_best)
         self.MIP_obj_init = self.MIP_obj_best # initial obj before adapting k
@@ -31,7 +32,7 @@ class LocalBranching:
         self.total_time_limit = total_time_limit
         self.total_time_available = self.total_time_limit
         self.total_time_expired = 0
-        self.div_max = 3
+        self.div_max = 2 #3
         self.default_k = k
         self.eps = eps = .0000001
         self.t_node = self.default_node_time_limit
@@ -143,6 +144,8 @@ class LocalBranching:
 
     def step_localbranch(self, k_action, t_action, lb_bits, enable_adapt_t=False):
 
+        success = False
+
         self.k = self.update_k(k_action, self.k_stepsize)
         self.t_node = self.update_t(t_action, self.t_stepsize)
 
@@ -228,6 +231,7 @@ class LocalBranching:
             if subMIP_obj_best < self.MIP_obj_best:
                 self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
                 self.MIP_obj_best = subMIP_obj_best
+                success = True
 
             self.diversify = False
             self.first = False
@@ -282,6 +286,7 @@ class LocalBranching:
                 if subMIP_obj_best < self.MIP_obj_best:
                     self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
                     self.MIP_obj_best = subMIP_obj_best
+                    success = True
 
                 self.diversify = False
                 self.first = False
@@ -376,10 +381,10 @@ class LocalBranching:
         reward_t = + t_leftbranch / t_node
 
         done = (self.total_time_available <= 0) or (self.k >= self.n_binvars)
-        info = None
+        # info = None
 
         self.total_time_expired += t_leftbranch
-        return state, reward_k, reward_t, done, info
+        return state, reward_k, reward_t, done, success# info
 
     def solve_rightbranch(self):
         """

@@ -61,6 +61,56 @@ def copy_sol(mip_original, mip_target, sol, mip_target_vars):
         print("Error: the trivial solution of " + mip_target.getProbName() + " is not feasible!")
     return mip_target, sol_mip_target
 
+def copy_sol_from_subMIP_to_MIP(subMIP_model, MIP_model, sol_subMIP, subMIP_vars, check_feasibility=True, add_sol=True):
+    """
+    copy the sol of original MIP to target MIP(copy of mip original)
+    :param subMIP_model:
+    :param MIP_model:
+    :param sol_subMIP:
+    :param mip_target_vars:
+    :return:
+    """
+
+    # print("start copying solution of subMIP to MIP")
+    if check_feasibility:
+        feasible = subMIP_model.checkSol(solution=sol_subMIP)
+        assert feasible, "Error: the trivial solution of the subMIP model " + subMIP_model.getProbName() + " is not feasible!"
+
+    sol_mip_target = MIP_model.createSol()
+    # print("a new solution is initialized!")
+
+    # create a primal solution for the copy MIP by copying the solution of original MIP
+    n_vars = MIP_model.getNVars()
+    MIP_vars = MIP_model.getVars()
+    # print('Number of variables in subMIP_vars vector', len(subMIP_vars))
+    # print("Number of bin variables subMIP", subMIP_model.getNBinVars())
+    # print("Number of variables original MIP", MIP_model.getNVars())
+    # print("Number of bin variables original MIP", MIP_model.getNBinVars())
+    for j in range(n_vars):
+        val = subMIP_model.getSolVal(sol_subMIP, subMIP_vars[j])
+        MIP_model.setSolVal(sol_mip_target, MIP_vars[j], val)
+    if check_feasibility:
+        feasible = MIP_model.checkSol(solution=sol_mip_target)
+    else:
+        feasible = True
+
+    # assert feasible, "Error: the trivial solution of the target problem " + MIP_model.getProbName() + " is not feasible!"
+
+    # if feasible:
+    #     print('copied solution from subMIP is feasible for master MIP')
+    if add_sol and feasible:
+        MIP_model.addSol(sol_mip_target, False)
+    # print('Obj of master MIP: ', MIP_model.getSolObjVal(sol_mip_target))
+    # print("the feasible solution of " + subMIP_model.getProbName() + " is added to original MIP model!")
+
+    # if feasible:
+    #     MIP_model.addSol(sol_mip_target, False)
+    #     print("the feasible solution of " + MIP_model.getProbName() + " is added to original MIP model")
+    # else:
+    #     print("Error: the trivial solution of " + MIP_model.getProbName() + " is not feasible!")
+    return MIP_model, sol_mip_target, feasible
+
+
 def binary_support(mip, sol):
     n_binvars = mip.getNBinVars()
     vars = mip.getVars()
@@ -142,3 +192,48 @@ def haming_distance_solutions_asym(mip_model, sol1, sol2):
             delta += np.abs(val1 - val2)
 
     return delta
+
+def getBestFeasiSol(mip_model):
+    """
+    check the solutions of the given scip MIP model, and return the best feasible solution
+    :param mip_model:
+    :return:
+    """
+
+    obj_best = None
+    sol_best = None
+    feasible = False
+    n_sols = mip_model.getNSols()
+
+    # sols = subMIP_model.getSols()
+    # for i in range(len(sols)):
+    #     print(subMIP_model.getSolObjVal(sols[i]))
+    # print(self.primalbound_handler.primal_bounds)
+
+    mip_model.freeTransform()
+
+    if n_sols > 0:
+        sol_best_candidate = mip_model.getBestSol()
+        # print('sub-MIP obj : ', mip_model.getObjVal())
+        # print('original sub-MIP best objective: ', mip_model.getSolObjVal(sol_best_candidate))
+        feasible = mip_model.checkSol(solution=sol_best_candidate)
+        # By unknown numerical reasons, some primal solutions of scip MIP model might be not feasible,
+        # so we need to check them from best to worst, and stop until a feasible one is found.
+        # For example, if the best solution of MIP is not feasible, try the other solutions until a feasible one is found
+
+        if not feasible:
+            sols = mip_model.getSols()
+            for i in range(len(sols)):
+                feasible = mip_model.checkSol(solution=sols[i])
+                if feasible:
+                    sol_best = sols[i]
+                    obj_best = mip_model.getSolObjVal(sol_best)
+                    break
+            if not feasible:
+                "Warning: There is no feasible solution from given MIP model!"
+            del sols
+        else:
+            sol_best = sol_best_candidate
+            obj_best = mip_model.getSolObjVal(sol_best)
+
+    return feasible, sol_best, obj_best
