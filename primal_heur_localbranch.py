@@ -1,5 +1,5 @@
 from pyscipopt import Model, Heur, SCIP_RESULT, SCIP_PARAMSETTING, SCIP_HEURTIMING
-from utilities import copy_sol, copy_sol_from_subMIP_to_MIP
+from utilities import copy_sol, copy_sol_from_subMIP_to_MIP, copy_sol_from_subMIP_to_MIP_heur
 import numpy as np
 
 from localbranching import LocalBranching
@@ -9,15 +9,18 @@ t_reward_types = ['reward_k', 'reward_k+t']
 
 class HeurLocalbranch(Heur):
 
-    def __init__(self, k_0, agent_k, node_time_limit, total_time_limit, is_symmetric, reset_k_at_2nditeration, device):
+    def __init__(self, k_0, node_time_limit, total_time_limit, is_symmetric, is_heuristic, reset_k_at_2nditeration, no_improve_iteration_limit, device, agent_k=None, agent_t=None):
         super().__init__()
         self.k_0 = k_0
         self.agent_k = agent_k
+        self.agent_t =agent_t
         self.node_time_limit = node_time_limit
         self.total_time_limit  = total_time_limit
         self.is_symmetric = is_symmetric
+        self.is_heuristic = is_heuristic
         self.reset_k_at_2nditeration = reset_k_at_2nditeration
         self.device = device
+        self.no_improve_iteration_limit = no_improve_iteration_limit
 
     def heurexec(self, heurtiming, nodeinfeasible):
 
@@ -25,25 +28,43 @@ class HeurLocalbranch(Heur):
         assert (incumbent_solution is not None), 'initial solution of LB is None'
         assert self.model.checkSol(incumbent_solution), 'initial solution of LB is not feasible'
 
-        self.model.resetParams()
+        feas = self.model.checkSol(incumbent_solution)
+        if feas:
+            print('The init sol of original MIP is feasible')
+        else:
+            print('Error: The init sol of original MIP is not feasible!')
+        # self.model.resetParams()
 
-        MIP_model_copy, MIP_copy_vars, success = self.model.createCopy(
-            problemName='lb-subMIP',
-            origcopy=False)
+        n_binvars = self.model.getNBinVars()
+        fixed_vals = np.empty(n_binvars)
+        fixed_vars = np.empty(n_binvars, dtype=np.object)
+        MIP_model_copy, MIP_copy_vars, success = self.model.createCopyMipLns(fixed_vars, fixed_vals, 0, uselprows=False,
+                                                                  copycuts=True)
+
+        # MIP_model_copy, MIP_copy_vars, success = self.model.createCopy(
+        #     problemName='lb-subMIP',
+        #     origcopy=False)
 
         MIP_model_copy, sol_MIP_copy = copy_sol(self.model, MIP_model_copy, incumbent_solution,
                                                   MIP_copy_vars)
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
-        lb = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, MIP_vars=MIP_copy_vars, k=self.k_0,
-                                   node_time_limit=self.node_time_limit,
-                                   total_time_limit=self.total_time_limit)
+        lb = LocalBranching(MIP_model=MIP_model_copy,
+                            MIP_sol_bar=sol_MIP_copy,
+                            MIP_vars=MIP_copy_vars,
+                            k=self.k_0,
+                            node_time_limit=self.node_time_limit,
+                            total_time_limit=self.total_time_limit,
+                            is_symmetric=self.is_symmetric,
+                            is_heuristic=self.is_heuristic
+                            )
 
         status, obj_best, elapsed_time, agent_k, _, success_lb = self.mdp_localbranch(
             localbranch=lb,
             is_symmetric=self.is_symmetric,
             reset_k_at_2nditeration=self.reset_k_at_2nditeration,
             agent_k=self.agent_k,
+            agent_t=self.agent_t,
             optimizer_k=None,
             device=self.device)
 
@@ -84,9 +105,10 @@ class HeurLocalbranch(Heur):
         lb_bits += 1
         state, reward_k, reward_time, done, success_step = localbranch.step_localbranch(k_action=k_action, t_action=t_action,
                                                                              lb_bits=lb_bits)
+        done = done or (localbranch.primal_no_improvement_account > self.no_improve_iteration_limit - 1)
 
         if success_step and (localbranch.MIP_vars is not None):
-            self.model, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model,
+            _, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model,
                                                                   localbranch.MIP_sol_best, localbranch.MIP_vars)
             if feasible:
                 success = True
@@ -109,8 +131,9 @@ class HeurLocalbranch(Heur):
             state, reward_k, reward_time, done, success_step = localbranch.step_localbranch(k_action=k_action,
                                                                                  t_action=t_action,
                                                                                  lb_bits=lb_bits)
+            done = done or (localbranch.primal_no_improvement_account > self.no_improve_iteration_limit - 1)
             if success_step and (localbranch.MIP_vars is not None) :
-                self.model, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model, localbranch.MIP_sol_best, localbranch.MIP_vars)
+                _, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model, localbranch.MIP_sol_best, localbranch.MIP_vars)
                 if feasible:
                     success = True
 
@@ -150,8 +173,10 @@ class HeurLocalbranch(Heur):
             state, reward_k, reward_time, done, success_step = localbranch.step_localbranch(k_action=k_action,
                                                                                  t_action=t_action, lb_bits=lb_bits,
                                                                                  enable_adapt_t=enable_adapt_t)
+            done = done or (localbranch.primal_no_improvement_account > self.no_improve_iteration_limit - 1)
             if success_step and (localbranch.MIP_vars is not None) :
-                self.model, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model, localbranch.MIP_sol_best, localbranch.MIP_vars)
+                _, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model, localbranch.MIP_sol_best, localbranch.MIP_vars)
+
                 if feasible:
                     success = True
 
