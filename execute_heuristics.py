@@ -496,7 +496,7 @@ class ExecuteHeuristic:
             index_max = 115
         elif instance_type == instancetypes[4]:
             index_mix = 0
-            index_max = 30 # 30
+            index_max = 20 # 30
 
         for i in range(index_mix,index_max):
 
