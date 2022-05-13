@@ -858,7 +858,7 @@ class ExecuteHeuristic:
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(instance_name + '-' + 'primal gap' , fontsize=13) # instance_name
         ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
-        # ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
         ax.plot(t, primalgap_baseline_ave, label='scip-lb', color='tab:blue')
         ax.plot(t, primalgap_lns_random_ave, label='scip-lb-regression', color='tab:orange')
         ax.plot(t, primalgap_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
