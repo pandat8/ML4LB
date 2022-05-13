@@ -30,7 +30,7 @@ random.seed(seed)
 samples_time_limit = 3
 
 total_time_limit = 60 # 60 # 600# 60
-node_time_limit = 10 #10 # 60 # 5
+node_time_limit = 3 #10 # 60 # 5
 is_heuristic = True
 no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
@@ -63,7 +63,7 @@ for i in range(3, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_lb_baseline/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
             scip_as_baseline = Execute_LB_Baseline(instance_directory,
