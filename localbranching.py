@@ -140,8 +140,8 @@ class LocalBranching:
             self.subMIP_model.setParam('limits/solutions', 1)
 
         # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
-        self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.FAST)
+        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+        self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.OFF)
 
         self.subMIP_model.optimize()
 
