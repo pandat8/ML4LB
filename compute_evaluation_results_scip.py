@@ -31,7 +31,7 @@ random.seed(seed)
 samples_time_limit = 3
 
 total_time_limit = 600
-node_time_limit = 10
+node_time_limit = 3
 is_heuristic = True
 
 for i in range(3, 5):
@@ -65,17 +65,17 @@ for i in range(3, 5):
             # result directory of localbranch
 
             result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_lb_baseline/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline/seed' + str(seed) + '/'
 
             # result directory of lns-random, scip-lb-regressiono
 
             result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_lb_k0_regression/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' +  instance_size + '_lb_k0_regression/seed' + str(seed) + '/'
 
             # result directory of lns-lb, scip-lb-rl
 
             result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_lb_k0_rl/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl/seed' + str(seed) + '/'
 
             # # result directory of lns-lblp
             # evaluation_directory = './result/generated_instances/' + instance_type + '/' + instance_size + '/' + incumbent_mode + '/' + 'lns' + '/'
@@ -89,7 +89,7 @@ for i in range(3, 5):
             # result directory of lns-lb-mcts, scip-lb-regression-rl
 
             result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_lb_k0_regression_rl/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl/seed' + str(seed) + '/'
 
             source_directory = './data/generated_instances/' + instance_type + '/' + instance_size + '/'
             instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
