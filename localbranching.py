@@ -36,8 +36,8 @@ class LocalBranching:
         self.default_k = k
         self.eps = eps = .0000001
         self.t_node = self.default_node_time_limit
-        self.t_node_lowerbound = 10
-        self.t_node_upperbound = 80
+        self.t_node_lowerbound = 0.1
+        self.t_node_upperbound = 20
         self.k = k
         self.k_lowerbound = 10
         self.first = False
@@ -140,7 +140,7 @@ class LocalBranching:
             self.subMIP_model.setParam('limits/solutions', 1)
 
         # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
         self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.OFF)
 
         self.subMIP_model.optimize()
@@ -204,8 +204,8 @@ class LocalBranching:
             assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
 
             if feasible and subMIP_obj_best < self.MIP_obj_best:
-                self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-                self.MIP_obj_best = subMIP_obj_best
+                self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
+                self.MIP_obj_best = subMIP_obj_best # self.MIP_model.getSolObjVal(self.MIP_sol_best)
                 success = True
 
                 primal_bounds = self.primalbound_handler.primal_bounds
