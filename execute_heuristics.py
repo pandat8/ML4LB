@@ -289,6 +289,7 @@ class ExecuteHeuristic:
         # call and execute heuristic search for the given instance
         data = self.execute_heuristic_per_instance(MIP_model, incumbent, node_time_limit,
                                                           total_time_limit)
+        print(data)
 
         # objs = np.array(objs).reshape(-1)
         # times = np.array(times).reshape(-1)
@@ -1489,11 +1490,13 @@ class Execute_LB_Baseline(ExecuteHeuristic):
                               "PyHeur_LB_baseline",
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
+                              priority=-130000,
                               freq=0,
                               freqofs=0,
                               maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERLPNODE,
+                              timingmask=SCIP_HEURTIMING.AFTERNODE, # SCIP_HEURTIMING.AFTERLPNODE
                               usessubscip=True,
+
                               )
 
         MIP_model.setParam('limits/time', total_time_limit)
@@ -1744,14 +1747,15 @@ class Execute_LB_Regression(ExecuteHeuristic):
 
         heuristic = HeurLocalbranch(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
         MIP_model_copy2.includeHeur(heuristic,
-                              "PyHeur_LB_baseline",
-                              "Localbranching baseline heuristic implemented in python",
-                              "Y",
-                              freq=0,
-                              freqofs=0,
-                              maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERLPNODE,
-                              usessubscip=True,
+                                    "PyHeur_LB_baseline",
+                                    "Localbranching baseline heuristic implemented in python",
+                                    "Y",
+                                    priority=-130000,
+                                    freq=0,
+                                    freqofs=0,
+                                    maxdepth=-1,
+                                    timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                                    usessubscip=True,
                               )
 
         MIP_model_copy2.setParam('limits/time', total_time_limit)
@@ -1844,10 +1848,11 @@ class Execute_LB_RL(ExecuteHeuristic):
                               "PyHeur_LB_baseline",
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
+                              priority=-130000,
                               freq=0,
                               freqofs=0,
                               maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERLPNODE,
+                              timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
                               usessubscip=True,
                               )
 
@@ -2099,14 +2104,15 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
 
         heuristic = HeurLocalbranch(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
         MIP_model_copy2.includeHeur(heuristic,
-                              "PyHeur_LB_baseline",
-                              "Localbranching baseline heuristic implemented in python",
-                              "Y",
-                              freq=0,
-                              freqofs=0,
-                              maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERLPNODE,
-                              usessubscip=True,
+                                    "PyHeur_LB_baseline",
+                                    "Localbranching baseline heuristic implemented in python",
+                                    "Y",
+                                    priority=-130000,
+                                    freq=0,
+                                    freqofs=0,
+                                    maxdepth=-1,
+                                    timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                                    usessubscip=True,
                               )
 
         MIP_model_copy2.setParam('limits/time', total_time_limit)

@@ -30,9 +30,17 @@ class HeurLocalbranch(Heur):
 
     def heurexec(self, heurtiming, nodeinfeasible):
 
+        print('LB heuristic is starting..')
+        lb_start_time = self.model.getSolvingTime()
+        print('LB heuristic starts at {} s'.format(str(lb_start_time)))
+
         incumbent_solution = self.model.getBestSol()
+
         assert (incumbent_solution is not None), 'initial solution of LB is None'
         assert self.model.checkSol(incumbent_solution), 'initial solution of LB is not feasible'
+
+        lb_start_obj = self.model.getSolObjVal(incumbent_solution)
+        print('LB initial objective:', lb_start_obj)
 
         feas = self.model.checkSol(incumbent_solution)
         if feas:
@@ -77,10 +85,20 @@ class HeurLocalbranch(Heur):
         if agent_k is not None:
             self.agent_k, self.optim_k, R = self.update_agent(agent_k, self.optim_k)
 
+        lb_start_time = self.model.getSolvingTime()
+        print('LB heuristic finishes at {} s'.format(str(lb_start_time)))
+
         if success_lb:
+            print('LB heurisitc succeeds, finds an improving solution')
+            incumbent_solution = self.model.getBestSol()
+            lb_final_obj = self.model.getSolObjVal(incumbent_solution)
+            print('LB final objective:', lb_final_obj)
+
             return {"result": SCIP_RESULT.FOUNDSOL}
         else:
+            print('LB heurisitc fails, can not find an improving solution')
             return {"result": SCIP_RESULT.DIDNOTFIND}
+
 
     def mdp_localbranch(self, localbranch=None, is_symmetric=True, reset_k_at_2nditeration=False, agent_k=None,
                         optimizer_k=None, agent_t=None, optimizer_t=None, device=None, enable_adapt_t=False,
