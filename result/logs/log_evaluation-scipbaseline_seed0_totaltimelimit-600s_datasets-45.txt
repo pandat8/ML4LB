@@ -125,3 +125,2815 @@ original problem has 1372 variables (1372 bin, 0 int, 0 impl, 0 cont) and 4944 c
 original problem has 14101 variables (14101 bin, 0 int, 0 impl, 0 cont) and 1739 constraints
 original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 constraints
 original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
+original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
+original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+generalized_independentset-small
+firstsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of generalized_independentset-80_transformed is successfully added to MIP model
+generalized_independentset-80_transformed
+N of variables: 11923
+N of binary vars: 11923
+N of constraints: 15151
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-80_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9854.0
+Solving time:  600.008438
+
+
+[array([    0., -4200., -4500., -5827., -5930., -6138., -6238., -8674.,
+       -9854.]), array([  0.      ,   0.218105,   0.226997,  31.367599,  31.380509,
+        31.393332,  82.973336, 172.139704, 172.156916])]
+instance:  1
+create a new SCIP model
+The initial incumbent of generalized_independentset-81_transformed is successfully added to MIP model
+generalized_independentset-81_transformed
+N of variables: 1863
+N of binary vars: 1863
+N of constraints: 2212
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-81_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8700.0
+Solving time:  92.129067
+
+
+[array([    0., -3300., -3600., -4041., -4138., -4142., -4238., -6908.,
+       -7825., -8144., -8233., -8240., -8241., -8248., -8331., -8333.,
+       -8425., -8434., -8435., -8512., -8516., -8518., -8605., -8606.,
+       -8612., -8700.]), array([0.0000000e+00, 2.2813000e-02, 2.3606000e-02, 1.5127020e+00,
+       1.5153330e+00, 1.5182110e+00, 1.5208360e+00, 1.5247910e+00,
+       6.3014380e+00, 6.3619540e+00, 1.6465984e+01, 1.6493568e+01,
+       1.6523179e+01, 1.6529950e+01, 1.6805875e+01, 1.6828671e+01,
+       3.2889717e+01, 4.5665577e+01, 5.1463559e+01, 5.5985880e+01,
+       5.6050537e+01, 5.6749758e+01, 5.7033415e+01, 5.7040746e+01,
+       5.7365386e+01, 6.2261825e+01])]
+instance:  2
+create a new SCIP model
+The initial incumbent of generalized_independentset-82_transformed is successfully added to MIP model
+generalized_independentset-82_transformed
+N of variables: 1031
+N of binary vars: 1031
+N of constraints: 1176
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-82_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7332.0
+Solving time:  8.276026
+
+
+[array([    0., -3200., -3400., -4193., -4294., -4297., -4400., -4403.,
+       -4601., -5013., -6459., -7224., -7232., -7325., -7332.]), array([0.      , 0.012775, 0.013287, 0.564983, 0.566382, 0.567919,
+       0.569159, 0.570909, 0.572492, 0.574269, 0.57554 , 2.447173,
+       2.477288, 2.821274, 2.832049])]
+instance:  3
+create a new SCIP model
+The initial incumbent of generalized_independentset-83_transformed is successfully added to MIP model
+generalized_independentset-83_transformed
+N of variables: 2799
+N of binary vars: 2799
+N of constraints: 3420
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-83_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9629.0
+Solving time:  600.00119
+
+
+[array([    0., -3700., -4000., -6634., -6734., -7409., -7511., -7520.,
+       -7604., -7605., -7608., -7610., -7613., -7880., -7896., -7904.,
+       -7905., -7912., -7915., -7917., -7918., -7964., -7990., -8084.,
+       -8160., -8162., -8163., -8249., -8266., -8267., -8273., -8274.,
+       -8355., -8357., -8435., -8441., -8450., -9175., -9176., -9178.,
+       -9262., -9353., -9354., -9363., -9441., -9442., -9443., -9542.,
+       -9614., -9625., -9628., -9629.]), array([0.00000000e+00, 4.29280000e-02, 4.43300000e-02, 3.25848100e+00,
+       5.02967000e+00, 2.04047620e+01, 2.04441050e+01, 2.04476180e+01,
+       2.04690830e+01, 2.08701700e+01, 2.11470220e+01, 2.14321960e+01,
+       2.31889410e+01, 5.05275560e+01, 7.41856730e+01, 7.74933660e+01,
+       7.75307890e+01, 7.77618100e+01, 8.07151960e+01, 8.07370860e+01,
+       8.07513830e+01, 8.09033690e+01, 8.12979380e+01, 8.39213580e+01,
+       9.74821900e+01, 1.01637633e+02, 1.01697533e+02, 1.01729728e+02,
+       1.08289757e+02, 1.08312734e+02, 1.08874871e+02, 1.08989323e+02,
+       1.16769267e+02, 1.20028551e+02, 1.31657045e+02, 1.35204163e+02,
+       1.37505044e+02, 1.47588734e+02, 1.48116844e+02, 1.48311916e+02,
+       1.59724641e+02, 1.60262517e+02, 1.62260321e+02, 1.62555546e+02,
+       1.69271416e+02, 1.71260538e+02, 1.71264823e+02, 2.11493154e+02,
+       2.15686398e+02, 2.16000549e+02, 2.16465274e+02, 2.26428734e+02])]
+instance:  4
+create a new SCIP model
+The initial incumbent of generalized_independentset-84_transformed is successfully added to MIP model
+generalized_independentset-84_transformed
+N of variables: 945
+N of binary vars: 945
+N of constraints: 1099
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-84_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -6842.0
+Solving time:  10.815639000000001
+
+
+[array([    0., -3200., -3300., -5790., -5818., -6551., -6553., -6629.,
+       -6630., -6718., -6721., -6724., -6725., -6726., -6731., -6752.,
+       -6753., -6756., -6824., -6825., -6840., -6842.]), array([ 0.      ,  0.012023,  0.012444,  0.699501,  2.846766,  2.856109,
+        2.912393,  7.129774,  7.203798,  7.388354,  7.390723,  8.553938,
+        8.557455,  8.791336,  9.297539,  9.623358,  9.791226,  9.793271,
+        9.861136, 10.247062, 10.284371, 10.398946])]
+instance:  5
+create a new SCIP model
+The initial incumbent of generalized_independentset-85_transformed is successfully added to MIP model
+generalized_independentset-85_transformed
+N of variables: 8065
+N of binary vars: 8065
+N of constraints: 10215
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-85_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9831.0
+Solving time:  600.003873
+
+
+[array([    0., -4000., -4300., -4557., -4562., -4568., -5196., -5408.,
+       -6161., -6261., -6429., -6542., -8331., -9532., -9635., -9651.,
+       -9740., -9743., -9744., -9745., -9831.]), array([0.00000000e+00, 1.38811000e-01, 1.45248000e-01, 1.27290470e+01,
+       1.27376060e+01, 1.27459830e+01, 1.27541310e+01, 1.27615060e+01,
+       7.51384700e+01, 7.51589740e+01, 1.32797724e+02, 1.32810570e+02,
+       1.44425947e+02, 1.44440136e+02, 4.13300113e+02, 4.13451393e+02,
+       4.21346210e+02, 4.21445552e+02, 4.21623070e+02, 4.21667546e+02,
+       4.37501304e+02])]
+instance:  6
+create a new SCIP model
+The initial incumbent of generalized_independentset-86_transformed is successfully added to MIP model
+generalized_independentset-86_transformed
+N of variables: 575
+N of binary vars: 575
+N of constraints: 615
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-86_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -5682.0
+Solving time:  1.6245889999999998
+
+
+[array([    0., -2400., -2600., -2666., -3438., -5588., -5591., -5682.]), array([0.      , 0.00882 , 0.009131, 0.148885, 0.170814, 0.172065,
+       1.430629, 1.589769])]
+instance:  7
+create a new SCIP model
+The initial incumbent of generalized_independentset-87_transformed is successfully added to MIP model
+generalized_independentset-87_transformed
+N of variables: 14034
+N of binary vars: 14034
+N of constraints: 17998
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-87_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10007.0
+Solving time:  600.005375
+
+
+[array([     0.,  -4400.,  -4900.,  -5392.,  -5492.,  -5693.,  -5793.,
+       -10007.]), array([  0.      ,   0.357518,   0.375697,  41.228928,  73.945762,
+       291.401992, 291.467187, 308.79751 ])]
+instance:  8
+create a new SCIP model
+The initial incumbent of generalized_independentset-88_transformed is successfully added to MIP model
+generalized_independentset-88_transformed
+N of variables: 5012
+N of binary vars: 5012
+N of constraints: 6317
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-88_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -8916.0
+Solving time:  600.004795
+
+
+[array([    0., -4200., -4400., -5951., -6066., -6535., -8152., -8367.,
+       -8397., -8741., -8807., -8809., -8814., -8817., -8823., -8826.,
+       -8892., -8896., -8916.]), array([0.00000000e+00, 9.34560000e-02, 9.79710000e-02, 9.16825500e+00,
+       9.17509800e+00, 9.18671110e+01, 9.18774560e+01, 1.66661928e+02,
+       1.97465390e+02, 3.54596045e+02, 3.68303661e+02, 3.68341016e+02,
+       3.72339544e+02, 3.73051495e+02, 3.74133942e+02, 3.80865407e+02,
+       4.12259420e+02, 4.12493921e+02, 4.24122284e+02])]
+instance:  9
+create a new SCIP model
+The initial incumbent of generalized_independentset-89_transformed is successfully added to MIP model
+generalized_independentset-89_transformed
+N of variables: 9987
+N of binary vars: 9987
+N of constraints: 12702
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-89_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10350.0
+Solving time:  600.001138
+
+
+[array([     0.,  -4400.,  -4800.,  -5768.,  -5868.,  -6939.,  -9571.,
+       -10350.]), array([  0.      ,   0.224709,   0.23627 ,  21.655202,  39.894864,
+       180.768159, 190.236424, 190.253852])]
+instance:  10
+create a new SCIP model
+The initial incumbent of generalized_independentset-90_transformed is successfully added to MIP model
+generalized_independentset-90_transformed
+N of variables: 1894
+N of binary vars: 1894
+N of constraints: 2223
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-90_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8800.0
+Solving time:  154.661123
+
+
+[array([    0., -3400., -3500., -7399., -7486., -8229., -8231., -8241.,
+       -8321., -8328., -8329., -8333., -8334., -8350., -8351., -8424.,
+       -8425., -8426., -8427., -8602., -8603., -8606., -8699., -8704.,
+       -8706., -8710., -8800.]), array([0.00000000e+00, 2.47210000e-02, 2.55620000e-02, 1.56310900e+00,
+       8.69739400e+00, 8.70248200e+00, 8.72670400e+00, 9.29373700e+00,
+       1.66843290e+01, 1.68875370e+01, 1.68996250e+01, 1.76522750e+01,
+       1.89494520e+01, 2.26696750e+01, 2.26725290e+01, 2.45903560e+01,
+       2.56535270e+01, 2.56657960e+01, 3.02127800e+01, 3.02827470e+01,
+       3.03176860e+01, 3.03315190e+01, 3.61797280e+01, 5.65358660e+01,
+       5.65452130e+01, 5.78340770e+01, 1.53368918e+02])]
+instance:  11
+create a new SCIP model
+The initial incumbent of generalized_independentset-91_transformed is successfully added to MIP model
+generalized_independentset-91_transformed
+N of variables: 1678
+N of binary vars: 1678
+N of constraints: 2004
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-91_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8077.0
+Solving time:  162.266432
+
+
+[array([    0., -3800., -4126., -4424., -4629., -4834., -5038., -5140.,
+       -5239., -5865., -7018., -7110., -7111., -7316., -7329., -7417.,
+       -7492., -7573., -7576., -7585., -7589., -7595., -7604., -7615.,
+       -7617., -7618., -7697., -7698., -7699., -7787., -7788., -7790.,
+       -7871., -7880., -7882., -7884., -7885., -7886., -7969., -7979.,
+       -7993., -8063., -8077.]), array([0.0000000e+00, 2.2678000e-02, 1.2818110e+00, 1.2839820e+00,
+       1.2856880e+00, 1.2874760e+00, 1.2892950e+00, 1.2909570e+00,
+       1.2927200e+00, 1.2944050e+00, 8.0729850e+00, 8.0937220e+00,
+       8.1009040e+00, 1.1622588e+01, 1.2364110e+01, 1.5062433e+01,
+       1.5741748e+01, 1.6330352e+01, 1.6459974e+01, 2.9591616e+01,
+       2.9599452e+01, 2.9602262e+01, 2.9610480e+01, 3.4214259e+01,
+       3.4240991e+01, 3.4766811e+01, 6.0709772e+01, 6.0717816e+01,
+       6.0741619e+01, 6.1263241e+01, 6.1304640e+01, 6.1314596e+01,
+       6.4184068e+01, 6.7697413e+01, 6.9811470e+01, 7.0797708e+01,
+       7.1662744e+01, 7.1671525e+01, 7.2724712e+01, 7.8974713e+01,
+       7.9213405e+01, 8.3010167e+01, 8.3017908e+01])]
+instance:  12
+create a new SCIP model
+The initial incumbent of generalized_independentset-92_transformed is successfully added to MIP model
+generalized_independentset-92_transformed
+N of variables: 1821
+N of binary vars: 1821
+N of constraints: 2155
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-92_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8346.0
+Solving time:  268.900654
+
+
+[array([    0., -3300., -3600., -7571., -7868., -7876., -7956., -7957.,
+       -7958., -8048., -8136., -8141., -8144., -8236., -8321., -8346.]), array([0.00000000e+00, 2.98340000e-02, 3.10740000e-02, 1.65117500e+00,
+       5.72523100e+00, 5.87090200e+00, 1.79382570e+01, 1.79847920e+01,
+       1.79932720e+01, 1.98409600e+01, 7.83437570e+01, 7.91840060e+01,
+       7.92551340e+01, 7.95858760e+01, 8.00169560e+01, 1.63184218e+02])]
+instance:  13
+create a new SCIP model
+The initial incumbent of generalized_independentset-93_transformed is successfully added to MIP model
+generalized_independentset-93_transformed
+N of variables: 3836
+N of binary vars: 3836
+N of constraints: 4681
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-93_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9684.0
+Solving time:  600.00065
+
+
+[array([    0., -3900., -4300., -5216., -6343., -6549., -7422., -7710.,
+       -8814., -9185., -9189., -9190., -9295., -9296., -9299., -9300.,
+       -9301., -9302., -9303., -9312., -9379., -9390., -9407., -9409.,
+       -9478., -9489., -9490., -9569., -9658., -9659., -9678., -9679.,
+       -9684.]), array([0.00000000e+00, 5.84570000e-02, 6.04690000e-02, 5.45825400e+00,
+       5.46289400e+00, 5.46654100e+00, 3.69324990e+01, 4.41757820e+01,
+       4.41791450e+01, 4.41894770e+01, 4.42071390e+01, 4.42265410e+01,
+       5.60296740e+01, 5.60457990e+01, 2.15156662e+02, 2.15191907e+02,
+       2.15348478e+02, 2.15367766e+02, 2.15407420e+02, 3.34456555e+02,
+       3.44365741e+02, 3.44830088e+02, 3.48897037e+02, 3.49863105e+02,
+       3.54198837e+02, 3.54449819e+02, 3.56909863e+02, 3.59991441e+02,
+       3.81738143e+02, 3.86919361e+02, 4.18463297e+02, 4.18475326e+02,
+       4.27045742e+02])]
+instance:  14
+create a new SCIP model
+The initial incumbent of generalized_independentset-94_transformed is successfully added to MIP model
+generalized_independentset-94_transformed
+N of variables: 1775
+N of binary vars: 1775
+N of constraints: 2106
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-94_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8696.0
+Solving time:  111.92663
+
+
+[array([    0., -3600., -3800., -6468., -7951., -7955., -7967., -7968.,
+       -8154., -8158., -8239., -8247., -8332., -8336., -8427., -8430.,
+       -8524., -8550., -8606., -8666., -8691., -8695., -8696.]), array([0.00000000e+00, 2.30540000e-02, 2.38490000e-02, 1.75186800e+00,
+       7.97852400e+00, 1.20060170e+01, 1.35562960e+01, 1.41226520e+01,
+       1.79326940e+01, 2.98562310e+01, 3.01215090e+01, 3.01276420e+01,
+       3.03728220e+01, 3.03953460e+01, 3.15076120e+01, 4.10287710e+01,
+       5.15345070e+01, 5.27263560e+01, 8.87014650e+01, 9.68660070e+01,
+       9.68685000e+01, 1.00744230e+02, 1.00751604e+02])]
+instance:  15
+create a new SCIP model
+The initial incumbent of generalized_independentset-95_transformed is successfully added to MIP model
+generalized_independentset-95_transformed
+N of variables: 14328
+N of binary vars: 14328
+N of constraints: 18328
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-95_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10735.0
+Solving time:  600.006104
+
+
+[array([     0.,  -4600.,  -4800.,  -4968.,  -5075.,  -5082.,  -5805.,
+        -6429.,  -6536., -10066., -10735.]), array([  0.      ,   0.298338,   0.311718,  32.48958 ,  32.507005,
+        32.524061,  32.541562,  32.557822,  32.57435 , 247.988055,
+       248.006125])]
+instance:  16
+create a new SCIP model
+The initial incumbent of generalized_independentset-96_transformed is successfully added to MIP model
+generalized_independentset-96_transformed
+N of variables: 1733
+N of binary vars: 1733
+N of constraints: 2056
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-96_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8545.0
+Solving time:  105.505446
+
+
+[array([    0., -3800., -3993., -4387., -4901., -5000., -6044., -6258.,
+       -6358., -7607., -7863., -7954., -7960., -8047., -8053., -8055.,
+       -8057., -8122., -8139., -8143., -8145., -8148., -8149., -8233.,
+       -8234., -8238., -8254., -8256., -8257., -8354., -8442., -8445.,
+       -8449., -8541., -8545.]), array([0.0000000e+00, 2.2552000e-02, 1.5598970e+00, 1.5633700e+00,
+       1.5655350e+00, 1.5677690e+00, 1.5699790e+00, 1.5718710e+00,
+       2.6976940e+00, 7.9764660e+00, 1.6585781e+01, 1.7823115e+01,
+       1.7867652e+01, 2.0648659e+01, 2.5913037e+01, 2.7175685e+01,
+       2.7184909e+01, 3.0616495e+01, 3.0619473e+01, 3.0624199e+01,
+       3.0632517e+01, 3.0683834e+01, 3.0690677e+01, 3.0709083e+01,
+       3.0715272e+01, 3.0722365e+01, 5.0883210e+01, 5.0894019e+01,
+       5.0977350e+01, 5.6629365e+01, 5.6697566e+01, 6.6177921e+01,
+       6.6689566e+01, 6.6734694e+01, 6.7187468e+01])]
+instance:  17
+create a new SCIP model
+The initial incumbent of generalized_independentset-97_transformed is successfully added to MIP model
+generalized_independentset-97_transformed
+N of variables: 10044
+N of binary vars: 10044
+N of constraints: 12715
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-97_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10246.0
+Solving time:  600.003798
+
+
+[array([     0.,  -4500.,  -4700.,  -6727.,  -7370.,  -9685., -10107.,
+       -10245., -10246.]), array([0.00000000e+00, 1.71400000e-01, 1.79540000e-01, 2.12390800e+01,
+       1.78131046e+02, 1.78150401e+02, 1.78162833e+02, 2.11766184e+02,
+       2.13234552e+02])]
+instance:  18
+create a new SCIP model
+The initial incumbent of generalized_independentset-98_transformed is successfully added to MIP model
+generalized_independentset-98_transformed
+N of variables: 1052
+N of binary vars: 1052
+N of constraints: 1208
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-98_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7580.0
+Solving time:  9.730503
+
+
+[array([    0., -3200., -3400., -5340., -6162., -6623., -6729., -6824.,
+       -6827., -6828., -6836., -7118., -7212., -7213., -7301., -7302.,
+       -7397., -7398., -7481., -7482., -7485., -7492., -7493., -7494.,
+       -7580.]), array([0.      , 0.012855, 0.01333 , 0.771396, 0.772607, 3.865571,
+       3.890432, 3.899119, 3.909272, 3.912231, 3.970858, 4.91892 ,
+       6.057884, 6.577263, 6.900242, 7.64822 , 8.696363, 8.711535,
+       8.750251, 8.787136, 9.047979, 9.596006, 9.692755, 9.727918,
+       9.730424])]
+instance:  19
+create a new SCIP model
+The initial incumbent of generalized_independentset-99_transformed is successfully added to MIP model
+generalized_independentset-99_transformed
+N of variables: 5042
+N of binary vars: 5042
+N of constraints: 6253
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-99_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9846.0
+Solving time:  600.001909
+
+
+[array([    0., -3800., -4200., -7382., -8344., -8883., -8906., -8911.,
+       -8915., -8916., -8917., -8995., -9009., -9096., -9099., -9103.,
+       -9203., -9265., -9270., -9297., -9299., -9300., -9308., -9315.,
+       -9475., -9480., -9566., -9568., -9572., -9573., -9579., -9652.,
+       -9656., -9658., -9720., -9725., -9730., -9821., -9823., -9829.,
+       -9830., -9840., -9846.]), array([0.00000000e+00, 7.00660000e-02, 7.28010000e-02, 7.00053300e+00,
+       4.59876940e+01, 8.19277560e+01, 2.09995412e+02, 2.14269793e+02,
+       2.14286115e+02, 2.14350637e+02, 2.14448529e+02, 2.14965241e+02,
+       2.15000447e+02, 2.15085077e+02, 2.15908816e+02, 2.15924703e+02,
+       2.16687180e+02, 3.03626441e+02, 3.03689915e+02, 3.17451782e+02,
+       3.25482784e+02, 3.25989894e+02, 3.32680768e+02, 3.36163285e+02,
+       3.48551812e+02, 3.48575602e+02, 3.61989774e+02, 3.62081666e+02,
+       3.62118638e+02, 3.79773370e+02, 4.24034326e+02, 4.24055592e+02,
+       4.24153376e+02, 4.24176167e+02, 4.89193387e+02, 4.89209484e+02,
+       4.89236316e+02, 4.92170925e+02, 4.97089708e+02, 5.13149674e+02,
+       5.13192794e+02, 5.87837824e+02, 5.87898424e+02])]
+instance:  20
+create a new SCIP model
+The initial incumbent of generalized_independentset-100_transformed is successfully added to MIP model
+generalized_independentset-100_transformed
+N of variables: 10016
+N of binary vars: 10016
+N of constraints: 12694
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-100_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10570.0
+Solving time:  600.001975
+
+
+[array([     0.,  -4500.,  -4700.,  -5195.,  -5395.,  -9269., -10570.]), array([0.00000000e+00, 1.63210000e-01, 1.70324000e-01, 1.87217120e+01,
+       2.86914300e+01, 8.63992910e+01, 1.75340623e+02])]
+instance:  21
+create a new SCIP model
+The initial incumbent of generalized_independentset-101_transformed is successfully added to MIP model
+generalized_independentset-101_transformed
+N of variables: 490
+N of binary vars: 490
+N of constraints: 518
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-101_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -5496.0
+Solving time:  0.22734
+
+
+[array([    0., -2800., -2801., -2802., -3861., -5290., -5496.]), array([0.      , 0.005609, 0.134232, 0.135058, 0.139847, 0.15829 ,
+       0.158935])]
+instance:  22
+create a new SCIP model
+The initial incumbent of generalized_independentset-102_transformed is successfully added to MIP model
+generalized_independentset-102_transformed
+N of variables: 3701
+N of binary vars: 3701
+N of constraints: 4554
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-102_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10127.0
+Solving time:  600.00058
+
+
+[array([     0.,  -4300.,  -5404.,  -5672.,  -6159.,  -7120.,  -8607.,
+        -8887.,  -8930.,  -8933.,  -8993.,  -9012.,  -9013.,  -9017.,
+        -9019.,  -9096.,  -9102.,  -9351.,  -9356.,  -9370.,  -9371.,
+        -9372.,  -9373.,  -9374.,  -9375.,  -9384.,  -9386.,  -9387.,
+        -9466.,  -9470.,  -9472.,  -9481.,  -9485.,  -9562.,  -9568.,
+        -9569.,  -9576.,  -9581.,  -9652.,  -9654.,  -9659.,  -9665.,
+        -9666.,  -9669.,  -9747.,  -9752.,  -9838.,  -9851.,  -9853.,
+        -9858.,  -9924., -10027., -10035., -10043., -10127.]), array([0.00000000e+00, 4.62170000e-02, 5.20478300e+00, 4.33576500e+01,
+       4.33650020e+01, 6.12836240e+01, 6.58579790e+01, 7.86801700e+01,
+       1.22499511e+02, 1.22551883e+02, 1.47757643e+02, 1.64859516e+02,
+       1.70133999e+02, 1.70158088e+02, 1.70201607e+02, 1.70413892e+02,
+       1.70778637e+02, 2.68044619e+02, 2.68098333e+02, 2.68305425e+02,
+       3.76544277e+02, 3.79948077e+02, 3.83085783e+02, 3.83106984e+02,
+       3.83228153e+02, 3.94977872e+02, 3.98631493e+02, 4.04753704e+02,
+       4.10099269e+02, 4.10220978e+02, 4.26107493e+02, 4.26209969e+02,
+       4.26663677e+02, 4.41859664e+02, 4.41885188e+02, 4.41918186e+02,
+       4.42476258e+02, 4.42483152e+02, 4.50380657e+02, 4.66870401e+02,
+       4.67263635e+02, 4.67384335e+02, 4.67810409e+02, 4.97588852e+02,
+       5.00094577e+02, 5.27165465e+02, 5.27222366e+02, 5.35490542e+02,
+       5.35501602e+02, 5.35576272e+02, 5.36018271e+02, 5.36076498e+02,
+       5.36208980e+02, 5.44090663e+02, 5.44110854e+02])]
+instance:  23
+create a new SCIP model
+The initial incumbent of generalized_independentset-103_transformed is successfully added to MIP model
+generalized_independentset-103_transformed
+N of variables: 3824
+N of binary vars: 3824
+N of constraints: 4661
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-103_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10114.0
+Solving time:  600.001361
+
+
+[array([     0.,  -3900.,  -4701.,  -6467.,  -6823.,  -6989.,  -8367.,
+        -8704.,  -8795.,  -8796.,  -8821.,  -8878.,  -8880.,  -8899.,
+        -8900.,  -9001.,  -9012.,  -9093.,  -9182.,  -9183.,  -9193.,
+        -9274.,  -9288.,  -9289.,  -9293.,  -9294.,  -9299.,  -9303.,
+        -9304.,  -9370.,  -9372.,  -9375.,  -9377.,  -9380.,  -9391.,
+        -9392.,  -9482.,  -9488.,  -9564.,  -9576.,  -9579.,  -9580.,
+        -9649.,  -9656.,  -9657.,  -9927.,  -9933.,  -9938.,  -9943.,
+       -10002., -10004., -10015., -10070., -10080., -10098., -10099.,
+       -10106., -10113., -10114.]), array([0.00000000e+00, 4.98970000e-02, 4.48792400e+00, 4.49149500e+00,
+       3.84147340e+01, 5.52561170e+01, 5.52608140e+01, 5.52640560e+01,
+       5.52683020e+01, 5.52818600e+01, 5.58602840e+01, 5.99802500e+01,
+       5.99908130e+01, 6.00191770e+01, 6.00388000e+01, 7.56479730e+01,
+       7.90294090e+01, 8.43503880e+01, 8.44231980e+01, 8.44375560e+01,
+       8.45260960e+01, 9.89874940e+01, 1.12870196e+02, 1.21189711e+02,
+       1.21285793e+02, 1.21310482e+02, 1.41035198e+02, 1.41214587e+02,
+       1.41498855e+02, 1.91434823e+02, 1.92945746e+02, 1.98809835e+02,
+       1.99064192e+02, 2.03651468e+02, 2.34004661e+02, 2.34022461e+02,
+       2.34115517e+02, 2.39502109e+02, 2.62239502e+02, 2.63086493e+02,
+       2.63141673e+02, 2.71750881e+02, 2.72263153e+02, 2.72325062e+02,
+       2.72356236e+02, 4.40458163e+02, 4.40567285e+02, 4.46950435e+02,
+       4.47054490e+02, 5.16998383e+02, 5.17045521e+02, 5.17083147e+02,
+       5.28786945e+02, 5.28808738e+02, 5.29570702e+02, 5.30025900e+02,
+       5.30224495e+02, 5.39202389e+02, 5.53834011e+02])]
+instance:  24
+create a new SCIP model
+The initial incumbent of generalized_independentset-104_transformed is successfully added to MIP model
+generalized_independentset-104_transformed
+N of variables: 1094
+N of binary vars: 1094
+N of constraints: 1241
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-104_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7205.0
+Solving time:  13.607311
+
+
+[array([    0., -3300., -3400., -3507., -3604., -5539., -5746., -6262.,
+       -6933., -6936., -6940., -6947., -7035., -7036., -7114., -7205.]), array([0.0000000e+00, 1.2583000e-02, 1.3035000e-02, 3.9640000e-01,
+       3.9928200e-01, 4.0107400e-01, 4.0244400e-01, 4.0376800e-01,
+       2.8051730e+00, 3.0792860e+00, 5.6935120e+00, 6.6062920e+00,
+       9.3068580e+00, 9.3546580e+00, 1.2653171e+01, 1.2775782e+01])]
+instance:  25
+create a new SCIP model
+The initial incumbent of generalized_independentset-105_transformed is successfully added to MIP model
+generalized_independentset-105_transformed
+N of variables: 2707
+N of binary vars: 2707
+N of constraints: 3277
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-105_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9370.0
+Solving time:  600.000077
+
+
+[array([    0., -3800., -3900., -5838., -6146., -6455., -6769., -6873.,
+       -7189., -7684., -7685., -7689., -7690., -7691., -7693., -7694.,
+       -7780., -7783., -7872., -8060., -8064., -8494., -8672., -8683.,
+       -8687., -8709., -8716., -8718., -8767., -8776., -8777., -8780.,
+       -8908., -8963., -8976., -8978., -9047., -9052., -9054., -9072.,
+       -9082., -9088., -9180., -9186., -9270., -9271., -9272., -9343.,
+       -9363., -9368., -9369., -9370.]), array([0.00000000e+00, 3.44270000e-02, 3.56230000e-02, 2.67045900e+00,
+       2.67342900e+00, 2.67658600e+00, 2.67925600e+00, 2.68190200e+00,
+       2.68453400e+00, 2.04025460e+01, 2.04514160e+01, 2.12655720e+01,
+       2.15421510e+01, 2.27005010e+01, 2.29464270e+01, 2.31972020e+01,
+       2.42665460e+01, 2.43577340e+01, 2.44088520e+01, 2.70784940e+01,
+       2.74870990e+01, 3.35172710e+01, 4.08446140e+01, 4.08576140e+01,
+       4.09153070e+01, 4.36002090e+01, 4.36081920e+01, 4.36252380e+01,
+       4.45766020e+01, 4.52095830e+01, 4.52315470e+01, 4.52517840e+01,
+       4.64692100e+01, 6.41223860e+01, 6.45617790e+01, 6.63690050e+01,
+       6.67698160e+01, 6.78269530e+01, 6.78503850e+01, 1.05310785e+02,
+       1.05332463e+02, 1.69700350e+02, 2.71704214e+02, 2.72036800e+02,
+       5.22757194e+02, 5.22885110e+02, 5.22905066e+02, 5.35002009e+02,
+       5.35186242e+02, 5.35239573e+02, 5.35255263e+02, 5.41866535e+02])]
+instance:  26
+create a new SCIP model
+The initial incumbent of generalized_independentset-106_transformed is successfully added to MIP model
+generalized_independentset-106_transformed
+N of variables: 999
+N of binary vars: 999
+N of constraints: 1159
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-106_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7121.0
+Solving time:  10.694209
+
+
+[array([    0., -3200., -3300., -5588., -6735., -6751., -6753., -6758.,
+       -6817., -6827., -6840., -6843., -6844., -6845., -6846., -6941.,
+       -6942., -6944., -7031., -7032., -7036., -7037., -7113., -7120.,
+       -7121.]), array([0.      , 0.011817, 0.012241, 0.669322, 3.279626, 3.464382,
+       3.479693, 3.647211, 5.101209, 5.171339, 6.337469, 6.407292,
+       7.308995, 8.08864 , 8.371759, 8.631541, 8.643671, 8.646181,
+       8.878029, 8.95609 , 9.140913, 9.193784, 9.833485, 9.858081,
+       9.93828 ])]
+instance:  27
+create a new SCIP model
+The initial incumbent of generalized_independentset-107_transformed is successfully added to MIP model
+generalized_independentset-107_transformed
+N of variables: 3938
+N of binary vars: 3938
+N of constraints: 4788
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-107_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9800.0
+Solving time:  600.000491
+
+
+[array([    0., -4300., -6358., -6404., -6504., -7968., -9196., -9197.,
+       -9203., -9204., -9206., -9208., -9291., -9297., -9301., -9386.,
+       -9460., -9461., -9523., -9629., -9642., -9652., -9661., -9662.,
+       -9748., -9797., -9798., -9800.]), array([0.00000000e+00, 5.07650000e-02, 4.78686400e+00, 5.20062410e+01,
+       5.20104980e+01, 5.20150930e+01, 5.62741850e+01, 2.44646853e+02,
+       2.44734422e+02, 2.50948778e+02, 2.50967539e+02, 2.50991118e+02,
+       2.53495001e+02, 2.66961377e+02, 2.68920828e+02, 2.75744360e+02,
+       4.04380767e+02, 4.04401627e+02, 4.04653180e+02, 4.06628912e+02,
+       4.06691929e+02, 4.07385633e+02, 4.08026345e+02, 4.08043484e+02,
+       4.19793094e+02, 5.57908377e+02, 5.58186973e+02, 5.58242011e+02])]
+instance:  28
+create a new SCIP model
+The initial incumbent of generalized_independentset-108_transformed is successfully added to MIP model
+generalized_independentset-108_transformed
+N of variables: 4955
+N of binary vars: 4955
+N of constraints: 6115
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-108_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10197.0
+Solving time:  600.000181
+
+
+[array([     0.,  -4200.,  -7024.,  -9379., -10014., -10016., -10017.,
+       -10021., -10027., -10105., -10117., -10121., -10124., -10190.,
+       -10197.]), array([0.00000000e+00, 7.14630000e-02, 6.66042600e+00, 8.38703230e+01,
+       8.38760130e+01, 8.38867610e+01, 3.91155647e+02, 3.91179394e+02,
+       4.04963912e+02, 4.10130600e+02, 4.10426193e+02, 4.16163834e+02,
+       4.16220426e+02, 4.61794022e+02, 4.62012008e+02])]
+instance:  29
+create a new SCIP model
+The initial incumbent of generalized_independentset-109_transformed is successfully added to MIP model
+generalized_independentset-109_transformed
+N of variables: 10027
+N of binary vars: 10027
+N of constraints: 12720
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-109_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9849.0
+Solving time:  600.007234
+
+
+[array([    0., -4100., -4400., -6843., -8032., -9849.]), array([0.00000000e+00, 1.66240000e-01, 1.74153000e-01, 2.08333720e+01,
+       1.82263615e+02, 1.82276406e+02])]
+instance:  30
+create a new SCIP model
+The initial incumbent of generalized_independentset-110_transformed is successfully added to MIP model
+generalized_independentset-110_transformed
+N of variables: 8136
+N of binary vars: 8136
+N of constraints: 10343
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-110_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10314.0
+Solving time:  600.003228
+
+
+[array([     0.,  -4800.,  -5583.,  -5783.,  -6743.,  -6810.,  -9083.,
+        -9717., -10314.]), array([0.00000000e+00, 1.13626000e-01, 1.46577190e+01, 2.52844850e+01,
+       7.36368810e+01, 7.36467590e+01, 1.46345875e+02, 1.46355483e+02,
+       2.48272608e+02])]
+instance:  31
+create a new SCIP model
+The initial incumbent of generalized_independentset-111_transformed is successfully added to MIP model
+generalized_independentset-111_transformed
+N of variables: 1743
+N of binary vars: 1743
+N of constraints: 2015
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-111_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8514.0
+Solving time:  115.427744
+
+
+[array([    0., -3600., -3700., -3706., -3806., -3808., -4008., -4517.,
+       -4525., -5963., -7866., -7875., -7881., -7887., -7889., -7965.,
+       -7966., -7967., -7969., -7972., -7973., -7980., -7981., -7982.,
+       -7983., -8166., -8260., -8261., -8352., -8422., -8426., -8430.,
+       -8431., -8440., -8514.]), array([0.0000000e+00, 2.1506000e-02, 2.2231000e-02, 1.4709200e+00,
+       1.4729750e+00, 1.4749850e+00, 1.4769320e+00, 1.4788700e+00,
+       1.4808590e+00, 1.4828190e+00, 1.1386924e+01, 1.1501019e+01,
+       1.1606069e+01, 1.4032963e+01, 1.4784576e+01, 1.5500873e+01,
+       1.5554637e+01, 1.6190302e+01, 1.6195372e+01, 1.7515010e+01,
+       1.7594069e+01, 1.7866131e+01, 1.8589766e+01, 1.8602968e+01,
+       1.8609494e+01, 2.0095586e+01, 2.2800502e+01, 3.0618925e+01,
+       3.0863667e+01, 6.2101757e+01, 6.2107023e+01, 6.2199347e+01,
+       6.2207039e+01, 7.1604460e+01, 8.4734436e+01])]
+instance:  32
+create a new SCIP model
+The initial incumbent of generalized_independentset-112_transformed is successfully added to MIP model
+generalized_independentset-112_transformed
+N of variables: 3778
+N of binary vars: 3778
+N of constraints: 4607
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-112_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10082.0
+Solving time:  600.000445
+
+
+[array([     0.,  -4200.,  -4400.,  -6452.,  -6788.,  -7207.,  -7626.,
+        -8160.,  -8474.,  -8834.,  -9028.,  -9029.,  -9032.,  -9033.,
+        -9034.,  -9298.,  -9302.,  -9381.,  -9387.,  -9473.,  -9474.,
+        -9574.,  -9652.,  -9654.,  -9662.,  -9671.,  -9756.,  -9760.,
+        -9769.,  -9842.,  -9941.,  -9989., -10008., -10011., -10023.,
+       -10082.]), array([0.00000000e+00, 5.01980000e-02, 5.18790000e-02, 4.25900900e+00,
+       2.51056750e+01, 3.02542650e+01, 3.47489710e+01, 3.47540360e+01,
+       3.47588950e+01, 3.47598580e+01, 3.47633500e+01, 3.47764420e+01,
+       3.47845760e+01, 3.71769320e+01, 3.84983730e+01, 3.90322230e+01,
+       5.15136160e+01, 5.24705380e+01, 5.46074860e+01, 5.89431580e+01,
+       5.89581150e+01, 5.92954570e+01, 6.03014430e+01, 6.72533290e+01,
+       2.07653790e+02, 2.08418020e+02, 2.08430545e+02, 2.08825687e+02,
+       2.09384996e+02, 2.14815446e+02, 2.15414691e+02, 2.29029221e+02,
+       2.35700083e+02, 2.36852349e+02, 2.81312446e+02, 5.86754352e+02])]
+instance:  33
+create a new SCIP model
+The initial incumbent of generalized_independentset-113_transformed is successfully added to MIP model
+generalized_independentset-113_transformed
+N of variables: 4950
+N of binary vars: 4950
+N of constraints: 6158
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-113_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10018.0
+Solving time:  600.002354
+
+
+[array([     0.,  -3800.,  -4000.,  -5157.,  -5263.,  -5883.,  -8908.,
+        -9549.,  -9721.,  -9740.,  -9755.,  -9822.,  -9848.,  -9862.,
+        -9864.,  -9917.,  -9918.,  -9935.,  -9940., -10017., -10018.]), array([0.00000000e+00, 6.53540000e-02, 6.75890000e-02, 6.84089100e+00,
+       6.84530400e+00, 6.84969500e+00, 4.11443570e+01, 8.05701350e+01,
+       2.61096140e+02, 3.56327139e+02, 3.56812353e+02, 3.72347854e+02,
+       3.73138335e+02, 3.91784736e+02, 4.06309831e+02, 4.22502989e+02,
+       4.74790620e+02, 4.84347467e+02, 5.31937296e+02, 5.48861560e+02,
+       5.49307026e+02])]
+instance:  34
+create a new SCIP model
+The initial incumbent of generalized_independentset-114_transformed is successfully added to MIP model
+generalized_independentset-114_transformed
+N of variables: 5190
+N of binary vars: 5190
+N of constraints: 6411
+Initial obj of MIP: 0.0
+Instance: generalized_independentset-114_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9932.0
+Solving time:  600.000714
+
+
+[array([    0., -4000., -4200., -4284., -4483., -4690., -5721., -5827.,
+       -6030., -6249., -7765., -8863., -9373., -9670., -9674., -9718.,
+       -9719., -9799., -9922., -9927., -9928., -9932.]), array([0.00000000e+00, 6.68740000e-02, 6.89250000e-02, 6.81164600e+00,
+       6.81770600e+00, 6.82259500e+00, 6.82731900e+00, 6.83208700e+00,
+       6.83659200e+00, 6.84108500e+00, 7.44254730e+01, 8.04390330e+01,
+       9.95136690e+01, 1.48601149e+02, 1.68684353e+02, 3.29233406e+02,
+       3.29252476e+02, 3.29290818e+02, 3.29296374e+02, 3.53258780e+02,
+       4.18876048e+02, 4.40082059e+02])]
+generalized_independentset-small
+rootsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of generalized_independentset-80_transformed is successfully added to MIP model
+generalized_independentset-80_transformed
+N of variables: 11923
+N of binary vars: 11923
+N of constraints: 15151
+Initial obj of MIP: -72.0
+Instance: generalized_independentset-80_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9854.0
+Solving time:  600.002157
+
+
+[array([  -72., -4200., -4500., -5827., -5930., -6138., -6238., -8674.,
+       -9854.]), array([  0.      ,   0.197554,   0.20609 ,  30.32678 ,  30.339173,
+        30.35119 ,  79.815276, 166.325379, 166.339791])]
+instance:  1
+create a new SCIP model
+The initial incumbent of generalized_independentset-81_transformed is successfully added to MIP model
+generalized_independentset-81_transformed
+N of variables: 1863
+N of binary vars: 1863
+N of constraints: 2212
+Initial obj of MIP: -256.0
+Instance: generalized_independentset-81_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8700.0
+Solving time:  86.311163
+
+
+[array([ -256., -3300., -3600., -4041., -4138., -4142., -4238., -6908.,
+       -7825., -8144., -8233., -8240., -8241., -8248., -8331., -8333.,
+       -8425., -8434., -8435., -8512., -8516., -8518., -8605., -8606.,
+       -8612., -8700.]), array([0.0000000e+00, 2.0886000e-02, 2.1639000e-02, 1.3887460e+00,
+       1.3912480e+00, 1.3939750e+00, 1.3962810e+00, 1.3999830e+00,
+       5.8232990e+00, 5.8785800e+00, 1.5462134e+01, 1.5485575e+01,
+       1.5510766e+01, 1.5516207e+01, 1.5768518e+01, 1.5788519e+01,
+       3.0698559e+01, 4.2720447e+01, 4.8111416e+01, 5.2395666e+01,
+       5.2449613e+01, 5.3093213e+01, 5.3366501e+01, 5.3373587e+01,
+       5.3685196e+01, 5.8226149e+01])]
+instance:  2
+create a new SCIP model
+The initial incumbent of generalized_independentset-82_transformed is successfully added to MIP model
+generalized_independentset-82_transformed
+N of variables: 1031
+N of binary vars: 1031
+N of constraints: 1176
+Initial obj of MIP: -1064.0
+Instance: generalized_independentset-82_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7332.0
+Solving time:  7.82003
+
+
+[array([-1064., -3200., -3400., -4193., -4294., -4297., -4400., -4403.,
+       -4601., -5013., -6459., -7224., -7232., -7325., -7332.]), array([0.      , 0.012313, 0.012756, 0.525288, 0.526608, 0.528101,
+       0.529321, 0.531029, 0.532466, 0.53422 , 0.535458, 2.326334,
+       2.354994, 2.681127, 2.69121 ])]
+instance:  3
+create a new SCIP model
+The initial incumbent of generalized_independentset-83_transformed is successfully added to MIP model
+generalized_independentset-83_transformed
+N of variables: 2799
+N of binary vars: 2799
+N of constraints: 3420
+Initial obj of MIP: -156.0
+Instance: generalized_independentset-83_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9629.0
+Solving time:  600.000455
+
+
+[array([ -156., -3700., -4000., -6634., -6734., -7409., -7511., -7520.,
+       -7604., -7605., -7608., -7610., -7613., -7880., -7896., -7904.,
+       -7905., -7912., -7915., -7917., -7918., -7964., -7990., -8084.,
+       -8160., -8162., -8163., -8249., -8266., -8267., -8273., -8274.,
+       -8355., -8357., -8435., -8441., -8450., -9175., -9176., -9178.,
+       -9262., -9353., -9354., -9363., -9441., -9442., -9443., -9542.,
+       -9614., -9625., -9628., -9629.]), array([0.00000000e+00, 3.27150000e-02, 3.38310000e-02, 2.95549100e+00,
+       4.60767000e+00, 1.86811880e+01, 1.87152390e+01, 1.87182800e+01,
+       1.87375670e+01, 1.90961130e+01, 1.93387960e+01, 1.95842550e+01,
+       2.11270550e+01, 4.63122520e+01, 6.79079440e+01, 7.08624990e+01,
+       7.08934130e+01, 7.10954960e+01, 7.38093100e+01, 7.38247490e+01,
+       7.38343590e+01, 7.39585180e+01, 7.43096160e+01, 7.66655310e+01,
+       8.90270160e+01, 9.28796680e+01, 9.29310660e+01, 9.29580760e+01,
+       9.89396930e+01, 9.89604230e+01, 9.94496570e+01, 9.95502150e+01,
+       1.06726018e+02, 1.09662161e+02, 1.20095417e+02, 1.23313976e+02,
+       1.25434269e+02, 1.34560154e+02, 1.35027197e+02, 1.35196853e+02,
+       1.45593635e+02, 1.46067181e+02, 1.47905706e+02, 1.48159904e+02,
+       1.54292672e+02, 1.56105020e+02, 1.56108332e+02, 1.92421702e+02,
+       1.96280057e+02, 1.96560937e+02, 1.96970775e+02, 2.06257441e+02])]
+instance:  4
+create a new SCIP model
+The initial incumbent of generalized_independentset-84_transformed is successfully added to MIP model
+generalized_independentset-84_transformed
+N of variables: 945
+N of binary vars: 945
+N of constraints: 1099
+Initial obj of MIP: -531.0
+Instance: generalized_independentset-84_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -6842.0
+Solving time:  10.55488
+
+
+[array([ -531., -3200., -3300., -5790., -5818., -6551., -6553., -6629.,
+       -6630., -6718., -6721., -6724., -6725., -6726., -6731., -6752.,
+       -6753., -6756., -6824., -6825., -6840., -6842.]), array([ 0.      ,  0.011662,  0.012065,  0.668265,  2.757824,  2.766957,
+        2.821161,  6.948638,  7.021365,  7.200906,  7.20314 ,  8.332096,
+        8.335537,  8.568222,  9.0591  ,  9.379162,  9.545384,  9.547302,
+        9.61423 ,  9.994641, 10.031892, 10.144358])]
+instance:  5
+create a new SCIP model
+The initial incumbent of generalized_independentset-85_transformed is successfully added to MIP model
+generalized_independentset-85_transformed
+N of variables: 8065
+N of binary vars: 8065
+N of constraints: 10215
+Initial obj of MIP: -81.0
+Instance: generalized_independentset-85_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9911.0
+Solving time:  600.000683
+
+
+[array([  -81., -4000., -4300., -4557., -4562., -4568., -5196., -5408.,
+       -6161., -6261., -6429., -6542., -8331., -9532., -9635., -9651.,
+       -9740., -9743., -9744., -9745., -9831., -9911.]), array([0.00000000e+00, 1.15691000e-01, 1.19785000e-01, 1.20561100e+01,
+       1.20634190e+01, 1.20707510e+01, 1.20779270e+01, 1.20851430e+01,
+       7.27298460e+01, 7.27480540e+01, 1.26587054e+02, 1.26594701e+02,
+       1.37385672e+02, 1.37396506e+02, 3.83570516e+02, 3.83704718e+02,
+       3.90953118e+02, 3.91037928e+02, 3.91176752e+02, 3.91212058e+02,
+       4.05570633e+02, 5.96135401e+02])]
+instance:  6
+create a new SCIP model
+The initial incumbent of generalized_independentset-86_transformed is successfully added to MIP model
+generalized_independentset-86_transformed
+N of variables: 575
+N of binary vars: 575
+N of constraints: 615
+Initial obj of MIP: -2044.0
+Instance: generalized_independentset-86_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -5682.0
+Solving time:  1.518023
+
+
+[array([-2044., -2400., -2600., -2666., -3438., -5588., -5591., -5682.]), array([0.      , 0.006861, 0.007111, 0.131191, 0.152047, 0.153216,
+       1.333961, 1.484856])]
+instance:  7
+create a new SCIP model
+The initial incumbent of generalized_independentset-87_transformed is successfully added to MIP model
+generalized_independentset-87_transformed
+N of variables: 14034
+N of binary vars: 14034
+N of constraints: 17998
+Initial obj of MIP: -66.0
+Instance: generalized_independentset-87_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10007.0
+Solving time:  600.004753
+
+
+[array([   -66.,  -4400.,  -4900.,  -5392.,  -5492.,  -5693.,  -5793.,
+       -10007.]), array([0.00000000e+00, 2.13899000e-01, 2.23445000e-01, 3.48614830e+01,
+       6.35346560e+01, 2.60035905e+02, 2.60093000e+02, 2.75999644e+02])]
+instance:  8
+create a new SCIP model
+The initial incumbent of generalized_independentset-88_transformed is successfully added to MIP model
+generalized_independentset-88_transformed
+N of variables: 5012
+N of binary vars: 5012
+N of constraints: 6317
+Initial obj of MIP: -84.0
+Instance: generalized_independentset-88_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -8916.0
+Solving time:  600.000709
+
+
+[array([  -84., -4200., -4400., -5951., -6066., -6535., -8152., -8367.,
+       -8397., -8741., -8807., -8809., -8814., -8817., -8823., -8826.,
+       -8892., -8896., -8916.]), array([0.00000000e+00, 6.11930000e-02, 6.33700000e-02, 8.17971200e+00,
+       8.18407400e+00, 8.45893830e+01, 8.45970090e+01, 1.53757024e+02,
+       1.82564104e+02, 3.28551113e+02, 3.41174486e+02, 3.41201767e+02,
+       3.44713556e+02, 3.45360553e+02, 3.46296433e+02, 3.52513376e+02,
+       3.81455707e+02, 3.81649560e+02, 3.92394878e+02])]
+instance:  9
+create a new SCIP model
+The initial incumbent of generalized_independentset-89_transformed is successfully added to MIP model
+generalized_independentset-89_transformed
+N of variables: 9987
+N of binary vars: 9987
+N of constraints: 12702
+Initial obj of MIP: -75.0
+Instance: generalized_independentset-89_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10350.0
+Solving time:  600.002655
+
+
+[array([   -75.,  -4400.,  -4800.,  -5768.,  -5868.,  -6939.,  -9571.,
+       -10350.]), array([0.00000000e+00, 1.50946000e-01, 1.56430000e-01, 1.89815700e+01,
+       3.49140550e+01, 1.63652896e+02, 1.72346728e+02, 1.72359537e+02])]
+instance:  10
+create a new SCIP model
+The initial incumbent of generalized_independentset-90_transformed is successfully added to MIP model
+generalized_independentset-90_transformed
+N of variables: 1894
+N of binary vars: 1894
+N of constraints: 2223
+Initial obj of MIP: -334.0
+Instance: generalized_independentset-90_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8800.0
+Solving time:  147.408976
+
+
+[array([ -334., -3400., -3500., -7399., -7486., -8229., -8231., -8241.,
+       -8321., -8328., -8329., -8333., -8334., -8350., -8351., -8424.,
+       -8425., -8426., -8427., -8602., -8603., -8606., -8699., -8704.,
+       -8706., -8710., -8800.]), array([0.00000000e+00, 2.24030000e-02, 2.31650000e-02, 1.50825000e+00,
+       8.07941400e+00, 8.08436700e+00, 8.10809800e+00, 8.59706700e+00,
+       1.53306180e+01, 1.55320510e+01, 1.55443170e+01, 1.62870940e+01,
+       1.75353260e+01, 2.10892800e+01, 2.10916100e+01, 2.28202710e+01,
+       2.38262120e+01, 2.38368210e+01, 2.81058380e+01, 2.81683190e+01,
+       2.81982690e+01, 2.82091140e+01, 3.35731580e+01, 5.25576680e+01,
+       5.25662040e+01, 5.37731030e+01, 1.46135899e+02])]
+instance:  11
+create a new SCIP model
+The initial incumbent of generalized_independentset-91_transformed is successfully added to MIP model
+generalized_independentset-91_transformed
+N of variables: 1678
+N of binary vars: 1678
+N of constraints: 2004
+Initial obj of MIP: -171.0
+Instance: generalized_independentset-91_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8077.0
+Solving time:  151.210421
+
+
+[array([ -171., -3800., -4126., -4424., -4629., -4834., -5038., -5140.,
+       -5239., -5865., -7018., -7110., -7111., -7316., -7329., -7417.,
+       -7492., -7573., -7576., -7585., -7589., -7595., -7604., -7615.,
+       -7617., -7618., -7697., -7698., -7699., -7787., -7788., -7790.,
+       -7871., -7880., -7882., -7884., -7885., -7886., -7969., -7979.,
+       -7993., -8063., -8077.]), array([0.0000000e+00, 1.9808000e-02, 1.2383670e+00, 1.2405320e+00,
+       1.2421950e+00, 1.2439430e+00, 1.2457290e+00, 1.2473500e+00,
+       1.2491000e+00, 1.2507680e+00, 7.6665380e+00, 7.6857050e+00,
+       7.6918990e+00, 1.0960893e+01, 1.1638187e+01, 1.4122147e+01,
+       1.4769736e+01, 1.5284908e+01, 1.5401096e+01, 2.7602802e+01,
+       2.7609863e+01, 2.7612445e+01, 2.7620029e+01, 3.1833682e+01,
+       3.1856914e+01, 3.2350447e+01, 5.6528369e+01, 5.6535295e+01,
+       5.6556122e+01, 5.7027131e+01, 5.7064064e+01, 5.7072108e+01,
+       5.9772014e+01, 6.3057519e+01, 6.5030855e+01, 6.5947559e+01,
+       6.6761541e+01, 6.6768393e+01, 6.7746088e+01, 7.3485324e+01,
+       7.3703379e+01, 7.7138684e+01, 7.7144918e+01])]
+instance:  12
+create a new SCIP model
+The initial incumbent of generalized_independentset-92_transformed is successfully added to MIP model
+generalized_independentset-92_transformed
+N of variables: 1821
+N of binary vars: 1821
+N of constraints: 2155
+Initial obj of MIP: -417.0
+Instance: generalized_independentset-92_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8346.0
+Solving time:  252.955202
+
+
+[array([ -417., -3300., -3600., -7571., -7868., -7876., -7956., -7957.,
+       -7958., -8048., -8136., -8141., -8144., -8236., -8321., -8346.]), array([0.00000000e+00, 2.17070000e-02, 2.24340000e-02, 1.46489500e+00,
+       5.28544000e+00, 5.42519400e+00, 1.64477820e+01, 1.64886100e+01,
+       1.64956620e+01, 1.81541270e+01, 7.26249130e+01, 7.34192720e+01,
+       7.34849770e+01, 7.37750790e+01, 7.41628290e+01, 1.51806995e+02])]
+instance:  13
+create a new SCIP model
+The initial incumbent of generalized_independentset-93_transformed is successfully added to MIP model
+generalized_independentset-93_transformed
+N of variables: 3836
+N of binary vars: 3836
+N of constraints: 4681
+Initial obj of MIP: -86.0
+Instance: generalized_independentset-93_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9684.0
+Solving time:  600.001029
+
+
+[array([  -86., -3900., -4300., -5216., -6343., -6549., -7422., -7710.,
+       -8814., -9185., -9189., -9190., -9295., -9296., -9299., -9300.,
+       -9301., -9302., -9303., -9312., -9379., -9390., -9407., -9409.,
+       -9478., -9489., -9490., -9569., -9658., -9659., -9678., -9679.,
+       -9684.]), array([0.00000000e+00, 4.91950000e-02, 5.07210000e-02, 5.21485500e+00,
+       5.21922000e+00, 5.22263400e+00, 3.57552250e+01, 4.27770100e+01,
+       4.27802270e+01, 4.27891410e+01, 4.28042410e+01, 4.28199420e+01,
+       5.42546920e+01, 5.42681590e+01, 2.09884114e+02, 2.09914532e+02,
+       2.10050119e+02, 2.10064903e+02, 2.10097072e+02, 3.25615689e+02,
+       3.35406214e+02, 3.35852314e+02, 3.39841953e+02, 3.40769553e+02,
+       3.44964221e+02, 3.45198448e+02, 3.47629132e+02, 3.50624552e+02,
+       3.71915968e+02, 3.76959729e+02, 4.08029969e+02, 4.08041869e+02,
+       4.16448678e+02])]
+instance:  14
+create a new SCIP model
+The initial incumbent of generalized_independentset-94_transformed is successfully added to MIP model
+generalized_independentset-94_transformed
+N of variables: 1775
+N of binary vars: 1775
+N of constraints: 2106
+Initial obj of MIP: -267.0
+Instance: generalized_independentset-94_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8696.0
+Solving time:  109.670176
+
+
+[array([ -267., -3600., -3800., -6468., -7951., -7955., -7967., -7968.,
+       -8154., -8158., -8239., -8247., -8332., -8336., -8427., -8430.,
+       -8524., -8550., -8606., -8666., -8691., -8695., -8696.]), array([0.0000000e+00, 2.1440000e-02, 2.2159000e-02, 1.6962730e+00,
+       7.7402850e+00, 1.1701317e+01, 1.3212287e+01, 1.3754759e+01,
+       1.7514438e+01, 2.9260736e+01, 2.9517692e+01, 2.9523628e+01,
+       2.9763571e+01, 2.9784241e+01, 3.0865557e+01, 4.0118597e+01,
+       5.0321710e+01, 5.1496732e+01, 8.6863414e+01, 9.4869554e+01,
+       9.4871881e+01, 9.8696096e+01, 9.8703097e+01])]
+instance:  15
+create a new SCIP model
+The initial incumbent of generalized_independentset-95_transformed is successfully added to MIP model
+generalized_independentset-95_transformed
+N of variables: 14328
+N of binary vars: 14328
+N of constraints: 18328
+Initial obj of MIP: -69.0
+Instance: generalized_independentset-95_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10735.0
+Solving time:  600.004771
+
+
+[array([   -69.,  -4600.,  -4800.,  -4968.,  -5075.,  -5082.,  -5805.,
+        -6429.,  -6536., -10066., -10735.]), array([0.00000000e+00, 2.28033000e-01, 2.36771000e-01, 3.11711280e+01,
+       3.11873810e+01, 3.12028890e+01, 3.12192490e+01, 3.12344680e+01,
+       3.12493430e+01, 2.40453753e+02, 2.40470969e+02])]
+instance:  16
+create a new SCIP model
+The initial incumbent of generalized_independentset-96_transformed is successfully added to MIP model
+generalized_independentset-96_transformed
+N of variables: 1733
+N of binary vars: 1733
+N of constraints: 2056
+Initial obj of MIP: -261.0
+Instance: generalized_independentset-96_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8545.0
+Solving time:  104.418314
+
+
+[array([ -261., -3800., -3993., -4387., -4901., -5000., -6044., -6258.,
+       -6358., -7607., -7863., -7954., -7960., -8047., -8053., -8055.,
+       -8057., -8122., -8139., -8143., -8145., -8148., -8149., -8233.,
+       -8234., -8238., -8254., -8256., -8257., -8354., -8442., -8445.,
+       -8449., -8541., -8545.]), array([0.0000000e+00, 2.0205000e-02, 1.5245920e+00, 1.5277820e+00,
+       1.5296310e+00, 1.5315830e+00, 1.5335740e+00, 1.5352990e+00,
+       2.6431370e+00, 7.8071230e+00, 1.6254996e+01, 1.7472201e+01,
+       1.7515955e+01, 2.0245285e+01, 2.5437556e+01, 2.6681900e+01,
+       2.6691569e+01, 3.0069283e+01, 3.0072284e+01, 3.0077003e+01,
+       3.0085216e+01, 3.0135885e+01, 3.0142639e+01, 3.0161167e+01,
+       3.0167714e+01, 3.0175232e+01, 5.0245888e+01, 5.0256616e+01,
+       5.0339166e+01, 5.5919810e+01, 5.5987130e+01, 6.5401577e+01,
+       6.5905745e+01, 6.5950386e+01, 6.6401278e+01])]
+instance:  17
+create a new SCIP model
+The initial incumbent of generalized_independentset-97_transformed is successfully added to MIP model
+generalized_independentset-97_transformed
+N of variables: 10044
+N of binary vars: 10044
+N of constraints: 12715
+Initial obj of MIP: -72.0
+Instance: generalized_independentset-97_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10246.0
+Solving time:  600.001405
+
+
+[array([   -72.,  -4500.,  -4700.,  -6727.,  -7370.,  -9685., -10107.,
+       -10245., -10246.]), array([0.00000000e+00, 1.63251000e-01, 1.70461000e-01, 2.08771840e+01,
+       1.74353942e+02, 1.74371680e+02, 1.74382952e+02, 2.07133057e+02,
+       2.08579931e+02])]
+instance:  18
+create a new SCIP model
+The initial incumbent of generalized_independentset-98_transformed is successfully added to MIP model
+generalized_independentset-98_transformed
+N of variables: 1052
+N of binary vars: 1052
+N of constraints: 1208
+Initial obj of MIP: -635.0
+Instance: generalized_independentset-98_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7580.0
+Solving time:  9.709113
+
+
+[array([ -635., -3200., -3400., -5340., -6162., -6623., -6729., -6824.,
+       -6827., -6828., -6836., -7118., -7212., -7213., -7301., -7302.,
+       -7397., -7398., -7481., -7482., -7485., -7492., -7493., -7494.,
+       -7580.]), array([0.      , 0.012056, 0.012495, 0.731314, 0.732465, 3.824448,
+       3.849362, 3.857971, 3.86806 , 3.870974, 3.930064, 4.882016,
+       6.0266  , 6.547131, 6.872606, 7.623878, 8.678451, 8.693648,
+       8.732239, 8.768833, 9.028246, 9.574892, 9.671486, 9.706624,
+       9.709039])]
+instance:  19
+create a new SCIP model
+The initial incumbent of generalized_independentset-99_transformed is successfully added to MIP model
+generalized_independentset-99_transformed
+N of variables: 5042
+N of binary vars: 5042
+N of constraints: 6253
+Initial obj of MIP: -83.0
+Instance: generalized_independentset-99_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9846.0
+Solving time:  600.001102
+
+
+[array([  -83., -3800., -4200., -7382., -8344., -8883., -8906., -8911.,
+       -8915., -8916., -8917., -8995., -9009., -9096., -9099., -9103.,
+       -9203., -9265., -9270., -9297., -9299., -9300., -9308., -9315.,
+       -9475., -9480., -9566., -9568., -9572., -9573., -9579., -9652.,
+       -9656., -9658., -9720., -9725., -9730., -9821., -9823., -9829.,
+       -9830., -9840., -9846.]), array([0.00000000e+00, 6.57730000e-02, 6.80520000e-02, 6.79299700e+00,
+       4.51083820e+01, 8.03080600e+01, 2.06370168e+02, 2.10581153e+02,
+       2.10595570e+02, 2.10657287e+02, 2.10754190e+02, 2.11270733e+02,
+       2.11308531e+02, 2.11392115e+02, 2.12211759e+02, 2.12227855e+02,
+       2.12978832e+02, 2.98709643e+02, 2.98771181e+02, 3.12456946e+02,
+       3.20441654e+02, 3.20947322e+02, 3.27613263e+02, 3.31077178e+02,
+       3.43436663e+02, 3.43460320e+02, 3.56716716e+02, 3.56807145e+02,
+       3.56843199e+02, 3.74189176e+02, 4.17783724e+02, 4.17802773e+02,
+       4.17899062e+02, 4.17920445e+02, 4.82282891e+02, 4.82298200e+02,
+       4.82324451e+02, 4.85202014e+02, 4.90041659e+02, 5.05924482e+02,
+       5.05959606e+02, 5.79525109e+02, 5.79585097e+02])]
+instance:  20
+create a new SCIP model
+The initial incumbent of generalized_independentset-100_transformed is successfully added to MIP model
+generalized_independentset-100_transformed
+N of variables: 10016
+N of binary vars: 10016
+N of constraints: 12694
+Initial obj of MIP: -74.0
+Instance: generalized_independentset-100_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10570.0
+Solving time:  600.025881
+
+
+[array([   -74.,  -4500.,  -4700.,  -5195.,  -5395.,  -9269., -10570.]), array([0.00000000e+00, 1.37274000e-01, 1.42653000e-01, 1.83996170e+01,
+       2.81947190e+01, 8.52679400e+01, 1.73276838e+02])]
+instance:  21
+create a new SCIP model
+The initial incumbent of generalized_independentset-101_transformed is successfully added to MIP model
+generalized_independentset-101_transformed
+N of variables: 490
+N of binary vars: 490
+N of constraints: 518
+Initial obj of MIP: -5290.0
+Instance: generalized_independentset-101_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -5496.0
+Solving time:  0.298776
+
+
+[array([-5290., -5496.]), array([0.      , 0.006131])]
+instance:  22
+create a new SCIP model
+The initial incumbent of generalized_independentset-102_transformed is successfully added to MIP model
+generalized_independentset-102_transformed
+N of variables: 3701
+N of binary vars: 3701
+N of constraints: 4554
+Initial obj of MIP: -85.0
+Instance: generalized_independentset-102_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10127.0
+Solving time:  600.000544
+
+
+[array([   -85.,  -4300.,  -5404.,  -5672.,  -6159.,  -7120.,  -8607.,
+        -8887.,  -8930.,  -8933.,  -8993.,  -9012.,  -9013.,  -9017.,
+        -9019.,  -9096.,  -9102.,  -9351.,  -9356.,  -9370.,  -9371.,
+        -9372.,  -9373.,  -9374.,  -9375.,  -9384.,  -9386.,  -9387.,
+        -9466.,  -9470.,  -9472.,  -9481.,  -9485.,  -9562.,  -9568.,
+        -9569.,  -9576.,  -9581.,  -9652.,  -9654.,  -9659.,  -9665.,
+        -9666.,  -9669.,  -9747.,  -9752.,  -9838.,  -9851.,  -9853.,
+        -9858.,  -9924., -10027., -10035., -10043., -10127.]), array([0.00000000e+00, 4.85300000e-02, 5.21761000e+00, 4.32883600e+01,
+       4.32962550e+01, 6.11921650e+01, 6.57433960e+01, 7.85266160e+01,
+       1.22177269e+02, 1.22230332e+02, 1.47410021e+02, 1.64542501e+02,
+       1.69790509e+02, 1.69814641e+02, 1.69859392e+02, 1.70072284e+02,
+       1.70438761e+02, 2.67705548e+02, 2.67757809e+02, 2.67959537e+02,
+       3.75833787e+02, 3.79218556e+02, 3.82345358e+02, 3.82367125e+02,
+       3.82490293e+02, 3.94208643e+02, 3.97850993e+02, 4.03954677e+02,
+       4.09248217e+02, 4.09369753e+02, 4.25236493e+02, 4.25336423e+02,
+       4.25790531e+02, 4.40916537e+02, 4.40941770e+02, 4.40973974e+02,
+       4.41515667e+02, 4.41522217e+02, 4.49359268e+02, 4.65805099e+02,
+       4.66194539e+02, 4.66314046e+02, 4.66737465e+02, 4.96309085e+02,
+       4.98825138e+02, 5.25790694e+02, 5.25846998e+02, 5.34076096e+02,
+       5.34087520e+02, 5.34164084e+02, 5.34604111e+02, 5.34661279e+02,
+       5.34793077e+02, 5.42612209e+02, 5.42632534e+02])]
+instance:  23
+create a new SCIP model
+The initial incumbent of generalized_independentset-103_transformed is successfully added to MIP model
+generalized_independentset-103_transformed
+N of variables: 3824
+N of binary vars: 3824
+N of constraints: 4661
+Initial obj of MIP: -83.0
+Instance: generalized_independentset-103_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10114.0
+Solving time:  600.001177
+
+
+[array([   -83.,  -3900.,  -4701.,  -6467.,  -6823.,  -6989.,  -8367.,
+        -8704.,  -8795.,  -8796.,  -8821.,  -8878.,  -8880.,  -8899.,
+        -8900.,  -9001.,  -9012.,  -9093.,  -9182.,  -9183.,  -9193.,
+        -9274.,  -9288.,  -9289.,  -9293.,  -9294.,  -9299.,  -9303.,
+        -9304.,  -9370.,  -9372.,  -9375.,  -9377.,  -9380.,  -9391.,
+        -9392.,  -9482.,  -9488.,  -9564.,  -9576.,  -9579.,  -9580.,
+        -9649.,  -9656.,  -9657.,  -9927.,  -9933.,  -9938.,  -9943.,
+       -10002., -10004., -10015., -10070., -10080., -10098., -10099.,
+       -10106., -10113., -10114.]), array([0.00000000e+00, 4.85610000e-02, 4.43906300e+00, 4.44261400e+00,
+       3.83266600e+01, 5.51337240e+01, 5.51384250e+01, 5.51416650e+01,
+       5.51458550e+01, 5.51596730e+01, 5.57486040e+01, 5.98572050e+01,
+       5.98676830e+01, 5.98961960e+01, 5.99169180e+01, 7.54498740e+01,
+       7.88500970e+01, 8.41606080e+01, 8.42332370e+01, 8.42473150e+01,
+       8.43365390e+01, 9.87603600e+01, 1.12641743e+02, 1.21013490e+02,
+       1.21112324e+02, 1.21138026e+02, 1.40841884e+02, 1.41019676e+02,
+       1.41301219e+02, 1.90971222e+02, 1.92484566e+02, 1.98348381e+02,
+       1.98605426e+02, 2.03171016e+02, 2.33443028e+02, 2.33460920e+02,
+       2.33553984e+02, 2.38917948e+02, 2.61575455e+02, 2.62417074e+02,
+       2.62473481e+02, 2.71063978e+02, 2.71579791e+02, 2.71642819e+02,
+       2.71675120e+02, 4.39260934e+02, 4.39369892e+02, 4.45727239e+02,
+       4.45829666e+02, 5.15314070e+02, 5.15360926e+02, 5.15398031e+02,
+       5.27021588e+02, 5.27044885e+02, 5.27812342e+02, 5.28278813e+02,
+       5.28477619e+02, 5.37447033e+02, 5.52006772e+02])]
+instance:  24
+create a new SCIP model
+The initial incumbent of generalized_independentset-104_transformed is successfully added to MIP model
+generalized_independentset-104_transformed
+N of variables: 1094
+N of binary vars: 1094
+N of constraints: 1241
+Initial obj of MIP: -621.0
+Instance: generalized_independentset-104_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7205.0
+Solving time:  13.661851
+
+
+[array([ -621., -3300., -3400., -3507., -3604., -5539., -5746., -6262.,
+       -6933., -6936., -6940., -6947., -7035., -7036., -7114., -7205.]), array([ 0.      ,  0.012944,  0.013396,  0.400435,  0.403323,  0.405112,
+        0.406476,  0.407797,  2.818488,  3.092291,  5.719714,  6.637543,
+        9.351002,  9.399769, 12.708303, 12.83099 ])]
+instance:  25
+create a new SCIP model
+The initial incumbent of generalized_independentset-105_transformed is successfully added to MIP model
+generalized_independentset-105_transformed
+N of variables: 2707
+N of binary vars: 2707
+N of constraints: 3277
+Initial obj of MIP: -166.0
+Instance: generalized_independentset-105_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9370.0
+Solving time:  600.000371
+
+
+[array([ -166., -3800., -3900., -5838., -6146., -6455., -6769., -6873.,
+       -7189., -7684., -7685., -7689., -7690., -7691., -7693., -7694.,
+       -7780., -7783., -7872., -8060., -8064., -8494., -8672., -8683.,
+       -8687., -8709., -8716., -8718., -8767., -8776., -8777., -8780.,
+       -8908., -8963., -8976., -8978., -9047., -9052., -9054., -9072.,
+       -9082., -9088., -9180., -9186., -9270., -9271., -9272., -9343.,
+       -9363., -9368., -9369., -9370.]), array([0.00000000e+00, 3.25960000e-02, 3.36740000e-02, 2.68231800e+00,
+       2.68528700e+00, 2.68843400e+00, 2.69110300e+00, 2.69374100e+00,
+       2.69636900e+00, 2.03964040e+01, 2.04453740e+01, 2.12664490e+01,
+       2.15452050e+01, 2.27067090e+01, 2.29534990e+01, 2.32023650e+01,
+       2.42702650e+01, 2.43610350e+01, 2.44126730e+01, 2.70978480e+01,
+       2.75095240e+01, 3.35329830e+01, 4.08726390e+01, 4.08859080e+01,
+       4.09441030e+01, 4.36376110e+01, 4.36458170e+01, 4.36634010e+01,
+       4.46212410e+01, 4.52554060e+01, 4.52776180e+01, 4.52980040e+01,
+       4.65231100e+01, 6.42083810e+01, 6.46477690e+01, 6.64560920e+01,
+       6.68596330e+01, 6.79258740e+01, 6.79491870e+01, 1.05303408e+02,
+       1.05324827e+02, 1.69420459e+02, 2.71216688e+02, 2.71544072e+02,
+       5.21415862e+02, 5.21543174e+02, 5.21563521e+02, 5.33608828e+02,
+       5.33789166e+02, 5.33841765e+02, 5.33856627e+02, 5.40435392e+02])]
+instance:  26
+create a new SCIP model
+The initial incumbent of generalized_independentset-106_transformed is successfully added to MIP model
+generalized_independentset-106_transformed
+N of variables: 999
+N of binary vars: 999
+N of constraints: 1159
+Initial obj of MIP: -994.0
+Instance: generalized_independentset-106_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7121.0
+Solving time:  10.729229
+
+
+[array([ -994., -3200., -3300., -5588., -6735., -6751., -6753., -6758.,
+       -6817., -6827., -6840., -6843., -6844., -6845., -6846., -6941.,
+       -6942., -6944., -7031., -7032., -7036., -7037., -7113., -7120.,
+       -7121.]), array([0.      , 0.012333, 0.012761, 0.666892, 3.290712, 3.476362,
+       3.491744, 3.660125, 5.119516, 5.190453, 6.362948, 6.432794,
+       7.339181, 8.124395, 8.408846, 8.665375, 8.677485, 8.679902,
+       8.910935, 8.988469, 9.17236 , 9.22556 , 9.871677, 9.896353,
+       9.976955])]
+instance:  27
+create a new SCIP model
+The initial incumbent of generalized_independentset-107_transformed is successfully added to MIP model
+generalized_independentset-107_transformed
+N of variables: 3938
+N of binary vars: 3938
+N of constraints: 4788
+Initial obj of MIP: -85.0
+Instance: generalized_independentset-107_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9800.0
+Solving time:  600.000477
+
+
+[array([  -85., -4300., -6358., -6404., -6504., -7968., -9196., -9197.,
+       -9203., -9204., -9206., -9208., -9291., -9297., -9301., -9386.,
+       -9460., -9461., -9523., -9629., -9642., -9652., -9661., -9662.,
+       -9748., -9797., -9798., -9800.]), array([0.00000000e+00, 4.83770000e-02, 4.82378700e+00, 5.23031740e+01,
+       5.23074520e+01, 5.23121650e+01, 5.66011330e+01, 2.45769387e+02,
+       2.45856115e+02, 2.52136096e+02, 2.52154607e+02, 2.52178420e+02,
+       2.54696790e+02, 2.68212404e+02, 2.70179920e+02, 2.77060912e+02,
+       4.06308715e+02, 4.06330013e+02, 4.06583426e+02, 4.08555223e+02,
+       4.08618110e+02, 4.09314980e+02, 4.09954487e+02, 4.09969826e+02,
+       4.21743916e+02, 5.60617669e+02, 5.60897779e+02, 5.60953057e+02])]
+instance:  28
+create a new SCIP model
+The initial incumbent of generalized_independentset-108_transformed is successfully added to MIP model
+generalized_independentset-108_transformed
+N of variables: 4955
+N of binary vars: 4955
+N of constraints: 6115
+Initial obj of MIP: -226.0
+Instance: generalized_independentset-108_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10197.0
+Solving time:  600.001616
+
+
+[array([  -226.,  -4200.,  -7024.,  -9379., -10014., -10016., -10017.,
+       -10021., -10027., -10105., -10117., -10121., -10124., -10190.,
+       -10197.]), array([0.00000000e+00, 6.56680000e-02, 6.70977100e+00, 8.52779160e+01,
+       8.52838050e+01, 8.52951110e+01, 3.96196297e+02, 3.96219409e+02,
+       4.10172737e+02, 4.15423995e+02, 4.15715836e+02, 4.21561573e+02,
+       4.21617874e+02, 4.67597601e+02, 4.67813879e+02])]
+instance:  29
+create a new SCIP model
+The initial incumbent of generalized_independentset-109_transformed is successfully added to MIP model
+generalized_independentset-109_transformed
+N of variables: 10027
+N of binary vars: 10027
+N of constraints: 12720
+Initial obj of MIP: -75.0
+Instance: generalized_independentset-109_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9849.0
+Solving time:  600.001392
+
+
+[array([  -75., -4100., -4400., -6843., -8032., -9849.]), array([0.00000000e+00, 1.54706000e-01, 1.60122000e-01, 2.10375120e+01,
+       1.83736403e+02, 1.83749729e+02])]
+instance:  30
+create a new SCIP model
+The initial incumbent of generalized_independentset-110_transformed is successfully added to MIP model
+generalized_independentset-110_transformed
+N of variables: 8136
+N of binary vars: 8136
+N of constraints: 10343
+Initial obj of MIP: -144.0
+Instance: generalized_independentset-110_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10314.0
+Solving time:  600.003442
+
+
+[array([  -144.,  -4800.,  -5583.,  -5783.,  -6743.,  -6810.,  -9083.,
+        -9717., -10314.]), array([0.00000000e+00, 1.13810000e-01, 1.50156360e+01, 2.57285080e+01,
+       7.47959020e+01, 7.48061050e+01, 1.48882851e+02, 1.48892157e+02,
+       2.52642440e+02])]
+instance:  31
+create a new SCIP model
+The initial incumbent of generalized_independentset-111_transformed is successfully added to MIP model
+generalized_independentset-111_transformed
+N of variables: 1743
+N of binary vars: 1743
+N of constraints: 2015
+Initial obj of MIP: -436.0
+Instance: generalized_independentset-111_transformed
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8514.0
+Solving time:  116.097237
+
+
+[array([ -436., -3600., -3700., -3706., -3806., -3808., -4008., -4517.,
+       -4525., -5963., -7866., -7875., -7881., -7887., -7889., -7965.,
+       -7966., -7967., -7969., -7972., -7973., -7980., -7981., -7982.,
+       -7983., -8166., -8260., -8261., -8352., -8422., -8426., -8430.,
+       -8431., -8440., -8514.]), array([0.0000000e+00, 1.9679000e-02, 2.0368000e-02, 1.4486250e+00,
+       1.4508200e+00, 1.4530330e+00, 1.4550640e+00, 1.4570080e+00,
+       1.4590090e+00, 1.4609760e+00, 1.1437734e+01, 1.1550870e+01,
+       1.1654443e+01, 1.4082551e+01, 1.4834321e+01, 1.5552878e+01,
+       1.5607668e+01, 1.6252081e+01, 1.6257428e+01, 1.7587569e+01,
+       1.7668118e+01, 1.7946793e+01, 1.8679268e+01, 1.8692150e+01,
+       1.8698614e+01, 2.0194948e+01, 2.2908027e+01, 3.0789811e+01,
+       3.1035103e+01, 6.2415011e+01, 6.2420311e+01, 6.2513252e+01,
+       6.2521005e+01, 7.1978498e+01, 8.5202393e+01])]
+instance:  32
+create a new SCIP model
+The initial incumbent of generalized_independentset-112_transformed is successfully added to MIP model
+generalized_independentset-112_transformed
+N of variables: 3778
+N of binary vars: 3778
+N of constraints: 4607
+Initial obj of MIP: -229.0
+Instance: generalized_independentset-112_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10082.0
+Solving time:  600.000356
+
+
+[array([  -229.,  -4200.,  -4400.,  -6452.,  -6788.,  -7207.,  -7626.,
+        -8160.,  -8474.,  -8834.,  -9028.,  -9029.,  -9032.,  -9033.,
+        -9034.,  -9298.,  -9302.,  -9381.,  -9387.,  -9473.,  -9474.,
+        -9574.,  -9652.,  -9654.,  -9662.,  -9671.,  -9756.,  -9760.,
+        -9769.,  -9842.,  -9941.,  -9989., -10008., -10011., -10023.,
+       -10082.]), array([0.00000000e+00, 4.70050000e-02, 4.84980000e-02, 4.18578100e+00,
+       2.50667240e+01, 3.01860200e+01, 3.46900560e+01, 3.46951410e+01,
+       3.47000590e+01, 3.47010700e+01, 3.47046300e+01, 3.47185220e+01,
+       3.47269090e+01, 3.71079150e+01, 3.84320510e+01, 3.89720640e+01,
+       5.14398720e+01, 5.23788680e+01, 5.45205330e+01, 5.88490220e+01,
+       5.88641470e+01, 5.92075380e+01, 6.02199400e+01, 6.71514350e+01,
+       2.06732093e+02, 2.07482381e+02, 2.07495349e+02, 2.07885690e+02,
+       2.08440552e+02, 2.13847552e+02, 2.14453750e+02, 2.27971734e+02,
+       2.34588538e+02, 2.35718117e+02, 2.79845268e+02, 5.83517380e+02])]
+instance:  33
+create a new SCIP model
+The initial incumbent of generalized_independentset-113_transformed is successfully added to MIP model
+generalized_independentset-113_transformed
+N of variables: 4950
+N of binary vars: 4950
+N of constraints: 6158
+Initial obj of MIP: -85.0
+Instance: generalized_independentset-113_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10018.0
+Solving time:  600.000721
+
+
+[array([   -85.,  -3800.,  -4000.,  -5157.,  -5263.,  -5883.,  -8908.,
+        -9549.,  -9721.,  -9740.,  -9755.,  -9822.,  -9848.,  -9862.,
+        -9864.,  -9917.,  -9918.,  -9935.,  -9940., -10017., -10018.]), array([0.00000000e+00, 6.50900000e-02, 6.74570000e-02, 6.78284400e+00,
+       6.78726500e+00, 6.79160700e+00, 4.09885910e+01, 8.02504680e+01,
+       2.59799674e+02, 3.54514794e+02, 3.54989889e+02, 3.70415121e+02,
+       3.71199740e+02, 3.89697049e+02, 4.04126085e+02, 4.20210318e+02,
+       4.72180397e+02, 4.81712477e+02, 5.29055996e+02, 5.45938466e+02,
+       5.46385472e+02])]
+instance:  34
+create a new SCIP model
+The initial incumbent of generalized_independentset-114_transformed is successfully added to MIP model
+generalized_independentset-114_transformed
+N of variables: 5190
+N of binary vars: 5190
+N of constraints: 6411
+Initial obj of MIP: -80.0
+Instance: generalized_independentset-114_transformed
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9932.0
+Solving time:  600.000498
+
+
+[array([  -80., -4000., -4200., -4284., -4483., -4690., -5721., -5827.,
+       -6030., -6249., -7765., -8863., -9373., -9670., -9674., -9718.,
+       -9719., -9799., -9922., -9927., -9928., -9932.]), array([0.00000000e+00, 7.26180000e-02, 7.48040000e-02, 6.83942500e+00,
+       6.84569000e+00, 6.85060200e+00, 6.85556200e+00, 6.86083500e+00,
+       6.86598900e+00, 6.87078000e+00, 7.40858930e+01, 8.00865320e+01,
+       9.90822790e+01, 1.47633676e+02, 1.67508893e+02, 3.27104077e+02,
+       3.27124392e+02, 3.27164129e+02, 3.27169871e+02, 3.51076485e+02,
+       4.16202773e+02, 4.37098026e+02])]
+miplib_39binary-small
+firstsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj of MIP: 21141.52
+Instance: miplib_39binary-0_transformed_a1c1s1
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  12885.875874999994
+Solving time:  600.000327
+
+
+[array([21141.52      , 20970.9075    , 14204.3845    , 14204.3845    ,
+       14204.3845    , 14139.926     , 14138.84039258, 14057.17125   ,
+       14003.012625  , 13658.18675   , 13483.18675   , 13483.18675   ,
+       12885.875875  ]), array([0.00000000e+00, 8.56120000e-02, 3.26352800e+00, 3.03835540e+01,
+       3.05134150e+01, 3.06297290e+01, 3.07765000e+01, 1.02042199e+02,
+       1.87217187e+02, 2.17467310e+02, 2.18084120e+02, 3.58348555e+02,
+       3.77867251e+02])]
+instance:  1
+create a new SCIP model
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj of MIP: 4374.0
+Instance: miplib_39binary-1_transformed_aflow30a
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  1158.0
+Solving time:  43.025471
+
+
+[array([4374., 1173., 1160., 1159., 1158.]), array([ 0.      ,  1.289972, 23.262519, 26.471047, 37.161437])]
+instance:  2
+create a new SCIP model
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj of MIP: 8410.0
+Instance: miplib_39binary-2_transformed_aflow40b
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1195.0
+Solving time:  600.000385
+
+
+[array([8410., 3416., 1195.]), array([0.      , 3.637924, 5.474452])]
+instance:  3
+create a new SCIP model
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj of MIP: 57283.999999999985
+Instance: miplib_39binary-3_transformed_air04
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  56137.0
+Solving time:  107.535546
+
+
+[array([57284., 57212., 56340., 56266., 56265., 56138., 56137.]), array([  0.      ,  46.835442,  88.358157,  89.560897,  90.17763 ,
+       103.247782, 105.723802])]
+instance:  4
+create a new SCIP model
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj of MIP: 30740.0
+Instance: miplib_39binary-4_transformed_air05
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  26374.0
+Solving time:  79.858512
+
+
+[array([30740., 28737., 28547., 28024., 27933., 27596., 27269., 26985.,
+       26588., 26584., 26567., 26533., 26529., 26485., 26448., 26442.,
+       26439., 26402., 26374.]), array([ 0.      ,  9.416468, 11.282816, 38.319168, 39.379107, 41.374355,
+       41.40206 , 57.581174, 59.609293, 59.676706, 60.432438, 60.634245,
+       65.479347, 65.536413, 66.02386 , 73.336398, 73.350793, 73.595313,
+       74.351974])]
+instance:  5
+create a new SCIP model
+The initial incumbent of miplib_39binary-5_transformed_cap6000 is successfully added to MIP model
+miplib_39binary-5_transformed_cap6000
+N of variables: 6000
+N of binary vars: 6000
+N of constraints: 2171
+Initial obj of MIP: -80463.0
+Instance: miplib_39binary-5_transformed_cap6000
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -2451377.0
+Solving time:  24.205905
+
+
+[array([  -80463.,   -82937.,  -749816., -2442801., -2451186., -2451267.,
+       -2451279., -2451361., -2451365., -2451372., -2451373., -2451377.]), array([ 0.      ,  0.082075,  0.090417,  0.146455,  0.159177, 13.809071,
+       15.124205, 15.235997, 18.651769, 19.522792, 20.728129, 22.631847])]
+instance:  6
+create a new SCIP model
+The initial incumbent of miplib_39binary-6_transformed_dano3mip is successfully added to MIP model
+miplib_39binary-6_transformed_dano3mip
+N of variables: 13873
+N of binary vars: 552
+N of constraints: 3215
+Initial obj of MIP: 982.4
+Instance: miplib_39binary-6_transformed_dano3mip
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  721.7619047619048
+Solving time:  600.019993
+
+
+[array([982.4       , 721.76190476]), array([  0.      , 409.461258])]
+instance:  7
+create a new SCIP model
+The initial incumbent of miplib_39binary-7_transformed_danoint is successfully added to MIP model
+miplib_39binary-7_transformed_danoint
+N of variables: 521
+N of binary vars: 56
+N of constraints: 688
+Initial obj of MIP: 82.0
+Instance: miplib_39binary-7_transformed_danoint
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  65.66666666666666
+Solving time:  600.000877
+
+
+[array([82.        , 66.5       , 65.66666667, 65.66666667]), array([ 0.      ,  0.934882, 69.633715, 85.489311])]
+instance:  8
+create a new SCIP model
+The initial incumbent of miplib_39binary-8_transformed_ds is successfully added to MIP model
+miplib_39binary-8_transformed_ds
+N of variables: 67732
+N of binary vars: 67732
+N of constraints: 656
+Initial obj of MIP: 579495.0
+Instance: miplib_39binary-8_transformed_ds
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  251079.0
+Solving time:  600.002452
+
+
+[array([579495., 523278., 251079.]), array([  0.      ,   1.716897, 595.42855 ])]
+instance:  9
+create a new SCIP model
+The initial incumbent of miplib_39binary-9_transformed_fast0507 is successfully added to MIP model
+miplib_39binary-9_transformed_fast0507
+N of variables: 63009
+N of binary vars: 63009
+N of constraints: 507
+Initial obj of MIP: 122425.0
+Instance: miplib_39binary-9_transformed_fast0507
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  177.0
+Solving time:  600.428661
+
+
+[array([122425., 122424.,    240.,    177.]), array([ 0.      ,  1.595392,  7.362386, 68.684972])]
+instance:  10
+create a new SCIP model
+The initial incumbent of miplib_39binary-10_transformed_fiber is successfully added to MIP model
+miplib_39binary-10_transformed_fiber
+N of variables: 1298
+N of binary vars: 1254
+N of constraints: 353
+Initial obj of MIP: 221485087.0
+Instance: miplib_39binary-10_transformed_fiber
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  40593518.0
+Solving time:  1.649772
+
+
+[array([2.21485087e+08, 4.27537420e+07, 4.19467820e+07, 4.17399830e+07,
+       4.10792780e+07, 4.08786380e+07, 4.07941580e+07, 4.05935180e+07]), array([0.      , 0.128613, 0.612159, 1.00294 , 1.226623, 1.324114,
+       1.380883, 1.604528])]
+instance:  11
+create a new SCIP model
+The initial incumbent of miplib_39binary-11_transformed_glass4 is successfully added to MIP model
+miplib_39binary-11_transformed_glass4
+N of variables: 322
+N of binary vars: 302
+N of constraints: 394
+Initial obj of MIP: 4900050300.0
+Instance: miplib_39binary-11_transformed_glass4
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1500012649.9968777
+Solving time:  600.001199
+
+
+[array([4.90005030e+09, 3.75003520e+09, 3.20002640e+09, 2.61668923e+09,
+       2.55002102e+09, 2.53335643e+09, 2.50002035e+09, 2.47780039e+09,
+       2.35002015e+09, 2.35001975e+09, 2.30002285e+09, 2.30001970e+09,
+       2.25001920e+09, 2.23335186e+09, 2.20001790e+09, 2.15002015e+09,
+       2.10001777e+09, 2.00001680e+09, 1.85001620e+09, 1.82501509e+09,
+       1.76668155e+09, 1.71668150e+09, 1.70001490e+09, 1.70001390e+09,
+       1.70001315e+09, 1.56667982e+09, 1.55001325e+09, 1.50001265e+09,
+       1.50001265e+09]), array([0.00000000e+00, 1.63012000e-01, 3.26818000e-01, 7.43832000e-01,
+       8.00750000e-01, 9.32903000e-01, 1.00546000e+00, 1.35058900e+00,
+       1.35405500e+00, 1.37900400e+00, 1.67255000e+00, 1.73103000e+00,
+       3.31603100e+00, 3.51341200e+00, 4.80201300e+00, 4.89487400e+00,
+       5.52116600e+00, 6.89457100e+00, 8.65132000e+00, 1.39959780e+01,
+       3.08654740e+01, 3.61583250e+01, 1.11446316e+02, 3.68344600e+02,
+       5.11423248e+02, 5.13807690e+02, 5.36784721e+02, 5.37172798e+02,
+       5.37207179e+02])]
+instance:  12
+create a new SCIP model
+The initial incumbent of miplib_39binary-12_transformed_harp2 is successfully added to MIP model
+miplib_39binary-12_transformed_harp2
+N of variables: 2993
+N of binary vars: 2993
+N of constraints: 102
+Initial obj of MIP: -48153311.0
+Instance: miplib_39binary-12_transformed_harp2
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -73882641.0
+Solving time:  600.000353
+
+
+[array([-48153311.        , -64851577.99999999, -66829628.        ,
+       -71434801.        , -71869060.        , -71881559.        ,
+       -71981749.        , -72884747.        , -72913176.        ,
+       -73086207.        , -73178824.        , -73474250.        ,
+       -73489491.        , -73626039.        , -73710105.        ,
+       -73742722.        , -73759640.        , -73778057.        ,
+       -73800010.        , -73809218.        , -73825823.        ,
+       -73831808.        , -73833224.        , -73841220.        ,
+       -73851326.        , -73859102.        , -73861206.        ,
+       -73861432.        , -73865152.        , -73868222.        ,
+       -73872152.        , -73872210.        , -73872312.        ,
+       -73872354.        , -73873983.        , -73875195.        ,
+       -73875806.        , -73876009.        , -73882638.        ,
+       -73882640.        , -73882641.        ]), array([0.00000000e+00, 4.05526000e-01, 1.39970300e+00, 1.44705400e+00,
+       1.46132500e+00, 1.46193000e+00, 5.83236900e+00, 6.79105700e+00,
+       6.79226700e+00, 6.79373400e+00, 7.50776400e+00, 1.28755400e+01,
+       1.49527520e+01, 1.68110520e+01, 1.82610170e+01, 2.08211170e+01,
+       2.25203300e+01, 2.46525600e+01, 2.64386870e+01, 2.83379500e+01,
+       7.17883840e+01, 7.29800770e+01, 7.82701230e+01, 8.82731590e+01,
+       1.04025994e+02, 1.13272743e+02, 1.47714637e+02, 1.48943942e+02,
+       1.49686828e+02, 1.49704167e+02, 1.49757973e+02, 1.50807346e+02,
+       1.51457689e+02, 1.52495528e+02, 1.53064847e+02, 3.30779077e+02,
+       3.48635985e+02, 3.49037618e+02, 3.49820231e+02, 3.69540331e+02,
+       5.33574783e+02])]
+instance:  13
+create a new SCIP model
+The initial incumbent of miplib_39binary-13_transformed_liu is successfully added to MIP model
+miplib_39binary-13_transformed_liu
+N of variables: 1156
+N of binary vars: 1089
+N of constraints: 2178
+Initial obj of MIP: 6450.0
+Instance: miplib_39binary-13_transformed_liu
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1396.0000000000005
+Solving time:  600.000943
+
+
+[array([6450.      , 5600.      , 4558.      , 4308.      , 4252.      ,
+       4158.      , 2438.      , 2436.      , 2434.      , 2432.      ,
+       2396.      , 2384.      , 2380.      , 2379.999999, 2362.      ,
+       2352.      , 2346.      , 2338.      , 2334.      , 2328.      ,
+       2318.      , 2304.      , 2300.      , 2298.      , 2292.      ,
+       2290.      , 2286.      , 2284.      , 2272.      , 2242.      ,
+       2230.      , 2222.      , 2220.      , 2214.      , 2210.      ,
+       2206.      , 2200.      , 2194.      , 2186.      , 2184.      ,
+       2172.      , 2166.      , 2158.      , 2152.      , 2146.      ,
+       2140.      , 2136.      , 2134.      , 2124.      , 2118.      ,
+       2110.      , 2108.      , 2100.      , 2096.      , 2088.      ,
+       2082.      , 2078.      , 2070.      , 2068.      , 2060.      ,
+       2050.      , 2048.      , 2044.      , 2026.      , 2016.      ,
+       2012.      , 1998.      , 1996.      , 1990.      , 1988.      ,
+       1987.999999, 1984.      , 1970.      , 1962.      , 1958.      ,
+       1956.      , 1955.999999, 1952.      , 1948.      , 1944.      ,
+       1928.      , 1910.      , 1866.      , 1864.      , 1860.      ,
+       1858.      , 1857.999999, 1850.      , 1849.999999, 1830.      ,
+       1824.      , 1800.      , 1782.      , 1760.      , 1732.      ,
+       1712.      , 1682.      , 1678.      , 1676.      , 1675.999999,
+       1674.      , 1673.999999, 1668.      , 1664.      , 1662.      ,
+       1654.      , 1652.      , 1648.      , 1628.      , 1614.      ,
+       1602.      , 1600.      , 1592.      , 1590.      , 1584.      ,
+       1580.      , 1578.      , 1570.      , 1566.      , 1564.      ,
+       1563.999999, 1558.      , 1550.      , 1542.      , 1530.      ,
+       1528.      , 1508.      , 1496.      , 1482.      , 1474.      ,
+       1473.999999, 1472.      , 1466.      , 1454.      , 1452.      ,
+       1446.      , 1432.      , 1431.999999, 1416.      , 1415.999999,
+       1398.      , 1396.      ]), array([0.00000000e+00, 5.96610000e-02, 9.73360000e-02, 1.97419900e+00,
+       4.16977400e+00, 4.47391700e+00, 6.30907600e+00, 7.65956800e+00,
+       8.79493700e+00, 9.75289100e+00, 1.14500870e+01, 1.60318000e+01,
+       1.69489560e+01, 1.90980990e+01, 2.42007160e+01, 2.47728840e+01,
+       2.64080670e+01, 2.67116080e+01, 2.75017600e+01, 3.04604000e+01,
+       3.15968310e+01, 3.33034910e+01, 3.51131590e+01, 3.62365250e+01,
+       3.80817110e+01, 4.17195050e+01, 4.19174590e+01, 4.52299040e+01,
+       4.84227170e+01, 4.87044640e+01, 5.27874700e+01, 5.41167120e+01,
+       5.47004360e+01, 5.93646360e+01, 5.97462680e+01, 6.37877620e+01,
+       6.50919490e+01, 6.67778350e+01, 7.00540890e+01, 7.03938000e+01,
+       7.36850510e+01, 7.61759620e+01, 7.63996590e+01, 7.71841630e+01,
+       9.12733620e+01, 9.15515820e+01, 9.21194930e+01, 9.28051200e+01,
+       9.36962400e+01, 9.52446050e+01, 1.00405335e+02, 1.01482666e+02,
+       1.02347075e+02, 1.02931609e+02, 1.04525256e+02, 1.05924202e+02,
+       1.06635930e+02, 1.06852464e+02, 1.10073693e+02, 1.13293451e+02,
+       1.13906266e+02, 1.15211102e+02, 1.15896918e+02, 1.16391166e+02,
+       1.21391059e+02, 1.22103014e+02, 1.24340456e+02, 1.26679774e+02,
+       1.28600704e+02, 1.32381482e+02, 1.32565029e+02, 1.33009734e+02,
+       1.33255018e+02, 1.35082866e+02, 1.37243636e+02, 1.38076002e+02,
+       1.38700486e+02, 1.39173606e+02, 1.39582611e+02, 1.39975121e+02,
+       1.42816097e+02, 1.45406177e+02, 1.45406832e+02, 1.50181426e+02,
+       1.52681170e+02, 1.56758675e+02, 1.58898456e+02, 1.63532861e+02,
+       1.64930079e+02, 1.66892722e+02, 1.70323354e+02, 1.71620746e+02,
+       1.71624417e+02, 1.72130923e+02, 1.72152624e+02, 1.72159038e+02,
+       1.73002778e+02, 1.73960552e+02, 1.77826153e+02, 1.83592642e+02,
+       1.88408558e+02, 1.91291446e+02, 2.03433430e+02, 2.04399247e+02,
+       2.13257924e+02, 2.15046153e+02, 2.18848305e+02, 2.23659089e+02,
+       2.27681550e+02, 2.29345286e+02, 2.38765850e+02, 2.39759357e+02,
+       2.44270642e+02, 2.46513657e+02, 2.48333477e+02, 2.60278199e+02,
+       2.60391955e+02, 2.63291787e+02, 2.75986951e+02, 2.80521907e+02,
+       2.89594890e+02, 3.03281796e+02, 3.22357070e+02, 3.26986996e+02,
+       3.43483472e+02, 3.43490560e+02, 3.43496444e+02, 3.49463963e+02,
+       3.49624497e+02, 3.49973454e+02, 3.56890127e+02, 3.97343153e+02,
+       3.99863636e+02, 4.10003307e+02, 4.10056108e+02, 4.44734152e+02,
+       4.69183804e+02, 4.74990734e+02, 4.92461003e+02, 5.05586631e+02,
+       5.80560557e+02, 5.99199537e+02])]
+instance:  14
+create a new SCIP model
+The initial incumbent of miplib_39binary-14_transformed_misc07 is successfully added to MIP model
+miplib_39binary-14_transformed_misc07
+N of variables: 260
+N of binary vars: 259
+N of constraints: 224
+Initial obj of MIP: 4615.0
+Instance: miplib_39binary-14_transformed_misc07
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  2810.0
+Solving time:  62.023154
+
+
+[array([4615., 3625., 3605., 3550., 3465., 2920., 2875., 2865., 2810.]), array([0.      , 0.873237, 0.874919, 0.883956, 0.889731, 1.480134,
+       3.201406, 6.962733, 7.074131])]
+instance:  15
+create a new SCIP model
+The initial incumbent of miplib_39binary-15_transformed_mkc is successfully added to MIP model
+miplib_39binary-15_transformed_mkc
+N of variables: 5325
+N of binary vars: 5323
+N of constraints: 3411
+Initial obj of MIP: 0.0
+Instance: miplib_39binary-15_transformed_mkc
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -271135.0
+Solving time:  600.000476
+
+
+[array([      0., -123332., -156401., -159592., -166454., -170600.,
+       -221503., -247738., -253375., -267443., -271135.]), array([ 0.      ,  0.319885,  0.438793,  0.568925,  0.670439,  1.612651,
+        4.864648,  5.592376, 63.099203, 73.292874, 93.276686])]
+instance:  16
+create a new SCIP model
+The initial incumbent of miplib_39binary-16_transformed_mod011 is successfully added to MIP model
+miplib_39binary-16_transformed_mod011
+N of variables: 10958
+N of binary vars: 96
+N of constraints: 4480
+Initial obj of MIP: 0.0
+Instance: miplib_39binary-16_transformed_mod011
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -54558535.014227554
+Solving time:  253.085284
+
+
+[array([        0.        , -19328601.23884521, -21241416.23884521,
+       -42783986.66586171, -43212216.69005905, -53656254.1089614 ,
+       -53656254.10896143, -54353428.0608534 , -54558535.01422735,
+       -54558535.01422755]), array([ 0.      ,  0.783766,  0.791638,  1.415373,  1.805715,  8.535829,
+       24.010076, 34.46774 , 35.882331, 49.811645])]
+instance:  17
+create a new SCIP model
+The initial incumbent of miplib_39binary-17_transformed_momentum1 is successfully added to MIP model
+miplib_39binary-17_transformed_momentum1
+N of variables: 5174
+N of binary vars: 2349
+N of constraints: 26509
+Initial obj of MIP: 532399.3778172481
+Instance: miplib_39binary-17_transformed_momentum1
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  365999.3778172444
+Solving time:  600.003332
+
+
+[array([532399.37781725, 365999.37781725]), array([0.      , 0.652843])]
+instance:  18
+create a new SCIP model
+The initial incumbent of miplib_39binary-19_transformed_nsrand-ipx is successfully added to MIP model
+miplib_39binary-19_transformed_nsrand-ipx
+N of variables: 6621
+N of binary vars: 6620
+N of constraints: 721
+Initial obj of MIP: 1815840.0
+Instance: miplib_39binary-19_transformed_nsrand-ipx
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  53760.0
+Solving time:  600.002036
+
+
+[array([1815840.,  456800.,  194240.,  140800.,  131680.,  130880.,
+        125600.,  114560.,  107520.,  101920.,   98880.,   80320.,
+         80000.,   76800.,   71200.,   54400.,   54080.,   53760.]), array([  0.      ,   8.293183,   8.425412,   9.426892,  10.359746,
+        11.34768 ,  14.171969,  15.140089,  17.129843,  18.98117 ,
+        20.720952,  21.583304,  30.227254,  31.692668,  33.121518,
+        49.370186, 121.845662, 130.509435])]
+instance:  19
+create a new SCIP model
+The initial incumbent of miplib_39binary-20_transformed_opt1217 is successfully added to MIP model
+miplib_39binary-20_transformed_opt1217
+N of variables: 769
+N of binary vars: 768
+N of constraints: 64
+Initial obj of MIP: 0.0
+Instance: miplib_39binary-20_transformed_opt1217
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -16.000000348412872
+Solving time:  600.041391
+
+
+[array([  0.        , -14.        , -14.        , -16.        ,
+       -16.        , -16.        , -16.00000034, -16.00000034,
+       -16.00000035]), array([0.00000000e+00, 2.14100000e-02, 3.65740000e-02, 3.19290000e-01,
+       3.35312000e-01, 3.39274000e-01, 3.40354760e+01, 6.32531660e+01,
+       1.97837735e+02])]
+instance:  20
+create a new SCIP model
+The initial incumbent of miplib_39binary-21_transformed_p2756 is successfully added to MIP model
+miplib_39binary-21_transformed_p2756
+N of variables: 2756
+N of binary vars: 2756
+N of constraints: 729
+Initial obj of MIP: 120634.0
+Instance: miplib_39binary-21_transformed_p2756
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  3124.0
+Solving time:  2.21139
+
+
+[array([120634.,   4549.,   3232.,   3184.,   3146.,   3142.,   3127.,
+         3126.,   3125.,   3124.]), array([0.      , 0.055965, 0.29793 , 0.326982, 1.573511, 1.777596,
+       1.830536, 1.998628, 2.180783, 2.208282])]
+instance:  21
+create a new SCIP model
+The initial incumbent of miplib_39binary-22_transformed_protfold is successfully added to MIP model
+miplib_39binary-22_transformed_protfold
+N of variables: 1835
+N of binary vars: 1835
+N of constraints: 2387
+Initial obj of MIP: -19.0
+Instance: miplib_39binary-22_transformed_protfold
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -23.0
+Solving time:  600.00048
+
+
+[array([-19., -23.]), array([  0.      , 373.903435])]
+instance:  22
+create a new SCIP model
+The initial incumbent of miplib_39binary-23_transformed_qiu is successfully added to MIP model
+miplib_39binary-23_transformed_qiu
+N of variables: 840
+N of binary vars: 48
+N of constraints: 1192
+Initial obj of MIP: 3173.585143053005
+Instance: miplib_39binary-23_transformed_qiu
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -132.87313694699952
+Solving time:  63.13025
+
+
+[array([3173.58514305, 1805.17714305, 1805.17714146, 1805.17713262,
+       1691.14314305, 1519.04018845, 1463.07514305, 1006.93914305,
+        778.87114553,  593.60063333,  413.92308982,  266.03230947,
+        150.84308382,  143.31206542,   81.33694305,    3.19196305,
+         -5.62047695,   -8.83233695,  -10.94104671,  -27.65157695,
+        -36.46401695, -107.11371389, -110.84203695, -132.87313695]), array([ 0.      ,  0.0267  ,  0.067188,  0.094505,  1.060348,  1.175959,
+        1.384062,  1.387223,  1.477553, 12.227286, 12.228941, 12.233454,
+       12.236753, 14.161877, 14.163914, 15.588839, 16.392285, 18.020338,
+       18.074904, 18.087175, 20.152893, 20.463208, 20.466387, 22.129183])]
+instance:  23
+create a new SCIP model
+The initial incumbent of miplib_39binary-24_transformed_seymour is successfully added to MIP model
+miplib_39binary-24_transformed_seymour
+N of variables: 1372
+N of binary vars: 1372
+N of constraints: 4944
+Initial obj of MIP: 1372.0
+Instance: miplib_39binary-24_transformed_seymour
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  425.0
+Solving time:  600.001259
+
+
+[array([1372.,  502.,  434.,  430.,  427.,  425.]), array([0.00000000e+00, 8.08750000e-02, 1.28355320e+01, 2.77269640e+01,
+       9.43696990e+01, 1.11342264e+02])]
+instance:  24
+create a new SCIP model
+The initial incumbent of miplib_39binary-25_transformed_sp97ar is successfully added to MIP model
+miplib_39binary-25_transformed_sp97ar
+N of variables: 14101
+N of binary vars: 14101
+N of constraints: 1739
+Initial obj of MIP: 82535465732.0
+Instance: miplib_39binary-25_transformed_sp97ar
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  2126487235.0
+Solving time:  600.001853
+
+
+[array([8.25354657e+10, 3.17290434e+09, 2.21975144e+09, 2.20644828e+09,
+       2.16985730e+09, 2.14978394e+09, 2.14865214e+09, 2.12648724e+09]), array([0.00000000e+00, 5.51523000e-01, 4.04722560e+01, 4.05871140e+01,
+       1.55255121e+02, 1.55508069e+02, 4.69708707e+02, 5.77270045e+02])]
+instance:  25
+create a new SCIP model
+The initial incumbent of miplib_39binary-26_transformed_swath is successfully added to MIP model
+miplib_39binary-26_transformed_swath
+N of variables: 6805
+N of binary vars: 6724
+N of constraints: 564
+Initial obj of MIP: 658.582348
+Instance: miplib_39binary-26_transformed_swath
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  507.486406
+Solving time:  600.000239
+
+
+[array([658.582348, 638.608838, 637.301774, 622.740908, 613.909547,
+       610.314915, 576.487634, 573.743449, 555.393586, 547.91754 ,
+       534.981872, 534.981872, 518.215959, 518.210832, 507.486406]), array([  0.      ,   9.890437,  10.079548,  19.588526,  23.306059,
+        25.185649,  25.73856 ,  29.949821,  39.024271,  61.58078 ,
+        82.966887, 111.571089, 197.602537, 422.928915, 478.506103])]
+instance:  26
+create a new SCIP model
+The initial incumbent of miplib_39binary-27_transformed_t1717 is successfully added to MIP model
+miplib_39binary-27_transformed_t1717
+N of variables: 73885
+N of binary vars: 73885
+N of constraints: 1755
+Initial obj of MIP: 369854.0
+Instance: miplib_39binary-27_transformed_t1717
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  369854.0
+Solving time:  600.012435
+
+
+[array([369854.]), array([0.])]
+instance:  27
+create a new SCIP model
+The initial incumbent of miplib_39binary-28_transformed_tr12-30 is successfully added to MIP model
+miplib_39binary-28_transformed_tr12-30
+N of variables: 1080
+N of binary vars: 360
+N of constraints: 742
+Initial obj of MIP: 269316.7195712909
+Instance: miplib_39binary-28_transformed_tr12-30
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  132851.0
+Solving time:  600.000529
+
+
+[array([269316.71957129, 221916.71957129, 170631.        , 160088.        ,
+       141304.        , 140554.        , 138512.        , 137253.        ,
+       136907.        , 136807.        , 136550.        , 136477.        ,
+       136187.        , 136075.        , 134415.        , 134246.        ,
+       134118.        , 133934.        , 133654.        , 133627.        ,
+       133587.        , 133426.        , 133417.        , 133377.        ,
+       132851.        ]), array([0.00000000e+00, 1.67770000e-02, 8.19374000e-01, 8.95881000e-01,
+       3.42148000e+00, 3.57020000e+00, 1.11863330e+01, 1.70836540e+01,
+       4.76510740e+01, 4.76821700e+01, 5.10644060e+01, 5.32785870e+01,
+       6.37257610e+01, 7.68102400e+01, 1.22747406e+02, 1.23687292e+02,
+       1.24528933e+02, 1.25736944e+02, 2.95178910e+02, 3.36389931e+02,
+       3.40380139e+02, 3.60004967e+02, 5.20271932e+02, 5.20341533e+02,
+       5.25342633e+02])]
+instance:  28
+create a new SCIP model
+The initial incumbent of miplib_39binary-29_transformed_van is successfully added to MIP model
+miplib_39binary-29_transformed_van
+N of variables: 12481
+N of binary vars: 192
+N of constraints: 22400
+Initial obj of MIP: 6.103475165126017
+Instance: miplib_39binary-29_transformed_van
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  5.603048876012505
+Solving time:  600.001009
+
+
+[array([6.10347517, 5.60304888]), array([ 0.      , 51.986121])]
+miplib_39binary-small
+rootsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj of MIP: 21029.389
+Instance: miplib_39binary-0_transformed_a1c1s1
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  12794.0973125
+Solving time:  600.001913
+
+
+[array([21029.389     , 20970.9075    , 14204.3845    , 14204.3845    ,
+       14161.5395    , 14056.989875  , 13668.129625  , 13616.50471368,
+       13437.355     , 13406.67621875, 13256.9413125 , 13035.5358125 ,
+       12898.6540625 , 12794.0973125 ]), array([0.00000000e+00, 7.55180000e-02, 2.93847500e+00, 2.73271540e+01,
+       4.85634790e+01, 8.31668590e+01, 1.73223919e+02, 2.74849487e+02,
+       3.93233490e+02, 4.63217005e+02, 4.81110706e+02, 5.08151200e+02,
+       5.66326202e+02, 5.66366563e+02])]
+instance:  1
+create a new SCIP model
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj of MIP: 1208.0
+Instance: miplib_39binary-1_transformed_aflow30a
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  1158.0
+Solving time:  57.7372
+
+
+[array([1208., 1203., 1185., 1174., 1172., 1164., 1160., 1159., 1158.]), array([ 0.      ,  0.879933,  7.941906, 13.396161, 19.792151, 23.848445,
+       28.146208, 41.297987, 41.960302])]
+instance:  2
+create a new SCIP model
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj of MIP: 1242.0
+Instance: miplib_39binary-2_transformed_aflow40b
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1171.0
+Solving time:  600.000054
+
+
+[array([1242., 1228., 1213., 1187., 1171.]), array([ 0.      ,  3.225039,  3.252332, 42.031112, 79.75731 ])]
+instance:  3
+create a new SCIP model
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj of MIP: 56212.0
+Instance: miplib_39binary-3_transformed_air04
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  56137.0
+Solving time:  75.219911
+
+
+[array([56212., 56137.]), array([ 0.      , 34.734431])]
+instance:  4
+create a new SCIP model
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj of MIP: 45015.0
+Instance: miplib_39binary-4_transformed_air05
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  26374.000000000004
+Solving time:  77.174527
+
+
+[array([45015., 28737., 27596., 27219., 27203., 26805., 26799., 26746.,
+       26745., 26736., 26529., 26485., 26402., 26374.]), array([ 0.      ,  8.699903, 34.140289, 35.413448, 35.887756, 52.917672,
+       53.762258, 53.770309, 53.827222, 59.968124, 60.305072, 60.399382,
+       66.352099, 72.640846])]
+instance:  5
+create a new SCIP model
+The initial incumbent of miplib_39binary-5_transformed_cap6000 is successfully added to MIP model
+miplib_39binary-5_transformed_cap6000
+N of variables: 6000
+N of binary vars: 6000
+N of constraints: 2171
+Initial obj of MIP: -2449596.0
+Instance: miplib_39binary-5_transformed_cap6000
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -2451377.0
+Solving time:  19.811453
+
+
+[array([-2449596., -2451346., -2451355., -2451371., -2451372., -2451377.]), array([ 0.      ,  0.099439, 13.048454, 14.765748, 17.506822, 17.609509])]
+instance:  6
+create a new SCIP model
+The initial incumbent of miplib_39binary-6_transformed_dano3mip is successfully added to MIP model
+miplib_39binary-6_transformed_dano3mip
+N of variables: 13873
+N of binary vars: 552
+N of constraints: 3215
+Initial obj of MIP: 727.047619047619
+Instance: miplib_39binary-6_transformed_dano3mip
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  711.6814814814816
+Solving time:  600.011667
+
+
+[array([727.04761905, 711.68148148]), array([  0.      , 433.063096])]
+instance:  7
+create a new SCIP model
+The initial incumbent of miplib_39binary-7_transformed_danoint is successfully added to MIP model
+miplib_39binary-7_transformed_danoint
+N of variables: 521
+N of binary vars: 56
+N of constraints: 688
+Initial obj of MIP: 70.0
+Instance: miplib_39binary-7_transformed_danoint
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  65.66666666666666
+Solving time:  600.000513
+
+
+[array([70.        , 68.33333333, 68.28571429, 66.5       , 65.66666667]), array([ 0.      , 28.38711 , 59.051193, 59.8381  , 63.177934])]
+instance:  8
+create a new SCIP model
+The initial incumbent of miplib_39binary-8_transformed_ds is successfully added to MIP model
+miplib_39binary-8_transformed_ds
+N of variables: 67732
+N of binary vars: 67732
+N of constraints: 656
+Initial obj of MIP: 396263.0
+Instance: miplib_39binary-8_transformed_ds
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  231952.99999999985
+Solving time:  600.006573
+
+
+[array([396263., 231953.]), array([  0.      , 597.837849])]
+instance:  9
+create a new SCIP model
+The initial incumbent of miplib_39binary-9_transformed_fast0507 is successfully added to MIP model
+miplib_39binary-9_transformed_fast0507
+N of variables: 63009
+N of binary vars: 63009
+N of constraints: 507
+Initial obj of MIP: 514.0
+Instance: miplib_39binary-9_transformed_fast0507
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  178.0
+Solving time:  600.004551
+
+
+[array([514., 213., 178.]), array([ 0.      , 10.782528, 63.869586])]
+instance:  10
+create a new SCIP model
+The initial incumbent of miplib_39binary-10_transformed_fiber is successfully added to MIP model
+miplib_39binary-10_transformed_fiber
+N of variables: 1298
+N of binary vars: 1254
+N of constraints: 353
+Initial obj of MIP: 139950532.0
+Instance: miplib_39binary-10_transformed_fiber
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  40593518.0
+Solving time:  1.870541
+
+
+[array([1.39950532e+08, 5.00316940e+07, 4.68394060e+07, 4.66640220e+07,
+       4.11151820e+07, 4.10489180e+07, 4.09488620e+07, 4.05935180e+07]), array([0.      , 0.059015, 0.210253, 0.514545, 0.558473, 1.028681,
+       1.403462, 1.859811])]
+instance:  11
+create a new SCIP model
+The initial incumbent of miplib_39binary-11_transformed_glass4 is successfully added to MIP model
+miplib_39binary-11_transformed_glass4
+N of variables: 322
+N of binary vars: 302
+N of constraints: 394
+Initial obj of MIP: 3800031500.0
+Instance: miplib_39binary-11_transformed_glass4
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1575013683.3333335
+Solving time:  600.001305
+
+
+[array([3.80003150e+09, 3.63336651e+09, 3.03336037e+09, 2.90669397e+09,
+       2.88335760e+09, 2.86251008e+09, 2.77002056e+09, 2.50001920e+09,
+       2.36002055e+09, 2.00001760e+09, 1.90002010e+09, 1.90001920e+09,
+       1.90001710e+09, 1.88001790e+09, 1.73334967e+09, 1.70001661e+09,
+       1.70001555e+09, 1.66668103e+09, 1.64001396e+09, 1.60001363e+09,
+       1.57501368e+09]), array([0.00000000e+00, 3.50738000e-01, 5.56798000e-01, 5.96665000e-01,
+       6.46500000e-01, 1.11496400e+00, 1.18848900e+00, 1.44034500e+00,
+       1.66242100e+00, 2.60129000e+00, 7.41670600e+00, 7.46688700e+00,
+       1.56896020e+01, 1.66973270e+01, 4.30689420e+01, 4.53960960e+01,
+       3.02259611e+02, 3.07643943e+02, 4.74078169e+02, 5.00435416e+02,
+       5.31845820e+02])]
+instance:  12
+create a new SCIP model
+The initial incumbent of miplib_39binary-12_transformed_harp2 is successfully added to MIP model
+miplib_39binary-12_transformed_harp2
+N of variables: 2993
+N of binary vars: 2993
+N of constraints: 102
+Initial obj of MIP: -60953969.0
+Instance: miplib_39binary-12_transformed_harp2
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -73899786.0
+Solving time:  600.00041
+
+
+[array([-60953969.        , -62278799.99999998, -69447642.        ,
+       -71677389.        , -72098950.        , -72272327.        ,
+       -72501616.        , -72584495.        , -72976017.        ,
+       -73020389.        , -73032002.        , -73261951.        ,
+       -73398991.        , -73406281.        , -73496946.        ,
+       -73622040.        , -73625988.        , -73735856.        ,
+       -73751422.        , -73759150.        , -73796354.        ,
+       -73808496.99999999, -73827135.        , -73835001.        ,
+       -73842789.        , -73844023.99999999, -73844205.        ,
+       -73846962.        , -73847025.        , -73879875.        ,
+       -73881296.        , -73882557.        , -73882578.        ,
+       -73882621.        , -73882630.        , -73882642.        ,
+       -73884442.        , -73887266.        , -73888550.        ,
+       -73888656.        , -73888696.        , -73899696.        ,
+       -73899733.        , -73899764.        , -73899770.        ,
+       -73899776.        , -73899778.        , -73899786.        ]), array([0.00000000e+00, 3.12818000e-01, 7.32537000e-01, 8.30406000e-01,
+       8.34167000e-01, 8.34742000e-01, 8.80655700e+00, 1.09830920e+01,
+       1.09837680e+01, 1.09843650e+01, 1.26116230e+01, 1.46615060e+01,
+       1.61786560e+01, 1.88837530e+01, 2.14426900e+01, 2.38267940e+01,
+       2.79868140e+01, 2.98668230e+01, 3.17137110e+01, 4.08330570e+01,
+       5.07176160e+01, 5.07590890e+01, 5.07984570e+01, 5.08353250e+01,
+       5.08601130e+01, 5.09461670e+01, 5.10732500e+01, 5.18105740e+01,
+       6.41104630e+01, 8.96979630e+01, 1.15580347e+02, 1.15656433e+02,
+       1.20147832e+02, 1.20180947e+02, 1.26134405e+02, 1.52121349e+02,
+       1.89282382e+02, 1.89329022e+02, 1.89411326e+02, 1.89460072e+02,
+       1.90843085e+02, 1.91497475e+02, 1.93461057e+02, 2.15442753e+02,
+       3.04101583e+02, 3.09053893e+02, 3.77432995e+02, 5.51031569e+02])]
+instance:  13
+create a new SCIP model
+The initial incumbent of miplib_39binary-13_transformed_liu is successfully added to MIP model
+miplib_39binary-13_transformed_liu
+N of variables: 1156
+N of binary vars: 1089
+N of constraints: 2178
+Initial obj of MIP: 5600.0
+Instance: miplib_39binary-13_transformed_liu
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1324.0
+Solving time:  600.001111
+
+
+[array([5600.      , 5598.      , 5448.      , 4116.      , 2952.      ,
+       2880.      , 2844.      , 2834.      , 2480.      , 2478.      ,
+       2360.      , 2328.      , 2320.      , 2294.      , 2292.      ,
+       2254.      , 2244.      , 2210.      , 2204.      , 2200.      ,
+       2192.      , 2190.      , 2180.      , 2178.      , 2174.      ,
+       2170.      , 2164.      , 2160.      , 2158.      , 2157.999999,
+       2150.      , 2138.      , 2134.      , 2130.      , 2122.      ,
+       2110.      , 2106.      , 2088.      , 2078.      , 2076.      ,
+       2068.      , 2064.      , 2062.      , 2061.999999, 2052.      ,
+       2044.      , 2038.      , 2036.      , 2034.      , 2028.      ,
+       2027.999999, 2024.      , 2010.      , 2004.      , 2003.999999,
+       1998.      , 1984.      , 1976.      , 1970.      , 1968.      ,
+       1967.999999, 1962.      , 1950.      , 1948.      , 1944.      ,
+       1936.      , 1922.      , 1920.      , 1874.      , 1864.      ,
+       1863.999999, 1850.      , 1836.      , 1816.      , 1814.      ,
+       1812.      , 1810.      , 1808.      , 1806.      , 1805.999999,
+       1804.      , 1790.      , 1782.      , 1780.      , 1774.      ,
+       1773.999999, 1768.      , 1766.      , 1762.      , 1758.      ,
+       1754.      , 1753.999999, 1704.      , 1703.999999, 1700.      ,
+       1698.      , 1690.      , 1682.      , 1670.      , 1669.999999,
+       1664.      , 1658.      , 1656.      , 1655.999999, 1654.      ,
+       1650.      , 1648.      , 1642.      , 1641.999999, 1634.      ,
+       1628.      , 1622.      , 1621.999999, 1620.      , 1616.      ,
+       1614.      , 1600.      , 1599.999999, 1584.      , 1580.      ,
+       1578.      , 1556.      , 1552.      , 1550.      , 1546.      ,
+       1532.      , 1530.      , 1529.999999, 1524.      , 1522.      ,
+       1518.      , 1514.      , 1513.999999, 1510.      , 1509.999999,
+       1500.      , 1484.      , 1476.      , 1464.      , 1446.      ,
+       1445.999999, 1444.      , 1440.      , 1434.      , 1424.      ,
+       1406.      , 1402.      , 1396.      , 1384.      , 1374.      ,
+       1360.      , 1356.      , 1332.      , 1324.      ]), array([0.00000000e+00, 3.20600000e-02, 6.53770000e-02, 8.35750000e-02,
+       4.23263600e+00, 4.26405200e+00, 4.26477100e+00, 4.26526500e+00,
+       5.09499100e+00, 5.50718800e+00, 7.10065500e+00, 7.71738700e+00,
+       8.93252200e+00, 9.43514000e+00, 1.01640480e+01, 1.21171120e+01,
+       1.27383830e+01, 1.36534480e+01, 1.46094830e+01, 1.79990300e+01,
+       1.84581390e+01, 1.95607020e+01, 2.19809880e+01, 2.32182070e+01,
+       2.35278730e+01, 2.53025980e+01, 2.56283280e+01, 2.67987980e+01,
+       2.70113090e+01, 3.11741700e+01, 3.32740950e+01, 3.36026470e+01,
+       3.61123380e+01, 3.65753460e+01, 4.45595060e+01, 4.55162670e+01,
+       4.86059400e+01, 4.90985850e+01, 5.24940720e+01, 5.47560590e+01,
+       5.68354500e+01, 5.71544160e+01, 5.94675170e+01, 6.05362330e+01,
+       6.11310860e+01, 6.21616070e+01, 6.29571050e+01, 6.35996830e+01,
+       6.44808710e+01, 6.67487150e+01, 6.74567930e+01, 6.79225500e+01,
+       6.80482150e+01, 6.83902730e+01, 7.13769440e+01, 7.24795890e+01,
+       7.49450260e+01, 7.55698710e+01, 7.62648340e+01, 8.23718860e+01,
+       8.31223280e+01, 9.24754750e+01, 9.44221040e+01, 9.81340130e+01,
+       9.99340120e+01, 1.00902298e+02, 1.02565462e+02, 1.04374524e+02,
+       1.06796079e+02, 1.06798904e+02, 1.07474077e+02, 1.09765429e+02,
+       1.09772089e+02, 1.09792115e+02, 1.13222478e+02, 1.13682446e+02,
+       1.14013737e+02, 1.20936766e+02, 1.21354942e+02, 1.22675435e+02,
+       1.22925193e+02, 1.23801831e+02, 1.24294658e+02, 1.24755281e+02,
+       1.25409234e+02, 1.26084005e+02, 1.28058231e+02, 1.32637644e+02,
+       1.37037041e+02, 1.41767114e+02, 1.41978301e+02, 1.43613162e+02,
+       1.45422294e+02, 1.46672219e+02, 1.48509533e+02, 1.49073177e+02,
+       1.49288141e+02, 1.54859435e+02, 1.55556869e+02, 1.58403143e+02,
+       1.58818088e+02, 1.59667280e+02, 1.59913456e+02, 1.63740675e+02,
+       1.64835147e+02, 1.67234301e+02, 1.70605876e+02, 1.70761826e+02,
+       1.82304699e+02, 1.86306994e+02, 1.91619079e+02, 1.97728936e+02,
+       1.98712343e+02, 2.01095432e+02, 2.02088436e+02, 2.05933683e+02,
+       2.14119289e+02, 2.15816068e+02, 2.26242183e+02, 2.26255417e+02,
+       2.26267625e+02, 2.26376858e+02, 2.26418608e+02, 2.30332943e+02,
+       2.33029693e+02, 2.49862672e+02, 2.83939321e+02, 3.00118239e+02,
+       3.13738741e+02, 3.16848344e+02, 3.35856342e+02, 3.36564009e+02,
+       3.39163454e+02, 3.40635446e+02, 3.67941683e+02, 3.86283212e+02,
+       3.86285347e+02, 3.86286460e+02, 3.87097277e+02, 3.87351692e+02,
+       3.90393238e+02, 3.96627814e+02, 3.98451493e+02, 4.22118416e+02,
+       4.40837879e+02, 4.44243581e+02, 4.44331341e+02, 4.44357831e+02,
+       4.45287354e+02, 4.53768460e+02, 4.74735363e+02, 4.74748707e+02,
+       4.76969809e+02, 5.58553212e+02])]
+instance:  14
+create a new SCIP model
+The initial incumbent of miplib_39binary-14_transformed_misc07 is successfully added to MIP model
+miplib_39binary-14_transformed_misc07
+N of variables: 260
+N of binary vars: 259
+N of constraints: 224
+Initial obj of MIP: 3020.0
+Instance: miplib_39binary-14_transformed_misc07
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  2810.0
+Solving time:  57.761752
+
+
+[array([3020., 2895., 2810.]), array([0.      , 0.78399 , 1.200034])]
+instance:  15
+create a new SCIP model
+The initial incumbent of miplib_39binary-15_transformed_mkc is successfully added to MIP model
+miplib_39binary-15_transformed_mkc
+N of variables: 5325
+N of binary vars: 5323
+N of constraints: 3411
+Initial obj of MIP: -151375.0
+Instance: miplib_39binary-15_transformed_mkc
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -277763.0
+Solving time:  600.001905
+
+
+[array([-151375., -180359., -252065., -254105., -270455., -271006.,
+       -272013., -273563., -274346., -274632., -276332., -277132.,
+       -277232., -277563., -277763.]), array([0.00000000e+00, 5.07626000e-01, 9.69452600e+00, 5.11777140e+01,
+       6.97151950e+01, 2.04447691e+02, 2.25519851e+02, 3.22673749e+02,
+       4.25245526e+02, 4.55392358e+02, 4.57681225e+02, 4.88080241e+02,
+       4.89360770e+02, 4.91502459e+02, 5.98206907e+02])]
+instance:  16
+create a new SCIP model
+The initial incumbent of miplib_39binary-16_transformed_mod011 is successfully added to MIP model
+miplib_39binary-16_transformed_mod011
+N of variables: 10958
+N of binary vars: 96
+N of constraints: 4480
+Initial obj of MIP: -19328601.238845017
+Instance: miplib_39binary-16_transformed_mod011
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -54558535.014227584
+Solving time:  249.583496
+
+
+[array([-19328601.23884502, -19328601.23884518, -21241416.23884518,
+       -42783986.6658617 , -43212216.69005907, -53656254.10896146,
+       -53844661.38240829, -54180041.67639855, -54417655.61153626,
+       -54422236.8512832 , -54558535.01422735, -54558535.01422756,
+       -54558535.01422757, -54558535.01422758]), array([  0.      ,   0.701974,   0.708076,   1.224062,   1.571394,
+         7.403713,  65.247779,  67.97608 ,  85.622361,  90.969449,
+       190.700863, 209.495835, 236.19768 , 245.336128])]
+instance:  17
+create a new SCIP model
+The initial incumbent of miplib_39binary-17_transformed_momentum1 is successfully added to MIP model
+miplib_39binary-17_transformed_momentum1
+N of variables: 5174
+N of binary vars: 2349
+N of constraints: 26509
+Initial obj of MIP: 365999.3778172444
+Instance: miplib_39binary-17_transformed_momentum1
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  134901.42389545892
+Solving time:  600.003205
+
+
+[array([365999.37781724, 353126.99728373, 346709.15806079, 340290.57781613,
+       321017.58845085, 295312.5905281 , 276112.5905306 , 134901.42389546]), array([  0.      , 182.299361, 316.085805, 370.716755, 419.70594 ,
+       420.473072, 421.729495, 500.592709])]
+instance:  18
+create a new SCIP model
+The initial incumbent of miplib_39binary-19_transformed_nsrand-ipx is successfully added to MIP model
+miplib_39binary-19_transformed_nsrand-ipx
+N of variables: 6621
+N of binary vars: 6620
+N of constraints: 721
+Initial obj of MIP: 180960.0
+Instance: miplib_39binary-19_transformed_nsrand-ipx
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  53600.0
+Solving time:  600.000322
+
+
+[array([180960., 159520., 139040., 114560., 106080.,  85120.,  80160.,
+        66080.,  55680.,  54080.,  53600.]), array([  0.      ,   8.717946,   9.607347,  12.249394,  13.067325,
+        14.757889,  17.238679,  20.269773,  44.725211, 106.05389 ,
+       265.690065])]
+instance:  19
+create a new SCIP model
+The initial incumbent of miplib_39binary-20_transformed_opt1217 is successfully added to MIP model
+miplib_39binary-20_transformed_opt1217
+N of variables: 769
+N of binary vars: 768
+N of constraints: 64
+Initial obj of MIP: -14.0
+Instance: miplib_39binary-20_transformed_opt1217
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -16.000000051814027
+Solving time:  600.000712
+
+
+[array([-14.        , -14.        , -16.        , -16.        ,
+       -16.        , -16.00000001, -16.00000002, -16.00000003,
+       -16.00000003, -16.00000005]), array([0.00000000e+00, 4.98020000e-02, 1.38044000e-01, 1.89914000e-01,
+       1.53471900e+00, 4.79757540e+01, 1.62214746e+02, 1.97132710e+02,
+       2.72907518e+02, 5.36469935e+02])]
+instance:  20
+create a new SCIP model
+The initial incumbent of miplib_39binary-21_transformed_p2756 is successfully added to MIP model
+miplib_39binary-21_transformed_p2756
+N of variables: 2756
+N of binary vars: 2756
+N of constraints: 729
+Initial obj of MIP: 14683.0
+Instance: miplib_39binary-21_transformed_p2756
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  3124.0
+Solving time:  1.614738
+
+
+[array([14683.,  7386.,  7062.,  6848.,  4733.,  3333.,  3315.,  3241.,
+        3198.,  3186.,  3162.,  3152.,  3151.,  3131.,  3130.,  3124.]), array([0.      , 0.131966, 0.16325 , 0.198841, 0.199557, 0.222411,
+       0.222881, 0.473916, 0.493558, 0.656095, 0.657749, 1.520246,
+       1.520981, 1.562538, 1.576826, 1.611063])]
+instance:  21
+create a new SCIP model
+The initial incumbent of miplib_39binary-22_transformed_protfold is successfully added to MIP model
+miplib_39binary-22_transformed_protfold
+N of variables: 1835
+N of binary vars: 1835
+N of constraints: 2387
+Initial obj of MIP: -22.0
+Instance: miplib_39binary-22_transformed_protfold
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -22.0
+Solving time:  600.000324
+
+
+[array([-22.]), array([0.])]
+instance:  22
+create a new SCIP model
+The initial incumbent of miplib_39binary-23_transformed_qiu is successfully added to MIP model
+miplib_39binary-23_transformed_qiu
+N of variables: 840
+N of binary vars: 48
+N of constraints: 1192
+Initial obj of MIP: 1816.116983380783
+Instance: miplib_39binary-23_transformed_qiu
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -132.87313694699952
+Solving time:  58.75544
+
+
+[array([1816.11698338, 1805.17714146, 1805.17713262, 1691.14314305,
+       1519.04018845, 1463.07514305, 1006.93914305,  778.87114553,
+        593.60063333,  413.92308982,  266.03230947,  150.84308382,
+        143.31206542,   81.33694305,    3.19196305,   -5.62047695,
+         -8.83233695,  -10.94104671,  -27.65157695,  -36.46401695,
+       -107.11371389, -110.84203695, -132.87313695]), array([ 0.      ,  0.050736,  0.075778,  0.939911,  1.044489,  1.237526,
+        1.240474,  1.327827, 11.063475, 11.064991, 11.069132, 11.072201,
+       12.836326, 12.838199, 14.107116, 14.825805, 16.30225 , 16.35204 ,
+       16.363379, 18.23359 , 18.525137, 18.528154, 20.034161])]
+instance:  23
+create a new SCIP model
+The initial incumbent of miplib_39binary-24_transformed_seymour is successfully added to MIP model
+miplib_39binary-24_transformed_seymour
+N of variables: 1372
+N of binary vars: 1372
+N of constraints: 4944
+Initial obj of MIP: 770.0
+Instance: miplib_39binary-24_transformed_seymour
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  425.0
+Solving time:  600.000377
+
+
+[array([770., 457., 433., 431., 429., 427., 426., 425.]), array([0.00000000e+00, 7.23740000e-02, 1.44678550e+01, 2.63879540e+01,
+       7.59125000e+01, 8.48687800e+01, 1.23575279e+02, 3.68941132e+02])]
+instance:  24
+create a new SCIP model
+The initial incumbent of miplib_39binary-25_transformed_sp97ar is successfully added to MIP model
+miplib_39binary-25_transformed_sp97ar
+N of variables: 14101
+N of binary vars: 14101
+N of constraints: 1739
+Initial obj of MIP: 3204417165.0
+Instance: miplib_39binary-25_transformed_sp97ar
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  2135324791.0
+Solving time:  600.000399
+
+
+[array([3.20441716e+09, 2.22147550e+09, 2.21479544e+09, 2.20855278e+09,
+       2.19644653e+09, 2.16510906e+09, 2.14323044e+09, 2.13889567e+09,
+       2.13532479e+09]), array([  0.      ,  32.534137,  32.658773,  32.666571, 136.849689,
+       137.099771, 224.398287, 463.226085, 463.471966])]
+instance:  25
+create a new SCIP model
+The initial incumbent of miplib_39binary-26_transformed_swath is successfully added to MIP model
+miplib_39binary-26_transformed_swath
+N of variables: 6805
+N of binary vars: 6724
+N of constraints: 564
+Initial obj of MIP: 608.736209
+Instance: miplib_39binary-26_transformed_swath
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  517.446644
+Solving time:  600.000592
+
+
+[array([608.736209, 605.848916, 556.898081, 556.159525, 556.159525,
+       546.834337, 536.520806, 517.446644]), array([ 0.      , 14.855222, 16.709009, 16.716723, 44.366589, 66.884669,
+       79.752204, 85.467962])]
+instance:  26
+create a new SCIP model
+The initial incumbent of miplib_39binary-27_transformed_t1717 is successfully added to MIP model
+miplib_39binary-27_transformed_t1717
+N of variables: 73885
+N of binary vars: 73885
+N of constraints: 1755
+Initial obj of MIP: 568646.0
+Instance: miplib_39binary-27_transformed_t1717
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  568646.0
+Solving time:  600.015862
+
+
+[array([568646.]), array([0.])]
+instance:  27
+create a new SCIP model
+The initial incumbent of miplib_39binary-28_transformed_tr12-30 is successfully added to MIP model
+miplib_39binary-28_transformed_tr12-30
+N of variables: 1080
+N of binary vars: 360
+N of constraints: 742
+Initial obj of MIP: 241956.0
+Instance: miplib_39binary-28_transformed_tr12-30
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  132871.00000000026
+Solving time:  600.000891
+
+
+[array([241956.        , 240956.        , 157982.        , 157580.2298215 ,
+       154424.        , 142121.        , 141921.        , 141532.        ,
+       141282.        , 139741.        , 139535.        , 139229.        ,
+       138108.        , 138074.        , 136967.        , 136694.        ,
+       136607.        , 136603.        , 133868.        , 133857.        ,
+       133749.        , 133431.        , 133222.        , 133193.        ,
+       133179.37922527, 133152.        , 132903.        , 132895.        ,
+       132871.        ]), array([0.00000000e+00, 1.68410000e-02, 8.15341000e-01, 9.40057000e-01,
+       9.67550000e-01, 2.20052000e+00, 2.20449700e+00, 7.87819600e+00,
+       7.87991300e+00, 1.31448530e+01, 2.31787340e+01, 2.32092960e+01,
+       3.97522770e+01, 4.69659910e+01, 4.73183730e+01, 4.85018870e+01,
+       4.91002600e+01, 4.92489680e+01, 5.10544770e+01, 5.14500240e+01,
+       5.38035750e+01, 7.05603550e+01, 1.99187597e+02, 2.12458232e+02,
+       2.26826965e+02, 2.50434248e+02, 2.50999343e+02, 2.86649596e+02,
+       2.88570894e+02])]
+instance:  28
+create a new SCIP model
+The initial incumbent of miplib_39binary-29_transformed_van is successfully added to MIP model
+miplib_39binary-29_transformed_van
+N of variables: 12481
+N of binary vars: 192
+N of constraints: 22400
+Initial obj of MIP: 35.98636241703319
+Instance: miplib_39binary-29_transformed_van
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  5.088449404900294
+Solving time:  600.001396
+
+
+[array([35.98636242, 34.22197609, 33.22112351, 30.82502497, 29.58941129,
+        5.61807464,  5.35326202,  5.0884494 ]), array([  0.      ,  10.214424,  10.518435,  10.801249,  11.169633,
+        58.660198, 167.610125, 320.0086  ])]
