@@ -1494,7 +1494,7 @@ class Execute_LB_Baseline(ExecuteHeuristic):
                               freq=0,
                               freqofs=0,
                               maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERNODE, # SCIP_HEURTIMING.AFTERLPNODE
+                              timingmask=SCIP_HEURTIMING.BEFORENODE, # SCIP_HEURTIMING.AFTERLPNODE
                               usessubscip=True,
 
                               )
@@ -1754,7 +1754,7 @@ class Execute_LB_Regression(ExecuteHeuristic):
                                     freq=0,
                                     freqofs=0,
                                     maxdepth=-1,
-                                    timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                                    timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
                                     usessubscip=True,
                               )
 
@@ -1852,7 +1852,7 @@ class Execute_LB_RL(ExecuteHeuristic):
                               freq=0,
                               freqofs=0,
                               maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                              timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
                               usessubscip=True,
                               )
 
@@ -2111,7 +2111,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                     freq=0,
                                     freqofs=0,
                                     maxdepth=-1,
-                                    timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                                    timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
                                     usessubscip=True,
                               )
 
