@@ -1495,8 +1495,7 @@ class Execute_LB_Baseline(ExecuteHeuristic):
                               freqofs=0,
                               maxdepth=-1,
                               timingmask=SCIP_HEURTIMING.BEFORENODE, # SCIP_HEURTIMING.AFTERLPNODE
-                              usessubscip=True,
-
+                              usessubscip=True
                               )
 
         MIP_model.setParam('limits/time', total_time_limit)
@@ -1755,8 +1754,8 @@ class Execute_LB_Regression(ExecuteHeuristic):
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
-                                    usessubscip=True,
-                              )
+                                    usessubscip=True
+                                    )
 
         MIP_model_copy2.setParam('limits/time', total_time_limit)
         MIP_model_copy2.setParam("display/verblevel", 0)
@@ -1853,7 +1852,7 @@ class Execute_LB_RL(ExecuteHeuristic):
                               freqofs=0,
                               maxdepth=-1,
                               timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
-                              usessubscip=True,
+                              usessubscip=True
                               )
 
         MIP_model.setParam('limits/time', total_time_limit)
@@ -2112,8 +2111,8 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
-                                    usessubscip=True,
-                              )
+                                    usessubscip=True
+                                    )
 
         MIP_model_copy2.setParam('limits/time', total_time_limit)
         MIP_model_copy2.setParam("display/verblevel", 0)
