@@ -876,7 +876,7 @@ class ExecuteHeuristic:
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode.png')
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_afternode.png')
         plt.show()
         plt.clf()
 
