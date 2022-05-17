@@ -762,20 +762,20 @@ class ExecuteHeuristic:
         print(instance_type)
         print(incumbent_mode + 'Solution')
         print('scip-baseline primal integral: ', primal_int_scip_baseline_ave)
-        print('localbranch primal integral: ', primal_int_base_ave)
-        print('lns-random primal integral: ', primal_int_lns_random_ave)
-        print('lns_guided_by_lblp primal integral: ', primal_int_lns_lblp_ave)
-        print('lns_guided_by_lblpmcts primal integral: ', primal_int_lns_lblpmcts_ave)
+        print('scip-lb-baseline primal integral: ', primal_int_base_ave)
+        print('scip-lb-regression primal integral: ', primal_int_lns_random_ave)
+        print('scip-lb-rl primal integral: ', primal_int_lns_lblp_ave)
+        print('scip-lb-regression-rl primal integral: ', primal_int_lns_lblpmcts_ave)
 
         print('rl primal integral: ', primal_int_reinforce_ave)
 
 
         print('\n')
         print('scip-baseline primal gap: ', primal_gap_final_scip_baseline_ave)
-        print('localbranch primal gap: ', primal_gap_final_baseline_ave)
-        print('lns-random primal gap: ', primal_gap_final_lns_random_ave)
-        print('lns_guided_by_lblp primal gap: ', primal_gap_final_lns_lblp_ave)
-        print('lns_guided_by_lblpmcts primal gap: ', primal_gap_final_lns_lblpmcts_ave)
+        print('scip-lb-baseline primal gap: ', primal_gap_final_baseline_ave)
+        print('scip-lb-regression primal gap: ', primal_gap_final_lns_random_ave)
+        print('scip-lb-rl primal gap: ', primal_gap_final_lns_lblp_ave)
+        print('scip-lb-regression-rl primal gap: ', primal_gap_final_lns_lblpmcts_ave)
 
         print('rl primal gap: ', primal_gap_final_reinforce_ave)
 
@@ -1490,11 +1490,11 @@ class Execute_LB_Baseline(ExecuteHeuristic):
                               "PyHeur_LB_baseline",
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
-                              priority=-130000,
+                              priority=130000,
                               freq=0,
                               freqofs=0,
                               maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERNODE, # SCIP_HEURTIMING.AFTERLPNODE
+                              timingmask=SCIP_HEURTIMING.BEFORENODE, # SCIP_HEURTIMING.AFTERLPNODE
                               usessubscip=True
                               )
 
@@ -1749,11 +1749,11 @@ class Execute_LB_Regression(ExecuteHeuristic):
                                     "PyHeur_LB_baseline",
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
-                                    priority=-130000,
+                                    priority=130000,
                                     freq=0,
                                     freqofs=0,
                                     maxdepth=-1,
-                                    timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                                    timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
                                     usessubscip=True
                                     )
 
@@ -1847,11 +1847,11 @@ class Execute_LB_RL(ExecuteHeuristic):
                               "PyHeur_LB_baseline",
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
-                              priority=-130000,
+                              priority=130000,
                               freq=0,
                               freqofs=0,
                               maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                              timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
                               usessubscip=True
                               )
 
@@ -2106,11 +2106,11 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                     "PyHeur_LB_baseline",
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
-                                    priority=-130000,
+                                    priority=130000,
                                     freq=0,
                                     freqofs=0,
                                     maxdepth=-1,
-                                    timingmask=SCIP_HEURTIMING.AFTERNODE,  # SCIP_HEURTIMING.AFTERLPNODE
+                                    timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
                                     usessubscip=True
                                     )
 
