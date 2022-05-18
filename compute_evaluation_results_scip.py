@@ -30,7 +30,7 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 60
+total_time_limit = 600
 node_time_limit = 3
 is_heuristic = True
 
