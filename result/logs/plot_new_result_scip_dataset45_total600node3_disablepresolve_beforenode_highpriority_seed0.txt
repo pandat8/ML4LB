@@ -94,19 +94,19 @@ seed: 0
 cpu
 generalized_independentset
 firstsolSolution
-scip-baseline primal integral:  7.071940358293976
-scip-lb-baseline primal integral:  13.272024415625413
-scip-lb-regression primal integral:  13.687762813247739
-scip-lb-rl primal integral:  12.066969604934673
-scip-lb-regression-rl primal integral:  11.664722659038635
+scip-baseline primal integral:  39.96095455288655
+scip-lb-baseline primal integral:  51.19090791457315
+scip-lb-regression primal integral:  48.548701669553346
+scip-lb-rl primal integral:  50.09327755580046
+scip-lb-regression-rl primal integral:  49.041883145001684
 rl primal integral:  nan
 
 
-scip-baseline primal gap:  3.0676727082859725
-scip-lb-baseline primal gap:  6.000531577786128
-scip-lb-regression primal gap:  6.015098436632393
-scip-lb-rl primal gap:  5.03825779454475
-scip-lb-regression-rl primal gap:  3.8465578387287076
+scip-baseline primal gap:  0.949371940927868
+scip-lb-baseline primal gap:  1.3334371403496845
+scip-lb-regression primal gap:  0.9597321434419701
+scip-lb-rl primal gap:  1.0643606799445302
+scip-lb-regression-rl primal gap:  1.0202047087302677
 rl primal gap:  nan
 seed mcts:  0
 generalized_independentset-small
@@ -116,19 +116,19 @@ seed: 0
 cpu
 generalized_independentset
 rootsolSolution
-scip-baseline primal integral:  7.3811405418858484
-scip-lb-baseline primal integral:  14.965564938882114
-scip-lb-regression primal integral:  14.676778643526738
-scip-lb-rl primal integral:  13.597073211151814
-scip-lb-regression-rl primal integral:  14.109284287812224
+scip-baseline primal integral:  39.50432696039592
+scip-lb-baseline primal integral:  53.8789674436629
+scip-lb-regression primal integral:  51.95330263932946
+scip-lb-rl primal integral:  53.12088178244597
+scip-lb-regression-rl primal integral:  51.385421590686256
 rl primal integral:  nan
 
 
-scip-baseline primal gap:  3.601803547537488
-scip-lb-baseline primal gap:  7.540464654438483
-scip-lb-regression primal gap:  7.83629723513684
-scip-lb-rl primal gap:  6.813575408686191
-scip-lb-regression-rl primal gap:  8.075249312414762
+scip-baseline primal gap:  1.0612701216741722
+scip-lb-baseline primal gap:  0.8995105326753691
+scip-lb-regression primal gap:  1.2226068961165741
+scip-lb-rl primal gap:  1.050367746320961
+scip-lb-regression-rl primal gap:  1.3699656704745315
 rl primal gap:  nan
 seed mcts:  0
 miplib_39binary-small
@@ -145,4 +145,4 @@ Traceback (most recent call last):
     binary_file = GzipFile(filename, gz_mode, compresslevel)
   File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 173, in __init__
     fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/miplib_39binary/-small/firstsol/scip/heuristic_mode/lb-from-firstsol-t_total60s-t_node3s-small_lb_k0_rl_beforenode_highpriority/seed0/lb-test-miplib_39binary-9_transformed_fast0507.pkl'
+FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/miplib_39binary/-small/firstsol/scip/heuristic_mode/lb-from-firstsol-t_total600s-t_node3s-small_lb_k0_rl_beforenode_highpriority/seed0/lb-test-miplib_39binary-9_transformed_fast0507.pkl'
