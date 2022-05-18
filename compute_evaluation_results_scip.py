@@ -34,7 +34,7 @@ total_time_limit = 600
 node_time_limit = 3
 is_heuristic = True
 
-for i in range(4, 5):
+for i in range(3, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -106,8 +106,8 @@ for i in range(4, 5):
                     total_time_limit=total_time_limit,
                     node_time_limit=node_time_limit,
                     result_directory_1=result_directory_1,
-                    result_directory_2=result_directory_1,
-                    result_directory_3=result_directory_1,
+                    result_directory_2=result_directory_2,
+                    result_directory_3=result_directory_3,
                     result_directory_4=result_directory_4,
                     result_directory_5=result_directory_5
                     )

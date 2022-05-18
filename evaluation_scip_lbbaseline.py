@@ -29,14 +29,14 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 600 # 60 # 600# 60
+total_time_limit = 60 # 60 # 600# 60
 node_time_limit = 2 #10 # 60 # 5
 is_heuristic = True
 no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(3, 5):
+for i in range(0, 3):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -46,7 +46,7 @@ for i in range(3, 5):
     for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
 
-        for k in range(0, 1):
+        for k in range(0, 2):
             instance_size = instancesizes[k]
 
             print(instance_type + instance_size)
