@@ -498,6 +498,13 @@ class ExecuteHeuristic:
         elif instance_type == instancetypes[4]:
             index_mix = 0
             index_max = 30 # 30
+        elif instance_type == instancetypes[2] and instance_size == '-large':
+            index_mix = 0
+            index_max = 40
+        else:
+            index_mix = 160
+            index_max = 200
+
 
         for i in range(index_mix,index_max):
 
