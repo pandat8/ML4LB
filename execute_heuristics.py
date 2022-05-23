@@ -380,6 +380,7 @@ class ExecuteHeuristic:
         times = np.append(times, total_time_limit)
         objs = np.append(objs, objs[-1])
 
+        primal_integral_array = np.zeros(len(objs))
         gamma_baseline = np.zeros(len(objs))
         for j in range(len(objs)):
             if objs[j] == 0 and obj_opt == 0:
@@ -392,16 +393,18 @@ class ExecuteHeuristic:
         # compute the primal gap of last objective
         primal_gap_final = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt) * 100 # np.abs(obj_opt) * 100
 
-        # create step line
-        stepline = interp1d(times, gamma_baseline, 'previous')
-
-
         # compute primal integral
+        primal_integral_array[0] = 0
         primal_integral = 0
         for j in range(len(objs) - 1):
             primal_integral += gamma_baseline[j] * (times[j + 1] - times[j])
+            primal_integral_array[j+1] = primal_integral
 
-        return primal_integral, primal_gap_final, stepline# , gamma_baseline
+        # create step line
+        gamma_stepline = interp1d(times, gamma_baseline, 'previous')
+        primal_integral_stepline = interp1d(times, primal_integral_array)
+
+        return primal_integral, primal_gap_final, gamma_stepline, primal_integral_stepline # , gamma_baseline
 
         # gamma_baseline
 
@@ -484,6 +487,12 @@ class ExecuteHeuristic:
         steplines_scip_baseline_list = []
         steplines_lns_lblpmcts_list = []
         steplines_reinforce = []
+
+        pi_steplines_baseline = []
+        pi_steplines_lns_lblp_list = []
+        pi_steplines_lns_random_list = []
+        pi_steplines_scip_baseline_list = []
+        pi_steplines_lns_lblpmcts_list = []
 
         # primal_int_regression_reinforces_talored = []
         # primal_int_reinforces_talored = []
@@ -613,42 +622,47 @@ class ExecuteHeuristic:
                 # localbranch-baseline:
                 # compute primal gap for baseline localbranching run
                 # if times[-1] < total_time_limit:
-                primal_int_baseline, primal_gap_final_baseline, stepline_baseline = self.compute_primal_integral(times=times_lb, objs=objs_lb, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_int_baseline, primal_gap_final_baseline, stepline_baseline, pi_stepline_baseline = self.compute_primal_integral(times=times_lb, objs=objs_lb, obj_opt=obj_opt, total_time_limit=total_time_limit)
                 primal_gap_final_baselines.append(primal_gap_final_baseline)
                 steplines_baseline.append(stepline_baseline)
                 primal_int_baselines.append(primal_int_baseline)
+                pi_steplines_baseline.append(pi_stepline_baseline)
 
                 # lns-guided-by-localbranch-lp
                 # if times_regression[-1] < total_time_limit:
 
-                primal_int_lns_lblp, primal_gap_final_lns_lblp, stepline_lns_lblp = self.compute_primal_integral(
+                primal_int_lns_lblp, primal_gap_final_lns_lblp, stepline_lns_lblp, pi_stepline_lns_lblp = self.compute_primal_integral(
                     times=times_lns_lblp, objs=objs_lns_lblp, obj_opt=obj_opt, total_time_limit=total_time_limit)
                 primal_gap_final_lns_lblp_list.append(primal_gap_final_lns_lblp)
                 steplines_lns_lblp_list.append(stepline_lns_lblp)
+                pi_steplines_lns_lblp_list.append(pi_stepline_lns_lblp)
                 primal_int_lns_lblp_list.append(primal_int_lns_lblp)
 
                 # lns-random heuristic
                 # if times_regression[-1] < total_time_limit:
 
-                primal_int_lns_random, primal_gap_final_lns_random, stepline_regression_lns_random = self.compute_primal_integral(
+                primal_int_lns_random, primal_gap_final_lns_random, stepline_lns_random, pi_stepline_lns_random = self.compute_primal_integral(
                     times=times_lns_random, objs=objs_lns_random, obj_opt=obj_opt, total_time_limit=total_time_limit)
                 primal_gap_final_lns_random_list.append(primal_gap_final_lns_random)
-                steplines_lns_random_list.append(stepline_regression_lns_random)
+                steplines_lns_random_list.append(stepline_lns_random)
+                pi_steplines_lns_random_list.append(pi_stepline_lns_random)
                 primal_int_lns_random_list.append(primal_int_lns_random)
 
                 # scip-baseline
 
-                primal_int_scip, primal_gap_final_scip, stepline_scip = self.compute_primal_integral(
+                primal_int_scip, primal_gap_final_scip, stepline_scip, pi_stepline_scip = self.compute_primal_integral(
                     times=times_scip, objs=objs_scip, obj_opt=obj_opt, total_time_limit=total_time_limit)
                 primal_gap_final_scip_baselines_list.append(primal_gap_final_scip)
                 steplines_scip_baseline_list.append(stepline_scip)
+                pi_steplines_scip_baseline_list.append(pi_stepline_scip)
                 primal_int_scip_baselines_list.append(primal_int_scip)
 
                 # lns-guided-by-localbranch-lp-mcts
-                primal_int_lns_lblpmcts, primal_gap_final_lns_lblpmcts, stepline_lns_lblpmcts = self.compute_primal_integral(
+                primal_int_lns_lblpmcts, primal_gap_final_lns_lblpmcts, stepline_lns_lblpmcts, pi_stepline_lns_lblpmcts = self.compute_primal_integral(
                     times=times_lns_lblpmcts, objs=objs_lns_lblpmcts, obj_opt=obj_opt, total_time_limit=total_time_limit)
                 primal_gap_final_lns_lblpmcts_list.append(primal_gap_final_lns_lblpmcts)
                 steplines_lns_lblpmcts_list.append(stepline_lns_lblpmcts)
+                pi_steplines_lns_lblpmcts_list.append(pi_stepline_lns_lblpmcts)
                 primal_int_lns_lblpmcts_list.append(primal_int_lns_lblpmcts)
 
                 #
@@ -861,6 +875,52 @@ class ExecuteHeuristic:
         #         primalgaps_reinforce_talored = np.vstack((primalgaps_reinforce_talored, primal_gap))
         # primalgap_reinforce_talored_ave = np.average(primalgaps_reinforce_talored, axis=0)
 
+        pi_stack_baseline = None
+        for n, pi_stepline_baseline in enumerate(pi_steplines_baseline):
+            pi_samples = pi_stepline_baseline(t)
+            if n == 0:
+                pi_stack_baseline = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_baseline = np.vstack((pi_stack_baseline, pi_samples))
+        pi_baseline_ave = np.average(pi_stack_baseline, axis=0)
+
+        pi_stack_lns_lblp = None
+        for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_lblp_list):
+            pi_samles = pi_stepline_lns_lblp(t)
+            if n == 0:
+                pi_stack_lns_lblp = pi_samles.reshape(1, -1)
+            else:
+                pi_stack_lns_lblp = np.vstack((pi_stack_lns_lblp, pi_samles))
+        pi_lns_lblp_ave = np.average(pi_stack_lns_lblp, axis=0)
+
+        pi_stack_lns_random = None
+        for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_random_list):
+            pi_samples = pi_stepline_lns_lblp(t)
+            if n == 0:
+                pi_stack_lns_random = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_lns_random = np.vstack((pi_stack_lns_random, pi_samples))
+        pi_lns_random_ave = np.average(pi_stack_lns_random, axis=0)
+
+        pi_stack_scip_baseline = None
+        for n, pi_stepline_scip in enumerate(pi_steplines_scip_baseline_list):
+            pi_samples = pi_stepline_scip(t)
+            if n == 0:
+                pi_stack_scip_baseline = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_scip_baseline = np.vstack((pi_stack_scip_baseline, pi_samples))
+        pi_scip_baseline_ave = np.average(pi_stack_scip_baseline, axis=0)
+
+        pi_stack_lns_lblpmcts = None
+        for n, pi_stepline_lns_lblpmcts in enumerate(pi_steplines_lns_lblpmcts_list):
+            pi_samples = pi_stepline_lns_lblpmcts(t)
+            if n == 0:
+                pi_stack_lns_lblpmcts = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_lns_lblpmcts = np.vstack((pi_stack_lns_lblpmcts, pi_samples))
+        pi_lns_lblpmcts_ave = np.average(pi_stack_lns_lblpmcts, axis=0)
+        #
+
         plt.close('all')
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
@@ -883,7 +943,37 @@ class ExecuteHeuristic:
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode.png')
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode.png')
+        plt.show()
+        plt.clf()
+
+        print("seed mcts: ", seed_mcts)
+
+        plt.close('all')
+        plt.clf()
+        fig, ax = plt.subplots(figsize=(6.4, 4.8))
+        fig.suptitle(instance_name + '-' + 'primal integral', fontsize=13)  # instance_name
+        ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
+        ax.plot(t, pi_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        ax.plot(t, pi_baseline_ave, label='scip-lb', color='tab:blue')
+        ax.plot(t, pi_lns_random_ave, label='scip-lb-regression', color='tab:orange')
+        ax.plot(t, pi_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
+        # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
+        ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
+        # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
+        #
+        # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
+        # ax.plot(t, primalgap_regression_reinforce_talored_ave, ':', label='lb-regression-rl-active', color='tab:red')
+
+        ax.set_xlabel('time /s', fontsize=12)
+        ax.set_ylabel("average primal integral", fontsize=12)
+        ax.legend()
+        ax.grid()
+        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
+        # fig.tight_layout()
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
+            instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
+            node_time_limit) + '_disable_presolve_beforenode.png')
         plt.show()
         plt.clf()
 
