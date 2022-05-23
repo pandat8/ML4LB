@@ -65,7 +65,7 @@ for i in range(0, 3):
             # result directory of localbranch
 
             result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenod/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode/seed' + str(seed) + '/'
 
             # result directory of lns-random, scip-lb-regressiono
 
