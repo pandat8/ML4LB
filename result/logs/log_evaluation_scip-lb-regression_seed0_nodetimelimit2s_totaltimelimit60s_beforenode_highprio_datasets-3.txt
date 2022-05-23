@@ -1,0 +1,47 @@
+nohup: ignoring input
+original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 3414 constraints
+solution value 0 violates bounds of <t_t_t_x_23>[1,1] by 1
+Traceback (most recent call last):
+  File "/home/liudefen/projects/ML4LocalBranch_extend/primal_heur_localbranch.py", line 40, in heurexec
+    assert self.model.checkSol(incumbent_solution), 'initial solution of LB is not feasible'
+AssertionError: initial solution of LB is not feasible
+Exception ignored in: 'pyscipopt.scip.PyHeurExec'
+Traceback (most recent call last):
+  File "/home/liudefen/projects/ML4LocalBranch_extend/primal_heur_localbranch.py", line 40, in heurexec
+    assert self.model.checkSol(incumbent_solution), 'initial solution of LB is not feasible'
+AssertionError: initial solution of LB is not feasible
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+combinatorialauction-small
+firstsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of combinatorialauction-160_transformed is successfully added to MIP model
+combinatorialauction-160_transformed
+N of variables: 2000
+N of binary vars: 2000
+N of constraints: 3414
+Initial obj of MIP: 0.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  52
+GNN prediction:  0.1542968600988388
+GNN k_0:  101.0
+LB heuristic is starting..
+LB heuristic starts at 0.013521 s
+Traceback (most recent call last):
+  File "evaluation_scip_lb_regression.py", line 86, in <module>
+    scip_as_baseline.execute_heuristic_baseline(
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 371, in execute_heuristic_baseline
+    self.setup_heuristic_per_instance(MIP_model=MIP_model,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 290, in setup_heuristic_per_instance
+    data = self.execute_heuristic_per_instance(MIP_model, incumbent, node_time_limit,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 1771, in execute_heuristic_per_instance
+    MIP_model_copy2.optimize()
+  File "src/pyscipopt/scip.pyx", line 3158, in pyscipopt.scip.Model.optimize
+  File "src/pyscipopt/scip.pyx", line 231, in pyscipopt.scip.PY_SCIP_CALL
+Exception: SCIP: unspecified error!
