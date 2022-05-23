@@ -1700,6 +1700,12 @@ class Execute_LB_Regression(ExecuteHeuristic):
         :param total_time_limit:
         :return:
         """
+        MIP_model.resetParams()
+        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+            problemName='gnn-copy',
+            origcopy=False)
+        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
+                                                  MIP_copy_vars2)
 
         # MIP_model_copy2._freescip = True
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
@@ -1728,12 +1734,12 @@ class Execute_LB_Regression(ExecuteHeuristic):
         if k_pred < 10:
             k_pred = 10
 
-        MIP_model.resetParams()
-        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-            problemName='gnn-copy',
-            origcopy=False)
-        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-                                                  MIP_copy_vars2)
+        # MIP_model.resetParams()
+        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+        #     problemName='gnn-copy',
+        #     origcopy=False)
+        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
+        #                                           MIP_copy_vars2)
 
 
         objs = []
