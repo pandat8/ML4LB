@@ -517,7 +517,7 @@ class ExecuteHeuristic:
 
         for i in range(index_mix,index_max):
 
-            if not (instance_type == instancetypes[4] and (i == 18)): # or i==4 # or i==5 or i==10 or i==21
+            if not (instance_type == instancetypes[4] and (i == 18) and i > 22): # or i==4 # or i==5 or i==10 or i==21
 
                 instance_name = instance_type + '-' + str(i) + '_transformed' # instance 100-199
 
@@ -973,7 +973,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_freq100.png')
+            node_time_limit) + '_disable_presolve_beforenode_freq10.png')
         plt.show()
         plt.clf()
 
