@@ -36,7 +36,7 @@ no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(4, 5):
+for i in range(3, 4):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'

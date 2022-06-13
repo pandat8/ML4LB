@@ -517,7 +517,7 @@ class ExecuteHeuristic:
 
         for i in range(index_mix,index_max):
 
-            if not (instance_type == instancetypes[4] and (i == 18 or i > 22)): # or i==4 # or i==5 or i==10 or i==21
+            if not (instance_type == instancetypes[4] and (i == 18)): # or i==4 # or i==5 or i==10 or i==21
 
                 instance_name = instance_type + '-' + str(i) + '_transformed' # instance 100-199
 
