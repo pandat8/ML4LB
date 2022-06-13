@@ -1,8 +1,8 @@
 nohup: ignoring input
-original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 5000 constraints
-setcovering-small
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+miplib_39binary-small
 firstsol
-asymmetric
+symmetric
 seed: 0
 cpu
 Traceback (most recent call last):
@@ -14,4 +14,4 @@ Traceback (most recent call last):
     binary_file = GzipFile(filename, gz_mode, compresslevel)
   File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 173, in __init__
     fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/setcovering/-small/firstsol/scip/heuristic_mode/lb-from-firstsol-t_total60s-t_node2s-small_lb_k0_rl_beforenode_freq10/seed0/lb-test-setcovering-160_transformed.pkl'
+FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/miplib_39binary/-small/firstsol/scip/heuristic_mode/lb-from-firstsol-t_total60s-t_node2s-small_lb_k0_rl_beforenode_freq10/seed0/lb-test-miplib_39binary-0_transformed_a1c1s1.pkl'
