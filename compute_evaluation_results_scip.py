@@ -65,17 +65,17 @@ for i in range(0, 3):
             # result directory of localbranch
 
             result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode_highpriority/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode_freq10/seed' + str(seed) + '/'
 
             # result directory of lns-random, scip-lb-regressiono
 
             result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' +  instance_size + '_lb_k0_regression_beforenode_highpriority/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' +  instance_size + '_lb_k0_regression_beforenode_freq10/seed' + str(seed) + '/'
 
             # result directory of lns-lb, scip-lb-rl
 
             result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode_highpriority/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode_freq10/seed' + str(seed) + '/'
 
             # # result directory of lns-lblp
             # evaluation_directory = './result/generated_instances/' + instance_type + '/' + instance_size + '/' + incumbent_mode + '/' + 'lns' + '/'
@@ -89,7 +89,7 @@ for i in range(0, 3):
             # result directory of lns-lb-mcts, scip-lb-regression-rl
 
             result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_highpriority/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq10/seed' + str(seed) + '/'
 
             source_directory = './data/generated_instances/' + instance_type + '/' + instance_size + '/'
             instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
