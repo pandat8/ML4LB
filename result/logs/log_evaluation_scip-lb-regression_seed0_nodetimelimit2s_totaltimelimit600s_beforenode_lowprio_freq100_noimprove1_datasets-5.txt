@@ -1,0 +1,2707 @@
+nohup: ignoring input
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+original problem has 6000 variables (6000 bin, 0 int, 0 impl, 0 cont) and 2171 constraints
+original problem has 13873 variables (552 bin, 0 int, 0 impl, 13321 cont) and 3215 constraints
+original problem has 521 variables (56 bin, 0 int, 0 impl, 465 cont) and 688 constraints
+original problem has 67732 variables (67732 bin, 0 int, 0 impl, 0 cont) and 656 constraints
+original problem has 63009 variables (63009 bin, 0 int, 0 impl, 0 cont) and 507 constraints
+original problem has 1298 variables (1254 bin, 0 int, 0 impl, 44 cont) and 353 constraints
+original problem has 322 variables (302 bin, 0 int, 0 impl, 20 cont) and 394 constraints
+original problem has 2993 variables (2993 bin, 0 int, 0 impl, 0 cont) and 102 constraints
+original problem has 1156 variables (1089 bin, 0 int, 0 impl, 67 cont) and 2178 constraints
+original problem has 260 variables (259 bin, 0 int, 0 impl, 1 cont) and 224 constraints
+original problem has 5325 variables (5323 bin, 0 int, 0 impl, 2 cont) and 3411 constraints
+original problem has 10958 variables (96 bin, 0 int, 0 impl, 10862 cont) and 4480 constraints
+original problem has 5174 variables (2349 bin, 0 int, 0 impl, 2825 cont) and 26509 constraints
+original problem has 6621 variables (6620 bin, 0 int, 0 impl, 1 cont) and 721 constraints
+original problem has 769 variables (768 bin, 0 int, 0 impl, 1 cont) and 64 constraints
+original problem has 2756 variables (2756 bin, 0 int, 0 impl, 0 cont) and 729 constraints
+original problem has 1835 variables (1835 bin, 0 int, 0 impl, 0 cont) and 2387 constraints
+original problem has 840 variables (48 bin, 0 int, 0 impl, 792 cont) and 1192 constraints
+original problem has 1372 variables (1372 bin, 0 int, 0 impl, 0 cont) and 4944 constraints
+original problem has 14101 variables (14101 bin, 0 int, 0 impl, 0 cont) and 1739 constraints
+original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 constraints
+original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
+original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+miplib_39binary-small
+firstsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj of MIP: 21141.52
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  2.788595743208333e-10
+GNN k_0:  1.0
+LB heuristic is starting..
+LB heuristic starts at 0.035093 s
+No. of LB call:  1
+LB initial objective: 21141.52
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0124 Best Obj: 20092.1857 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0295 Best Obj: 19882.5273 n_sols_subMIP: 8 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0414 Best Obj: 19589.0407 n_sols_subMIP: 10 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0552 Best Obj: 19445.7020 n_sols_subMIP: 12 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0689 Best Obj: 19320.7020 n_sols_subMIP: 13 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0821 Best Obj: 19316.8271 n_sols_subMIP: 12 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.0956 Best Obj: 19316.8271 n_sols_subMIP: 12 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 0
+LB heuristic finishes at 14.378592 s
+LB final objective: 19316.827071572592
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-0_transformed_a1c1s1_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  13304.177687499994
+Solving time:  600.000301
+
+
+[array([21141.52      , 20092.1856875 , 19882.52730903, 19589.0406875 ,
+       19445.70196472, 19320.70196472, 19316.82707157, 17774.7176875 ,
+       16677.0383125 , 15649.09436869, 15401.39259369, 15367.68827854,
+       15086.76725969, 15048.41648885, 14985.3309375 , 14937.80373852,
+       14519.255625  , 14233.32475877, 13960.3426875 , 13828.0626875 ,
+       13763.433     , 13732.497875  , 13669.1626875 , 13549.1414    ,
+       13544.3669375 , 13536.09894063, 13304.1776875 ]), array([  0.      ,   2.134753,   4.183415,   6.222442,   8.262314,
+        10.307726,  12.346549,  31.211115,  35.445906,  47.049416,
+        47.052765,  47.329422,  47.506115,  48.01387 ,  48.481889,
+        58.098512,  58.843751,  63.926379,  64.945466,  86.054978,
+       163.549841, 163.577597, 163.607777, 173.187765, 173.191703,
+       194.950865, 395.089932])]
+instance:  1
+create a new SCIP model
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj of MIP: 4374.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.7425981760025024
+GNN k_0:  35.0
+LB heuristic is starting..
+LB heuristic starts at 0.006516 s
+No. of LB call:  1
+LB initial objective: 4374.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 2155.0000 n_sols_subMIP: 5 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0004 Best Obj: 2155.0000 n_sols_subMIP: 3 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 35 div_final: 0
+LB heuristic finishes at 4.035785 s
+LB final objective: 2155.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-1_transformed_aflow30a_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  1158.0
+Solving time:  43.69911
+
+
+[array([4374., 2155., 1168., 1158.]), array([ 0.      ,  2.031536,  5.213543, 24.777539])]
+instance:  2
+create a new SCIP model
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj of MIP: 8410.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.542660117149353
+GNN k_0:  38.0
+LB heuristic is starting..
+LB heuristic starts at 0.023947 s
+No. of LB call:  1
+LB initial objective: 8410.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 3061.0000 n_sols_subMIP: 4 K: 38 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0013 Best Obj: 3061.0000 n_sols_subMIP: 3 K: 38 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 38 div_final: 0
+LB heuristic finishes at 4.099021 s
+LB final objective: 3061.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-2_transformed_aflow40b_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1189.0
+Solving time:  600.000203
+
+
+[array([8410., 3061., 1285., 1228., 1226., 1222., 1212., 1205., 1197.,
+       1189.]), array([  0.      ,   2.086502,   8.626312,  58.721697, 105.687655,
+       165.946627, 313.749192, 365.836766, 407.961068, 554.132259])]
+instance:  3
+create a new SCIP model
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj of MIP: 57283.999999999985
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.3476136326789856
+GNN k_0:  31.0
+LB heuristic is starting..
+LB heuristic starts at 0.100682 s
+No. of LB call:  1
+LB initial objective: 57283.999999999985
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0084 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 31 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 31 div_final: 0
+LB heuristic finishes at 2.443535 s
+LB final objective: 57283.999999999985
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-3_transformed_air04_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  56137.0
+Solving time:  109.858682
+
+
+[array([57284., 57212., 56340., 56266., 56265., 56138., 56137.]), array([  0.      ,  49.078318,  90.701381,  91.919655,  92.541612,
+       105.598412, 108.061193])]
+instance:  4
+create a new SCIP model
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj of MIP: 30740.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.32527685165405273
+GNN k_0:  35.0
+LB heuristic is starting..
+LB heuristic starts at 0.09031299999999999 s
+No. of LB call:  1
+LB initial objective: 30740.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0070 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 35 div_final: 0
+LB heuristic finishes at 2.3052070000000002 s
+LB final objective: 30740.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-4_transformed_air05_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  26374.0
+Solving time:  81.865068
+
+
+[array([30740., 28737., 28547., 28024., 27933., 27596., 27269., 26985.,
+       26588., 26584., 26567., 26533., 26529., 26485., 26448., 26442.,
+       26439., 26402., 26374.]), array([ 0.      , 11.558076, 13.413734, 40.41151 , 41.468069, 43.458534,
+       43.486115, 59.612641, 61.630379, 61.696687, 62.449801, 62.648974,
+       67.495832, 67.553581, 68.034636, 75.338286, 75.352948, 75.59655 ,
+       76.359231])]
+instance:  5
+create a new SCIP model
+The initial incumbent of miplib_39binary-5_transformed_cap6000 is successfully added to MIP model
+miplib_39binary-5_transformed_cap6000
+N of variables: 6000
+N of binary vars: 6000
+N of constraints: 2171
+Initial obj of MIP: -80463.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  5
+GNN prediction:  0.13607706129550934
+GNN k_0:  71.0
+LB heuristic is starting..
+LB heuristic starts at 0.07530099999999999 s
+No. of LB call:  1
+LB initial objective: -749816.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 0.7248 Best Obj: -1407178.0000 n_sols_subMIP: 16 K: 71 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 2.7280 Best Obj: -1815998.0000 n_sols_subMIP: 11 K: 71 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 4.7296 Best Obj: -2105993.0000 n_sols_subMIP: 26 K: 71 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 6.7304 Best Obj: -2260367.0000 n_sols_subMIP: 15 K: 71 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 8.7308 Best Obj: -2366149.0000 n_sols_subMIP: 13 K: 71 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 10.7342 Best Obj: -2366149.0000 n_sols_subMIP: 3 K: 71 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 71 div_final: 0
+LB heuristic finishes at 11.209849 s
+LB final objective: -2366149.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-5_transformed_cap6000_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -2451377.0
+Solving time:  34.120742
+
+
+[array([  -80463.,   -82937.,  -749816., -1407178., -1815998., -2105993.,
+       -2260367., -2366149., -2442801., -2451186., -2451267., -2451279.,
+       -2451361., -2451363., -2451371., -2451372., -2451373., -2451377.]), array([ 0.      ,  0.066585,  0.075284,  0.993305,  3.040725,  5.086239,
+        7.13219 ,  9.177414, 11.268349, 11.280996, 24.871955, 25.818903,
+       26.51778 , 27.103723, 29.533919, 30.922885, 31.207718, 31.933154])]
+instance:  6
+create a new SCIP model
+The initial incumbent of miplib_39binary-6_transformed_dano3mip is successfully added to MIP model
+miplib_39binary-6_transformed_dano3mip
+N of variables: 13873
+N of binary vars: 552
+N of constraints: 3215
+Initial obj of MIP: 982.4
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  72.0
+LB heuristic is starting..
+LB heuristic starts at 0.35095499999999996 s
+No. of LB call:  1
+LB initial objective: 982.4
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0095 Best Obj: 982.4000 n_sols_subMIP: 1 K: 72 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 72 div_final: 0
+LB heuristic finishes at 2.799503 s
+LB final objective: 982.4
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-6_transformed_dano3mip_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  721.7619047619048
+Solving time:  600.013643
+
+
+[array([982.4       , 721.76190476]), array([  0.      , 411.299473])]
+instance:  7
+create a new SCIP model
+The initial incumbent of miplib_39binary-7_transformed_danoint is successfully added to MIP model
+miplib_39binary-7_transformed_danoint
+N of variables: 521
+N of binary vars: 56
+N of constraints: 688
+Initial obj of MIP: 82.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  22.0
+LB heuristic is starting..
+LB heuristic starts at 0.020328 s
+No. of LB call:  1
+LB initial objective: 82.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 82.0000 n_sols_subMIP: 1 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 22 div_final: 0
+LB heuristic finishes at 2.040068 s
+LB final objective: 82.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-7_transformed_danoint_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  65.66666666666666
+Solving time:  600.000562
+
+
+[array([82.        , 66.5       , 65.66666667, 65.66666667]), array([ 0.      ,  2.951338, 70.61391 , 86.205652])]
+instance:  8
+create a new SCIP model
+The initial incumbent of miplib_39binary-8_transformed_ds is successfully added to MIP model
+miplib_39binary-8_transformed_ds
+N of variables: 67732
+N of binary vars: 67732
+N of constraints: 656
+Initial obj of MIP: 579495.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.5373246669769287
+GNN k_0:  124.0
+LB heuristic is starting..
+LB heuristic starts at 1.83479 s
+No. of LB call:  1
+LB initial objective: 523278.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 3.1677 Best Obj: 523278.0000 n_sols_subMIP: 1 K: 124 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 124 div_final: 0
+LB heuristic finishes at 7.242751 s
+LB final objective: 523278.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-8_transformed_ds_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  251079.0
+Solving time:  600.004091
+
+
+[array([579495., 523278., 251079.]), array([  0.      ,   1.663535, 588.390975])]
+instance:  9
+create a new SCIP model
+The initial incumbent of miplib_39binary-9_transformed_fast0507 is successfully added to MIP model
+miplib_39binary-9_transformed_fast0507
+N of variables: 63009
+N of binary vars: 63009
+N of constraints: 507
+Initial obj of MIP: 122425.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  4
+GNN prediction:  0.9506951570510864
+GNN k_0:  59797.0
+LB heuristic is starting..
+LB heuristic starts at 0.8971819999999999 s
+No. of LB call:  1
+LB initial objective: 229.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0040 Best Obj: 229.0000 n_sols_subMIP: 1 K: 59797 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 59797 div_final: 0
+LB heuristic finishes at 4.74964 s
+LB final objective: 229.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-9_transformed_fast0507_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  177.0
+Solving time:  600.417507
+
+
+[array([122425., 122424.,    233.,    229.,    177.]), array([ 0.      ,  0.566024,  0.865634,  0.897156, 61.41673 ])]
+instance:  10
+create a new SCIP model
+The initial incumbent of miplib_39binary-10_transformed_fiber is successfully added to MIP model
+miplib_39binary-10_transformed_fiber
+N of variables: 1298
+N of binary vars: 1254
+N of constraints: 353
+Initial obj of MIP: 221485087.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.979243814945221
+GNN k_0:  50.0
+LB heuristic is starting..
+LB heuristic starts at 0.008475 s
+No. of LB call:  1
+LB initial objective: 221485087.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0003 Best Obj: 50703221.0000 n_sols_subMIP: 8 K: 50 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0003 Best Obj: 49647662.0000 n_sols_subMIP: 11 K: 50 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0004 Best Obj: 49647662.0000 n_sols_subMIP: 9 K: 50 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 50 div_final: 0
+LB heuristic finishes at 6.061722 s
+LB final objective: 49647662.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-10_transformed_fiber_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  40593518.0
+Solving time:  7.098365
+
+
+[array([2.21485087e+08, 5.07032210e+07, 4.96476620e+07, 4.79643980e+07,
+       4.11477420e+07, 4.07941580e+07, 4.05935180e+07]), array([0.      , 2.043307, 4.053778, 6.638462, 6.674242, 6.887651,
+       7.001043])]
+instance:  11
+create a new SCIP model
+The initial incumbent of miplib_39binary-11_transformed_glass4 is successfully added to MIP model
+miplib_39binary-11_transformed_glass4
+N of variables: 322
+N of binary vars: 302
+N of constraints: 394
+Initial obj of MIP: 4900050300.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  39.0
+LB heuristic is starting..
+LB heuristic starts at 0.005097 s
+No. of LB call:  1
+LB initial objective: 4900050300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0005 Best Obj: 2300020925.0000 n_sols_subMIP: 8 K: 39 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0006 Best Obj: 2075019225.0000 n_sols_subMIP: 10 K: 39 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0011 Best Obj: 2075019225.0000 n_sols_subMIP: 3 K: 39 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 39 div_final: 0
+LB heuristic finishes at 6.031774 s
+LB final objective: 2075019225.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-11_transformed_glass4_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1566680666.6666663
+Solving time:  600.001396
+
+
+[array([4.90005030e+09, 2.30002092e+09, 2.07501922e+09, 2.06668640e+09,
+       1.83334980e+09, 1.73334880e+09, 1.70001540e+09, 1.60001390e+09,
+       1.56668067e+09]), array([ 0.      ,  2.023628,  4.028177,  6.313955,  7.616467, 12.606529,
+       59.052507, 68.978924, 88.061701])]
+instance:  12
+create a new SCIP model
+The initial incumbent of miplib_39binary-12_transformed_harp2 is successfully added to MIP model
+miplib_39binary-12_transformed_harp2
+N of variables: 2993
+N of binary vars: 2993
+N of constraints: 102
+Initial obj of MIP: -48153311.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.4949952960014343
+GNN k_0:  73.0
+LB heuristic is starting..
+LB heuristic starts at 0.019211 s
+No. of LB call:  1
+LB initial objective: -48153311.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: -67169753.0000 n_sols_subMIP: 11 K: 73 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0005 Best Obj: -70582836.0000 n_sols_subMIP: 13 K: 73 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0009 Best Obj: -72033610.0000 n_sols_subMIP: 11 K: 73 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0011 Best Obj: -72671722.0000 n_sols_subMIP: 7 K: 73 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0016 Best Obj: -72671722.0000 n_sols_subMIP: 5 K: 73 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 73 div_final: 0
+LB heuristic finishes at 10.156684 s
+LB final objective: -72671722.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-12_transformed_harp2_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -73899790.0
+Solving time:  600.000147
+
+
+[array([-48153311.        , -67169753.        , -70582836.        ,
+       -72033610.        , -72671722.        , -73642185.        ,
+       -73667220.        , -73712876.        , -73719204.        ,
+       -73749023.        , -73814701.        , -73815716.        ,
+       -73821399.        , -73825347.        , -73827439.00000001,
+       -73833811.00000001, -73843089.        , -73850284.        ,
+       -73851877.        , -73861963.        , -73862101.        ,
+       -73862300.        , -73862352.        , -73862439.        ,
+       -73862453.        , -73862573.        , -73863834.        ,
+       -73865808.        , -73865998.        , -73866187.        ,
+       -73875488.99999999, -73888174.        , -73892867.        ,
+       -73893426.        , -73894058.        , -73894634.        ,
+       -73894666.        , -73894751.        , -73894812.        ,
+       -73894849.        , -73895712.        , -73899121.99999999,
+       -73899782.        , -73899787.        , -73899790.        ]), array([  0.      ,   2.082294,   4.102781,   6.123737,   8.143254,
+        10.989975,  20.997431,  23.43437 ,  26.984253,  33.539783,
+        50.681586,  53.653711,  66.819743,  68.440129, 108.572014,
+       113.127961, 113.866185, 115.834795, 118.980851, 133.614864,
+       136.867917, 146.680071, 146.687131, 150.430824, 154.068962,
+       169.728922, 169.820507, 169.84216 , 169.886505, 169.92179 ,
+       183.2246  , 183.295189, 183.323957, 183.337738, 183.645746,
+       187.022582, 188.892239, 195.364862, 201.646867, 220.568404,
+       226.70834 , 226.929488, 228.188497, 338.169215, 352.042888])]
+instance:  13
+create a new SCIP model
+The initial incumbent of miplib_39binary-13_transformed_liu is successfully added to MIP model
+miplib_39binary-13_transformed_liu
+N of variables: 1156
+N of binary vars: 1089
+N of constraints: 2178
+Initial obj of MIP: 6450.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  37.0
+LB heuristic is starting..
+LB heuristic starts at 0.033645999999999995 s
+No. of LB call:  1
+LB initial objective: 6450.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0061 Best Obj: 3204.0000 n_sols_subMIP: 4 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0113 Best Obj: 3186.0000 n_sols_subMIP: 4 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0135 Best Obj: 3186.0000 n_sols_subMIP: 2 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 37 div_final: 0
+LB heuristic finishes at 6.100274 s
+LB final objective: 3186.0
+LB heurisitc succeeds, finds an improving solution
+LB heuristic is starting..
+LB heuristic starts at 383.974254 s
+No. of LB call:  2
+LB initial objective: 1432.0000000000296
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0063 Best Obj: 1432.0000 n_sols_subMIP: 1 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 37 div_final: 0
+LB heuristic finishes at 386.012446 s
+LB final objective: 1432.0000000000296
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 386.074916 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 386.456956 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 386.531689 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 440.196549 s
+No. of LB call:  3
+LB initial objective: 1431.9999990000294
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0057 Best Obj: 1432.0000 n_sols_subMIP: 1 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 37 div_final: 0
+LB heuristic finishes at 442.235572 s
+LB final objective: 1431.9999990000294
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 442.302513 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 442.37773 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 442.494323 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 515.669877 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 527.422591 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 527.554412 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 533.009732 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 534.568084 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 563.088619 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+Instance: miplib_39binary-13_transformed_liu_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1431.9999990000294
+Solving time:  600.000691
+
+
+[array([6450.      , 3204.      , 3186.      , 1638.      , 1532.      ,
+       1524.      , 1522.      , 1516.      , 1514.      , 1510.      ,
+       1508.      , 1500.      , 1494.      , 1490.      , 1488.      ,
+       1482.      , 1478.      , 1477.999999, 1474.      , 1472.      ,
+       1468.      , 1467.999999, 1466.      , 1462.      , 1458.      ,
+       1454.      , 1452.      , 1440.      , 1438.      , 1432.      ,
+       1431.999999]), array([  0.      ,   2.075507,   4.091181,  10.200248,  20.199331,
+        22.619115,  32.27222 ,  36.810748,  47.285458,  52.504093,
+        71.100229,  71.480233,  78.591507, 111.770685, 115.295908,
+       132.409162, 133.493896, 137.190341, 147.023993, 173.294126,
+       186.969606, 191.681673, 215.553291, 215.802204, 217.571644,
+       233.081834, 311.152044, 324.918707, 344.446454, 373.930461,
+       421.287585])]
+instance:  14
+create a new SCIP model
+The initial incumbent of miplib_39binary-14_transformed_misc07 is successfully added to MIP model
+miplib_39binary-14_transformed_misc07
+N of variables: 260
+N of binary vars: 259
+N of constraints: 224
+Initial obj of MIP: 4615.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  28.0
+LB heuristic is starting..
+LB heuristic starts at 0.00762 s
+No. of LB call:  1
+LB initial objective: 4615.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 3020.0000 n_sols_subMIP: 5 K: 28 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0003 Best Obj: 3020.0000 n_sols_subMIP: 4 K: 28 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 28 div_final: 0
+LB heuristic finishes at 4.028987 s
+LB final objective: 3020.0
+LB heurisitc succeeds, finds an improving solution
+LB heuristic is starting..
+LB heuristic starts at 60.954476 s
+No. of LB call:  2
+LB initial objective: 2810.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0001 Best Obj: 2810.0000 n_sols_subMIP: 1 K: 28 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 28 div_final: 0
+LB heuristic finishes at 62.974086 s
+LB final objective: 2810.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 67.149437 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 69.994846 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 69.995479 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 72.378708 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 76.883385 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 77.36683 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 80.105071 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 80.590138 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 80.590736 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 81.805893 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 81.80649 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 83.500045 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 85.172414 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 85.617368 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 85.835845 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 86.220548 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 87.249244 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 88.438332 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 90.652517 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 94.065779 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 94.068885 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+Instance: miplib_39binary-14_transformed_misc07_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  2810.0
+Solving time:  95.746177
+
+
+[array([4615., 3020., 2895., 2810.]), array([0.      , 2.025585, 4.928417, 7.964158])]
+instance:  15
+create a new SCIP model
+The initial incumbent of miplib_39binary-15_transformed_mkc is successfully added to MIP model
+miplib_39binary-15_transformed_mkc
+N of variables: 5325
+N of binary vars: 5323
+N of constraints: 3411
+Initial obj of MIP: 0.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.508521556854248
+GNN k_0:  62.0
+LB heuristic is starting..
+LB heuristic starts at 0.08773299999999999 s
+No. of LB call:  1
+LB initial objective: 0.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0013 Best Obj: -154095.0000 n_sols_subMIP: 5 K: 62 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0071 Best Obj: -154095.0000 n_sols_subMIP: 4 K: 62 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 62 div_final: 0
+LB heuristic finishes at 4.323129 s
+LB final objective: -154095.0
+LB heurisitc succeeds, finds an improving solution
+LB heuristic is starting..
+LB heuristic starts at 154.36831 s
+No. of LB call:  2
+LB initial objective: -276233.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0086 Best Obj: -276233.0000 n_sols_subMIP: 1 K: 62 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 62 div_final: 0
+LB heuristic finishes at 156.494002 s
+LB final objective: -276233.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 156.501094 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 157.364392 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 157.375059 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 157.831157 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 158.508237 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 158.514178 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 158.868939 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 158.873083 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 159.928774 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 159.933239 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 160.164589 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 160.579553 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 162.170001 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 237.315123 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 237.461657 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 237.464993 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 237.791639 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 282.376495 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 282.379507 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 282.537896 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 282.541656 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 474.876761 s
+No. of LB call:  3
+LB initial objective: -278846.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0011 Best Obj: -278846.0000 n_sols_subMIP: 1 K: 62 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 62 div_final: 0
+LB heuristic finishes at 477.08343 s
+LB final objective: -278846.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 477.086037 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 478.165534 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 478.172845 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 479.578888 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 590.613696 s
+No. of LB call:  4
+LB initial objective: -279746.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0024 Best Obj: -279746.0000 n_sols_subMIP: 1 K: 62 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 62 div_final: 0
+LB heuristic finishes at 592.824773 s
+LB final objective: -279746.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 592.827912 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 592.910046 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 592.915187 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 597.717708 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 597.723292 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 598.870919 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 598.875295 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 599.858205 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 599.860757 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+Instance: miplib_39binary-15_transformed_mkc_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -279746.0
+Solving time:  600.002471
+
+
+[array([      0., -154095., -180785., -185705., -245665., -245745.,
+       -260949., -275502., -276233., -276546., -277446., -278546.,
+       -278846., -279746.]), array([  0.      ,   2.289895,   4.46889 ,   4.63949 ,  12.172539,
+        21.539886,  40.633006, 108.450831, 121.02302 , 428.812811,
+       429.042708, 431.302268, 460.010536, 516.750919])]
+instance:  16
+create a new SCIP model
+The initial incumbent of miplib_39binary-16_transformed_mod011 is successfully added to MIP model
+miplib_39binary-16_transformed_mod011
+N of variables: 10958
+N of binary vars: 96
+N of constraints: 4480
+Initial obj of MIP: 0.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.3639409840106964
+GNN k_0:  2.0
+LB heuristic is starting..
+LB heuristic starts at 0.337702 s
+No. of LB call:  1
+LB initial objective: -21241416.238845214
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0023 Best Obj: -21241416.2388 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 0
+LB heuristic finishes at 2.6032729999999997 s
+LB final objective: -21241416.238845214
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-16_transformed_mod011_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -54558535.014227554
+Solving time:  245.678367
+
+
+[array([        0.        , -19328601.23884521, -21241416.23884521,
+       -42783986.66586171, -43212216.69005905, -53656254.1089614 ,
+       -53656254.10896143, -54353428.0608534 , -54558535.01422735,
+       -54558535.01422755]), array([ 0.      ,  0.330047,  0.337687,  3.209536,  3.560534,  9.920981,
+       24.71883 , 34.806015, 36.196673, 49.75664 ])]
+instance:  17
+create a new SCIP model
+The initial incumbent of miplib_39binary-17_transformed_momentum1 is successfully added to MIP model
+miplib_39binary-17_transformed_momentum1
+N of variables: 5174
+N of binary vars: 2349
+N of constraints: 26509
+Initial obj of MIP: 532399.3778172481
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  8.690214482265715e-14
+GNN k_0:  1.0
+LB heuristic is starting..
+LB heuristic starts at 0.15282199999999999 s
+No. of LB call:  1
+LB initial objective: 365999.3778172481
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0053 Best Obj: 359543.4580 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 2.9863 Best Obj: 333905.7629 n_sols_subMIP: 6 K: 10 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 4.9897 Best Obj: 333905.7629 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 0
+LB heuristic finishes at 5.5612449999999995 s
+LB final objective: 333905.7629051229
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-17_transformed_momentum1_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  333905.7629051229
+Solving time:  600.004961
+
+
+[array([532399.37781725, 365999.37781725, 359543.457985  , 333905.76290512]), array([0.      , 0.1528  , 2.426346, 3.491298])]
+instance:  18
+create a new SCIP model
+The initial incumbent of miplib_39binary-19_transformed_nsrand-ipx is successfully added to MIP model
+miplib_39binary-19_transformed_nsrand-ipx
+N of variables: 6621
+N of binary vars: 6620
+N of constraints: 721
+Initial obj of MIP: 1815840.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  311.0
+LB heuristic is starting..
+LB heuristic starts at 0.262746 s
+No. of LB call:  1
+LB initial objective: 180960.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 64480.0000 n_sols_subMIP: 6 K: 311 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0681 Best Obj: 64480.0000 n_sols_subMIP: 6 K: 311 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 311 div_final: 0
+LB heuristic finishes at 4.659931 s
+LB final objective: 64480.0
+LB heurisitc succeeds, finds an improving solution
+LB heuristic is starting..
+LB heuristic starts at 366.683877 s
+No. of LB call:  2
+LB initial objective: 53280.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0009 Best Obj: 53280.0000 n_sols_subMIP: 1 K: 311 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 311 div_final: 0
+LB heuristic finishes at 368.981962 s
+LB final objective: 53280.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 368.984454 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 369.853059 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 430.533336 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 431.423262 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 464.926266 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 466.043193 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 466.049216 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 466.86771 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 466.873611 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 467.609341 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 467.615533 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 468.196484 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 468.202431 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 468.666904 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 468.683722 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 469.187096 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 469.568594 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 470.343418 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 470.927019 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 479.398078 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 479.406882 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 480.158516 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 481.015903 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 481.044491 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 481.592322 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 491.676793 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 492.249512 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 510.719629 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 510.726635 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 516.874528 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 516.880384 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 547.085518 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 547.102196 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 547.743364 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 548.660477 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 563.268713 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 569.582485 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 569.588984 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 570.355497 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 571.038364 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 571.045949 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 571.773937 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 571.779686 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 573.690252 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 573.702566 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 574.140162 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 574.815809 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 575.200175 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 576.317452 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 577.036416 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 577.515945 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+Instance: miplib_39binary-19_transformed_nsrand-ipx_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  53280.0
+Solving time:  600.002273
+
+
+[array([1815840.,  180960.,   64480.,   57440.,   56960.,   55680.,
+         53600.,   53280.]), array([  0.      ,   0.240024,   2.52946 ,  39.611566,  97.725   ,
+       118.27613 , 135.087855, 187.02521 ])]
+instance:  19
+create a new SCIP model
+The initial incumbent of miplib_39binary-20_transformed_opt1217 is successfully added to MIP model
+miplib_39binary-20_transformed_opt1217
+N of variables: 769
+N of binary vars: 768
+N of constraints: 64
+Initial obj of MIP: 0.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.549433171749115
+GNN k_0:  49.0
+LB heuristic is starting..
+LB heuristic starts at 0.006385 s
+No. of LB call:  1
+LB initial objective: 0.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0089 Best Obj: -8.0000 n_sols_subMIP: 13 K: 49 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0091 Best Obj: -16.0000 n_sols_subMIP: 17 K: 49 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0094 Best Obj: -16.0000 n_sols_subMIP: 8 K: 49 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 49 div_final: 0
+LB heuristic finishes at 6.054786 s
+LB final objective: -16.000000000000036
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-20_transformed_opt1217_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -16.000000290303166
+Solving time:  600.010568
+
+
+[array([  0.        ,  -8.        , -16.        , -16.        ,
+       -16.00000001, -16.00000002, -16.00000019, -16.00000029]), array([  0.      ,   2.041269,   4.048662,  54.662238, 178.191473,
+       206.881788, 351.748001, 440.435752])]
+instance:  20
+create a new SCIP model
+The initial incumbent of miplib_39binary-21_transformed_p2756 is successfully added to MIP model
+miplib_39binary-21_transformed_p2756
+N of variables: 2756
+N of binary vars: 2756
+N of constraints: 729
+Initial obj of MIP: 120634.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.39522242546081543
+GNN k_0:  86.0
+LB heuristic is starting..
+LB heuristic starts at 0.034383 s
+No. of LB call:  1
+LB initial objective: 14683.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0003 Best Obj: 9841.0000 n_sols_subMIP: 2 K: 86 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0014 Best Obj: 7196.0000 n_sols_subMIP: 5 K: 86 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0018 Best Obj: 5832.0000 n_sols_subMIP: 6 K: 86 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0018 Best Obj: 5832.0000 n_sols_subMIP: 4 K: 86 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 86 div_final: 0
+LB heuristic finishes at 8.149056999999999 s
+LB final objective: 5832.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-21_transformed_p2756_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  3124.0
+Solving time:  12.413786
+
+
+[array([120634., 119993.,  14683.,   9841.,   7196.,   5832.,   5770.,
+         5012.,   4304.,   4211.,   3196.,   3195.,   3188.,   3184.,
+         3182.,   3166.,   3163.,   3162.,   3161.,   3156.,   3144.,
+         3142.,   3141.,   3139.,   3134.,   3133.,   3132.,   3131.,
+         3130.,   3129.,   3124.]), array([ 0.      ,  0.030261,  0.034369,  2.09541 ,  4.115325,  6.135463,
+        8.306532,  8.328626,  8.421144,  8.441962,  8.468022,  8.490854,
+        8.791258,  8.895455,  8.917596,  8.942231,  8.944467, 10.986592,
+       10.995259, 11.246183, 11.362592, 11.455617, 11.525368, 11.815045,
+       12.028455, 12.035849, 12.046744, 12.060514, 12.077561, 12.295083,
+       12.412887])]
+instance:  21
+create a new SCIP model
+The initial incumbent of miplib_39binary-22_transformed_protfold is successfully added to MIP model
+miplib_39binary-22_transformed_protfold
+N of variables: 1835
+N of binary vars: 1835
+N of constraints: 2387
+Initial obj of MIP: -19.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.43348968029022217
+GNN k_0:  51.0
+LB heuristic is starting..
+LB heuristic starts at 0.025131 s
+No. of LB call:  1
+LB initial objective: -19.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0011 Best Obj: -19.0000 n_sols_subMIP: 1 K: 51 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 51 div_final: 0
+LB heuristic finishes at 2.073881 s
+LB final objective: -19.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-22_transformed_protfold_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -23.0
+Solving time:  600.000405
+
+
+[array([-19., -23.]), array([  0.      , 367.448723])]
+instance:  22
+create a new SCIP model
+The initial incumbent of miplib_39binary-23_transformed_qiu is successfully added to MIP model
+miplib_39binary-23_transformed_qiu
+N of variables: 840
+N of binary vars: 48
+N of constraints: 1192
+Initial obj of MIP: 3173.585143053005
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  50
+GNN prediction:  6.642501102760434e-05
+GNN k_0:  1.0
+LB heuristic is starting..
+LB heuristic starts at 0.017485999999999998 s
+No. of LB call:  1
+LB initial objective: 1805.1771430530039
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 0.0938 Best Obj: 664.8371 n_sols_subMIP: 6 K: 10 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 2.0941 Best Obj: 33.5078 n_sols_subMIP: 17 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 4.0944 Best Obj: -45.2765 n_sols_subMIP: 11 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 6.0948 Best Obj: -45.2765 n_sols_subMIP: 11 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 0
+LB heuristic finishes at 6.157606 s
+LB final objective: -45.27645694699957
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-23_transformed_qiu_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -132.87313694699924
+Solving time:  97.60883
+
+
+[array([3173.58514305, 1805.17714305,  664.83714305,   33.50778305,
+        -45.27645695, -110.84203695, -119.65447695, -132.87313695]), array([0.0000000e+00, 1.7475000e-02, 1.3704700e-01, 2.1442870e+00,
+       4.1512490e+00, 2.1044168e+01, 2.3345073e+01, 2.7642271e+01])]
+instance:  23
+create a new SCIP model
+The initial incumbent of miplib_39binary-24_transformed_seymour is successfully added to MIP model
+miplib_39binary-24_transformed_seymour
+N of variables: 1372
+N of binary vars: 1372
+N of constraints: 4944
+Initial obj of MIP: 1372.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.9340950846672058
+GNN k_0:  906.0
+LB heuristic is starting..
+LB heuristic starts at 0.036718 s
+No. of LB call:  1
+LB initial objective: 452.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0016 Best Obj: 452.0000 n_sols_subMIP: 2 K: 906 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 906 div_final: 0
+LB heuristic finishes at 2.091024 s
+LB final objective: 452.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-24_transformed_seymour_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  426.0
+Solving time:  600.000881
+
+
+[array([1372.,  454.,  452.,  429.,  428.,  427.,  426.]), array([0.00000000e+00, 3.49290000e-02, 3.67060000e-02, 2.95649540e+01,
+       8.68139420e+01, 1.11682220e+02, 1.45922738e+02])]
+instance:  24
+create a new SCIP model
+The initial incumbent of miplib_39binary-25_transformed_sp97ar is successfully added to MIP model
+miplib_39binary-25_transformed_sp97ar
+N of variables: 14101
+N of binary vars: 14101
+N of constraints: 1739
+Initial obj of MIP: 82535465732.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  7.160600216593593e-05
+GNN k_0:  1.0
+LB heuristic is starting..
+LB heuristic starts at 0.46532399999999996 s
+No. of LB call:  1
+LB initial objective: 3172904335.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0037 Best Obj: 3072264483.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0069 Best Obj: 3034194948.0000 n_sols_subMIP: 5 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0089 Best Obj: 3034194948.0000 n_sols_subMIP: 3 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 0
+LB heuristic finishes at 7.317412 s
+LB final objective: 3034194948.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-25_transformed_sp97ar_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  2120028197.0
+Solving time:  600.000868
+
+
+[array([8.25354657e+10, 3.17290434e+09, 3.07226448e+09, 3.03419495e+09,
+       2.19016340e+09, 2.17842010e+09, 2.13277920e+09, 2.12802435e+09,
+       2.12703123e+09, 2.12002820e+09]), array([  0.      ,   0.465242,   3.030016,   5.190586,  47.876408,
+        48.030832, 210.750482, 357.202573, 399.785013, 400.045545])]
+instance:  25
+create a new SCIP model
+The initial incumbent of miplib_39binary-26_transformed_swath is successfully added to MIP model
+miplib_39binary-26_transformed_swath
+N of variables: 6805
+N of binary vars: 6724
+N of constraints: 564
+Initial obj of MIP: 658.582348
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.6056151390075684
+GNN k_0:  25.0
+LB heuristic is starting..
+LB heuristic starts at 0.251322 s
+No. of LB call:  1
+LB initial objective: 658.582348
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0019 Best Obj: 658.5823 n_sols_subMIP: 2 K: 25 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 25 div_final: 0
+LB heuristic finishes at 2.46313 s
+LB final objective: 658.582348
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-26_transformed_swath_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  522.095213
+Solving time:  600.003048
+
+
+[array([658.582348, 643.699651, 617.91769 , 571.157314, 568.54447 ,
+       565.991945, 558.849331, 554.71295 , 553.914264, 546.496838,
+       542.262044, 542.262044, 526.067722, 525.328993, 522.095213]), array([  0.      ,  12.528688,  23.565828,  24.93172 ,  59.538444,
+        64.7312  ,  72.791794,  73.526708,  73.616067,  87.470151,
+        97.544661, 107.625983, 231.530687, 261.272409, 334.131612])]
+instance:  26
+create a new SCIP model
+The initial incumbent of miplib_39binary-27_transformed_t1717 is successfully added to MIP model
+miplib_39binary-27_transformed_t1717
+N of variables: 73885
+N of binary vars: 73885
+N of constraints: 1755
+Initial obj of MIP: 369854.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.49518072605133057
+GNN k_0:  113.0
+LB heuristic is starting..
+LB heuristic starts at 1.403974 s
+No. of LB call:  1
+LB initial objective: 369854.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.6289 Best Obj: 369854.0000 n_sols_subMIP: 1 K: 113 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 113 div_final: 0
+LB heuristic finishes at 6.499668 s
+LB final objective: 369854.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-27_transformed_t1717_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  369854.0
+Solving time:  600.013231
+
+
+[array([369854.]), array([0.])]
+instance:  27
+create a new SCIP model
+The initial incumbent of miplib_39binary-28_transformed_tr12-30 is successfully added to MIP model
+miplib_39binary-28_transformed_tr12-30
+N of variables: 1080
+N of binary vars: 360
+N of constraints: 742
+Initial obj of MIP: 269316.7195712909
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  1.0
+GNN k_0:  241.0
+LB heuristic is starting..
+LB heuristic starts at 0.016589 s
+No. of LB call:  1
+LB initial objective: 221916.7195712909
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 175635.0000 n_sols_subMIP: 8 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0005 Best Obj: 175635.0000 n_sols_subMIP: 9 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 241 div_final: 0
+LB heuristic finishes at 4.054778 s
+LB final objective: 175635.0
+LB heurisitc succeeds, finds an improving solution
+LB heuristic is starting..
+LB heuristic starts at 127.467 s
+No. of LB call:  2
+LB initial objective: 134280.00000000015
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0008 Best Obj: 134280.0000 n_sols_subMIP: 2 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 241 div_final: 0
+LB heuristic finishes at 129.495427 s
+LB final objective: 134280.00000000015
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 129.554109 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 129.593596 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 129.642244 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 129.714165 s
+No. of LB call:  3
+LB initial objective: 134280.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0003 Best Obj: 134280.0000 n_sols_subMIP: 2 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 241 div_final: 0
+LB heuristic finishes at 131.74158 s
+LB final objective: 134280.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 131.778187 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 131.840605 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 131.892973 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 131.980887 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.004729 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.155704 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.210866 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.256298 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.277713 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.305541 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 132.981625 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.061354 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.104949 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.130424 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.873839 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.897814 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.949691 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 133.981482 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.029378 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.070842 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.084429 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.146157 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.157286 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.794289 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 134.833198 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 135.560274 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 135.59997 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 137.554653 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 138.804523 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 138.962863 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 139.011535 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 139.123811 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 139.135569 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 139.701284 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 139.744402 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 139.858752 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 140.667426 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 141.457715 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 141.537075 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 141.636874 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.000305 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.026739 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.108468 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.716031 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.77529 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.830525 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 142.961774 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.05143 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.261267 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.373003 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.61941 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.695182 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.913617 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 143.948953 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 144.923637 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 145.165665 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 145.294691 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 145.332521 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 145.392514 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 145.446711 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 145.460501 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 146.490111 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 147.359193 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 147.435659 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 147.483732 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 147.610969 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 147.650665 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 148.345683 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 148.461897 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 148.604189 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 149.504916 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 149.587429 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 149.623225 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 150.84853 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 150.951027 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 150.975056 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 152.097797 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 152.236604 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 152.271498 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 153.401975 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 154.195523 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 154.237467 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 154.29707 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 154.926339 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.061373 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.119648 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.205688 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.404039 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.481145 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.699921 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.759496 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 155.802528 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 156.796191 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 157.658009 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 157.745309 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 157.943349 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 159.469306 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 159.605719 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 161.315194 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 161.512464 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 162.242974 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 163.364145 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 163.400183 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 163.458687 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 164.04777 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 165.130798 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 165.274919 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 165.905224 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 165.998316 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 166.05454 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 166.336075 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 166.391289 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 166.493488 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 166.542993 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 167.857234 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 168.589354 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 168.639569 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 169.250862 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 170.542934 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 170.57328 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 171.702079 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 171.792612 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 171.943621 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 172.016637 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 172.095911 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 176.875025 s
+No. of LB call:  4
+LB initial objective: 133395.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0005 Best Obj: 133395.0000 n_sols_subMIP: 2 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 241 div_final: 0
+LB heuristic finishes at 178.903226 s
+LB final objective: 133395.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 178.962037 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 179.101034 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 179.201729 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 179.831458 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 179.932818 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 180.03554 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 180.564808 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.240331 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.439504 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.480418 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.526225 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.631629 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.699973 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.941627 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.942862 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 182.944871 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 183.611584 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 183.875005 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 184.981731 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 184.982593 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 185.019012 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 185.01993 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 185.074018 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 186.246474 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 186.650644 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 186.707306 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 186.955817 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 186.992324 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 187.310198 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 187.629595 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 187.704224 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 187.74863 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 187.993317 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 188.847311 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 188.888164 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 188.988323 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 189.017837 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 189.243587 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 190.243759 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 190.293672 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 190.562975 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 190.594414 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 191.213552 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 191.239521 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 191.299824 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 191.408616 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 191.475438 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 191.565931 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 192.433225 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 192.649793 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 194.956916 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 195.0392 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 195.163227 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 195.232996 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 195.301439 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 196.242073 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 197.254119 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 198.301265 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 198.545733 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 198.592641 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 199.462915 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 199.62499 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 199.658839 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 199.696246 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 199.824153 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 200.472919 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 201.480368 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 201.610544 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 202.352815 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 202.476621 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 203.411987 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 203.630858 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 204.424277 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 204.452527 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 204.490702 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 204.608539 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 206.379497 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 206.439368 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 206.482577 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 206.799562 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 206.891147 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 207.30352 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 207.304203 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 207.368365 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 207.369064 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 207.407858 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 207.491135 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 208.17554 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 208.268879 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 208.331762 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 208.332422 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 209.032192 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 209.896511 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 209.957102 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.612741 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.613396 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.644503 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.64521 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.744629 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.782667 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.926963 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 212.96398 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 213.085773 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 214.540993 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 215.571788 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 215.677965 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 215.807524 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.002631 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.003466 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.038009 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.065982 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.125429 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.126555 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 216.83606 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 218.456748 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 219.245041 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 219.303326 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 220.379685 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 224.486531 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 225.384717 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 225.423432 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 226.351461 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 227.273682 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 229.282841 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 230.356475 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 232.645205 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 234.524375 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 234.56681 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 236.93092 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 237.014194 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 237.951876 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 238.700415 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 240.294359 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 240.460479 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 240.494023 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 240.549229 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 241.405443 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 241.587727 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 241.648316 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 245.743905 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 246.478291 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 249.447992 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 250.242288 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 250.834715 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 251.69175 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 251.720995 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 251.895373 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 254.145776 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 255.461453 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 258.494842 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 258.936328 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 258.937305 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 258.964484 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 258.995153 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 259.026158 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 259.735292 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 259.775836 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 259.811207 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 260.854249 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 260.941531 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 261.078398 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 261.322552 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 261.371572 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 261.447905 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 262.695783 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 262.725893 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 264.101529 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 264.805542 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 264.806263 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 264.808424 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 265.901852 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 267.591523 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 267.893934 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 270.066193 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 270.346149 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 270.431617 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 271.064059 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 272.994197 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 273.519953 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 274.068114 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 274.625364 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 275.485206 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 275.56395 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 275.599801 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 275.638266 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.337818 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.367849 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.382399 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.396683 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.42866 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.460702 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.474324 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.48855 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.524911 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 276.658632 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 365.030159 s
+No. of LB call:  5
+LB initial objective: 132864.00000000006
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0012 Best Obj: 132864.0000 n_sols_subMIP: 2 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0025 Best Obj: 132864.0000 n_sols_subMIP: 2 K: 241 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 241 div_final: 0
+LB heuristic finishes at 369.069827 s
+LB final objective: 132864.00000000006
+LB heurisitc succeeds, finds an improving solution
+LB heuristic is starting..
+LB heuristic starts at 369.119091 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 369.169415 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 369.352916 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 369.447419 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 369.529009 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 370.821056 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 370.958027 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 371.026539 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 372.022319 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 372.037574 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 383.264584 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 383.419948 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 386.408879 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 388.449113 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 390.249899 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 407.36533 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 407.365892 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 407.377319 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 409.916466 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 416.954398 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 417.117642 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 417.118246 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.237793 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.270651 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.301716 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.33116 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.362836 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.393627 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.437776 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 418.473561 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 420.284275 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 421.853825 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 421.979818 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 424.859458 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 429.632997 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 434.580243 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 434.60471 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 434.927957 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 434.967837 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 436.170314 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 436.208879 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 436.283662 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 437.926018 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 441.992188 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 444.702131 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 447.456579 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 447.483298 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 448.040426 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 448.072359 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 448.124905 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 450.294856 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 459.475301 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 459.497565 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 459.512413 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 463.255787 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 463.410729 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 463.455233 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 463.49943 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 464.975216 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 553.288185 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 553.289401 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.784624 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.828325 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.829921 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.899279 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.899988 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.954741 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.955795 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.993152 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 556.993831 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 557.044745 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 557.096717 soriginal problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints

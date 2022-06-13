@@ -1,0 +1,224 @@
+nohup: ignoring input
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+Traceback (most recent call last):
+  File "/home/liudefen/projects/ML4LocalBranch_extend/primal_heur_localbranch.py", line 388, in heurexec
+    self.agent_k, self.optim_k, R = self.update_agent(agent_k, self.optim_k)
+  File "/home/liudefen/projects/ML4LocalBranch_extend/primal_heur_localbranch.py", line 601, in update_agent
+    policy_losses = torch.cat(policy_losses).sum()
+RuntimeError: There were no tensor arguments to this function (e.g., you passed an empty list of Tensors), but no fallback function is registered for schema aten::_cat.  This usually means that this function requires a non-empty list of Tensors.  Available functions are [CPU, CUDA, QuantizedCPU, BackendSelect, Named, AutogradOther, AutogradCPU, AutogradCUDA, AutogradXLA, AutogradPrivateUse1, AutogradPrivateUse2, AutogradPrivateUse3, Tracer, Autocast, Batched, VmapMode].
+
+CPU: registered at /pytorch/build/aten/src/ATen/CPUType.cpp:2127 [kernel]
+CUDA: registered at /pytorch/build/aten/src/ATen/CUDAType.cpp:2983 [kernel]
+QuantizedCPU: registered at /pytorch/build/aten/src/ATen/QuantizedCPUType.cpp:297 [kernel]
+BackendSelect: fallthrough registered at /pytorch/aten/src/ATen/core/BackendSelectFallbackKernel.cpp:3 [backend fallback]
+Named: registered at /pytorch/aten/src/ATen/core/NamedRegistrations.cpp:7 [backend fallback]
+AutogradOther: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradCPU: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradCUDA: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradXLA: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradPrivateUse1: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradPrivateUse2: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradPrivateUse3: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+Tracer: registered at /pytorch/torch/csrc/autograd/generated/TraceType_2.cpp:9654 [kernel]
+Autocast: registered at /pytorch/aten/src/ATen/autocast_mode.cpp:258 [kernel]
+Batched: registered at /pytorch/aten/src/ATen/BatchingRegistrations.cpp:511 [backend fallback]
+VmapMode: fallthrough registered at /pytorch/aten/src/ATen/VmapModeRegistrations.cpp:33 [backend fallback]
+
+Exception ignored in: 'pyscipopt.scip.PyHeurExec'
+Traceback (most recent call last):
+  File "/home/liudefen/projects/ML4LocalBranch_extend/primal_heur_localbranch.py", line 388, in heurexec
+    self.agent_k, self.optim_k, R = self.update_agent(agent_k, self.optim_k)
+  File "/home/liudefen/projects/ML4LocalBranch_extend/primal_heur_localbranch.py", line 601, in update_agent
+    policy_losses = torch.cat(policy_losses).sum()
+RuntimeError: There were no tensor arguments to this function (e.g., you passed an empty list of Tensors), but no fallback function is registered for schema aten::_cat.  This usually means that this function requires a non-empty list of Tensors.  Available functions are [CPU, CUDA, QuantizedCPU, BackendSelect, Named, AutogradOther, AutogradCPU, AutogradCUDA, AutogradXLA, AutogradPrivateUse1, AutogradPrivateUse2, AutogradPrivateUse3, Tracer, Autocast, Batched, VmapMode].
+
+CPU: registered at /pytorch/build/aten/src/ATen/CPUType.cpp:2127 [kernel]
+CUDA: registered at /pytorch/build/aten/src/ATen/CUDAType.cpp:2983 [kernel]
+QuantizedCPU: registered at /pytorch/build/aten/src/ATen/QuantizedCPUType.cpp:297 [kernel]
+BackendSelect: fallthrough registered at /pytorch/aten/src/ATen/core/BackendSelectFallbackKernel.cpp:3 [backend fallback]
+Named: registered at /pytorch/aten/src/ATen/core/NamedRegistrations.cpp:7 [backend fallback]
+AutogradOther: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradCPU: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradCUDA: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradXLA: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradPrivateUse1: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradPrivateUse2: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+AutogradPrivateUse3: registered at /pytorch/torch/csrc/autograd/generated/VariableType_2.cpp:8078 [autograd kernel]
+Tracer: registered at /pytorch/torch/csrc/autograd/generated/TraceType_2.cpp:9654 [kernel]
+Autocast: registered at /pytorch/aten/src/ATen/autocast_mode.cpp:258 [kernel]
+Batched: registered at /pytorch/aten/src/ATen/BatchingRegistrations.cpp:511 [backend fallback]
+VmapMode: fallthrough registered at /pytorch/aten/src/ATen/VmapModeRegistrations.cpp:33 [backend fallback]
+
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+miplib_39binary-small
+firstsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj of MIP: 21141.52
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  2.788595743208333e-10
+GNN k_0:  1.0
+LB heuristic is starting..
+LB heuristic starts at 0.039159 s
+No. of LB call:  1
+LB initial objective: 21141.52
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0159 Best Obj: 20092.1857 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0344 Best Obj: 19882.5273 n_sols_subMIP: 8 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0462 Best Obj: 19589.0407 n_sols_subMIP: 10 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0645 Best Obj: 19445.7020 n_sols_subMIP: 12 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0790 Best Obj: 19063.6911 n_sols_subMIP: 13 K: 15 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0927 Best Obj: 18938.6911 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.1062 Best Obj: 18808.8955 n_sols_subMIP: 6 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 16.1189 Best Obj: 18395.9070 n_sols_subMIP: 9 K: 15 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 18.1321 Best Obj: 17839.1080 n_sols_subMIP: 12 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 20.1458 Best Obj: 16359.8174 n_sols_subMIP: 12 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 22.1607 Best Obj: 15878.5700 n_sols_subMIP: 12 K: 53 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 24.1752 Best Obj: 14906.9876 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 26.1915 Best Obj: 14382.9733 n_sols_subMIP: 7 K: 15 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 14 Solving time: 28.2061 Best Obj: 14007.9733 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 15 Solving time: 30.2209 Best Obj: 14007.9733 n_sols_subMIP: 6 K: 15 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 15 div_final: 0
+LB heuristic finishes at 30.75117 s
+LB final objective: 14007.973250000001
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-0_transformed_a1c1s1_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  11903.717312500015
+Solving time:  600.02217
+
+
+[array([21141.52      , 20092.1856875 , 19882.52730903, 19589.0406875 ,
+       19445.70196472, 19063.691125  , 18938.691125  , 18808.8955    ,
+       18395.907     , 17839.108     , 16359.8174375 , 15878.57      ,
+       14906.987625  , 14382.97325   , 14007.97325   , 13997.66606955,
+       13822.66606955, 13815.101375  , 13628.063875  , 13536.254375  ,
+       13526.254375  , 13476.36815931, 13402.30031798, 13195.94      ,
+       13020.94      , 12870.4880625 , 12570.4880625 , 12418.2295    ,
+       12412.4806875 , 12234.5061875 , 12059.5061875 , 12015.0208125 ,
+       11970.9521875 , 11903.7173125 ]), array([  0.      ,   2.145583,   4.202837,   6.242432,   8.295968,
+        10.338927,  12.376228,  14.419813,  16.459566,  18.499929,
+        20.541752,  22.584698,  24.627775,  26.67144 ,  28.710349,
+        60.23396 ,  60.60516 ,  82.407286, 172.692173, 407.431589,
+       407.857317, 420.633646, 425.913341, 425.921228, 426.103734,
+       431.536004, 431.7281  , 447.862582, 482.004927, 488.256592,
+       488.372652, 560.252734, 560.258397, 560.37218 ])]
+instance:  1
+create a new SCIP model
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj of MIP: 4374.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.7425981760025024
+GNN k_0:  35.0
+LB heuristic is starting..
+LB heuristic starts at 0.006873 s
+No. of LB call:  1
+LB initial objective: 4374.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 2155.0000 n_sols_subMIP: 5 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0004 Best Obj: 2155.0000 n_sols_subMIP: 3 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 35 div_final: 0
+LB heuristic finishes at 4.039941 s
+LB final objective: 2155.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-1_transformed_aflow30a_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  1158.0
+Solving time:  43.90345
+
+
+[array([4374., 2155., 1168., 1158.]), array([ 0.      ,  2.032892,  5.23379 , 24.867609])]
+instance:  2
+create a new SCIP model
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj of MIP: 8410.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.542660117149353
+GNN k_0:  38.0
+LB heuristic is starting..
+LB heuristic starts at 0.024432 s
+No. of LB call:  1
+LB initial objective: 8410.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0006 Best Obj: 3061.0000 n_sols_subMIP: 4 K: 38 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0014 Best Obj: 3061.0000 n_sols_subMIP: 4 K: 57 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 57 div_final: 0
+LB heuristic finishes at 4.103306 s
+LB final objective: 3061.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-2_transformed_aflow40b_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1189.0
+Solving time:  600.000796
+
+
+[array([8410., 3061., 1285., 1228., 1226., 1222., 1212., 1205., 1197.,
+       1189.]), array([  0.      ,   2.087825,   8.653106,  58.814494, 105.826755,
+       166.502401, 315.233196, 367.809318, 410.147121, 556.912968])]
+instance:  3
+create a new SCIP model
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj of MIP: 57283.999999999985
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.3476136326789856
+GNN k_0:  31.0
+LB heuristic is starting..
+LB heuristic starts at 0.10013 s
+No. of LB call:  1
+LB initial objective: 57283.999999999985
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0084 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 31 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 31 div_final: 0
+Traceback (most recent call last):
+  File "evaluation_scip_lb_regression_rl.py", line 117, in <module>
+    scip_as_baseline.execute_heuristic_baseline(
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 371, in execute_heuristic_baseline
+    self.setup_heuristic_per_instance(MIP_model=MIP_model,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 290, in setup_heuristic_per_instance
+    data = self.execute_heuristic_per_instance(MIP_model, incumbent, node_time_limit,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 2224, in execute_heuristic_per_instance
+    MIP_model_copy2.optimize()
+  File "src/pyscipopt/scip.pyx", line 3158, in pyscipopt.scip.Model.optimize
+  File "src/pyscipopt/scip.pyx", line 231, in pyscipopt.scip.PY_SCIP_CALL
+Exception: SCIP: unspecified error!
