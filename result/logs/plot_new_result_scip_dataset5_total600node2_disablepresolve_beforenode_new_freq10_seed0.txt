@@ -17,16 +17,39 @@ original problem has 260 variables (259 bin, 0 int, 0 impl, 1 cont) and 224 cons
 original problem has 5325 variables (5323 bin, 0 int, 0 impl, 2 cont) and 3411 constraints
 original problem has 10958 variables (96 bin, 0 int, 0 impl, 10862 cont) and 4480 constraints
 original problem has 5174 variables (2349 bin, 0 int, 0 impl, 2825 cont) and 26509 constraints
+original problem has 6621 variables (6620 bin, 0 int, 0 impl, 1 cont) and 721 constraints
+original problem has 769 variables (768 bin, 0 int, 0 impl, 1 cont) and 64 constraints
+original problem has 2756 variables (2756 bin, 0 int, 0 impl, 0 cont) and 729 constraints
+original problem has 1835 variables (1835 bin, 0 int, 0 impl, 0 cont) and 2387 constraints
+/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py:763: RuntimeWarning: invalid value encountered in double_scalars
+  primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
+/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py:775: RuntimeWarning: invalid value encountered in double_scalars
+  primal_gap_final_reinforce_ave = primal_gap_final_reinforces.sum() / len(
 miplib_39binary-small
 firstsol
 symmetric
 seed: 0
 cpu
-Traceback (most recent call last):
-  File "compute_evaluation_results_scip.py", line 101, in <module>
-    run_localbranch.primal_integral_03(
-  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 527, in primal_integral_03
-    MIP_model.readProblem(mip_filename)
-  File "src/pyscipopt/scip.pyx", line 4750, in pyscipopt.scip.Model.readProblem
-  File "src/pyscipopt/scip.pyx", line 239, in pyscipopt.scip.PY_SCIP_CALL
-OSError: SCIP: file not found error!
+miplib_39binary
+firstsolSolution
+scip-baseline primal integral:  41.74900970850842
+scip-lb-baseline primal integral:  41.145938011919284
+scip-lb-regression primal integral:  34.68556067298005
+scip-lb-rl primal integral:  41.06531468352913
+scip-lb-regression-rl primal integral:  38.793483894547954
+rl primal integral:  nan
+
+
+scip-baseline primal gap:  1.613853763711655
+scip-lb-baseline primal gap:  6.057465759132132
+scip-lb-regression primal gap:  5.067706754419208
+scip-lb-rl primal gap:  6.897747587202645
+scip-lb-regression-rl primal gap:  5.9273642755095866
+rl primal gap:  nan
+seed mcts:  0
+seed mcts:  0
+miplib_39binary-large
+firstsol
+symmetric
+seed: 0
+cpu
