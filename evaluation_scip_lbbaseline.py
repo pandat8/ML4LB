@@ -36,7 +36,7 @@ no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(3, 5):
+for i in range(4, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -63,7 +63,7 @@ for i in range(3, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode_highpriority/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode/seed' + str(seed) + '/'
 
             # result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             #     total_time_limit) + 's' + '-t_node' + str(

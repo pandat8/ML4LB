@@ -24,7 +24,7 @@ from memory_profiler import profile
 
 from dataset import InstanceDataset, custom_collate, InstanceDataset_2
 from event import PrimalBoundChangeEventHandler
-from primal_heur_localbranch import HeurLocalbranch
+from primal_heur_localbranch import HeurLocalbranch, HeurLocalbranchMulticall
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
 from models import GraphDataset, GNNPolicy, BipartiteNodeData
 
@@ -1582,13 +1582,13 @@ class Execute_LB_Baseline(ExecuteHeuristic):
         MIP_model.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
                                    'store every new primal bound and its time stamp')
 
-        heuristic = HeurLocalbranch(k_0=self.k_0, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
+        heuristic = HeurLocalbranchMulticall(k_0=self.k_0, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
         MIP_model.includeHeur(heuristic,
                               "PyHeur_LB_baseline",
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
-                              priority=130000,
-                              freq=0,
+                              priority=-130000,
+                              freq=10,
                               freqofs=0,
                               maxdepth=-1,
                               timingmask=SCIP_HEURTIMING.BEFORENODE, # SCIP_HEURTIMING.AFTERLPNODE
@@ -1847,13 +1847,13 @@ class Execute_LB_Regression(ExecuteHeuristic):
         MIP_model_copy2.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
                                    'store every new primal bound and its time stamp')
 
-        heuristic = HeurLocalbranch(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
+        heuristic = HeurLocalbranchMulticall(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
         MIP_model_copy2.includeHeur(heuristic,
                                     "PyHeur_LB_baseline",
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
-                                    priority=130000,
-                                    freq=0,
+                                    priority=-130000,
+                                    freq=10,
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
@@ -1945,13 +1945,13 @@ class Execute_LB_RL(ExecuteHeuristic):
         MIP_model.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
                                    'store every new primal bound and its time stamp')
 
-        heuristic = HeurLocalbranch(k_0=self.k_0, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit, device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
+        heuristic = HeurLocalbranchMulticall(k_0=self.k_0, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit, device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
         MIP_model.includeHeur(heuristic,
                               "PyHeur_LB_baseline",
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
-                              priority=130000,
-                              freq=0,
+                              priority=-130000,
+                              freq=10,
                               freqofs=0,
                               maxdepth=-1,
                               timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
@@ -2204,13 +2204,13 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         MIP_model_copy2.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
                                    'store every new primal bound and its time stamp')
 
-        heuristic = HeurLocalbranch(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
+        heuristic = HeurLocalbranchMulticall(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
         MIP_model_copy2.includeHeur(heuristic,
                                     "PyHeur_LB_baseline",
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
-                                    priority=130000,
-                                    freq=0,
+                                    priority=-130000,
+                                    freq=10,
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
