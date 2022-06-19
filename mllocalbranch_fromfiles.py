@@ -7563,38 +7563,38 @@ class RlLocalbranch(MlLocalbranch):
                 #            self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr' + str(lr) +'_epsilon' + str(epsilon) + '.pth'
                 #            )
 
-                if epoch % 5 ==0:
-                    epochs_np = np.array(epochs).reshape(-1)
-                    returns_np = np.array(returns_t).reshape(-1)
-                    primal_integrals_np = np.array(primal_integrals).reshape(-1)
-                    primal_gaps_np = np.array(primal_gaps).reshape(-1)
+            if epoch % 5 ==0:
+                epochs_np = np.array(epochs).reshape(-1)
+                returns_np = np.array(returns_t).reshape(-1)
+                primal_integrals_np = np.array(primal_integrals).reshape(-1)
+                primal_gaps_np = np.array(primal_gaps).reshape(-1)
 
-                    plt.close('all')
-                    plt.clf()
-                    fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
-                    fig.suptitle(train_data)
-                    fig.subplots_adjust(top=0.5)
-                    ax[0].set_title('lr= ' + str(lr_t) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
-                    ax[0].plot(epochs_np, returns_np, label='loss')
-                    ax[0].set_xlabel('epoch')
-                    ax[0].set_ylabel("return t")
+                plt.close('all')
+                plt.clf()
+                fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
+                fig.suptitle(train_data)
+                fig.subplots_adjust(top=0.5)
+                ax[0].set_title('lr= ' + str(lr_t) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
+                ax[0].plot(epochs_np, returns_np, label='loss')
+                ax[0].set_xlabel('epoch')
+                ax[0].set_ylabel("return t")
 
-                    ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
-                    ax[1].set_xlabel('epoch')
-                    ax[1].set_ylabel("primal integral")
-                    # ax[1].set_ylim([0, 1.1])
-                    ax[1].legend()
+                ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
+                ax[1].set_xlabel('epoch')
+                ax[1].set_ylabel("primal integral")
+                # ax[1].set_ylim([0, 1.1])
+                ax[1].legend()
 
-                    ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
-                    ax[2].set_xlabel('epoch')
-                    ax[2].set_ylabel("primal gap")
-                    ax[2].legend()
-                    if enable_adapt_t:
-                        plt.savefig('./result/plots/plot_train_rl_reinforce_enable_vanilla_t_train_t_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr_t) + '_treward_case4r-1.png')
-                    else:
-                        plt.savefig('./result/plots/plot_train_rl_reinforce_train_t_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr_t) + '_treward_case4r-1.png')
+                ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
+                ax[2].set_xlabel('epoch')
+                ax[2].set_ylabel("primal gap")
+                ax[2].legend()
+                if enable_adapt_t:
+                    plt.savefig('./result/plots/plot_train_rl_reinforce_enable_vanilla_t_train_t_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr_t) + '_treward_case4r-1.png')
+                else:
+                    plt.savefig('./result/plots/plot_train_rl_reinforce_train_t_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr_t) + '_treward_case4r-1.png')
 
-                    plt.show()
+                plt.show()
 
     def evaluate_lb_per_instance(self, node_time_limit, total_time_limit, index_instance, reset_k_at_2nditeration=False, agent=None,
                              ):
