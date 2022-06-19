@@ -7094,11 +7094,10 @@ class RlLocalbranch(MlLocalbranch):
         data = [objs_pred_reset, times_pred_reset]
         primal_integral, primal_gap_final, stepline = self.compute_primal_integral(times_pred_reset, objs_pred_reset, total_time_limit)
 
-        print('instance: ', index_instance)
-        print('is')
-        print('try to free MIP_model')
+        # print('is')
+        # print('try to free MIP_model')
         # MIP_model_copy3.freeProb()
-        print('MIP_model freed')
+        # print('MIP_model freed')
         del sol_MIP_copy3
         del MIP_model_copy3
 
@@ -7109,10 +7108,10 @@ class RlLocalbranch(MlLocalbranch):
         del stepline
 
         index_instance += 1
-        print('try to delete instance')
+        # print('try to delete instance')
         del instance
-        print('instance deleted')
-        print('done')
+        # print('instance deleted')
+        # print('done')
         return index_instance, agent_k, agent_t, primal_integral, primal_gap_final
 
     def update_agent(self, agent, optimizer):
@@ -7573,7 +7572,7 @@ class RlLocalbranch(MlLocalbranch):
                 plt.clf()
                 fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
                 fig.suptitle(train_data)
-                fig.subplots_adjust(top=0.5)
+                fig.subplots_adjust()
                 ax[0].set_title('lr= ' + str(lr_t) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
                 ax[0].plot(epochs_np, returns_np, label='loss')
                 ax[0].set_xlabel('epoch')
