@@ -393,7 +393,10 @@ class LocalBranching:
         obj_improve_local = np.abs(MIP_obj_best_pre - self.MIP_obj_best) / np.abs(self.MIP_obj_init)
         reward_k = obj_improve_local * self.total_time_available
 
-        reward_t = + t_leftbranch / t_node
+        # reward_t = + t_leftbranch / t_node
+        reward_t = 0
+        if state[3] == 1:
+            reward_t = -1
 
         done = (self.total_time_available <= 0) or (self.k >= self.n_binvars)
         # info = None
