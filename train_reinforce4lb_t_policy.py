@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser()
 # parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 parser.add_argument('--rl_k_policy_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
 parser.add_argument('--seed', type=int, default=100, help='Random seed') #50
-parser.add_argument('--t_reward_type', type=int, default=0, help='Reward signal for policy t, 0: reward_k, 1: reward_k + reward node time')
+parser.add_argument('--t_reward_type', type=int, default=0, help='Reward signal for policy t, 0: reward_k, 1: reward_k + reward_node_time, 2: reward_node_time')
 parser.add_argument('--learning_rate', type=float, default=0.0001, help='learning rate')
 parser.add_argument('--instance_type', type=int, default=0, help='Instance Type 0: sc, 1: mis, 2: ca, 3: gis, 4: miplib ')
 parser.add_argument('--instance_size', type=int, default=0, help='Instance Type 0: -small, 1: -large ')
