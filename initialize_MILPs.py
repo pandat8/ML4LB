@@ -30,5 +30,5 @@ for i in range(6, 7):
         elif i == 6 and j == 0:
             print(instance_type)
             print(instance_size)
-            mllb.generate_instances_miplib2017_binary()
+            # mllb.generate_instances_miplib2017_binary()
 
