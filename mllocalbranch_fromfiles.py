@@ -7107,6 +7107,7 @@ class RlLocalbranch(MlLocalbranch):
         del stepline
 
         index_instance += 1
+        print('try to delete instance')
         del instance
         print('done')
         return index_instance, agent_k, agent_t, primal_integral, primal_gap_final
