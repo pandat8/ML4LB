@@ -186,7 +186,7 @@ class InstanceGeneration:
             if preprocess_off:
                 MIP_model.setParam('presolving/maxrounds', 0)
                 MIP_model.setParam('presolving/maxrestarts', 0)
-            MIP_model.setParam('limits/time', 3600*4)
+            MIP_model.setParam('limits/time', 3600*2)
             # MIP_model.setParam("limits/nodes", -1)
             MIP_model.setParam('limits/solutions', 2)
             MIP_model.setParam("display/verblevel", 0)
@@ -202,8 +202,12 @@ class InstanceGeneration:
         print("* Solving time: %s" % t)
         print('* number of sol : ', n_sols)
 
-        incumbent_solution = MIP_model.getBestSol()
-        feasible = MIP_model.checkSol(solution=incumbent_solution)
+        if n_sols == 0:
+            feasible = False
+            incumbent_solution = None
+        else:
+            incumbent_solution = MIP_model.getBestSol()
+            feasible = MIP_model.checkSol(solution=incumbent_solution)
 
         return status, feasible, MIP_model, incumbent_solution
 
