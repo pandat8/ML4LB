@@ -7097,7 +7097,7 @@ class RlLocalbranch(MlLocalbranch):
         print('instance: ', index_instance)
         print('is')
         print('try to free MIP_model')
-        MIP_model_copy3.freeProb()
+        # MIP_model_copy3.freeProb()
         print('MIP_model freed')
         del sol_MIP_copy3
         del MIP_model_copy3
