@@ -6900,8 +6900,11 @@ class RlLocalbranch(MlLocalbranch):
             if agent_t is not None:
                 if t_reward_type == t_reward_types[1]:
                     reward_t = reward_k + reward_time
-                else:
+                elif t_reward_type == t_reward_types[0]:
                     reward_t = reward_k
+                elif t_reward_type == t_reward_types[2]:
+                    reward_t = reward_time
+
                 agent_t.rewards.append(reward_t)
 
             lb_bits_list.append(lb_bits)
@@ -7567,7 +7570,7 @@ class RlLocalbranch(MlLocalbranch):
                     ax[0].set_title('lr= ' + str(lr_t) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit), loc='right')
                     ax[0].plot(epochs_np, returns_np, label='loss')
                     ax[0].set_xlabel('epoch')
-                    ax[0].set_ylabel("return k")
+                    ax[0].set_ylabel("return t")
 
                     ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
                     ax[1].set_xlabel('epoch')
@@ -7579,6 +7582,11 @@ class RlLocalbranch(MlLocalbranch):
                     ax[2].set_xlabel('epoch')
                     ax[2].set_ylabel("primal gap")
                     ax[2].legend()
+                    if enable_adapt_t:
+                        plt.savefig('./result/plots/plot_train_rl_reinforce_enable_vanilla_t_train_t_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr_t) + '_treward_case4r-1.png')
+                    else:
+                        plt.savefig('./result/plots/plot_train_rl_reinforce_train_t_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_' + t_reward_type + 'total_timelimit' + str(total_time_limit) + 's' + '_lr ' + str(lr_t) + '_treward_case4r-1.png')
+
                     plt.show()
 
     def evaluate_lb_per_instance(self, node_time_limit, total_time_limit, index_instance, reset_k_at_2nditeration=False, agent=None,

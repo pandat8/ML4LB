@@ -9,7 +9,7 @@ incumbent_modes = ['firstsol', 'rootsol','firstrootsol']
 
 regression_modes = ['homo', 'merged', 'baseline']
 
-t_reward_types = ['reward_k', 'reward_k+t']
+t_reward_types = ['reward_k', 'reward_k+t', 'reward_t']
 
 def generator_switcher(dataset):
     switcher = {
