@@ -462,6 +462,7 @@ class InstanceGeneration:
         pathlib.Path(directory_rootsol).mkdir(parents=True, exist_ok=True)
 
         file_directory = './result/miplib2017/miplib2017_purebinary_solved.txt'
+        print(file_directory)
         index_instance = 0
         with open(file_directory) as fp:
             Lines = fp.readlines()
