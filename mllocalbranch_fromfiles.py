@@ -7094,6 +7094,8 @@ class RlLocalbranch(MlLocalbranch):
         data = [objs_pred_reset, times_pred_reset]
         primal_integral, primal_gap_final, stepline = self.compute_primal_integral(times_pred_reset, objs_pred_reset, total_time_limit)
 
+        print('instance: ', index_instance)
+        print('is')
         MIP_model_copy3.freeProb()
         del sol_MIP_copy3
         del MIP_model_copy3
@@ -7106,6 +7108,7 @@ class RlLocalbranch(MlLocalbranch):
 
         index_instance += 1
         del instance
+        print('done')
         return index_instance, agent_k, agent_t, primal_integral, primal_gap_final
 
     def update_agent(self, agent, optimizer):
