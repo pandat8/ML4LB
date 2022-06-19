@@ -27,7 +27,7 @@ import sys
 from memory_profiler import profile
 
 from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
-from dataset import InstanceDataset, custom_collate
+from dataset import InstanceDataset, custom_collate, InstanceDataset_2
 
 class MlLocalbranch:
     def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode='firstsol', seed=100, enable_gpu=False):
@@ -6808,9 +6808,9 @@ class RlLocalbranch(MlLocalbranch):
         sol_test_files = [str(path) for path in sorted(pathlib.Path(test_sols_directory).glob(sol_filename),
                                                   key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
-        train_dataset = InstanceDataset(mip_files=instance_train_files, sol_files=sol_train_files)
-        valid_dataset = InstanceDataset(mip_files=instance_valid_files, sol_files=sol_valid_files)
-        test_dataset = InstanceDataset(mip_files=instance_test_files, sol_files=sol_test_files)
+        train_dataset = InstanceDataset_2(mip_files=instance_train_files, sol_files=sol_train_files)
+        valid_dataset = InstanceDataset_2(mip_files=instance_valid_files, sol_files=sol_valid_files)
+        test_dataset = InstanceDataset_2(mip_files=instance_test_files, sol_files=sol_test_files)
 
         return train_dataset, valid_dataset, test_dataset
 
@@ -6917,7 +6917,9 @@ class RlLocalbranch(MlLocalbranch):
             'div_final: {:.0f}'.format(localbranch.div)
         )
 
+        print('try to solve right branch')
         localbranch.solve_rightbranch()
+        print('right branch is solved/arriving at time limit.')
         t_list.append(localbranch.total_time_limit - localbranch.total_time_available)
         obj_list.append(localbranch.MIP_obj_best)
         k_list.append(localbranch.k)
@@ -7485,9 +7487,34 @@ class RlLocalbranch(MlLocalbranch):
             primal_gap_epoch = 0
 
             # while index_instance < size_trainset:
+            i = 0
             for batch in (train_loader):
-                MIP_model = batch['mip_model'][0]
-                incumbent_solution = batch['incumbent_solution'][0]
+                # # option 1: MIP model and initial incumbent loaded in the dataloader
+                # MIP_model = batch['mip_model'][0]
+                # incumbent_solution = batch['incumbent_solution'][0]
+
+                # option 2: only have the directory of MIP model and incumbent in the dataloader, load the MIP model here below:
+                print("instance: ", i)
+                MIP_model = Model()
+                print("create a new SCIP model")
+
+                mip_file = batch['mipfile'][0]
+                sol_file = batch['solfile'][0]
+
+                MIP_model.readProblem(mip_file)
+
+                incumbent_solution = MIP_model.readSolFile(sol_file)
+                assert MIP_model.checkSol(
+                    incumbent_solution), 'Warning: The initial incumbent of instance {} is not feasible!'.format(
+                    MIP_model.getProbName())
+                try:
+                    MIP_model.addSol(incumbent_solution, False)
+                    print('The initial incumbent of {} is successfully added to MIP model'.format(
+                        MIP_model.getProbName()))
+                except:
+                    print('Error: the initial incumbent of {} is not successfully added to MIP model'.format(
+                        MIP_model.getProbName()))
+
                 # train_previous rl_policy
                 index_instance, agent_k, agent_t, primal_integral, primal_gap_final = self.train_rl_policy_per_instance(
                     MIP_model=MIP_model,
@@ -7514,6 +7541,8 @@ class RlLocalbranch(MlLocalbranch):
 
                 primal_integral_epoch += primal_integral
                 primal_gap_epoch += primal_gap_final
+
+                i += 1
 
             return_epoch_k = return_epoch_k/size_trainset
             return_epoch_t = return_epoch_t / size_trainset

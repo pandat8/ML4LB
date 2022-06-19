@@ -413,9 +413,11 @@ class LocalBranching:
 
         self.primalbound_handler.primal_bounds = []
         self.primalbound_handler.primal_times = []
-        if self.total_time_available > 0:
+        if self.total_time_available > 0.01:
             self.MIP_model.setObjlimit(self.MIP_obj_best - self.eps)
             self.MIP_model.setParam('limits/time', self.total_time_available)
+            self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+            self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
             self.MIP_model.optimize()
 
             best_obj = self.MIP_model.getObjVal()
