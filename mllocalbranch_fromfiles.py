@@ -7096,7 +7096,9 @@ class RlLocalbranch(MlLocalbranch):
 
         print('instance: ', index_instance)
         print('is')
+        print('try to free MIP_model')
         MIP_model_copy3.freeProb()
+        print('MIP_model freed')
         del sol_MIP_copy3
         del MIP_model_copy3
 
@@ -7109,6 +7111,7 @@ class RlLocalbranch(MlLocalbranch):
         index_instance += 1
         print('try to delete instance')
         del instance
+        print('instance deleted')
         print('done')
         return index_instance, agent_k, agent_t, primal_integral, primal_gap_final
 
