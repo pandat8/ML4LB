@@ -32,7 +32,7 @@ samples_time_limit = 3
 total_time_limit = 600 # 60 # 600# 60
 node_time_limit = 2 #10 # 60 # 5
 is_heuristic = True
-no_improve_iteration_limit = 1 # 10 # 3
+no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 
