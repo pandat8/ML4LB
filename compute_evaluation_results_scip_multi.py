@@ -34,7 +34,7 @@ total_time_limit = 600
 node_time_limit = 2
 is_heuristic = True
 
-for i in range(4, 5):
+for i in range(3, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -65,17 +65,29 @@ for i in range(4, 5):
             # result directory of localbranch
 
             result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode_freq100/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode/seed' + str(seed) + '/'
+
+            result_directory_6 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+                total_time_limit) + 's' + '-t_node' + str(
+                node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode_freq100/seed' + str(seed) + '/'
 
             # result directory of lns-random, scip-lb-regressiono
 
             result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' +  instance_size + '_lb_k0_regression_beforenode_freq100/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' +  instance_size + '_lb_k0_regression_beforenode/seed' + str(seed) + '/'
+
+            result_directory_8 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+                total_time_limit) + 's' + '-t_node' + str(
+                node_time_limit) + 's' + instance_size + '_lb_k0_regression_beforenode_freq100/seed' + str(seed) + '/'
 
             # result directory of lns-lb, scip-lb-rl
 
             result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode_freq100/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode/seed' + str(seed) + '/'
+            result_directory_7 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+                total_time_limit) + 's' + '-t_node' + str(
+                node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode_freq100/seed' + str(seed) + '/'
+
             # result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             #     total_time_limit) + 's' + '-t_node' + str(
             #     node_time_limit) + 's' + instance_size + '_lb_baseline_beforenode/seed' + str(seed) + '/'
@@ -92,7 +104,12 @@ for i in range(4, 5):
             # result directory of lns-lb-mcts, scip-lb-regression-rl
 
             result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq100/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode/seed' + str(seed) + '/'
+
+            result_directory_9 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+                total_time_limit) + 's' + '-t_node' + str(
+                node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq100/seed' + str(
+                seed) + '/'
 
             # result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             #     total_time_limit) + 's' + '-t_node' + str(
@@ -102,15 +119,21 @@ for i in range(4, 5):
             instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
             solution_directory = source_directory + incumbent_mode + '/' + 'test/'
 
-            print(result_directory_2)
             print(result_directory_1)
+            print(result_directory_2)
+            print(result_directory_6)
+            print(result_directory_1)
+            print(result_directory_8)
             print(result_directory_3)
+            print(result_directory_7)
             print(result_directory_5)
+            print(result_directory_9)
+
 
             run_localbranch = ExecuteHeuristic(instance_directory, solution_directory, result_directory_1, seed=seed)
 
             if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
-                run_localbranch.primal_integral_03(
+                run_localbranch.primal_integral_multicall_03(
                     seed_mcts=seed_mcts,
                     instance_type=instance_type,
                     instance_size=instance_size,
@@ -121,6 +144,10 @@ for i in range(4, 5):
                     result_directory_2=result_directory_2,
                     result_directory_3=result_directory_3,
                     result_directory_4=result_directory_4,
-                    result_directory_5=result_directory_5
+                    result_directory_5=result_directory_5,
+                    result_directory_6=result_directory_6,
+                    result_directory_7=result_directory_7,
+                    result_directory_8=result_directory_8,
+                    result_directory_9=result_directory_9
                     )
 
