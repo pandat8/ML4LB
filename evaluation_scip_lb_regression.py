@@ -17,7 +17,7 @@ parser.add_argument('--rl_model_path', type = str, default='./result/saved_model
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
-regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth'
+# regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth'
 
 rl_model_path = args.rl_model_path
 print(regression_model_path)
@@ -32,7 +32,7 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 600 # 60 # 600# 60
+total_time_limit = 1200 # 60 # 600# 60
 node_time_limit = 2 #10 # 60 # 5
 is_heuristic = True
 no_improve_iteration_limit = 2 # 10 # 3
@@ -42,14 +42,14 @@ regression_model_gnn = GNNPolicy()
 regression_model_gnn.load_state_dict(torch.load(regression_model_path))
 
 
-for i in range(3, 4):
+for i in range(4, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(1, 2):
+    for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
@@ -69,8 +69,8 @@ for i in range(3, 4):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_beforenode_homo/seed' + str(seed) + '/'
-            pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_beforenode/seed' + str(seed) + '/'
+            pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True) # beforenode_homo
 
             scip_as_baseline = Execute_LB_Regression(instance_directory,
                                                    solution_directory,

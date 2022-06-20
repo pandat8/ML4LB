@@ -29,14 +29,14 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 60 # 60 # 600# 60
+total_time_limit = 1200 # 60 # 600# 60
 node_time_limit = 10 #10 # 60 # 5
 is_heuristic = True
 no_improve_iteration_limit = 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(0, 3):
+for i in range(4, 5):
     instance_type = instancetypes[i]
 
     for j in range(0, 2):
