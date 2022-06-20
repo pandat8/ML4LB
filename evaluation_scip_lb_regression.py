@@ -17,7 +17,7 @@ parser.add_argument('--rl_model_path', type = str, default='./result/saved_model
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
-regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_firstsol_k_prime.pth'
+regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth'
 
 rl_model_path = args.rl_model_path
 print(regression_model_path)
@@ -49,7 +49,7 @@ for i in range(3, 4):
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(0, 1):
+    for j in range(1, 2):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
