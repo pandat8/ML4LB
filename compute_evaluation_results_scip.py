@@ -102,6 +102,11 @@ for i in range(0, 3):
             instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
             solution_directory = source_directory + incumbent_mode + '/' + 'test/'
 
+            print(result_directory_2)
+            print(result_directory_1)
+            print(result_directory_3)
+            print(result_directory_5)
+
             run_localbranch = ExecuteHeuristic(instance_directory, solution_directory, result_directory_1, seed=seed)
 
             if not ((i == 3 and k == 1) or (i == 4 and k == 1)):

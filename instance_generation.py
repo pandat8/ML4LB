@@ -195,7 +195,6 @@ class InstanceGeneration:
             t = MIP_model.getSolvingTime()
             status = MIP_model.getStatus()
 
-
         print("* Model status: %s" % status)
         # print("* LP status: %s" % lp_status)
         # print("* Solve stage: %s" % stage)
