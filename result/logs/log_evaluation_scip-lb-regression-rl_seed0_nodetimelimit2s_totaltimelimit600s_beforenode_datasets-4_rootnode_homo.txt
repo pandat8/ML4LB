@@ -7,3 +7,1528 @@ original problem has 945 variables (945 bin, 0 int, 0 impl, 0 cont) and 1099 con
 original problem has 8065 variables (8065 bin, 0 int, 0 impl, 0 cont) and 10215 constraints
 original problem has 575 variables (575 bin, 0 int, 0 impl, 0 cont) and 615 constraints
 original problem has 14034 variables (14034 bin, 0 int, 0 impl, 0 cont) and 17998 constraints
+original problem has 5012 variables (5012 bin, 0 int, 0 impl, 0 cont) and 6317 constraints
+original problem has 9987 variables (9987 bin, 0 int, 0 impl, 0 cont) and 12702 constraints
+original problem has 1894 variables (1894 bin, 0 int, 0 impl, 0 cont) and 2223 constraints
+original problem has 1678 variables (1678 bin, 0 int, 0 impl, 0 cont) and 2004 constraints
+original problem has 1821 variables (1821 bin, 0 int, 0 impl, 0 cont) and 2155 constraints
+original problem has 3836 variables (3836 bin, 0 int, 0 impl, 0 cont) and 4681 constraints
+original problem has 1775 variables (1775 bin, 0 int, 0 impl, 0 cont) and 2106 constraints
+original problem has 14328 variables (14328 bin, 0 int, 0 impl, 0 cont) and 18328 constraints
+original problem has 1733 variables (1733 bin, 0 int, 0 impl, 0 cont) and 2056 constraints
+original problem has 10044 variables (10044 bin, 0 int, 0 impl, 0 cont) and 12715 constraints
+original problem has 1052 variables (1052 bin, 0 int, 0 impl, 0 cont) and 1208 constraints
+original problem has 5042 variables (5042 bin, 0 int, 0 impl, 0 cont) and 6253 constraints
+original problem has 10016 variables (10016 bin, 0 int, 0 impl, 0 cont) and 12694 constraints
+original problem has 490 variables (490 bin, 0 int, 0 impl, 0 cont) and 518 constraints
+original problem has 3701 variables (3701 bin, 0 int, 0 impl, 0 cont) and 4554 constraints
+original problem has 3824 variables (3824 bin, 0 int, 0 impl, 0 cont) and 4661 constraints
+original problem has 1094 variables (1094 bin, 0 int, 0 impl, 0 cont) and 1241 constraints
+original problem has 2707 variables (2707 bin, 0 int, 0 impl, 0 cont) and 3277 constraints
+original problem has 999 variables (999 bin, 0 int, 0 impl, 0 cont) and 1159 constraints
+original problem has 3938 variables (3938 bin, 0 int, 0 impl, 0 cont) and 4788 constraints
+original problem has 4955 variables (4955 bin, 0 int, 0 impl, 0 cont) and 6115 constraints
+original problem has 10027 variables (10027 bin, 0 int, 0 impl, 0 cont) and 12720 constraints
+original problem has 8136 variables (8136 bin, 0 int, 0 impl, 0 cont) and 10343 constraints
+original problem has 1743 variables (1743 bin, 0 int, 0 impl, 0 cont) and 2015 constraints
+original problem has 3778 variables (3778 bin, 0 int, 0 impl, 0 cont) and 4607 constraints
+original problem has 4950 variables (4950 bin, 0 int, 0 impl, 0 cont) and 6158 constraints
+original problem has 5190 variables (5190 bin, 0 int, 0 impl, 0 cont) and 6411 constraints
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+./result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+generalized_independentset-small
+rootsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of generalized_independentset-80_transformed is successfully added to MIP model
+generalized_independentset-80_transformed
+N of variables: 11923
+N of binary vars: 11923
+N of constraints: 15151
+Initial obj of MIP: -72.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  26
+GNN prediction:  0.11987657845020294
+GNN k_0:  37.0
+LB heuristic is starting..
+LB heuristic starts at 0.18193499999999999 s
+No. of LB call:  1
+LB initial objective: -4500.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0128 Best Obj: -4500.0000 n_sols_subMIP: 2 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0253 Best Obj: -4500.0000 n_sols_subMIP: 2 K: 37 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 37 div_final: 1
+LB heuristic finishes at 4.778859 s
+LB final objective: -4500.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-80_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9854.0
+Solving time:  600.004215
+
+
+[array([  -72., -4200., -4500., -5827., -5930., -6138., -6238., -8674.,
+       -9854.]), array([  0.      ,   0.17379 ,   0.181907,  34.163907,  34.175674,
+        34.186758,  82.875528, 167.388492, 167.401287])]
+instance:  1
+create a new SCIP model
+The initial incumbent of generalized_independentset-81_transformed is successfully added to MIP model
+generalized_independentset-81_transformed
+N of variables: 1863
+N of binary vars: 1863
+N of constraints: 2212
+Initial obj of MIP: -256.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  49
+GNN prediction:  0.13468532264232635
+GNN k_0:  19.0
+LB heuristic is starting..
+LB heuristic starts at 0.018808 s
+No. of LB call:  1
+LB initial objective: -3600.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0095 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 19 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0169 Best Obj: -4000.0000 n_sols_subMIP: 4 K: 19 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0246 Best Obj: -4000.0000 n_sols_subMIP: 5 K: 29 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0256 Best Obj: -4000.0000 n_sols_subMIP: 4 K: 15 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 15 div_final: 1
+LB heuristic finishes at 8.135691 s
+LB final objective: -4000.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-81_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8700.0
+Solving time:  142.589508
+
+
+[array([ -256., -3300., -3600., -3900., -4000., -6411., -7770., -7776.,
+       -7785., -7795., -7799., -7800., -7857., -7873., -7962., -7966.,
+       -7976., -7983., -7987., -8057., -8073., -8147., -8148., -8149.,
+       -8158., -8221., -8235., -8238., -8325., -8333., -8334., -8335.,
+       -8336., -8339., -8419., -8430., -8433., -8434., -8510., -8512.,
+       -8516., -8519., -8602., -8615., -8681., -8700.]), array([0.00000000e+00, 1.80390000e-02, 1.87980000e-02, 2.07961200e+00,
+       4.10251300e+00, 9.69301300e+00, 1.51013180e+01, 1.82911780e+01,
+       1.83306990e+01, 2.33561390e+01, 2.33728600e+01, 2.88169940e+01,
+       3.13308340e+01, 3.34468870e+01, 3.36648540e+01, 3.37190950e+01,
+       3.40687300e+01, 3.41146790e+01, 3.41433610e+01, 3.54725620e+01,
+       3.72837790e+01, 5.38842210e+01, 5.42465310e+01, 5.42679970e+01,
+       5.45532750e+01, 6.06868250e+01, 6.07662190e+01, 6.09014150e+01,
+       6.39101750e+01, 6.39269110e+01, 6.46087240e+01, 6.60635560e+01,
+       6.74667460e+01, 6.76585620e+01, 6.85753110e+01, 6.95682050e+01,
+       7.04620440e+01, 7.21146810e+01, 7.51241710e+01, 7.51825980e+01,
+       8.87921800e+01, 9.25239130e+01, 9.59941370e+01, 9.62960820e+01,
+       1.36645195e+02, 1.36747277e+02])]
+instance:  2
+create a new SCIP model
+The initial incumbent of generalized_independentset-82_transformed is successfully added to MIP model
+generalized_independentset-82_transformed
+N of variables: 1031
+N of binary vars: 1031
+N of constraints: 1176
+Initial obj of MIP: -1064.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  48
+GNN prediction:  0.14451517164707184
+GNN k_0:  26.0
+LB heuristic is starting..
+LB heuristic starts at 0.010407 s
+No. of LB call:  1
+LB initial objective: -3400.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0004 Best Obj: -3700.0000 n_sols_subMIP: 6 K: 26 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0010 Best Obj: -3700.0000 n_sols_subMIP: 5 K: 26 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0013 Best Obj: -3700.0000 n_sols_subMIP: 6 K: 26 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 26 div_final: 1
+LB heuristic finishes at 6.059515 s
+LB final objective: -3700.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-82_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7332.0
+Solving time:  14.506045
+
+
+[array([-1064., -3200., -3400., -3700., -6732., -6851., -6938., -7234.,
+       -7328., -7332.]), array([0.0000000e+00, 9.9610000e-03, 1.0397000e-02, 2.0427070e+00,
+       6.7445180e+00, 8.3180270e+00, 8.3431360e+00, 9.2597500e+00,
+       9.4740560e+00, 1.1621687e+01])]
+instance:  3
+create a new SCIP model
+The initial incumbent of generalized_independentset-83_transformed is successfully added to MIP model
+generalized_independentset-83_transformed
+N of variables: 2799
+N of binary vars: 2799
+N of constraints: 3420
+Initial obj of MIP: -156.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  29
+GNN prediction:  0.12891864776611328
+GNN k_0:  23.0
+LB heuristic is starting..
+LB heuristic starts at 0.02966 s
+No. of LB call:  1
+LB initial objective: -4000.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0102 Best Obj: -4200.0000 n_sols_subMIP: 3 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0208 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 12 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0315 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 6.16917 s
+LB final objective: -4200.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-83_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9611.0
+Solving time:  600.000505
+
+
+[array([ -156., -3700., -4000., -4200., -6738., -7644., -8309., -8428.,
+       -8431., -8432., -8433., -8502., -8585., -8586., -8587., -8774.,
+       -8856., -8859., -8862., -8865., -8869., -8875., -8876., -8884.,
+       -8885., -8886., -8887., -8888., -8969., -8970., -8973., -8978.,
+       -8996., -8997., -9006., -9076., -9078., -9083., -9144., -9145.,
+       -9146., -9147., -9148., -9149., -9150., -9154., -9157., -9160.,
+       -9161., -9166., -9168., -9174., -9177., -9178., -9243., -9246.,
+       -9248., -9252., -9266., -9268., -9328., -9333., -9334., -9337.,
+       -9338., -9340., -9408., -9427., -9429., -9431., -9436., -9437.,
+       -9511., -9523., -9526., -9529., -9531., -9601., -9610., -9611.]), array([0.00000000e+00, 2.85530000e-02, 2.96480000e-02, 2.11292600e+00,
+       9.21890300e+00, 2.11901040e+01, 2.11982420e+01, 2.82650840e+01,
+       2.83607420e+01, 2.84223770e+01, 2.84848280e+01, 4.72061460e+01,
+       4.85187910e+01, 4.85292330e+01, 4.85399940e+01, 5.36244010e+01,
+       1.21734025e+02, 1.21761465e+02, 1.22383225e+02, 1.22595813e+02,
+       1.22619646e+02, 1.28283965e+02, 1.28297408e+02, 1.62250772e+02,
+       1.67785523e+02, 1.67798860e+02, 1.67821197e+02, 1.67832251e+02,
+       1.70429973e+02, 1.70535058e+02, 1.70554992e+02, 1.70633740e+02,
+       1.83558414e+02, 1.83930125e+02, 1.84929045e+02, 1.90719566e+02,
+       1.93537710e+02, 1.93575669e+02, 1.96288310e+02, 1.96298867e+02,
+       1.96310314e+02, 1.96333690e+02, 1.98639999e+02, 1.98760982e+02,
+       1.98781782e+02, 1.98824642e+02, 2.04820876e+02, 2.04827982e+02,
+       2.04854628e+02, 2.08209678e+02, 2.17726242e+02, 2.17745040e+02,
+       2.20894873e+02, 2.27191294e+02, 2.27944830e+02, 2.27960991e+02,
+       2.27967160e+02, 2.27981075e+02, 2.28284522e+02, 2.28324171e+02,
+       2.41784739e+02, 2.41864851e+02, 2.41920327e+02, 2.48521970e+02,
+       2.51745273e+02, 2.51958621e+02, 2.57260945e+02, 2.57338888e+02,
+       2.57357852e+02, 2.57367709e+02, 2.57888349e+02, 2.71558223e+02,
+       2.71598082e+02, 2.71823078e+02, 2.72618334e+02, 2.72745336e+02,
+       2.72752912e+02, 2.88045713e+02, 2.88117131e+02, 4.95323503e+02])]
+instance:  4
+create a new SCIP model
+The initial incumbent of generalized_independentset-84_transformed is successfully added to MIP model
+generalized_independentset-84_transformed
+N of variables: 945
+N of binary vars: 945
+N of constraints: 1099
+Initial obj of MIP: -531.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  49
+GNN prediction:  0.14160101115703583
+GNN k_0:  20.0
+LB heuristic is starting..
+LB heuristic starts at 0.009864 s
+No. of LB call:  1
+LB initial objective: -3300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0001 Best Obj: -4193.0000 n_sols_subMIP: 27 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0005 Best Obj: -4288.0000 n_sols_subMIP: 7 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 5.8376 Best Obj: -4581.0000 n_sols_subMIP: 13 K: 10 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 7.8378 Best Obj: -4582.0000 n_sols_subMIP: 16 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 9.8382 Best Obj: -4582.0000 n_sols_subMIP: 14 K: 30 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 11.8385 Best Obj: -4582.0000 n_sols_subMIP: 14 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 1
+LB heuristic finishes at 11.923489 s
+LB final objective: -4582.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-84_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -6842.0
+Solving time:  21.490218
+
+
+[array([ -531., -3200., -3300., -4193., -4288., -4581., -4582., -5556.,
+       -5767., -6557., -6565., -6640., -6647., -6654., -6660., -6665.,
+       -6731., -6756., -6840., -6842.]), array([0.0000000e+00, 9.4240000e-03, 9.8520000e-03, 2.0401700e+00,
+       4.0493280e+00, 5.8956840e+00, 7.9056680e+00, 1.2419865e+01,
+       1.2420913e+01, 1.4203262e+01, 1.6910765e+01, 1.7087967e+01,
+       1.7649653e+01, 1.7654111e+01, 1.7717773e+01, 1.8154717e+01,
+       1.9809376e+01, 2.0241338e+01, 2.0500682e+01, 2.1293648e+01])]
+instance:  5
+create a new SCIP model
+The initial incumbent of generalized_independentset-85_transformed is successfully added to MIP model
+generalized_independentset-85_transformed
+N of variables: 8065
+N of binary vars: 8065
+N of constraints: 10215
+Initial obj of MIP: -81.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  41
+GNN prediction:  0.1209637001156807
+GNN k_0:  30.0
+LB heuristic is starting..
+LB heuristic starts at 0.096511 s
+No. of LB call:  1
+LB initial objective: -4300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0034 Best Obj: -4300.0000 n_sols_subMIP: 2 K: 30 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0072 Best Obj: -4300.0000 n_sols_subMIP: 4 K: 45 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 45 div_final: 1
+LB heuristic finishes at 4.456996 s
+LB final objective: -4300.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-85_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9911.0
+Solving time:  600.000812
+
+
+[array([  -81., -4000., -4300., -4557., -4562., -4568., -5196., -5408.,
+       -6161., -6261., -6429., -6542., -8331., -9532., -9635., -9651.,
+       -9740., -9743., -9744., -9745., -9831., -9911.]), array([0.00000000e+00, 9.26520000e-02, 9.64930000e-02, 1.61478540e+01,
+       1.61551910e+01, 1.61623280e+01, 1.61694100e+01, 1.61766100e+01,
+       7.59507590e+01, 7.59694640e+01, 1.29281598e+02, 1.29288840e+02,
+       1.40028033e+02, 1.40038558e+02, 3.84617437e+02, 3.84743552e+02,
+       3.91917437e+02, 3.91999657e+02, 3.92138611e+02, 3.92174358e+02,
+       4.06368019e+02, 5.93760626e+02])]
+instance:  6
+create a new SCIP model
+The initial incumbent of generalized_independentset-86_transformed is successfully added to MIP model
+generalized_independentset-86_transformed
+N of variables: 575
+N of binary vars: 575
+N of constraints: 615
+Initial obj of MIP: -2044.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  72
+GNN prediction:  0.1586064249277115
+GNN k_0:  23.0
+LB heuristic is starting..
+LB heuristic starts at 0.006101 s
+No. of LB call:  1
+LB initial objective: -2600.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 1.3100 Best Obj: -3587.0000 n_sols_subMIP: 8 K: 23 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 3.3102 Best Obj: -3974.0000 n_sols_subMIP: 14 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 4.5779 Best Obj: -4648.0000 n_sols_subMIP: 15 K: 35 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 6.5780 Best Obj: -4914.0000 n_sols_subMIP: 28 K: 53 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 7.1260 Best Obj: -5204.0000 n_sols_subMIP: 19 K: 23 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 7.3159 Best Obj: -5385.0000 n_sols_subMIP: 12 K: 23 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 7.5694 Best Obj: -5485.0000 n_sols_subMIP: 11 K: 23 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 8 Solving time: 8.7190 Best Obj: -5497.0000 n_sols_subMIP: 17 K: 23 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 9 Solving time: 9.3125 Best Obj: -5583.0000 n_sols_subMIP: 12 K: 35 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 10 Solving time: 9.9112 Best Obj: -5592.0000 n_sols_subMIP: 9 K: 23 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 11 Solving time: 10.3539 Best Obj: -5673.0000 n_sols_subMIP: 15 K: 35 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 12 Solving time: 10.8937 Best Obj: -5673.0000 n_sols_subMIP: 4 K: 35 t_node: 2.0 self.div: 0 LB Status: infeasible
+LB round: 13 Solving time: 11.3444 Best Obj: -5673.0000 n_sols_subMIP: 6 K: 53 t_node: 2.0 self.div: 0 LB Status: infeasible
+K_final: 53 div_final: 1
+LB heuristic finishes at 11.449412 s
+LB final objective: -5673.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-86_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -5682.0
+Solving time:  12.263326
+
+
+[array([-2044., -2400., -2600., -3587., -3974., -4648., -4914., -5204.,
+       -5385., -5485., -5497., -5583., -5592., -5673., -5676., -5682.]), array([0.0000000e+00, 5.8260000e-03, 6.0890000e-03, 1.3384360e+00,
+       3.3451890e+00, 4.6190510e+00, 6.6261290e+00, 7.1811200e+00,
+       7.3775370e+00, 7.6371900e+00, 8.7931910e+00, 9.3930750e+00,
+       9.9980050e+00, 1.0447172e+01, 1.1838016e+01, 1.2159860e+01])]
+instance:  7
+create a new SCIP model
+The initial incumbent of generalized_independentset-87_transformed is successfully added to MIP model
+generalized_independentset-87_transformed
+N of variables: 14034
+N of binary vars: 14034
+N of constraints: 17998
+Initial obj of MIP: -66.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  17
+GNN prediction:  0.11827299743890762
+GNN k_0:  40.0
+LB heuristic is starting..
+LB heuristic starts at 0.180895 s
+No. of LB call:  1
+LB initial objective: -4900.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0011 Best Obj: -4900.0000 n_sols_subMIP: 1 K: 40 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0022 Best Obj: -4900.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 1
+LB heuristic finishes at 4.751781 s
+LB final objective: -4900.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-87_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10007.0
+Solving time:  600.00393
+
+
+[array([   -66.,  -4400.,  -4900.,  -5392.,  -5492.,  -5693.,  -5793.,
+       -10007.]), array([0.00000000e+00, 1.73717000e-01, 1.80875000e-01, 3.79719750e+01,
+       6.56424950e+01, 2.57366248e+02, 2.57419762e+02, 2.72942654e+02])]
+instance:  8
+create a new SCIP model
+The initial incumbent of generalized_independentset-88_transformed is successfully added to MIP model
+generalized_independentset-88_transformed
+N of variables: 5012
+N of binary vars: 5012
+N of constraints: 6317
+Initial obj of MIP: -84.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  33
+GNN prediction:  0.12261218577623367
+GNN k_0:  24.0
+LB heuristic is starting..
+LB heuristic starts at 0.053992 s
+No. of LB call:  1
+LB initial objective: -4400.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0197 Best Obj: -4400.0000 n_sols_subMIP: 3 K: 24 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0376 Best Obj: -4400.0000 n_sols_subMIP: 5 K: 36 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 36 div_final: 1
+LB heuristic finishes at 4.295891 s
+LB final objective: -4400.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-88_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -8928.0
+Solving time:  600.000628
+
+
+[array([  -84., -4200., -4400., -5951., -6066., -6535., -8152., -8367.,
+       -8397., -8741., -8807., -8809., -8814., -8817., -8823., -8826.,
+       -8892., -8896., -8916., -8925., -8928.]), array([0.00000000e+00, 5.13690000e-02, 5.39750000e-02, 1.22938800e+01,
+       1.22990060e+01, 8.80641780e+01, 8.80717180e+01, 1.56554625e+02,
+       1.85054500e+02, 3.29056952e+02, 3.41541162e+02, 3.41566136e+02,
+       3.45062140e+02, 3.45707513e+02, 3.46635798e+02, 3.52794277e+02,
+       3.81410219e+02, 3.81605722e+02, 3.92189218e+02, 5.98196780e+02,
+       5.98201845e+02])]
+instance:  9
+create a new SCIP model
+The initial incumbent of generalized_independentset-89_transformed is successfully added to MIP model
+generalized_independentset-89_transformed
+N of variables: 9987
+N of binary vars: 9987
+N of constraints: 12702
+Initial obj of MIP: -75.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  22
+GNN prediction:  0.11999554187059402
+GNN k_0:  34.0
+LB heuristic is starting..
+LB heuristic starts at 0.119306 s
+No. of LB call:  1
+LB initial objective: -4800.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0030 Best Obj: -4800.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0085 Best Obj: -4800.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 34 div_final: 1
+LB heuristic finishes at 4.563753 s
+LB final objective: -4800.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-89_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10350.0
+Solving time:  600.063969
+
+
+[array([   -75.,  -4400.,  -4800.,  -5768.,  -5868.,  -6939.,  -9571.,
+       -10350.]), array([0.00000000e+00, 1.14881000e-01, 1.19287000e-01, 2.27681580e+01,
+       3.84791280e+01, 1.65455075e+02, 1.74044883e+02, 1.74055902e+02])]
+instance:  10
+create a new SCIP model
+The initial incumbent of generalized_independentset-90_transformed is successfully added to MIP model
+generalized_independentset-90_transformed
+N of variables: 1894
+N of binary vars: 1894
+N of constraints: 2223
+Initial obj of MIP: -334.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  55
+GNN prediction:  0.1365012228488922
+GNN k_0:  24.0
+LB heuristic is starting..
+LB heuristic starts at 0.018927 s
+No. of LB call:  1
+LB initial objective: -3500.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0076 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 24 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0078 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 12 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0155 Best Obj: -3900.0000 n_sols_subMIP: 5 K: 24 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 24 div_final: 1
+LB heuristic finishes at 6.106808 s
+LB final objective: -3900.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-90_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8800.0
+Solving time:  126.507719
+
+
+[array([ -334., -3400., -3500., -3900., -5690., -8148., -8152., -8321.,
+       -8326., -8337., -8419., -8428., -8438., -8439., -8511., -8513.,
+       -8615., -8617., -8704., -8706., -8710., -8800.]), array([0.0000000e+00, 1.8155000e-02, 1.8916000e-02, 2.0744660e+00,
+       7.6628850e+00, 1.2902769e+01, 1.3568485e+01, 1.6861839e+01,
+       1.6880059e+01, 2.3044415e+01, 2.4157329e+01, 2.6257084e+01,
+       2.6463458e+01, 2.6987310e+01, 3.9336438e+01, 4.0072092e+01,
+       4.0204148e+01, 4.2277774e+01, 5.0292519e+01, 8.8264009e+01,
+       8.8275606e+01, 9.3831379e+01])]
+instance:  11
+create a new SCIP model
+The initial incumbent of generalized_independentset-91_transformed is successfully added to MIP model
+generalized_independentset-91_transformed
+N of variables: 1678
+N of binary vars: 1678
+N of constraints: 2004
+Initial obj of MIP: -171.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  21
+GNN prediction:  0.13432811200618744
+GNN k_0:  18.0
+LB heuristic is starting..
+LB heuristic starts at 0.016186 s
+No. of LB call:  1
+LB initial objective: -3800.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0007 Best Obj: -4200.0000 n_sols_subMIP: 3 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0215 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 27 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0221 Best Obj: -4200.0000 n_sols_subMIP: 5 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 18 div_final: 1
+LB heuristic finishes at 6.103621 s
+LB final objective: -4200.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-91_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8077.0
+Solving time:  174.089732
+
+
+[array([ -171., -3800., -4200., -6350., -7004., -7113., -7114., -7118.,
+       -7126., -7127., -7129., -7219., -7222., -7235., -7300., -7309.,
+       -7312., -7313., -7315., -7324., -7326., -7327., -7333., -7416.,
+       -7507., -7510., -7588., -7594., -7600., -7604., -7696., -7706.,
+       -7712., -7786., -7880., -7899., -7964., -7965., -7973., -7988.,
+       -7991., -7993., -8077.]), array([0.00000000e+00, 1.55930000e-02, 2.05987100e+00, 7.46122800e+00,
+       1.33322840e+01, 1.73051030e+01, 1.73466740e+01, 1.95496350e+01,
+       2.03335630e+01, 2.04224220e+01, 2.09185030e+01, 2.19527750e+01,
+       2.19571110e+01, 2.56157910e+01, 2.88934850e+01, 2.98648560e+01,
+       2.98686660e+01, 3.05098070e+01, 3.54666800e+01, 3.60452080e+01,
+       3.60602300e+01, 3.60663600e+01, 4.11671150e+01, 4.28013620e+01,
+       4.37612270e+01, 4.41570820e+01, 4.45728780e+01, 4.45779330e+01,
+       5.47228160e+01, 5.51524010e+01, 6.15188710e+01, 8.00724790e+01,
+       8.00887340e+01, 8.21774270e+01, 8.24380250e+01, 8.35578610e+01,
+       8.80321650e+01, 9.54693920e+01, 9.54788970e+01, 1.02645181e+02,
+       1.02827881e+02, 1.03113292e+02, 1.08296454e+02])]
+instance:  12
+create a new SCIP model
+The initial incumbent of generalized_independentset-92_transformed is successfully added to MIP model
+generalized_independentset-92_transformed
+N of variables: 1821
+N of binary vars: 1821
+N of constraints: 2155
+Initial obj of MIP: -417.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  26
+GNN prediction:  0.13542543351650238
+GNN k_0:  24.0
+LB heuristic is starting..
+LB heuristic starts at 0.018907 s
+No. of LB call:  1
+LB initial objective: -3600.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0071 Best Obj: -3800.0000 n_sols_subMIP: 3 K: 24 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0077 Best Obj: -3800.0000 n_sols_subMIP: 5 K: 36 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0082 Best Obj: -3800.0000 n_sols_subMIP: 3 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 18 div_final: 1
+LB heuristic finishes at 6.097947 s
+LB final objective: -3800.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-92_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8346.0
+Solving time:  169.953113
+
+
+[array([ -417., -3300., -3600., -3800., -3897., -4100., -4294., -6051.,
+       -6468., -7194., -7199., -7200., -7285., -7286., -7307., -7311.,
+       -7394., -7399., -7582., -7583., -7584., -7756., -7852., -7864.,
+       -7869., -8032., -8112., -8126., -8213., -8217., -8308., -8311.,
+       -8312., -8335., -8336., -8345., -8346.]), array([0.00000000e+00, 1.81470000e-02, 1.88910000e-02, 2.07303700e+00,
+       7.48192300e+00, 7.48432600e+00, 7.48696900e+00, 7.48928100e+00,
+       1.21373010e+01, 1.21464340e+01, 1.21615160e+01, 1.21720130e+01,
+       1.21847280e+01, 1.22269320e+01, 1.54851630e+01, 1.55444360e+01,
+       1.61126620e+01, 1.62192050e+01, 1.63276470e+01, 1.98728660e+01,
+       1.98734870e+01, 2.53028070e+01, 2.68919710e+01, 2.74446810e+01,
+       2.74585060e+01, 3.56737830e+01, 4.08330310e+01, 4.36156440e+01,
+       4.43467830e+01, 5.39615290e+01, 5.40167860e+01, 5.41903620e+01,
+       5.59005650e+01, 8.90985920e+01, 8.91341410e+01, 9.08292810e+01,
+       1.41427032e+02])]
+instance:  13
+create a new SCIP model
+The initial incumbent of generalized_independentset-93_transformed is successfully added to MIP model
+generalized_independentset-93_transformed
+N of variables: 3836
+N of binary vars: 3836
+N of constraints: 4681
+Initial obj of MIP: -86.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  34
+GNN prediction:  0.12823247909545898
+GNN k_0:  22.0
+LB heuristic is starting..
+LB heuristic starts at 0.042844 s
+No. of LB call:  1
+LB initial objective: -4300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0133 Best Obj: -4300.0000 n_sols_subMIP: 3 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0270 Best Obj: -4300.0000 n_sols_subMIP: 5 K: 33 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 33 div_final: 1
+LB heuristic finishes at 4.241454 s
+LB final objective: -4300.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-93_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9684.0
+Solving time:  600.00126
+
+
+[array([  -86., -3900., -4300., -5216., -6343., -6549., -7422., -7710.,
+       -8814., -9185., -9189., -9190., -9295., -9296., -9299., -9300.,
+       -9301., -9302., -9303., -9312., -9379., -9390., -9407., -9409.,
+       -9478., -9489., -9490., -9569., -9658., -9659., -9678., -9679.,
+       -9684.]), array([0.00000000e+00, 4.12520000e-02, 4.28250000e-02, 9.34800700e+00,
+       9.35241400e+00, 9.35584100e+00, 3.99402870e+01, 4.70295210e+01,
+       4.70326470e+01, 4.70415690e+01, 4.70567310e+01, 4.70726010e+01,
+       5.86480630e+01, 5.86616010e+01, 2.12987707e+02, 2.13017375e+02,
+       2.13148243e+02, 2.13162927e+02, 2.13194925e+02, 3.28112962e+02,
+       3.37932050e+02, 3.38390108e+02, 3.42357237e+02, 3.43294077e+02,
+       3.47536327e+02, 3.47769130e+02, 3.50202737e+02, 3.53210202e+02,
+       3.74534570e+02, 3.79717342e+02, 4.10952732e+02, 4.10964334e+02,
+       4.19278375e+02])]
+instance:  14
+create a new SCIP model
+The initial incumbent of generalized_independentset-94_transformed is successfully added to MIP model
+generalized_independentset-94_transformed
+N of variables: 1775
+N of binary vars: 1775
+N of constraints: 2106
+Initial obj of MIP: -267.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  23
+GNN prediction:  0.13507194817066193
+GNN k_0:  18.0
+LB heuristic is starting..
+LB heuristic starts at 0.018845 s
+No. of LB call:  1
+LB initial objective: -3800.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0070 Best Obj: -4000.0000 n_sols_subMIP: 3 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0144 Best Obj: -4000.0000 n_sols_subMIP: 5 K: 27 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0351 Best Obj: -4000.0000 n_sols_subMIP: 5 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 18 div_final: 1
+LB heuristic finishes at 6.126092 s
+LB final objective: -4000.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-94_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8696.0
+Solving time:  154.858886
+
+
+[array([ -267., -3600., -3800., -4000., -6154., -6980., -7313., -7405.,
+       -7417., -7696., -7873., -7875., -7876., -7880., -7883., -7982.,
+       -7983., -7988., -7989., -8060., -8061., -8063., -8066., -8068.,
+       -8070., -8075., -8078., -8079., -8080., -8335., -8343., -8351.,
+       -8425., -8429., -8514., -8516., -8533., -8534., -8537., -8538.,
+       -8541., -8546., -8550., -8604., -8612., -8696.]), array([0.00000000e+00, 1.80910000e-02, 1.88300000e-02, 2.07348800e+00,
+       7.50592500e+00, 1.18797000e+01, 1.19661400e+01, 1.19902720e+01,
+       1.20202800e+01, 1.45582370e+01, 1.49771740e+01, 1.50663740e+01,
+       1.51214580e+01, 1.71811660e+01, 1.72040300e+01, 1.73001120e+01,
+       1.73069840e+01, 2.05256480e+01, 2.10019430e+01, 2.16156930e+01,
+       2.16221170e+01, 2.16315930e+01, 2.16557550e+01, 2.16620030e+01,
+       2.16937180e+01, 2.17531190e+01, 2.17555720e+01, 2.24827270e+01,
+       2.24893960e+01, 2.69410860e+01, 4.39024090e+01, 4.39254260e+01,
+       4.53174480e+01, 6.27198070e+01, 6.73042620e+01, 6.73118970e+01,
+       6.73373130e+01, 6.76541060e+01, 1.15188501e+02, 1.15195434e+02,
+       1.15211887e+02, 1.15559230e+02, 1.15569742e+02, 1.38683449e+02,
+       1.42195874e+02, 1.42573301e+02])]
+instance:  15
+create a new SCIP model
+The initial incumbent of generalized_independentset-95_transformed is successfully added to MIP model
+generalized_independentset-95_transformed
+N of variables: 14328
+N of binary vars: 14328
+N of constraints: 18328
+Initial obj of MIP: -69.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  23
+GNN prediction:  0.11861444264650345
+GNN k_0:  40.0
+LB heuristic is starting..
+LB heuristic starts at 0.18082399999999998 s
+No. of LB call:  1
+LB initial objective: -4800.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0019 Best Obj: -4800.0000 n_sols_subMIP: 1 K: 40 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0035 Best Obj: -4800.0000 n_sols_subMIP: 1 K: 40 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 40 div_final: 1
+LB heuristic finishes at 4.741198 s
+LB final objective: -4800.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-95_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10735.0
+Solving time:  600.003739
+
+
+[array([   -69.,  -4600.,  -4800.,  -4968.,  -5075.,  -5082.,  -5805.,
+        -6429.,  -6536., -10066., -10735.]), array([0.00000000e+00, 1.73257000e-01, 1.80801000e-01, 3.39747020e+01,
+       3.39889620e+01, 3.40023260e+01, 3.40164650e+01, 3.40295320e+01,
+       3.40424980e+01, 2.39366221e+02, 2.39382323e+02])]
+instance:  16
+create a new SCIP model
+The initial incumbent of generalized_independentset-96_transformed is successfully added to MIP model
+generalized_independentset-96_transformed
+N of variables: 1733
+N of binary vars: 1733
+N of constraints: 2056
+Initial obj of MIP: -261.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  33
+GNN prediction:  0.13517938554286957
+GNN k_0:  18.0
+LB heuristic is starting..
+LB heuristic starts at 0.017318999999999998 s
+No. of LB call:  1
+LB initial objective: -3800.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0082 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0088 Best Obj: -3900.0000 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0093 Best Obj: -3900.0000 n_sols_subMIP: 6 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 18 div_final: 1
+LB heuristic finishes at 6.096883 s
+LB final objective: -3900.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-96_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8545.0
+Solving time:  92.288816
+
+
+[array([ -261., -3800., -3900., -4780., -4783., -5089., -6549., -6649.,
+       -7686., -7757., -7774., -7780., -7781., -8141., -8155., -8240.,
+       -8242., -8319., -8333., -8337., -8345., -8348., -8362., -8363.,
+       -8432., -8444., -8533., -8535., -8541., -8545.]), array([0.0000000e+00, 1.6705000e-02, 2.0720530e+00, 7.5754420e+00,
+       7.5776300e+00, 7.5795690e+00, 7.5815590e+00, 8.8288540e+00,
+       1.6960704e+01, 1.7613814e+01, 1.7672691e+01, 1.7739169e+01,
+       1.7798103e+01, 1.8532596e+01, 2.0845034e+01, 2.3537169e+01,
+       3.0968869e+01, 3.1844683e+01, 5.1440046e+01, 5.1442693e+01,
+       5.1446736e+01, 5.1471955e+01, 5.1506423e+01, 5.1549328e+01,
+       5.1860773e+01, 5.7408015e+01, 5.9072976e+01, 6.3193882e+01,
+       6.3215066e+01, 8.1334633e+01])]
+instance:  17
+create a new SCIP model
+The initial incumbent of generalized_independentset-97_transformed is successfully added to MIP model
+generalized_independentset-97_transformed
+N of variables: 10044
+N of binary vars: 10044
+N of constraints: 12715
+Initial obj of MIP: -72.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  31
+GNN prediction:  0.12067005783319473
+GNN k_0:  34.0
+LB heuristic is starting..
+LB heuristic starts at 0.134185 s
+No. of LB call:  1
+LB initial objective: -4700.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0030 Best Obj: -4700.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0061 Best Obj: -4700.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 34 div_final: 1
+LB heuristic finishes at 4.48593 s
+LB final objective: -4700.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-97_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10246.0
+Solving time:  600.003346
+
+
+[array([   -72.,  -4500.,  -4700.,  -6727.,  -7370.,  -9685., -10107.,
+       -10245., -10246.]), array([0.00000000e+00, 1.28476000e-01, 1.34164000e-01, 2.39212100e+01,
+       1.72111676e+02, 1.72127460e+02, 1.72136856e+02, 2.03964781e+02,
+       2.05380606e+02])]
+instance:  18
+create a new SCIP model
+The initial incumbent of generalized_independentset-98_transformed is successfully added to MIP model
+generalized_independentset-98_transformed
+N of variables: 1052
+N of binary vars: 1052
+N of constraints: 1208
+Initial obj of MIP: -635.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  35
+GNN prediction:  0.14288276433944702
+GNN k_0:  18.0
+LB heuristic is starting..
+LB heuristic starts at 0.010628 s
+No. of LB call:  1
+LB initial objective: -3400.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0003 Best Obj: -3600.0000 n_sols_subMIP: 5 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0009 Best Obj: -3600.0000 n_sols_subMIP: 5 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0013 Best Obj: -3600.0000 n_sols_subMIP: 6 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 18 div_final: 1
+LB heuristic finishes at 6.058645 s
+LB final objective: -3600.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-98_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7580.0
+Solving time:  12.156769
+
+
+[array([ -635., -3200., -3400., -3600., -6367., -7014., -7110., -7111.,
+       -7190., -7290., -7482., -7580.]), array([0.0000000e+00, 1.0165000e-02, 1.0618000e-02, 2.0420390e+00,
+       6.9102010e+00, 9.5062190e+00, 9.5398890e+00, 9.6969480e+00,
+       1.0421231e+01, 1.0598009e+01, 1.2012532e+01, 1.2143319e+01])]
+instance:  19
+create a new SCIP model
+The initial incumbent of generalized_independentset-99_transformed is successfully added to MIP model
+generalized_independentset-99_transformed
+N of variables: 5042
+N of binary vars: 5042
+N of constraints: 6253
+Initial obj of MIP: -83.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  32
+GNN prediction:  0.12512819468975067
+GNN k_0:  25.0
+LB heuristic is starting..
+LB heuristic starts at 0.048596 s
+No. of LB call:  1
+LB initial objective: -4200.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0165 Best Obj: -4200.0000 n_sols_subMIP: 3 K: 25 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0330 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 25 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 25 div_final: 1
+LB heuristic finishes at 4.275017 s
+LB final objective: -4200.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-99_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9846.0
+Solving time:  600.003389
+
+
+[array([  -83., -3800., -4200., -7382., -8344., -8883., -8906., -8911.,
+       -8915., -8916., -8917., -8995., -9009., -9096., -9099., -9103.,
+       -9203., -9265., -9270., -9297., -9299., -9300., -9308., -9315.,
+       -9475., -9480., -9566., -9568., -9572., -9573., -9579., -9652.,
+       -9656., -9658., -9720., -9725., -9730., -9821., -9823., -9829.,
+       -9830., -9840., -9846.]), array([0.00000000e+00, 4.66900000e-02, 4.85830000e-02, 1.07683720e+01,
+       4.81668340e+01, 8.23808770e+01, 2.05428624e+02, 2.09546474e+02,
+       2.09559466e+02, 2.09617361e+02, 2.09707082e+02, 2.10203027e+02,
+       2.10236166e+02, 2.10317122e+02, 2.11102374e+02, 2.11117185e+02,
+       2.11836088e+02, 2.95281518e+02, 2.95341145e+02, 3.08395064e+02,
+       3.16150623e+02, 3.16620946e+02, 3.23044177e+02, 3.26411394e+02,
+       3.38352084e+02, 3.38374814e+02, 3.51348244e+02, 3.51437658e+02,
+       3.51472727e+02, 3.68480825e+02, 4.11127024e+02, 4.11144101e+02,
+       4.11233955e+02, 4.11254367e+02, 4.73722886e+02, 4.73736466e+02,
+       4.73761046e+02, 4.76556206e+02, 4.81248875e+02, 4.96772859e+02,
+       4.96803317e+02, 5.68466987e+02, 5.68523850e+02])]
+instance:  20
+create a new SCIP model
+The initial incumbent of generalized_independentset-100_transformed is successfully added to MIP model
+generalized_independentset-100_transformed
+N of variables: 10016
+N of binary vars: 10016
+N of constraints: 12694
+Initial obj of MIP: -74.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  32
+GNN prediction:  0.12051711231470108
+GNN k_0:  34.0
+LB heuristic is starting..
+LB heuristic starts at 0.11427999999999999 s
+No. of LB call:  1
+LB initial objective: -4700.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0032 Best Obj: -4700.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0102 Best Obj: -4700.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 34 div_final: 1
+LB heuristic finishes at 4.467388 s
+LB final objective: -4700.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-100_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10570.0
+Solving time:  600.00298
+
+
+[array([   -74.,  -4500.,  -4700.,  -5195.,  -5395.,  -9269., -10570.]), array([0.00000000e+00, 1.10045000e-01, 1.14261000e-01, 2.18998310e+01,
+       3.14565100e+01, 8.65927820e+01, 1.71641356e+02])]
+instance:  21
+create a new SCIP model
+The initial incumbent of generalized_independentset-101_transformed is successfully added to MIP model
+generalized_independentset-101_transformed
+N of variables: 490
+N of binary vars: 490
+N of constraints: 518
+Initial obj of MIP: -5290.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  46
+GNN prediction:  0.16227154433727264
+GNN k_0:  22.0
+LB heuristic is starting..
+LB heuristic starts at 0.004922999999999999 s
+No. of LB call:  1
+LB initial objective: -5496.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 0.0775 Best Obj: -5496.0000 n_sols_subMIP: 4 K: 22 t_node: 2.0 self.div: 0 LB Status: infeasible
+LB round: 2 Solving time: 0.1540 Best Obj: -5496.0000 n_sols_subMIP: 4 K: 22 t_node: 2.0 self.div: 0 LB Status: infeasible
+K_final: 22 div_final: 1
+LB heuristic finishes at 0.181524 s
+LB final objective: -5496.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-101_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -5496.0
+Solving time:  0.470306
+
+
+[array([-5290., -5496.]), array([0.      , 0.004912])]
+instance:  22
+create a new SCIP model
+The initial incumbent of generalized_independentset-102_transformed is successfully added to MIP model
+generalized_independentset-102_transformed
+N of variables: 3701
+N of binary vars: 3701
+N of constraints: 4554
+Initial obj of MIP: -85.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  24
+GNN prediction:  0.12707021832466125
+GNN k_0:  22.0
+LB heuristic is starting..
+LB heuristic starts at 0.035682 s
+No. of LB call:  1
+LB initial objective: -4300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0124 Best Obj: -4300.0000 n_sols_subMIP: 3 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0250 Best Obj: -4300.0000 n_sols_subMIP: 4 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 22 div_final: 1
+LB heuristic finishes at 4.163168 s
+LB final objective: -4300.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-102_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10127.0
+Solving time:  600.000387
+
+
+[array([   -85.,  -4300.,  -5404.,  -5672.,  -6159.,  -7120.,  -8607.,
+        -8887.,  -8930.,  -8933.,  -8993.,  -9012.,  -9013.,  -9017.,
+        -9019.,  -9096.,  -9102.,  -9351.,  -9356.,  -9370.,  -9371.,
+        -9372.,  -9373.,  -9374.,  -9375.,  -9384.,  -9386.,  -9387.,
+        -9466.,  -9470.,  -9472.,  -9481.,  -9485.,  -9562.,  -9568.,
+        -9569.,  -9576.,  -9581.,  -9652.,  -9654.,  -9659.,  -9665.,
+        -9666.,  -9669.,  -9747.,  -9752.,  -9838.,  -9851.,  -9853.,
+        -9858.,  -9924., -10027., -10035., -10043., -10127.]), array([0.00000000e+00, 3.44840000e-02, 9.13275100e+00, 4.62862080e+01,
+       4.62930820e+01, 6.37179540e+01, 6.81685130e+01, 8.06634720e+01,
+       1.23550919e+02, 1.23599412e+02, 1.48249797e+02, 1.64933279e+02,
+       1.70039420e+02, 1.70061790e+02, 1.70103165e+02, 1.70309673e+02,
+       1.70665929e+02, 2.65515392e+02, 2.65565985e+02, 2.65759738e+02,
+       3.71169737e+02, 3.74466952e+02, 3.77522583e+02, 3.77541958e+02,
+       3.77658340e+02, 3.89130618e+02, 3.92689891e+02, 3.98658384e+02,
+       4.03862049e+02, 4.03976810e+02, 4.19512100e+02, 4.19609417e+02,
+       4.20045389e+02, 4.34791774e+02, 4.34816282e+02, 4.34847175e+02,
+       4.35377668e+02, 4.35383990e+02, 4.43083109e+02, 4.59199880e+02,
+       4.59580391e+02, 4.59696779e+02, 4.60106733e+02, 4.89063094e+02,
+       4.91571356e+02, 5.18581489e+02, 5.18635911e+02, 5.26723992e+02,
+       5.26734734e+02, 5.26807348e+02, 5.27236306e+02, 5.27290956e+02,
+       5.27418154e+02, 5.35118616e+02, 5.35138007e+02])]
+instance:  23
+create a new SCIP model
+The initial incumbent of generalized_independentset-103_transformed is successfully added to MIP model
+generalized_independentset-103_transformed
+N of variables: 3824
+N of binary vars: 3824
+N of constraints: 4661
+Initial obj of MIP: -83.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  35
+GNN prediction:  0.1283789575099945
+GNN k_0:  22.0
+LB heuristic is starting..
+LB heuristic starts at 0.039058999999999996 s
+No. of LB call:  1
+LB initial objective: -3900.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0133 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0275 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 22 div_final: 1
+LB heuristic finishes at 4.228071 s
+LB final objective: -3900.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-103_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10114.0
+Solving time:  600.000498
+
+
+[array([   -83.,  -3900.,  -4701.,  -6467.,  -6823.,  -6989.,  -8367.,
+        -8704.,  -8795.,  -8796.,  -8821.,  -8878.,  -8880.,  -8899.,
+        -8900.,  -9001.,  -9012.,  -9093.,  -9182.,  -9183.,  -9193.,
+        -9274.,  -9288.,  -9289.,  -9293.,  -9294.,  -9299.,  -9303.,
+        -9304.,  -9370.,  -9372.,  -9375.,  -9377.,  -9380.,  -9391.,
+        -9392.,  -9482.,  -9488.,  -9564.,  -9576.,  -9579.,  -9580.,
+        -9649.,  -9656.,  -9657.,  -9927.,  -9933.,  -9938.,  -9943.,
+       -10002., -10004., -10015., -10070., -10080., -10098., -10099.,
+       -10106., -10113., -10114.]), array([0.00000000e+00, 3.77910000e-02, 8.52284400e+00, 8.52635600e+00,
+       4.18839640e+01, 5.83755150e+01, 5.83801430e+01, 5.83833210e+01,
+       5.83874920e+01, 5.84007470e+01, 5.89636420e+01, 6.30026500e+01,
+       6.30126900e+01, 6.30394690e+01, 6.30577090e+01, 7.84543050e+01,
+       8.17870180e+01, 8.70099170e+01, 8.70797080e+01, 8.70935350e+01,
+       8.71798620e+01, 1.01358500e+02, 1.14975111e+02, 1.23140476e+02,
+       1.23232710e+02, 1.23256556e+02, 1.42647361e+02, 1.42821926e+02,
+       1.43093014e+02, 1.92116212e+02, 1.93608661e+02, 1.99406628e+02,
+       1.99656411e+02, 2.04165580e+02, 2.34061759e+02, 2.34079245e+02,
+       2.34168809e+02, 2.39457355e+02, 2.61758854e+02, 2.62592193e+02,
+       2.62646244e+02, 2.71091891e+02, 2.71592506e+02, 2.71653615e+02,
+       2.71683351e+02, 4.37192649e+02, 4.37294720e+02, 4.43551686e+02,
+       4.43651765e+02, 5.12522164e+02, 5.12569012e+02, 5.12606266e+02,
+       5.24178250e+02, 5.24199809e+02, 5.24956162e+02, 5.25401626e+02,
+       5.25593180e+02, 5.34443931e+02, 5.48860501e+02])]
+instance:  24
+create a new SCIP model
+The initial incumbent of generalized_independentset-104_transformed is successfully added to MIP model
+generalized_independentset-104_transformed
+N of variables: 1094
+N of binary vars: 1094
+N of constraints: 1241
+Initial obj of MIP: -621.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  48
+GNN prediction:  0.14439676702022552
+GNN k_0:  20.0
+LB heuristic is starting..
+LB heuristic starts at 0.011139 s
+No. of LB call:  1
+LB initial objective: -3400.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0003 Best Obj: -4192.0000 n_sols_subMIP: 13 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0005 Best Obj: -4489.0000 n_sols_subMIP: 14 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0008 Best Obj: -4783.0000 n_sols_subMIP: 19 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0014 Best Obj: -4783.0000 n_sols_subMIP: 13 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0018 Best Obj: -4783.0000 n_sols_subMIP: 12 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 10.084698 s
+LB final objective: -4783.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-104_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7205.0
+Solving time:  23.050652
+
+
+[array([ -621., -3300., -3400., -4192., -4489., -4783., -6643., -6811.,
+       -6925., -6928., -7004., -7011., -7012., -7041., -7042., -7118.,
+       -7119., -7126., -7203., -7205.]), array([0.0000000e+00, 1.0669000e-02, 1.1129000e-02, 2.0448670e+00,
+       4.0555060e+00, 6.0658400e+00, 1.0713509e+01, 1.2696091e+01,
+       1.2768510e+01, 1.4671528e+01, 1.5854834e+01, 1.5861893e+01,
+       1.5879626e+01, 1.8546188e+01, 1.8636452e+01, 1.9678734e+01,
+       1.9721109e+01, 1.9751697e+01, 2.2091852e+01, 2.2201153e+01])]
+instance:  25
+create a new SCIP model
+The initial incumbent of generalized_independentset-105_transformed is successfully added to MIP model
+generalized_independentset-105_transformed
+N of variables: 2707
+N of binary vars: 2707
+N of constraints: 3277
+Initial obj of MIP: -166.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  35
+GNN prediction:  0.13038252294063568
+GNN k_0:  21.0
+LB heuristic is starting..
+LB heuristic starts at 0.028808999999999998 s
+No. of LB call:  1
+LB initial objective: -3900.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0097 Best Obj: -4000.0000 n_sols_subMIP: 3 K: 21 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0198 Best Obj: -4000.0000 n_sols_subMIP: 4 K: 21 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0299 Best Obj: -4100.0000 n_sols_subMIP: 6 K: 21 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0404 Best Obj: -4100.0000 n_sols_subMIP: 7 K: 21 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0508 Best Obj: -4100.0000 n_sols_subMIP: 8 K: 21 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 21 div_final: 1
+LB heuristic finishes at 10.225333 s
+LB final objective: -4100.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-105_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9365.0
+Solving time:  600.000918
+
+
+[array([ -166., -3800., -3900., -4000., -4100., -4730., -4731., -8223.,
+       -8227., -8233., -8234., -8278., -8279., -8537., -8538., -8549.,
+       -8550., -8633., -8634., -8730., -8731., -8802., -8809., -8813.,
+       -8817., -8818., -8824., -8909., -8969., -8973., -8993., -8999.,
+       -9184., -9185., -9232., -9245., -9325., -9332., -9336., -9341.,
+       -9347., -9361., -9365.]), array([0.00000000e+00, 2.77180000e-02, 2.87980000e-02, 2.10767300e+00,
+       6.16670800e+00, 2.92897690e+01, 2.92925290e+01, 2.93003590e+01,
+       2.93448850e+01, 3.11896500e+01, 3.11903270e+01, 3.15857200e+01,
+       3.15863780e+01, 3.20795090e+01, 3.20801810e+01, 3.21018160e+01,
+       3.21027600e+01, 5.37951000e+01, 5.37957860e+01, 5.38504490e+01,
+       5.38511330e+01, 1.62191326e+02, 1.63572876e+02, 1.63720415e+02,
+       1.63757347e+02, 1.65203996e+02, 1.69753537e+02, 1.87328176e+02,
+       2.10820021e+02, 2.10823949e+02, 2.11024465e+02, 2.12502019e+02,
+       2.12660226e+02, 2.15828719e+02, 2.40954391e+02, 2.41581352e+02,
+       2.44952753e+02, 2.45083523e+02, 2.50898666e+02, 3.53648421e+02,
+       3.53777090e+02, 4.08024266e+02, 5.12337456e+02])]
+instance:  26
+create a new SCIP model
+The initial incumbent of generalized_independentset-106_transformed is successfully added to MIP model
+generalized_independentset-106_transformed
+N of variables: 999
+N of binary vars: 999
+N of constraints: 1159
+Initial obj of MIP: -994.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  62
+GNN prediction:  0.1417231261730194
+GNN k_0:  23.0
+LB heuristic is starting..
+LB heuristic starts at 0.010236 s
+No. of LB call:  1
+LB initial objective: -3300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0004 Best Obj: -3692.0000 n_sols_subMIP: 7 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0010 Best Obj: -3692.0000 n_sols_subMIP: 13 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0018 Best Obj: -3692.0000 n_sols_subMIP: 14 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 35 div_final: 1
+LB heuristic finishes at 6.059864 s
+LB final objective: -3692.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-106_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -7121.0
+Solving time:  13.332361
+
+
+[array([ -994., -3200., -3300., -3692., -5687., -6509., -6739., -6826.,
+       -7014., -7016., -7020., -7113., -7116., -7121.]), array([0.0000000e+00, 9.7860000e-03, 1.0226000e-02, 2.0415060e+00,
+       6.6467520e+00, 8.5401070e+00, 8.5491740e+00, 8.5761730e+00,
+       9.3796040e+00, 9.3830460e+00, 9.4263030e+00, 9.4451190e+00,
+       1.1722361e+01, 1.1846643e+01])]
+instance:  27
+create a new SCIP model
+The initial incumbent of generalized_independentset-107_transformed is successfully added to MIP model
+generalized_independentset-107_transformed
+N of variables: 3938
+N of binary vars: 3938
+N of constraints: 4788
+Initial obj of MIP: -85.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  38
+GNN prediction:  0.1286923587322235
+GNN k_0:  22.0
+LB heuristic is starting..
+LB heuristic starts at 0.041533 s
+No. of LB call:  1
+LB initial objective: -4300.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0132 Best Obj: -4700.0000 n_sols_subMIP: 3 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0268 Best Obj: -4700.0000 n_sols_subMIP: 4 K: 22 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0421 Best Obj: -4700.0000 n_sols_subMIP: 6 K: 33 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 33 div_final: 1
+LB heuristic finishes at 6.289136 s
+LB final objective: -4700.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-107_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9636.0
+Solving time:  600.000376
+
+
+[array([  -85., -4300., -4700., -7114., -7408., -8567., -9173., -9548.,
+       -9550., -9636.]), array([0.00000000e+00, 4.02420000e-02, 2.21050300e+00, 1.12976930e+01,
+       5.69302000e+01, 6.28432910e+01, 9.79126330e+01, 1.89629583e+02,
+       3.15051441e+02, 4.41537288e+02])]
+instance:  28
+create a new SCIP model
+The initial incumbent of generalized_independentset-108_transformed is successfully added to MIP model
+generalized_independentset-108_transformed
+N of variables: 4955
+N of binary vars: 4955
+N of constraints: 6115
+Initial obj of MIP: -226.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  21
+GNN prediction:  0.1259700357913971
+GNN k_0:  32.0
+LB heuristic is starting..
+LB heuristic starts at 0.050121 s
+No. of LB call:  1
+LB initial objective: -4200.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0158 Best Obj: -4200.0000 n_sols_subMIP: 3 K: 32 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0340 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 32 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 32 div_final: 1
+LB heuristic finishes at 4.28164 s
+LB final objective: -4200.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-108_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10197.0
+Solving time:  600.00073
+
+
+[array([  -226.,  -4200.,  -7024.,  -9379., -10014., -10016., -10017.,
+       -10021., -10027., -10105., -10117., -10121., -10124., -10190.,
+       -10197.]), array([0.00000000e+00, 4.83140000e-02, 1.07143630e+01, 8.69882240e+01,
+       8.69942070e+01, 8.70048230e+01, 3.85649560e+02, 3.85670447e+02,
+       3.99442238e+02, 4.04678585e+02, 4.04977539e+02, 4.10567583e+02,
+       4.10624730e+02, 4.56091786e+02, 4.56336759e+02])]
+instance:  29
+create a new SCIP model
+The initial incumbent of generalized_independentset-109_transformed is successfully added to MIP model
+generalized_independentset-109_transformed
+N of variables: 10027
+N of binary vars: 10027
+N of constraints: 12720
+Initial obj of MIP: -75.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  24
+GNN prediction:  0.12037527561187744
+GNN k_0:  34.0
+LB heuristic is starting..
+LB heuristic starts at 0.137179 s
+No. of LB call:  1
+LB initial objective: -4400.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0092 Best Obj: -4400.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0134 Best Obj: -4400.0000 n_sols_subMIP: 2 K: 34 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 34 div_final: 1
+LB heuristic finishes at 4.531593 s
+LB final objective: -4400.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-109_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9849.0
+Solving time:  600.000984
+
+
+[array([  -75., -4100., -4400., -6843., -8032., -9849.]), array([0.00000000e+00, 1.30865000e-01, 1.37155000e-01, 2.47306280e+01,
+       1.81405980e+02, 1.81418571e+02])]
+instance:  30
+create a new SCIP model
+The initial incumbent of generalized_independentset-110_transformed is successfully added to MIP model
+generalized_independentset-110_transformed
+N of variables: 8136
+N of binary vars: 8136
+N of constraints: 10343
+Initial obj of MIP: -144.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  27
+GNN prediction:  0.12041686475276947
+GNN k_0:  35.0
+LB heuristic is starting..
+LB heuristic starts at 0.085576 s
+No. of LB call:  1
+LB initial objective: -4800.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0070 Best Obj: -4800.0000 n_sols_subMIP: 2 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0102 Best Obj: -4800.0000 n_sols_subMIP: 2 K: 35 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 35 div_final: 1
+LB heuristic finishes at 4.44257 s
+LB final objective: -4800.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-110_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10314.0
+Solving time:  600.00085
+
+
+[array([  -144.,  -4800.,  -5583.,  -5783.,  -6743.,  -6810.,  -9083.,
+        -9717., -10314.]), array([0.00000000e+00, 8.24160000e-02, 1.82929350e+01, 2.88582150e+01,
+       7.59381700e+01, 7.59469960e+01, 1.46724058e+02, 1.46731629e+02,
+       2.45584614e+02])]
+instance:  31
+create a new SCIP model
+The initial incumbent of generalized_independentset-111_transformed is successfully added to MIP model
+generalized_independentset-111_transformed
+N of variables: 1743
+N of binary vars: 1743
+N of constraints: 2015
+Initial obj of MIP: -436.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  44
+GNN prediction:  0.13923656940460205
+GNN k_0:  23.0
+LB heuristic is starting..
+LB heuristic starts at 0.017023 s
+No. of LB call:  1
+LB initial objective: -3700.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0080 Best Obj: -3900.0000 n_sols_subMIP: 3 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0086 Best Obj: -3900.0000 n_sols_subMIP: 4 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0093 Best Obj: -4000.0000 n_sols_subMIP: 3 K: 12 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0096 Best Obj: -4000.0000 n_sols_subMIP: 5 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0172 Best Obj: -4000.0000 n_sols_subMIP: 7 K: 23 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 23 div_final: 1
+LB heuristic finishes at 10.130024 s
+LB final objective: -4000.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-111_transformed_gnn-copy
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -8514.0
+Solving time:  190.780052
+
+
+[array([ -436., -3600., -3700., -3900., -4000., -5639., -5947., -6260.,
+       -6476., -7759., -7862., -7867., -7873., -7874., -7878., -7880.,
+       -7883., -7964., -7968., -7969., -8052., -8055., -8058., -8063.,
+       -8149., -8241., -8249., -8251., -8255., -8258., -8263., -8266.,
+       -8341., -8343., -8344., -8426., -8429., -8431., -8439., -8440.,
+       -8514.]), array([0.00000000e+00, 1.63080000e-02, 1.70100000e-02, 2.07162000e+00,
+       6.09800300e+00, 1.07602720e+01, 1.07622140e+01, 1.07639910e+01,
+       1.46402460e+01, 1.48751530e+01, 1.52392210e+01, 1.52506600e+01,
+       1.94153170e+01, 1.98087710e+01, 2.08375870e+01, 2.08398720e+01,
+       2.08882230e+01, 2.29868890e+01, 2.30058450e+01, 2.69371220e+01,
+       2.80623880e+01, 2.80744880e+01, 2.95877190e+01, 3.22017740e+01,
+       4.03925420e+01, 6.76161740e+01, 6.85121460e+01, 6.85310810e+01,
+       7.03199320e+01, 8.45583850e+01, 8.75504320e+01, 8.75850080e+01,
+       9.61689330e+01, 1.05779171e+02, 1.05790132e+02, 1.06946390e+02,
+       1.06950127e+02, 1.53895140e+02, 1.55908480e+02, 1.55927301e+02,
+       1.90048439e+02])]
+instance:  32
+create a new SCIP model
+The initial incumbent of generalized_independentset-112_transformed is successfully added to MIP model
+generalized_independentset-112_transformed
+N of variables: 3778
+N of binary vars: 3778
+N of constraints: 4607
+Initial obj of MIP: -229.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  23
+GNN prediction:  0.1284656673669815
+GNN k_0:  29.0
+LB heuristic is starting..
+LB heuristic starts at 0.04224 s
+No. of LB call:  1
+LB initial objective: -4400.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0139 Best Obj: -4400.0000 n_sols_subMIP: 3 K: 29 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0279 Best Obj: -4400.0000 n_sols_subMIP: 4 K: 29 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 29 div_final: 1
+LB heuristic finishes at 4.247203 s
+LB final objective: -4400.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-112_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -10082.0
+Solving time:  600.000082
+
+
+[array([  -229.,  -4200.,  -4400.,  -6452.,  -6788.,  -7207.,  -7626.,
+        -8160.,  -8474.,  -8834.,  -9028.,  -9029.,  -9032.,  -9033.,
+        -9034.,  -9298.,  -9302.,  -9381.,  -9387.,  -9473.,  -9474.,
+        -9574.,  -9652.,  -9654.,  -9662.,  -9671.,  -9756.,  -9760.,
+        -9769.,  -9842.,  -9941.,  -9989., -10008., -10011., -10023.,
+       -10082.]), array([0.00000000e+00, 4.06170000e-02, 4.22260000e-02, 8.29867500e+00,
+       2.86595940e+01, 3.37135950e+01, 3.81128320e+01, 3.81174700e+01,
+       3.81219860e+01, 3.81228760e+01, 3.81261260e+01, 3.81384500e+01,
+       3.81457150e+01, 4.04842580e+01, 4.17930470e+01, 4.23060410e+01,
+       5.45283240e+01, 5.54496370e+01, 5.75405140e+01, 6.17338670e+01,
+       6.17490920e+01, 6.20842550e+01, 6.30611080e+01, 6.98282530e+01,
+       2.04640505e+02, 2.05384847e+02, 2.05397238e+02, 2.05768865e+02,
+       2.06302868e+02, 2.11529734e+02, 2.12114024e+02, 2.25347719e+02,
+       2.31834543e+02, 2.32961190e+02, 2.76275056e+02, 5.73520640e+02])]
+instance:  33
+create a new SCIP model
+The initial incumbent of generalized_independentset-113_transformed is successfully added to MIP model
+generalized_independentset-113_transformed
+N of variables: 4950
+N of binary vars: 4950
+N of constraints: 6158
+Initial obj of MIP: -85.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  41
+GNN prediction:  0.12468186765909195
+GNN k_0:  24.0
+LB heuristic is starting..
+LB heuristic starts at 0.061334 s
+No. of LB call:  1
+LB initial objective: -4000.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0174 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 24 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0371 Best Obj: -4700.0000 n_sols_subMIP: 5 K: 12 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0550 Best Obj: -4700.0000 n_sols_subMIP: 7 K: 18 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0749 Best Obj: -4700.0000 n_sols_subMIP: 9 K: 27 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 27 div_final: 1
+LB heuristic finishes at 8.43514 s
+LB final objective: -4700.0
+LB heurisitc succeeds, finds an improving solution
+Instance: generalized_independentset-113_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9527.0
+Solving time:  600.000575
+
+
+[array([  -85., -3800., -4000., -4200., -4700., -6923., -7037., -8303.,
+       -9171., -9488., -9503., -9505., -9523., -9527.]), array([0.00000000e+00, 5.87900000e-02, 6.13180000e-02, 2.26794100e+00,
+       4.32953400e+00, 1.33032760e+01, 4.34142910e+01, 4.34195900e+01,
+       6.12033960e+01, 3.51787476e+02, 3.52025518e+02, 3.52111422e+02,
+       4.71847049e+02, 4.88344862e+02])]
+instance:  34
+create a new SCIP model
+The initial incumbent of generalized_independentset-114_transformed is successfully added to MIP model
+generalized_independentset-114_transformed
+N of variables: 5190
+N of binary vars: 5190
+N of constraints: 6411
+Initial obj of MIP: -80.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  22
+GNN prediction:  0.12562426924705505
+GNN k_0:  25.0
+LB heuristic is starting..
+LB heuristic starts at 0.055471 s
+No. of LB call:  1
+LB initial objective: -4200.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0199 Best Obj: -4200.0000 n_sols_subMIP: 4 K: 25 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0398 Best Obj: -4200.0000 n_sols_subMIP: 6 K: 38 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 38 div_final: 1
+LB heuristic finishes at 4.311564 s
+LB final objective: -4200.0
+LB heurisitc fails, can not find an improving solution
+Instance: generalized_independentset-114_transformed_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -9932.0
+Solving time:  600.00301
+
+
+[array([  -80., -4000., -4200., -4284., -4483., -4690., -5721., -5827.,
+       -6030., -6249., -7765., -8863., -9373., -9670., -9674., -9718.,
+       -9719., -9799., -9922., -9927., -9928., -9932.]), array([0.00000000e+00, 5.31960000e-02, 5.54570000e-02, 1.07817010e+01,
+       1.07877630e+01, 1.07926820e+01, 1.07974580e+01, 1.08021250e+01,
+       1.08067060e+01, 1.08112770e+01, 7.67712370e+01, 8.26577340e+01,
+       1.01439621e+02, 1.49333178e+02, 1.68930597e+02, 3.26848066e+02,
+       3.26866072e+02, 3.26902797e+02, 3.26907922e+02, 3.50486642e+02,
+       4.14567959e+02, 4.35249881e+02])]
+generalized_independentset-large
+rootsol
+seed: 0
+cpu
