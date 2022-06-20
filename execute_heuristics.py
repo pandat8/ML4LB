@@ -979,6 +979,597 @@ class ExecuteHeuristic:
 
         print("seed mcts: ", seed_mcts)
 
+    def primal_integral_adapt_t(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None, result_directory_6=None):
+
+        instance_type = instance_type
+        incumbent_mode = incumbent_mode
+        instance_size = instance_size
+
+        # direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
+        # directory_transformedmodel = direc + 'transformedmodel' + '/'
+        #
+        # # set directory for the test result of RL-policy1
+        # directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
+        # directory_lb_test = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
+        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
+        #
+        # # directory_rl_talored = directory_lb_test + 'rlactive/'
+        # if self.incumbent_mode == 'firstsol':
+        #     directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
+        #     directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
+        # elif self.incumbent_mode == 'rootsol':
+        #     directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/old_models/'
+        #     directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
+        #
+        # # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
+        # # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
+        # #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+
+
+        # directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
+        # # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
+        # #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
+
+        # if self.incumbent_mode == 'firstsol':
+        #     directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
+        #     # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
+        #     #     total_time_limit) + 's' + test_instance_size + '/'
+        #     directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
+        #         node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
+        #     directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
+        #         node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
+        #     directory_lb_test_baseline_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
+        #         node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
+        #
+        #
+        # elif self.incumbent_mode == 'rootsol':
+        #     directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
+        #     # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
+        #     #     total_time_limit) + 's' + test_instance_size + '/'
+        #     directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
+        #         node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
+        #     directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
+        #         node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
+        #     directory_lb_test_baseline_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
+        #         node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
+
+        # baseline algorithms
+        directory_lns_random = result_directory_1
+        directory_local_branch = result_directory_2
+        directory_lns_lblp = result_directory_3
+        directory_scip_baseline = result_directory_4
+        directory_lns_lblpmcts = result_directory_5
+        directory_reinforces = result_directory_6
+
+        primal_int_baselines = []
+        primal_int_lns_random_list = []
+        primal_int_lns_lblp_list = []
+        primal_int_scip_baselines_list = []
+        primal_int_lns_lblpmcts_list = []
+        primal_int_reinforces = []
+        primal_gap_final_baselines = []
+        primal_gap_final_lns_lblp_list = []
+        primal_gap_final_lns_random_list = []
+        primal_gap_final_scip_baselines_list = []
+        primal_gap_final_lns_lblpmcts_list = []
+        primal_gap_final_reinforces = []
+        steplines_baseline = []
+        steplines_lns_lblp_list = []
+        steplines_lns_random_list = []
+        steplines_scip_baseline_list = []
+        steplines_lns_lblpmcts_list = []
+        steplines_reinforce = []
+
+        pi_steplines_baseline = []
+        pi_steplines_lns_lblp_list = []
+        pi_steplines_lns_random_list = []
+        pi_steplines_scip_baseline_list = []
+        pi_steplines_lns_lblpmcts_list = []
+        pi_steplines_reinforce_list = []
+
+        # primal_int_regression_reinforces_talored = []
+        # primal_int_reinforces_talored = []
+        # primal_gap_final_regression_reinforces_talored = []
+        # primal_gap_final_reinforces_talored = []
+        # steplines_regression_reinforce_talored = []
+        # steplines_reinforce_talored = []
+
+        if instance_type == instancetypes[3]:
+            index_mix = 80
+            index_max = 115
+        elif instance_type == instancetypes[4]:
+            index_mix = 0
+            index_max = 30 # 30
+        elif instance_type == instancetypes[2] and instance_size == '-large':
+            index_mix = 0
+            index_max = 40
+        else:
+            index_mix = 160
+            index_max = 200
+
+
+        for i in range(index_mix,index_max):
+
+            if not (instance_type == instancetypes[4] and (i == 18)): # or i==4 # or i==5 or i==10 or i==21
+
+                instance_name = instance_type + '-' + str(i) + '_transformed' # instance 100-199
+
+                mip_filename = f'{self.instance_directory}{instance_name}.cip'
+                mip = Model()
+                MIP_model = Model()
+                MIP_model.readProblem(mip_filename)
+                instance_name = MIP_model.getProbName()
+
+                # filename = f'{directory_lb_test_2}lb-test-{instance_name}.pkl'
+                #
+                # with gzip.open(filename, 'rb') as f:
+                #     data = pickle.load(f)
+                # objs_reinforce_2, times_reinforce_2, objs_regresison_reinforce_2, times_regression_reinforce_2 = data  # objs contains objs of a single instance of a lb test
+                #
+                # # filename_3 = f'{directory_lb_test_3}lb-test-{instance_name}.pkl'
+                # #
+                # # with gzip.open(filename_3, 'rb') as f:
+                # #     data = pickle.load(f)
+                # # objs, times, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
+                # #
+                # # objs_regression = objs_pred_reset_2
+                # # times_regression = times_pred_reset_2
+                #
+                # test from lns-guided-by-localbranch-lp heuristic
+                filename = f'{directory_lns_lblp}lb-test-{instance_name}.pkl'
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_lns_lblp, times_lns_lblp = data  # objs contains objs of a single instance of a lb test
+
+                # test from lns-random heuristic
+                filename = f'{directory_lns_random}lb-test-{instance_name}.pkl'
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_lns_random, times_lns_random = data  # objs contains objs of a single instance of a lb test
+
+                # test from localbranch baseline
+                filename = f'{directory_local_branch}lb-test-{instance_name}.pkl'
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_lb, times_lb = data  # objs contains objs of a single instance of a lb test
+
+                filename = f'{directory_scip_baseline}lb-test-{instance_name}.pkl'
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_scip, times_scip = data  # objs contains objs of a single instance of a lb test
+
+                # test from lns-guided-by-localbranch-lp-mcts heuristic
+                filename = f'{directory_lns_lblpmcts}lb-test-{instance_name}.pkl'
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_lns_lblpmcts, times_lns_lblpmcts = data  # objs contains objs of a single instance of a lb test
+
+                filename = f'{directory_reinforces}lb-test-{instance_name}.pkl'
+
+                with gzip.open(filename, 'rb') as f:
+                    data = pickle.load(f)
+                objs_reinforce_hybrid, times_reinforce_hybrid, objs_regresison_reinforce_hybrid, times_regression_reinforce_hybrid = data  # objs contains objs of a single instance of a lb test
+
+
+                # # filename = f'{directory_lb_test_k_prime_2}lb-test-{instance_name}.pkl'
+                # # with gzip.open(filename, 'rb') as f:
+                # #     data = pickle.load(f)
+                # # objs_k_prime_2, times_k_prime_2 = data  # objs contains objs of a single instance of a lb test
+                #
+                # filename = f'{directory_lb_test_k_prime_merged_2}lb-test-{instance_name}.pkl'
+                # with gzip.open(filename, 'rb') as f:
+                #     data = pickle.load(f)
+                # objs_k_prime_merged_2, times_k_prime_merged_2 = data  # objs contains objs of a single instance of a lb test
+                #
+                # filename = f'{directory_lb_test_baseline_2}lb-test-{instance_name}.pkl'
+                # with gzip.open(filename, 'rb') as f:
+                #     data = pickle.load(f)
+                # objs_2, times_k_2 = data  # objs contains objs of a single instance of a lb test
+
+                # objs_reinforce = np.array(objs_reinforce).reshape(-1)
+                # times_reinforce = np.array(times_reinforce).reshape(-1)
+                # objs_regresison_reinforce = np.array(objs_regresison_reinforce).reshape(-1)
+                # times_regression_reinforce = np.array(times_regression_reinforce).reshape(-1)
+
+                objs_reinforce_hybrid = np.array(objs_reinforce_hybrid).reshape(-1)
+                times_reinforce_hybrid = np.array(times_reinforce_hybrid).reshape(-1)
+                objs_regresison_reinforce_hybrid = np.array(objs_regresison_reinforce_hybrid).reshape(-1)
+                times_regression_reinforce_hybrid = np.array(times_regression_reinforce_hybrid).reshape(-1)
+
+                #
+                # objs_reinforce_2 = np.array(objs_reinforce_2).reshape(-1)
+                # objs_regresison_reinforce_2 = np.array(objs_regresison_reinforce_2).reshape(-1)
+
+                # objs = np.array(objs).reshape(-1)
+                # times = np.array(times).reshape(-1)
+
+                # objs_2 = np.array(objs_2).reshape(-1)
+
+                # objs_k_prime = np.array(objs_k_prime).reshape(-1)
+                # times_lns_lblp = np.array(times_lns_lblp).reshape(-1)
+                #
+                # objs_k_prime_2 = np.array(objs_k_prime_2).reshape(-1)
+
+                # objs_lns_random = np.array(objs_lns_random).reshape(-1)
+                # times_lns_random = np.array(times_lns_random).reshape(-1)
+
+                # objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
+
+                # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
+                a = [objs_lb.min(), objs_lns_random.min(), objs_lns_lblp.min(), objs_scip.min(), objs_lns_lblpmcts.min(), objs_reinforce_hybrid.min(), objs_regresison_reinforce_hybrid.min() ] #
+                obj_opt = np.amin(a)
+
+                # localbranch-baseline:
+                # compute primal gap for baseline localbranching run
+                # if times[-1] < total_time_limit:
+                primal_int_baseline, primal_gap_final_baseline, stepline_baseline, pi_stepline_baseline = self.compute_primal_integral(times=times_lb, objs=objs_lb, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_gap_final_baselines.append(primal_gap_final_baseline)
+                steplines_baseline.append(stepline_baseline)
+                primal_int_baselines.append(primal_int_baseline)
+                pi_steplines_baseline.append(pi_stepline_baseline)
+
+                # lns-guided-by-localbranch-lp
+                # if times_regression[-1] < total_time_limit:
+
+                primal_int_lns_lblp, primal_gap_final_lns_lblp, stepline_lns_lblp, pi_stepline_lns_lblp = self.compute_primal_integral(
+                    times=times_lns_lblp, objs=objs_lns_lblp, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_gap_final_lns_lblp_list.append(primal_gap_final_lns_lblp)
+                steplines_lns_lblp_list.append(stepline_lns_lblp)
+                pi_steplines_lns_lblp_list.append(pi_stepline_lns_lblp)
+                primal_int_lns_lblp_list.append(primal_int_lns_lblp)
+
+                # lns-random heuristic
+                # if times_regression[-1] < total_time_limit:
+
+                primal_int_lns_random, primal_gap_final_lns_random, stepline_lns_random, pi_stepline_lns_random = self.compute_primal_integral(
+                    times=times_lns_random, objs=objs_lns_random, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_gap_final_lns_random_list.append(primal_gap_final_lns_random)
+                steplines_lns_random_list.append(stepline_lns_random)
+                pi_steplines_lns_random_list.append(pi_stepline_lns_random)
+                primal_int_lns_random_list.append(primal_int_lns_random)
+
+                # scip-baseline
+
+                primal_int_scip, primal_gap_final_scip, stepline_scip, pi_stepline_scip = self.compute_primal_integral(
+                    times=times_scip, objs=objs_scip, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_gap_final_scip_baselines_list.append(primal_gap_final_scip)
+                steplines_scip_baseline_list.append(stepline_scip)
+                pi_steplines_scip_baseline_list.append(pi_stepline_scip)
+                primal_int_scip_baselines_list.append(primal_int_scip)
+
+                # lns-guided-by-localbranch-lp-mcts
+                primal_int_lns_lblpmcts, primal_gap_final_lns_lblpmcts, stepline_lns_lblpmcts, pi_stepline_lns_lblpmcts = self.compute_primal_integral(
+                    times=times_lns_lblpmcts, objs=objs_lns_lblpmcts, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_gap_final_lns_lblpmcts_list.append(primal_gap_final_lns_lblpmcts)
+                steplines_lns_lblpmcts_list.append(stepline_lns_lblpmcts)
+                pi_steplines_lns_lblpmcts_list.append(pi_stepline_lns_lblpmcts)
+                primal_int_lns_lblpmcts_list.append(primal_int_lns_lblpmcts)
+
+                # lb-rl-hybrid
+
+                primal_int_baseline, primal_gap_final_baseline, stepline_baseline, pi_stepline_baseline = self.compute_primal_integral(
+                    times=times_lb, objs=objs_lb, obj_opt=obj_opt, total_time_limit=total_time_limit)
+                primal_gap_final_baselines.append(primal_gap_final_baseline)
+                steplines_baseline.append(stepline_baseline)
+                primal_int_baselines.append(primal_int_baseline)
+                pi_steplines_baseline.append(pi_stepline_baseline)
+
+
+                #
+                # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
+                # plt.close('all')
+                # plt.clf()
+                # fig, ax = plt.subplots(figsize=(8, 6.4))
+                # fig.suptitle("Test Result: comparison of primal gap")
+                # fig.subplots_adjust(top=0.5)
+                # # ax.set_title(instance_name, loc='right')
+                # ax.plot(t, stepline_baseline(t), label='lb baseline')
+                # ax.plot(t, stepline_reset_vanilla(t), label='lb with k predicted')
+                # ax.set_xlabel('time /s')
+                # ax.set_ylabel("objective")
+                # ax.legend()
+                # plt.show()
+
+                #
+                # # lb-reinforce
+                #
+                # primal_int_reinforce, primal_gap_final_reinforce, stepline_reinforce = self.compute_primal_integral(
+                #     times=times_reinforce, objs=objs_reinforce, obj_opt=obj_opt,
+                #     total_time_limit=total_time_limit)
+                # primal_gap_final_reinforces.append(primal_gap_final_reinforce)
+                # steplines_reinforce.append(stepline_reinforce)
+                # primal_int_reinforces.append(primal_int_reinforce)
+
+                # # lb-regression-reinforce-talored
+                # primal_int_regression_reinforce_talored, primal_gap_final_regression_reinforce_talored, stepline_regression_reinforce_talored = self.compute_primal_integral(
+                #     times=times_regression_reinforce_talored, objs=objs_regresison_reinforce_talored, obj_opt=obj_opt,
+                #     total_time_limit=total_time_limit)
+                # primal_gap_final_regression_reinforces_talored.append(primal_gap_final_regression_reinforce_talored)
+                # steplines_regression_reinforce_talored.append(stepline_regression_reinforce_talored)
+                # primal_int_regression_reinforces_talored.append(primal_int_regression_reinforce_talored)
+                #
+                # # lb-reinforce
+                #
+                # primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored = self.compute_primal_integral(
+                #     times=times_reinforce_talored, objs=objs_reinforce_talored, obj_opt=obj_opt,
+                #     total_time_limit=total_time_limit)
+                # primal_gap_final_reinforces_talored.append(primal_gap_final_reinforce_talored)
+                # steplines_reinforce_talored.append(stepline_reinforce_talored)
+                # primal_int_reinforces_talored.append(primal_int_reinforce_talored)
+
+                # plt.close('all')
+                # plt.clf()
+                # fig, ax = plt.subplots(figsize=(8, 6.4))
+                # fig.suptitle("Test Result: comparison of objective")
+                # fig.subplots_adjust(top=0.5)
+                # ax.set_title(instance_name, loc='right')
+                # ax.plot(times, objs, label='lb baseline')
+                # ax.plot(times_regression, objs_regression, label='lb with k predicted')
+                # ax.set_xlabel('time /s')
+                # ax.set_ylabel("objective")
+                # ax.legend()
+                # plt.show()
+                #
+                # plt.close('all')
+                # plt.clf()
+                # fig, ax = plt.subplots(figsize=(8, 6.4))
+                # fig.suptitle("Test Result: comparison of primal gap")
+                # fig.subplots_adjust(top=0.5)
+                # ax.set_title(instance_name, loc='right')
+                # ax.plot(times, gamma_baseline, label='lb baseline')
+                # ax.plot(times_regression, gamma_reset_vanilla, label='lb with k predicted')
+                # ax.set_xlabel('time /s')
+                # ax.set_ylabel("objective")
+                # ax.legend()
+                # plt.show()
+
+
+        primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
+        primal_int_lns_lblp_list = np.array(primal_int_lns_lblp_list).reshape(-1)
+        primal_int_lns_random_list = np.array(primal_int_lns_random_list).reshape(-1)
+        primal_int_scip_baselines_list = np.array(primal_int_scip_baselines_list).reshape(-1)
+        primal_int_lns_lblpmcts_list = np.array(primal_int_lns_lblpmcts_list).reshape(-1)
+        primal_int_reinforces = np.array(primal_int_reinforces).reshape(-1)
+
+        # primal_int_regression_reinforces_talored = np.array(primal_int_regression_reinforces_talored).reshape(-1)
+        # primal_int_reinforces_talored = np.array(primal_int_reinforces_talored).reshape(-1)
+
+        primal_gap_final_baselines = np.array(primal_gap_final_baselines).reshape(-1)
+        primal_gap_final_lns_lblp_list = np.array(primal_gap_final_lns_lblp_list).reshape(-1)
+        primal_gap_final_lns_random_list = np.array(primal_gap_final_lns_random_list).reshape(-1)
+        primal_gap_final_scip_baselines_list = np.array(primal_gap_final_scip_baselines_list).reshape(-1)
+        primal_gap_final_lns_lblpmcts_list = np.array(primal_gap_final_lns_lblpmcts_list).reshape(-1)
+        primal_gap_final_reinforces = np.array(primal_gap_final_reinforces).reshape(-1)
+
+        # primal_gap_final_regression_reinforces_talored = np.array(primal_gap_final_regression_reinforces_talored).reshape(-1)
+        # primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
+
+        # avarage primal integral over test dataset
+        primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
+        primal_int_lns_lblp_ave = primal_int_lns_lblp_list.sum() / len(primal_int_lns_lblp_list)
+        primal_int_lns_random_ave = primal_int_lns_random_list.sum() / len(primal_int_lns_random_list)
+        primal_int_scip_baseline_ave = primal_int_scip_baselines_list.sum() / len(primal_int_scip_baselines_list)
+        primal_int_lns_lblpmcts_ave = primal_int_lns_lblpmcts_list.sum() / len(primal_int_lns_lblpmcts_list)
+        primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
+            primal_int_reinforces)
+
+        # primal_int_regression_reinforce_talored_ave = primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
+        # primal_int_reinforce_talored_ave = primal_int_reinforces_talored.sum() / len(
+        #     primal_int_reinforces_talored)
+
+        primal_gap_final_baseline_ave = primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
+        primal_gap_final_lns_lblp_ave = primal_gap_final_lns_lblp_list.sum() / len(primal_gap_final_lns_lblp_list)
+        primal_gap_final_lns_random_ave = primal_gap_final_lns_random_list.sum() / len(primal_gap_final_lns_random_list)
+        primal_gap_final_scip_baseline_ave = primal_gap_final_scip_baselines_list.sum() / len(primal_gap_final_scip_baselines_list)
+        primal_gap_final_lns_lblpmcts_ave = primal_gap_final_lns_lblpmcts_list.sum() / len(primal_gap_final_lns_lblpmcts_list)
+        primal_gap_final_reinforce_ave = primal_gap_final_reinforces.sum() / len(
+            primal_gap_final_reinforces)
+
+        # primal_gap_final_regression_reinforce_talored_ave = primal_gap_final_regression_reinforces_talored.sum() / len(
+        #     primal_gap_final_regression_reinforces_talored)
+        # primal_gap_final_reinforce_talored_ave = primal_gap_final_reinforces_talored.sum() / len(
+        #     primal_gap_final_reinforces_talored)
+
+        print(instance_type)
+        print(incumbent_mode + 'Solution')
+        print('scip-baseline primal integral: ', primal_int_scip_baseline_ave)
+        print('scip-lb-baseline primal integral: ', primal_int_base_ave)
+        print('scip-lb-regression primal integral: ', primal_int_lns_random_ave)
+        print('scip-lb-rl primal integral: ', primal_int_lns_lblp_ave)
+        print('scip-lb-regression-rl primal integral: ', primal_int_lns_lblpmcts_ave)
+
+        print('rl primal integral: ', primal_int_reinforce_ave)
+
+
+        print('\n')
+        print('scip-baseline primal gap: ', primal_gap_final_scip_baseline_ave)
+        print('scip-lb-baseline primal gap: ', primal_gap_final_baseline_ave)
+        print('scip-lb-regression primal gap: ', primal_gap_final_lns_random_ave)
+        print('scip-lb-rl primal gap: ', primal_gap_final_lns_lblp_ave)
+        print('scip-lb-regression-rl primal gap: ', primal_gap_final_lns_lblpmcts_ave)
+
+        print('rl primal gap: ', primal_gap_final_reinforce_ave)
+
+
+        t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
+
+        primalgaps_baseline = None
+        for n, stepline_baseline in enumerate(steplines_baseline):
+            primal_gap = stepline_baseline(t)
+            if n==0:
+                primalgaps_baseline = primal_gap.reshape(1,-1)
+            else:
+                primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
+        primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
+
+        primalgaps_lns_lblp = None
+        for n, stepline_lns_lblp in enumerate(steplines_lns_lblp_list):
+            primal_gap = stepline_lns_lblp(t)
+            if n == 0:
+                primalgaps_lns_lblp = primal_gap.reshape(1,-1)
+            else:
+                primalgaps_lns_lblp = np.vstack((primalgaps_lns_lblp, primal_gap))
+        primalgap_lns_lblp_ave = np.average(primalgaps_lns_lblp, axis=0)
+
+        primalgaps_lns_random = None
+        for n, stepline_lns_lblp in enumerate(steplines_lns_random_list):
+            primal_gap = stepline_lns_lblp(t)
+            if n == 0:
+                primalgaps_lns_random = primal_gap.reshape(1,-1)
+            else:
+                primalgaps_lns_random = np.vstack((primalgaps_lns_random, primal_gap))
+        primalgap_lns_random_ave = np.average(primalgaps_lns_random, axis=0)
+
+        primalgaps_scip_baseline = None
+        for n, stepline_scip in enumerate(steplines_scip_baseline_list):
+            primal_gap = stepline_scip(t)
+            if n == 0:
+                primalgaps_scip_baseline = primal_gap.reshape(1,-1)
+            else:
+                primalgaps_scip_baseline = np.vstack((primalgaps_scip_baseline, primal_gap))
+        primalgap_scip_baseline_ave = np.average(primalgaps_scip_baseline, axis=0)
+
+        primalgaps_lns_lblpmcts = None
+        for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list):
+            primal_gap = stepline_lns_lblpmcts(t)
+            if n == 0:
+                primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
+            else:
+                primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
+        primalgap_lns_lblpmcts_ave = np.average(primalgaps_lns_lblpmcts, axis=0)
+        #
+        # primalgaps_reinforce = None
+        # for n, stepline_reinforce in enumerate(steplines_reinforce):
+        #     primal_gap = stepline_reinforce(t)
+        #     if n == 0:
+        #         primalgaps_reinforce = primal_gap
+        #     else:
+        #         primalgaps_reinforce = np.vstack((primalgaps_reinforce, primal_gap))
+        # primalgap_reinforce_ave = np.average(primalgaps_reinforce, axis=0)
+
+        # primalgaps_regression_reinforce_talored = None
+        # for n, stepline_scip in enumerate(steplines_regression_reinforce_talored):
+        #     primal_gap = stepline_scip(t)
+        #     if n == 0:
+        #         primalgaps_regression_reinforce_talored = primal_gap
+        #     else:
+        #         primalgaps_regression_reinforce_talored = np.vstack((primalgaps_regression_reinforce_talored, primal_gap))
+        # primalgap_regression_reinforce_talored_ave = np.average(primalgaps_regression_reinforce_talored, axis=0)
+        #
+        # primalgaps_reinforce_talored = None
+        # for n, stepline_reinforce in enumerate(steplines_reinforce_talored):
+        #     primal_gap = stepline_reinforce(t)
+        #     if n == 0:
+        #         primalgaps_reinforce_talored = primal_gap
+        #     else:
+        #         primalgaps_reinforce_talored = np.vstack((primalgaps_reinforce_talored, primal_gap))
+        # primalgap_reinforce_talored_ave = np.average(primalgaps_reinforce_talored, axis=0)
+
+        pi_stack_baseline = None
+        for n, pi_stepline_baseline in enumerate(pi_steplines_baseline):
+            pi_samples = pi_stepline_baseline(t)
+            if n == 0:
+                pi_stack_baseline = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_baseline = np.vstack((pi_stack_baseline, pi_samples))
+        pi_baseline_ave = np.average(pi_stack_baseline, axis=0)
+
+        pi_stack_lns_lblp = None
+        for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_lblp_list):
+            pi_samles = pi_stepline_lns_lblp(t)
+            if n == 0:
+                pi_stack_lns_lblp = pi_samles.reshape(1, -1)
+            else:
+                pi_stack_lns_lblp = np.vstack((pi_stack_lns_lblp, pi_samles))
+        pi_lns_lblp_ave = np.average(pi_stack_lns_lblp, axis=0)
+
+        pi_stack_lns_random = None
+        for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_random_list):
+            pi_samples = pi_stepline_lns_lblp(t)
+            if n == 0:
+                pi_stack_lns_random = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_lns_random = np.vstack((pi_stack_lns_random, pi_samples))
+        pi_lns_random_ave = np.average(pi_stack_lns_random, axis=0)
+
+        pi_stack_scip_baseline = None
+        for n, pi_stepline_scip in enumerate(pi_steplines_scip_baseline_list):
+            pi_samples = pi_stepline_scip(t)
+            if n == 0:
+                pi_stack_scip_baseline = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_scip_baseline = np.vstack((pi_stack_scip_baseline, pi_samples))
+        pi_scip_baseline_ave = np.average(pi_stack_scip_baseline, axis=0)
+
+        pi_stack_lns_lblpmcts = None
+        for n, pi_stepline_lns_lblpmcts in enumerate(pi_steplines_lns_lblpmcts_list):
+            pi_samples = pi_stepline_lns_lblpmcts(t)
+            if n == 0:
+                pi_stack_lns_lblpmcts = pi_samples.reshape(1, -1)
+            else:
+                pi_stack_lns_lblpmcts = np.vstack((pi_stack_lns_lblpmcts, pi_samples))
+        pi_lns_lblpmcts_ave = np.average(pi_stack_lns_lblpmcts, axis=0)
+        #
+
+        plt.close('all')
+        plt.clf()
+        fig, ax = plt.subplots(figsize=(6.4, 4.8))
+        fig.suptitle(instance_name + '-' + 'primal gap' , fontsize=13) # instance_name
+        ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
+        ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        ax.plot(t, primalgap_baseline_ave, label='scip-lb', color='tab:blue')
+        ax.plot(t, primalgap_lns_random_ave, label='scip-lb-regression', color='tab:orange')
+        ax.plot(t, primalgap_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
+        # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
+        ax.plot(t, primalgap_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
+        # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
+        #
+        # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
+        # ax.plot(t, primalgap_regression_reinforce_talored_ave, ':', label='lb-regression-rl-active', color='tab:red')
+
+        ax.set_xlabel('time /s', fontsize=12)
+        ax.set_ylabel("scaled primal gap", fontsize=12)
+        ax.legend()
+        ax.grid()
+        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
+        # fig.tight_layout()
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode.png')
+        plt.show()
+        plt.clf()
+
+        print("seed mcts: ", seed_mcts)
+
+        plt.close('all')
+        plt.clf()
+        fig, ax = plt.subplots(figsize=(6.4, 4.8))
+        fig.suptitle(instance_name + '-' + 'primal integral', fontsize=13)  # instance_name
+        ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
+        ax.plot(t, pi_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        ax.plot(t, pi_baseline_ave, label='scip-lb-multi', color='tab:blue')
+        ax.plot(t, pi_lns_random_ave, label='scip-lb-regression-multi', color='tab:orange')
+        ax.plot(t, pi_lns_lblp_ave, label='scip-lb-rl-multi', color='tab:red')
+        # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
+        ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl-multi', color='tab:green')
+        # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
+        #
+        # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
+        # ax.plot(t, primalgap_regression_reinforce_talored_ave, ':', label='lb-regression-rl-active', color='tab:red')
+
+        ax.set_xlabel('time /s', fontsize=12)
+        ax.set_ylabel("average primal integral", fontsize=12)
+        ax.legend()
+        ax.grid()
+        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
+        # fig.tight_layout()
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
+            instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
+            node_time_limit) + '_disable_presolve_beforenode_freq100.png')
+        plt.show()
+        plt.clf()
+
+        print("seed mcts: ", seed_mcts)
+
+
     def primal_gap(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None):
 
         instance_type = instance_type
