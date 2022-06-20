@@ -18,8 +18,6 @@ parser.add_argument('--rl_model_path', type = str, default='./result/saved_model
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
-regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_firstsol_k_prime.pth'
-
 rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
@@ -67,14 +65,14 @@ rl_policy1 = rl_policy1.to(device)
 agent1 = AgentReinforce(rl_policy1, device, greedy, optim1, 0.0)
 
 
-for i in range(3, 4):
+for i in range(4, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(0, 1):
+    for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
@@ -94,7 +92,7 @@ for i in range(3, 4):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode_homo/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode_freq100_noimprove1/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
             scip_as_baseline = Execute_LB_RL(instance_directory,
