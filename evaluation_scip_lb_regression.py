@@ -17,7 +17,7 @@ parser.add_argument('--rl_model_path', type = str, default='./result/saved_model
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
-regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth'
+regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_firstsol_k_prime.pth'
 
 rl_model_path = args.rl_model_path
 print(regression_model_path)
@@ -35,7 +35,7 @@ samples_time_limit = 3
 total_time_limit = 600 # 60 # 600# 60
 node_time_limit = 2 #10 # 60 # 5
 is_heuristic = True
-no_improve_iteration_limit = 1 # 10 # 3
+no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 regression_model_gnn = GNNPolicy()

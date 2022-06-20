@@ -596,7 +596,7 @@ class HeurLocalbranchMulticall(Heur):
                 policy_losses.append(-log_prob * Return)
 
             # optimize policy network
-            if optimizer is not None:
+            if (optimizer is not None) and (not len(policy_losses) == 0):
                 optimizer.zero_grad()
                 policy_losses = torch.cat(policy_losses).sum()
                 policy_losses.backward()
