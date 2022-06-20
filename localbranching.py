@@ -409,7 +409,9 @@ class LocalBranching:
         solve the MIP of right branch with the time available.
         :return:
         """
+        print('try to add the current best solution to the MIP model')
         self.MIP_model.addSol(self.MIP_sol_best)
+        print('current best solution added')
 
         self.primalbound_handler.primal_bounds = []
         self.primalbound_handler.primal_times = []
@@ -419,24 +421,25 @@ class LocalBranching:
             self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
             self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
             self.MIP_model.optimize()
+            print('right branch optimize() is finished with no error.')
 
             best_obj = self.MIP_model.getObjVal()
             if best_obj < self.MIP_obj_best:
-                self.MIP_obj_best = best_obj
+                # self.MIP_obj_best = best_obj
+                if self.MIP_model.getNSols() > 0:
+                    feasible, MIP_sol_best, MIP_obj_best = getBestFeasiSol(self.MIP_model)
+                    if feasible and MIP_obj_best < self.MIP_obj_best:
+                        self.MIP_obj_best = best_obj
+                        self.MIP_sol_best = MIP_sol_best
 
-                if self.subMIP_model.getNSols() > 0:
-                    subMIP_sol_best = self.subMIP_model.getBestSol()
-                    subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
+                        primal_bounds = self.primalbound_handler.primal_bounds
+                        primal_times = self.primalbound_handler.primal_times
 
+                        for i in range(len(primal_times)):
+                            primal_times[i] += self.total_time_expired
 
-                    primal_bounds = self.primalbound_handler.primal_bounds
-                    primal_times = self.primalbound_handler.primal_times
-
-                    for i in range(len(primal_times)):
-                        primal_times[i] += self.total_time_expired
-
-                    self.primal_objs.extend(primal_bounds)
-                    self.primal_times.extend(primal_times)
+                        self.primal_objs.extend(primal_bounds)
+                        self.primal_times.extend(primal_times)
 
             self.total_time_available -= self.MIP_model.getSolvingTime()
             self.total_time_expired += self.MIP_model.getSolvingTime()
