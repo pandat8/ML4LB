@@ -30,11 +30,11 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 600
+total_time_limit = 1200
 node_time_limit = 2
 is_heuristic = True
 
-for i in range(3, 5):
+for i in range(4, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
