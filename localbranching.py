@@ -409,12 +409,12 @@ class LocalBranching:
         solve the MIP of right branch with the time available.
         :return:
         """
-        print('try to add the current best solution to the MIP model')
-
-        feasible = self.MIP_model.checkSol(self.MIP_sol_best)
-        if feasible:
-            self.MIP_model.addSol(self.MIP_sol_best, free=False)
-        print('current best solution added')
+        # print('try to add the current best solution to the MIP model')
+        #
+        # feasible = self.MIP_model.checkSol(self.MIP_sol_best)
+        # if feasible:
+        #     self.MIP_model.addSol(self.MIP_sol_best, free=False)
+        # print('current best solution added')
 
         self.primalbound_handler.primal_bounds = []
         self.primalbound_handler.primal_times = []
