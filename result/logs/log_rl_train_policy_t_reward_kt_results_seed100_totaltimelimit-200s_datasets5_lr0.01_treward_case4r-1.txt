@@ -28,3 +28,25 @@ LB round: 1 Solving time: 0.1589 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_no
 /home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
   probs = F.log_softmax(preds)
 LB round: 2 Solving time: 3.5529 Best Obj: 2835.0000 n_sols_subMIP: 8 K: 20 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 23.5534 Best Obj: 1955.0000 n_sols_subMIP: 6 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 43.5536 Best Obj: 1495.0000 n_sols_subMIP: 10 K: 15 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 53.5538 Best Obj: 1495.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 58.5548 Best Obj: 1495.0000 n_sols_subMIP: 9 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 58.5705 Best Obj: 1495.0000 n_sols_subMIP: 8 K: 20 t_node: 2.5 self.div: 1 LB Status: sollimit
+LB round: 8 Solving time: 59.8218 Best Obj: 1495.0000 n_sols_subMIP: 8 K: 30 t_node: 1.2 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 60.4475 Best Obj: 1495.0000 n_sols_subMIP: 8 K: 20 t_node: 0.6 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 60.4645 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 10 t_node: 1.2 self.div: 2 LB Status: sollimit
+LB round: 11 Solving time: 61.7149 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 15 t_node: 1.2 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 62.9653 Best Obj: 1495.0000 n_sols_subMIP: 5 K: 20 t_node: 1.2 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 62.9819 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 20 t_node: 1.2 self.div: 3 LB Status: sollimit
+LB round: 14 Solving time: 72.9821 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 15 Solving time: 92.9823 Best Obj: 1495.0000 n_sols_subMIP: 6 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 112.9826 Best Obj: 1495.0000 n_sols_subMIP: 5 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 17 Solving time: 132.9829 Best Obj: 1409.0000 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 18 Solving time: 152.9842 Best Obj: 1370.0000 n_sols_subMIP: 13 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 19 Solving time: 172.9879 Best Obj: 1341.0000 n_sols_subMIP: 12 K: 45 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 20 Solving time: 192.9888 Best Obj: 1304.0000 n_sols_subMIP: 14 K: 68 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 21 Solving time: 200.0009 Best Obj: 1304.0000 n_sols_subMIP: 10 K: 102 t_node: 10.0 self.div: 3 LB Status: timelimit
+K_final: 102 div_final: 3
+try to solve right branch
+try to add the current best solution to the MIP model
