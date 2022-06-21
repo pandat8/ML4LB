@@ -955,11 +955,11 @@ class ExecuteHeuristic:
         fig.suptitle(instance_name + '-' + 'primal integral', fontsize=13)  # instance_name
         ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
         ax.plot(t, pi_scip_baseline_ave, '--', label='scip', color='tab:grey')
-        ax.plot(t, pi_baseline_ave, label='scip-lb-multi', color='tab:blue')
-        ax.plot(t, pi_lns_random_ave, label='scip-lb-regression-multi', color='tab:orange')
-        ax.plot(t, pi_lns_lblp_ave, label='scip-lb-rl-multi', color='tab:red')
+        ax.plot(t, pi_baseline_ave, label='scip-lb', color='tab:blue')
+        ax.plot(t, pi_lns_random_ave, label='scip-lb-regression', color='tab:orange')
+        ax.plot(t, pi_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl-multi', color='tab:green')
+        ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
         # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         #
         # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
