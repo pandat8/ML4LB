@@ -410,7 +410,8 @@ class LocalBranching:
         :return:
         """
         print('try to add the current best solution to the MIP model')
-        self.MIP_model.addSol(self.MIP_sol_best)
+
+        self.MIP_model.trySol(self.MIP_sol_best, free=False)
         print('current best solution added')
 
         self.primalbound_handler.primal_bounds = []
@@ -420,6 +421,7 @@ class LocalBranching:
             self.MIP_model.setParam('limits/time', self.total_time_available)
             self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
             self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+            print('try to run optimize()')
             self.MIP_model.optimize()
             print('right branch optimize() is finished with no error.')
 
