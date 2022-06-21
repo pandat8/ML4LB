@@ -24,29 +24,16 @@ Initial obj before LB: 8410.0
 binary support:  39
 MIP copies are created
 incumbent solution is copied to MIP copies
-LB round: 1 Solving time: 0.1612 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
-/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
-  probs = F.log_softmax(preds)
-LB round: 2 Solving time: 3.5805 Best Obj: 2835.0000 n_sols_subMIP: 8 K: 20 t_node: 20.0 self.div: 0 LB Status: optimal
-LB round: 3 Solving time: 23.5807 Best Obj: 1955.0000 n_sols_subMIP: 6 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
-LB round: 4 Solving time: 43.5808 Best Obj: 1495.0000 n_sols_subMIP: 10 K: 15 t_node: 20.0 self.div: 0 LB Status: timelimit
-LB round: 5 Solving time: 53.5816 Best Obj: 1495.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
-LB round: 6 Solving time: 58.5821 Best Obj: 1495.0000 n_sols_subMIP: 9 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
-LB round: 7 Solving time: 58.5981 Best Obj: 1495.0000 n_sols_subMIP: 8 K: 20 t_node: 2.5 self.div: 1 LB Status: sollimit
-LB round: 8 Solving time: 59.8494 Best Obj: 1495.0000 n_sols_subMIP: 8 K: 30 t_node: 1.2 self.div: 1 LB Status: timelimit
-LB round: 9 Solving time: 60.4751 Best Obj: 1495.0000 n_sols_subMIP: 8 K: 20 t_node: 0.6 self.div: 1 LB Status: timelimit
-LB round: 10 Solving time: 60.4915 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 10 t_node: 1.2 self.div: 2 LB Status: sollimit
-LB round: 11 Solving time: 61.7420 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 15 t_node: 1.2 self.div: 2 LB Status: timelimit
-LB round: 12 Solving time: 62.9925 Best Obj: 1495.0000 n_sols_subMIP: 5 K: 20 t_node: 1.2 self.div: 2 LB Status: timelimit
-LB round: 13 Solving time: 63.0214 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 20 t_node: 1.2 self.div: 3 LB Status: sollimit
-LB round: 14 Solving time: 73.0216 Best Obj: 1495.0000 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
-LB round: 15 Solving time: 93.0218 Best Obj: 1495.0000 n_sols_subMIP: 6 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
-LB round: 16 Solving time: 113.0220 Best Obj: 1495.0000 n_sols_subMIP: 5 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
-LB round: 17 Solving time: 133.0224 Best Obj: 1409.0000 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
-LB round: 18 Solving time: 153.0227 Best Obj: 1370.0000 n_sols_subMIP: 13 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
-LB round: 19 Solving time: 173.0229 Best Obj: 1341.0000 n_sols_subMIP: 12 K: 45 t_node: 20.0 self.div: 3 LB Status: timelimit
-LB round: 20 Solving time: 193.0240 Best Obj: 1304.0000 n_sols_subMIP: 14 K: 68 t_node: 20.0 self.div: 3 LB Status: timelimit
-LB round: 21 Solving time: 200.0005 Best Obj: 1304.0000 n_sols_subMIP: 10 K: 102 t_node: 10.0 self.div: 3 LB Status: timelimit
-K_final: 102 div_final: 3
-try to solve right branch
-try to add the current best solution to the MIP model
+solution value 0 violates bounds of <t_t_x1053>[1,1] by 1
+Traceback (most recent call last):
+  File "train_reinforce4lb_t_policy.py", line 83, in <module>
+    reinforce_localbranch.train_agent_policy_t(train_instance_size=instance_size,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 7553, in train_agent_policy_t
+    index_instance, agent_k, agent_t, primal_integral, primal_gap_final = self.train_rl_policy_per_instance(
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 7104, in train_rl_policy_per_instance
+    status, obj_best, elapsed_time, lb_bits_pred_reset, times_pred_reset_, objs_pred_reset_, agent_k, agent_t = self.mdp_localbranch(
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 6877, in mdp_localbranch
+    state, reward_k, reward_time , done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
+  File "/home/liudefen/projects/ML4LocalBranch_extend/localbranching.py", line 204, in step_localbranch
+    assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
+AssertionError: Error: the best solution from current SCIP subMIP solving is not feasible!
