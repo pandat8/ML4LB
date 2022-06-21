@@ -943,7 +943,7 @@ class ExecuteHeuristic:
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode.png')
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode_homo.png')
         plt.show()
         plt.clf()
 
@@ -973,7 +973,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_freq100.png')
+            node_time_limit) + '_disable_presolve_beforenode_homo.png')
         plt.show()
         plt.clf()
 
