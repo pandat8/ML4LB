@@ -59,7 +59,7 @@ for i in range(4, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + instance_size + '_scip_baseline_default/seed' + str(seed) + '/'
+                total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
             scip_as_baseline = ExecuteHeuristic(instance_directory,
