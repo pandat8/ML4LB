@@ -10,7 +10,7 @@ import pickle
 import json
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol, mean_options
+from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol, mean_options, mean_shift
 
 import torch.nn.functional as F
 import torch_geometric
@@ -985,7 +985,7 @@ class ExecuteHeuristic:
         instance_type = instance_type
         incumbent_mode = incumbent_mode
         instance_size = instance_size
-        func_mean = mean_options[mean_option]
+        # func_mean = mean_options[mean_option]
         print(mean_option)
 
         # direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
@@ -1421,33 +1421,33 @@ class ExecuteHeuristic:
         # primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
 
         # avarage primal integral over test dataset
-        primal_int_base_ave = func_mean(primal_int_baselines) # primal_int_baselines.sum() / len(primal_int_baselines)
-        primal_int_lns_lblp_ave = func_mean(primal_int_lns_lblp_list) # primal_int_lns_lblp_list.sum() / len(primal_int_lns_lblp_list)
-        primal_int_lns_random_ave = func_mean(primal_int_lns_random_list) # primal_int_lns_random_list.sum() / len(primal_int_lns_random_list)
-        primal_int_scip_baseline_ave = func_mean(primal_int_scip_baselines_list) # primal_int_scip_baselines_list.sum() / len(primal_int_scip_baselines_list)
-        primal_int_lns_lblpmcts_ave = func_mean(primal_int_lns_lblpmcts_list) # primal_int_lns_lblpmcts_list.sum() / len(primal_int_lns_lblpmcts_list)
-        primal_int_reinforce_ave = func_mean(primal_int_reinforces) # primal_int_reinforces.sum() / len(primal_int_reinforces)
+        primal_int_base_ave = mean_shift(primal_int_baselines, mean_option=mean_option) # primal_int_baselines.sum() / len(primal_int_baselines)
+        primal_int_lns_lblp_ave = mean_shift(primal_int_lns_lblp_list, mean_option=mean_option) # primal_int_lns_lblp_list.sum() / len(primal_int_lns_lblp_list)
+        primal_int_lns_random_ave = mean_shift(primal_int_lns_random_list, mean_option=mean_option) # primal_int_lns_random_list.sum() / len(primal_int_lns_random_list)
+        primal_int_scip_baseline_ave = mean_shift(primal_int_scip_baselines_list, mean_option=mean_option) # primal_int_scip_baselines_list.sum() / len(primal_int_scip_baselines_list)
+        primal_int_lns_lblpmcts_ave = mean_shift(primal_int_lns_lblpmcts_list, mean_option=mean_option) # primal_int_lns_lblpmcts_list.sum() / len(primal_int_lns_lblpmcts_list)
+        primal_int_reinforce_ave = mean_shift(primal_int_reinforces, mean_option=mean_option) # primal_int_reinforces.sum() / len(primal_int_reinforces)
 
-        primal_int_base_ave_mul = func_mean(primal_int_baselines_mul) # primal_int_baselines_mul.sum() / len(primal_int_baselines_mul)
-        primal_int_lns_lblp_ave_mul = func_mean(primal_int_lns_lblp_list_mul) # primal_int_lns_lblp_list_mul.sum() / len(primal_int_lns_lblp_list_mul)
-        primal_int_lns_random_ave_mul = func_mean(primal_int_lns_random_list_mul) # primal_int_lns_random_list_mul.sum() / len(primal_int_lns_random_list_mul)
-        primal_int_lns_lblpmcts_ave_mul = func_mean(primal_int_lns_lblpmcts_list_mul) # primal_int_lns_lblpmcts_list_mul.sum() / len(primal_int_lns_lblpmcts_list_mul)
+        primal_int_base_ave_mul = mean_shift(primal_int_baselines_mul, mean_option=mean_option) # primal_int_baselines_mul.sum() / len(primal_int_baselines_mul)
+        primal_int_lns_lblp_ave_mul = mean_shift(primal_int_lns_lblp_list_mul, mean_option=mean_option) # primal_int_lns_lblp_list_mul.sum() / len(primal_int_lns_lblp_list_mul)
+        primal_int_lns_random_ave_mul = mean_shift(primal_int_lns_random_list_mul, mean_option=mean_option) # primal_int_lns_random_list_mul.sum() / len(primal_int_lns_random_list_mul)
+        primal_int_lns_lblpmcts_ave_mul = mean_shift(primal_int_lns_lblpmcts_list_mul, mean_option=mean_option) # primal_int_lns_lblpmcts_list_mul.sum() / len(primal_int_lns_lblpmcts_list_mul)
 
         # primal_int_regression_reinforce_talored_ave = primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
         # primal_int_reinforce_talored_ave = primal_int_reinforces_talored.sum() / len(
         #     primal_int_reinforces_talored)
 
-        primal_gap_final_baseline_ave = func_mean(primal_gap_final_baselines) # primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
-        primal_gap_final_lns_lblp_ave = func_mean(primal_gap_final_lns_lblp_list) # primal_gap_final_lns_lblp_list.sum() / len(primal_gap_final_lns_lblp_list)
-        primal_gap_final_lns_random_ave = func_mean(primal_gap_final_lns_random_list) # primal_gap_final_lns_random_list.sum() / len(primal_gap_final_lns_random_list)
-        primal_gap_final_scip_baseline_ave = func_mean(primal_gap_final_scip_baselines_list) # primal_gap_final_scip_baselines_list.sum() / len(primal_gap_final_scip_baselines_list)
-        primal_gap_final_lns_lblpmcts_ave = func_mean(primal_gap_final_lns_lblpmcts_list) # primal_gap_final_lns_lblpmcts_list.sum() / len(primal_gap_final_lns_lblpmcts_list)
-        primal_gap_final_reinforce_ave = func_mean(primal_gap_final_reinforces) # primal_gap_final_reinforces.sum() / len(primal_gap_final_reinforces)
+        primal_gap_final_baseline_ave = mean_shift(primal_gap_final_baselines, mean_option=mean_option) # primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
+        primal_gap_final_lns_lblp_ave = mean_shift(primal_gap_final_lns_lblp_list, mean_option=mean_option) # primal_gap_final_lns_lblp_list.sum() / len(primal_gap_final_lns_lblp_list)
+        primal_gap_final_lns_random_ave = mean_shift(primal_gap_final_lns_random_list, mean_option=mean_option) # primal_gap_final_lns_random_list.sum() / len(primal_gap_final_lns_random_list)
+        primal_gap_final_scip_baseline_ave = mean_shift(primal_gap_final_scip_baselines_list, mean_option=mean_option) # primal_gap_final_scip_baselines_list.sum() / len(primal_gap_final_scip_baselines_list)
+        primal_gap_final_lns_lblpmcts_ave = mean_shift(primal_gap_final_lns_lblpmcts_list, mean_option=mean_option) # primal_gap_final_lns_lblpmcts_list.sum() / len(primal_gap_final_lns_lblpmcts_list)
+        primal_gap_final_reinforce_ave = mean_shift(primal_gap_final_reinforces, mean_option=mean_option) # primal_gap_final_reinforces.sum() / len(primal_gap_final_reinforces)
 
-        primal_gap_final_baseline_ave_mul = func_mean(primal_gap_final_baselines_mul) # primal_gap_final_baselines_mul.sum() / len(primal_gap_final_baselines_mul)
-        primal_gap_final_lns_lblp_ave_mul = func_mean(primal_gap_final_lns_lblp_list_mul) # primal_gap_final_lns_lblp_list_mul.sum() / len(primal_gap_final_lns_lblp_list_mul)
-        primal_gap_final_lns_random_ave_mul = func_mean(primal_gap_final_lns_random_list_mul) # primal_gap_final_lns_random_list_mul.sum() / len(primal_gap_final_lns_random_list_mul)
-        primal_gap_final_lns_lblpmcts_ave_mul = func_mean(primal_gap_final_lns_lblpmcts_list_mul) # primal_gap_final_lns_lblpmcts_list_mul.sum() / len(primal_gap_final_lns_lblpmcts_list_mul)
+        primal_gap_final_baseline_ave_mul = mean_shift(primal_gap_final_baselines_mul, mean_option=mean_option) # primal_gap_final_baselines_mul.sum() / len(primal_gap_final_baselines_mul)
+        primal_gap_final_lns_lblp_ave_mul = mean_shift(primal_gap_final_lns_lblp_list_mul, mean_option=mean_option) # primal_gap_final_lns_lblp_list_mul.sum() / len(primal_gap_final_lns_lblp_list_mul)
+        primal_gap_final_lns_random_ave_mul = mean_shift(primal_gap_final_lns_random_list_mul, mean_option=mean_option) # primal_gap_final_lns_random_list_mul.sum() / len(primal_gap_final_lns_random_list_mul)
+        primal_gap_final_lns_lblpmcts_ave_mul = mean_shift(primal_gap_final_lns_lblpmcts_list_mul, mean_option=mean_option) # primal_gap_final_lns_lblpmcts_list_mul.sum() / len(primal_gap_final_lns_lblpmcts_list_mul)
 
         # primal_gap_final_regression_reinforce_talored_ave = primal_gap_final_regression_reinforces_talored.sum() / len(
         #     primal_gap_final_regression_reinforces_talored)
@@ -1492,7 +1492,7 @@ class ExecuteHeuristic:
                 primalgaps_baseline = primal_gap.reshape(1,-1)
             else:
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
-        primalgap_baseline_ave = func_mean(primalgaps_baseline, axis=0)
+        primalgap_baseline_ave = mean_shift(primalgaps_baseline, axis=0, mean_option=mean_option)
 
         primalgaps_baseline = None
         for n, stepline_baseline in enumerate(steplines_baseline_mul):
@@ -1501,7 +1501,7 @@ class ExecuteHeuristic:
                 primalgaps_baseline = primal_gap.reshape(1, -1)
             else:
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
-        primalgap_baseline_ave_mul = func_mean(primalgaps_baseline, axis=0)
+        primalgap_baseline_ave_mul = mean_shift(primalgaps_baseline, axis=0, mean_option=mean_option)
 
         primalgaps_lns_lblp = None
         for n, stepline_lns_lblp in enumerate(steplines_lns_lblp_list):
@@ -1510,7 +1510,7 @@ class ExecuteHeuristic:
                 primalgaps_lns_lblp = primal_gap.reshape(1,-1)
             else:
                 primalgaps_lns_lblp = np.vstack((primalgaps_lns_lblp, primal_gap))
-        primalgap_lns_lblp_ave = func_mean(primalgaps_lns_lblp, axis=0)
+        primalgap_lns_lblp_ave = mean_shift(primalgaps_lns_lblp, axis=0, mean_option=mean_option)
 
         primalgaps_lns_lblp = None
         for n, stepline_lns_lblp in enumerate(steplines_lns_lblp_list_mul):
@@ -1519,7 +1519,7 @@ class ExecuteHeuristic:
                 primalgaps_lns_lblp = primal_gap.reshape(1, -1)
             else:
                 primalgaps_lns_lblp = np.vstack((primalgaps_lns_lblp, primal_gap))
-        primalgap_lns_lblp_ave_mul = func_mean(primalgaps_lns_lblp, axis=0)
+        primalgap_lns_lblp_ave_mul = mean_shift(primalgaps_lns_lblp, axis=0, mean_option=mean_option)
 
         primalgaps_lns_random = None
         for n, stepline_lns_lblp in enumerate(steplines_lns_random_list):
@@ -1528,7 +1528,7 @@ class ExecuteHeuristic:
                 primalgaps_lns_random = primal_gap.reshape(1,-1)
             else:
                 primalgaps_lns_random = np.vstack((primalgaps_lns_random, primal_gap))
-        primalgap_lns_random_ave = func_mean(primalgaps_lns_random, axis=0)
+        primalgap_lns_random_ave = mean_shift(primalgaps_lns_random, axis=0, mean_option=mean_option)
 
         primalgaps_lns_random = None
         for n, stepline_lns_lblp in enumerate(steplines_lns_random_list_mul):
@@ -1537,7 +1537,7 @@ class ExecuteHeuristic:
                 primalgaps_lns_random = primal_gap.reshape(1, -1)
             else:
                 primalgaps_lns_random = np.vstack((primalgaps_lns_random, primal_gap))
-        primalgap_lns_random_ave_mul = func_mean(primalgaps_lns_random, axis=0)
+        primalgap_lns_random_ave_mul = mean_shift(primalgaps_lns_random, axis=0, mean_option=mean_option)
 
         primalgaps_scip_baseline = None
         for n, stepline_scip in enumerate(steplines_scip_baseline_list):
@@ -1546,7 +1546,7 @@ class ExecuteHeuristic:
                 primalgaps_scip_baseline = primal_gap.reshape(1,-1)
             else:
                 primalgaps_scip_baseline = np.vstack((primalgaps_scip_baseline, primal_gap))
-        primalgap_scip_baseline_ave = func_mean(primalgaps_scip_baseline, axis=0)
+        primalgap_scip_baseline_ave = mean_shift(primalgaps_scip_baseline, axis=0, mean_option=mean_option)
 
         primalgaps_lns_lblpmcts = None
         for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list):
@@ -1555,7 +1555,7 @@ class ExecuteHeuristic:
                 primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
             else:
                 primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
-        primalgap_lns_lblpmcts_ave = func_mean(primalgaps_lns_lblpmcts, axis=0)
+        primalgap_lns_lblpmcts_ave = mean_shift(primalgaps_lns_lblpmcts, axis=0, mean_option=mean_option)
 
         primalgaps_lns_lblpmcts = None
         for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list_mul):
@@ -1564,7 +1564,7 @@ class ExecuteHeuristic:
                 primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
             else:
                 primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
-        primalgap_lns_lblpmcts_ave_mul = func_mean(primalgaps_lns_lblpmcts, axis=0)
+        primalgap_lns_lblpmcts_ave_mul = mean_shift(primalgaps_lns_lblpmcts, axis=0, mean_option=mean_option)
         #
         # primalgaps_reinforce = None
         # for n, stepline_reinforce in enumerate(steplines_reinforce):
@@ -1600,7 +1600,7 @@ class ExecuteHeuristic:
                 pi_stack_baseline = pi_samples.reshape(1, -1)
             else:
                 pi_stack_baseline = np.vstack((pi_stack_baseline, pi_samples))
-        pi_baseline_ave = func_mean(pi_stack_baseline, axis=0)
+        pi_baseline_ave = mean_shift(pi_stack_baseline, axis=0, mean_option=mean_option)
 
         pi_stack_baseline = None
         for n, pi_stepline_baseline in enumerate(pi_steplines_baseline_mul):
@@ -1609,7 +1609,7 @@ class ExecuteHeuristic:
                 pi_stack_baseline = pi_samples.reshape(1, -1)
             else:
                 pi_stack_baseline = np.vstack((pi_stack_baseline, pi_samples))
-        pi_baseline_ave_mul = func_mean(pi_stack_baseline, axis=0)
+        pi_baseline_ave_mul = mean_shift(pi_stack_baseline, axis=0, mean_option=mean_option)
 
         pi_stack_lns_lblp = None
         for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_lblp_list):
@@ -1618,7 +1618,7 @@ class ExecuteHeuristic:
                 pi_stack_lns_lblp = pi_samles.reshape(1, -1)
             else:
                 pi_stack_lns_lblp = np.vstack((pi_stack_lns_lblp, pi_samles))
-        pi_lns_lblp_ave = func_mean(pi_stack_lns_lblp, axis=0)
+        pi_lns_lblp_ave = mean_shift(pi_stack_lns_lblp, axis=0, mean_option=mean_option)
 
         pi_stack_lns_lblp = None
         for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_lblp_list_mul):
@@ -1627,7 +1627,7 @@ class ExecuteHeuristic:
                 pi_stack_lns_lblp = pi_samles.reshape(1, -1)
             else:
                 pi_stack_lns_lblp = np.vstack((pi_stack_lns_lblp, pi_samles))
-        pi_lns_lblp_ave_mul = func_mean(pi_stack_lns_lblp, axis=0)
+        pi_lns_lblp_ave_mul = mean_shift(pi_stack_lns_lblp, axis=0, mean_option=mean_option)
 
         pi_stack_lns_random = None
         for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_random_list):
@@ -1636,7 +1636,7 @@ class ExecuteHeuristic:
                 pi_stack_lns_random = pi_samples.reshape(1, -1)
             else:
                 pi_stack_lns_random = np.vstack((pi_stack_lns_random, pi_samples))
-        pi_lns_random_ave = func_mean(pi_stack_lns_random, axis=0)
+        pi_lns_random_ave = mean_shift(pi_stack_lns_random, axis=0, mean_option=mean_option)
 
         pi_stack_lns_random = None
         for n, pi_stepline_lns_lblp in enumerate(pi_steplines_lns_random_list_mul):
@@ -1645,7 +1645,7 @@ class ExecuteHeuristic:
                 pi_stack_lns_random = pi_samples.reshape(1, -1)
             else:
                 pi_stack_lns_random = np.vstack((pi_stack_lns_random, pi_samples))
-        pi_lns_random_ave_mul = func_mean(pi_stack_lns_random, axis=0)
+        pi_lns_random_ave_mul = mean_shift(pi_stack_lns_random, axis=0, mean_option=mean_option)
 
         pi_stack_scip_baseline = None
         for n, pi_stepline_scip in enumerate(pi_steplines_scip_baseline_list):
@@ -1654,7 +1654,7 @@ class ExecuteHeuristic:
                 pi_stack_scip_baseline = pi_samples.reshape(1, -1)
             else:
                 pi_stack_scip_baseline = np.vstack((pi_stack_scip_baseline, pi_samples))
-        pi_scip_baseline_ave = func_mean(pi_stack_scip_baseline, axis=0)
+        pi_scip_baseline_ave = mean_shift(pi_stack_scip_baseline, axis=0, mean_option=mean_option)
 
         pi_stack_lns_lblpmcts = None
         for n, pi_stepline_lns_lblpmcts in enumerate(pi_steplines_lns_lblpmcts_list):
@@ -1663,7 +1663,7 @@ class ExecuteHeuristic:
                 pi_stack_lns_lblpmcts = pi_samples.reshape(1, -1)
             else:
                 pi_stack_lns_lblpmcts = np.vstack((pi_stack_lns_lblpmcts, pi_samples))
-        pi_lns_lblpmcts_ave = func_mean(pi_stack_lns_lblpmcts, axis=0)
+        pi_lns_lblpmcts_ave = mean_shift(pi_stack_lns_lblpmcts, axis=0, mean_option=mean_option)
 
         pi_stack_lns_lblpmcts = None
         for n, pi_stepline_lns_lblpmcts in enumerate(pi_steplines_lns_lblpmcts_list_mul):
@@ -1672,7 +1672,7 @@ class ExecuteHeuristic:
                 pi_stack_lns_lblpmcts = pi_samples.reshape(1, -1)
             else:
                 pi_stack_lns_lblpmcts = np.vstack((pi_stack_lns_lblpmcts, pi_samples))
-        pi_lns_lblpmcts_ave_mul = func_mean(pi_stack_lns_lblpmcts, axis=0)
+        pi_lns_lblpmcts_ave_mul = mean_shift(pi_stack_lns_lblpmcts, axis=0, mean_option=mean_option)
         #
 
         plt.close('all')
@@ -1745,7 +1745,6 @@ class ExecuteHeuristic:
         plt.clf()
 
         print("seed mcts: ", seed_mcts)
-
 
     def primal_integral_adapt_t(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None, result_directory_6=None):
 
@@ -2336,7 +2335,6 @@ class ExecuteHeuristic:
         plt.clf()
 
         print("seed mcts: ", seed_mcts)
-
 
     def primal_gap(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None):
 

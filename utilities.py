@@ -288,3 +288,20 @@ def getBestFeasiSol(mip_model):
             obj_best = mip_model.getSolObjVal(sol_best)
 
     return feasible, sol_best, obj_best
+
+
+def mean_shift(data, axis=None, mean_option='arithmetic', shift=100):
+    """
+    compute the (shifted) mean of input data
+    :param data:
+    :param axis:
+    :param mean_option:
+    :param shift:
+    :return:
+    """
+    func_mean = mean_options[mean_option]
+    data = data + shift
+    data_mean = func_mean(data, axis=axis)
+    data_mean = data_mean - shift
+
+    return data_mean
