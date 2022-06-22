@@ -1,5 +1,6 @@
 import ecole
 import numpy as np
+from scipy.stats import gmean
 
 instancetypes = ['setcovering', 'independentset', 'combinatorialauction', 'generalized_independentset', 'miplib_39binary', 'floorplan_gsrc', 'miplib2017_binary', 'capacitedfacility'
                  ]
@@ -10,6 +11,8 @@ incumbent_modes = ['firstsol', 'rootsol','firstrootsol']
 regression_modes = ['homo', 'merged', 'baseline']
 
 t_reward_types = ['reward_k', 'reward_k+t', 'reward_t']
+
+mean_options = {'arithmetic': np.average, 'geometric': gmean}
 
 def generator_switcher(dataset):
     switcher = {
