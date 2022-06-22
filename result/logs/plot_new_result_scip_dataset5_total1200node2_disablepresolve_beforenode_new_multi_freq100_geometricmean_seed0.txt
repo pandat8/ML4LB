@@ -57,14 +57,10 @@ original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 c
 original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
 original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
 original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
-/home/liudefen/ecole-env/lib/python3.8/site-packages/scipy/stats/stats.py:283: RuntimeWarning: divide by zero encountered in log
-  log_a = np.log(a)
 /home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/lib/function_base.py:380: RuntimeWarning: Mean of empty slice.
   avg = a.mean(axis)
 /home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-/home/liudefen/ecole-env/lib/python3.8/site-packages/scipy/stats/stats.py:283: RuntimeWarning: divide by zero encountered in log
-  log_a = np.log(a)
 /home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/lib/function_base.py:380: RuntimeWarning: Mean of empty slice.
   avg = a.mean(axis)
 /home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
@@ -87,27 +83,27 @@ cpu
 geometric
 miplib_39binary
 firstsolSolution
-scip-baseline primal integral:  0.0
-scip-lb-baseline primal integral:  0.0
-scip-lb-regression primal integral:  0.0
-scip-lb-rl primal integral:  0.0
-scip-lb-regression-rl primal integral:  0.0
-scip-lb-baseline-multi primal integral:  0.0
-scip-lb-regression-multi primal integral:  0.0
-scip-lb-rl-multi primal integral:  0.0
-scip-lb-regression-rl-multi primal integral:  0.0
+scip-baseline primal integral:  44.517181307240264
+scip-lb-baseline primal integral:  45.80866428553253
+scip-lb-regression primal integral:  44.24381138927808
+scip-lb-rl primal integral:  44.48019077984321
+scip-lb-regression-rl primal integral:  40.43116597583574
+scip-lb-baseline-multi primal integral:  44.990711728067936
+scip-lb-regression-multi primal integral:  44.28961669116677
+scip-lb-rl-multi primal integral:  47.38051526349767
+scip-lb-regression-rl-multi primal integral:  40.2087785511894
 rl primal integral:  nan
 
 
-scip-baseline primal gap:  0.0
-scip-lb-baseline primal gap:  0.0
-scip-lb-regression primal gap:  0.0
-scip-lb-rl primal gap:  0.0
-scip-lb-regression-rl primal gap:  0.0
-scip-lb-baseline-multi primal gap:  0.0
-scip-lb-regression-multi primal gap:  0.0
-scip-lb-rl-multi primal gap:  0.0
-scip-lb-regression-rl-multi primal gap:  0.0
+scip-baseline primal gap:  2.7949740936722236
+scip-lb-baseline primal gap:  1.0826579153278004
+scip-lb-regression primal gap:  1.5286108398848484
+scip-lb-rl primal gap:  1.357313593688687
+scip-lb-regression-rl primal gap:  0.878495135332173
+scip-lb-baseline-multi primal gap:  0.8964506669405949
+scip-lb-regression-multi primal gap:  1.3460525860999013
+scip-lb-rl-multi primal gap:  1.3291352373012302
+scip-lb-regression-rl-multi primal gap:  0.7453684830821743
 rl primal gap:  nan
 seed mcts:  0
 seed mcts:  0
@@ -142,27 +138,27 @@ cpu
 geometric
 miplib_39binary
 rootsolSolution
-scip-baseline primal integral:  0.0
-scip-lb-baseline primal integral:  0.0
-scip-lb-regression primal integral:  0.0
-scip-lb-rl primal integral:  0.0
-scip-lb-regression-rl primal integral:  0.0
-scip-lb-baseline-multi primal integral:  0.0
-scip-lb-regression-multi primal integral:  0.0
-scip-lb-rl-multi primal integral:  0.0
-scip-lb-regression-rl-multi primal integral:  0.0
+scip-baseline primal integral:  39.15500452075628
+scip-lb-baseline primal integral:  43.90597479161019
+scip-lb-regression primal integral:  37.07383664836124
+scip-lb-rl primal integral:  44.945535778599094
+scip-lb-regression-rl primal integral:  35.30458537975963
+scip-lb-baseline-multi primal integral:  44.54191595571564
+scip-lb-regression-multi primal integral:  34.57731194550695
+scip-lb-rl-multi primal integral:  44.19629690953357
+scip-lb-regression-rl-multi primal integral:  35.28774565885925
 rl primal integral:  nan
 
 
-scip-baseline primal gap:  0.0
-scip-lb-baseline primal gap:  0.0
-scip-lb-regression primal gap:  0.0
-scip-lb-rl primal gap:  0.0
-scip-lb-regression-rl primal gap:  0.0
-scip-lb-baseline-multi primal gap:  0.0
-scip-lb-regression-multi primal gap:  0.0
-scip-lb-rl-multi primal gap:  0.0
-scip-lb-regression-rl-multi primal gap:  0.0
+scip-baseline primal gap:  1.2317897478536395
+scip-lb-baseline primal gap:  2.7729115372231803
+scip-lb-regression primal gap:  2.6671568218651345
+scip-lb-rl primal gap:  2.6307228781752627
+scip-lb-regression-rl primal gap:  2.1097947506519574
+scip-lb-baseline-multi primal gap:  3.128130810406546
+scip-lb-regression-multi primal gap:  2.5011426444646077
+scip-lb-rl-multi primal gap:  3.0851044415050097
+scip-lb-regression-rl-multi primal gap:  2.2454262971283327
 rl primal gap:  nan
 seed mcts:  0
 seed mcts:  0
