@@ -7615,7 +7615,7 @@ class RlLocalbranch(MlLocalbranch):
                             },
                            # self.saved_rlmodels_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '_60s_talored4independentset-small-firstsol.pth'
 
-                    self.saved_rlmodels_t_policy_directory + 'checkpoint_rl4lb_trained_-t_policy-simplepolicy-' + t_reward_type + '_reinforce_0.1trainset_' + train_instance_type + train_instance_size + '_' + train_incumbent_mode + '_0.1trainset_lr' + str(lr_t) + '.pth' # + '_epochs' + str(epoch) +
+                    self.saved_rlmodels_t_policy_directory + 'checkpoint_rl4lb_trained_-t_policy-simplepolicy-' + t_reward_type + '_reinforce_0.1trainset_' + train_instance_type + train_instance_size + '_' + train_incumbent_mode + '_total_timelimit' + str(total_time_limit) + 's' + '_lr' + str(lr_t) +  '.pth' # + '_epochs' + str(epoch) +
                             # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
 
                            # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
