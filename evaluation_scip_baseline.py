@@ -39,7 +39,7 @@ enable_solve_master_problem = True
 for i in range(4, 5):
     instance_type = instancetypes[i]
 
-    for j in range(0, 2):
+    for j in range(1, 2):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
