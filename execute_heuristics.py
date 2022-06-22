@@ -191,7 +191,7 @@ class ExecuteHeuristic:
 
         MIP_model.setParam('limits/time', total_time_limit)
         MIP_model.setParam("display/verblevel", 0)
-        MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+        # MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
         MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
         MIP_model.optimize()
         status = MIP_model.getStatus()
