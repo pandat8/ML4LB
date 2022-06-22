@@ -1,0 +1,26 @@
+nohup: ignoring input
+miplib2017_binary-small
+symmetric
+./result/miplib2017/miplib2017_purebinary_solved.txt
+original problem has 2183 variables (2183 bin, 0 int, 0 impl, 0 cont) and 5587 constraints
+graph20-20-1rand
+
+
+miplib2017_binary-34
+Number of variables 2183
+Number of binary variables 2183
+* Model status: sollimit
+* Solving time: 0.129023
+* number of sol :  1
+* Model status: nodelimit
+* Solving time: 28.540295
+* number of sol :  3
+wrote problem to file /home/liudefen/projects/ML4LocalBranch_extend/data/generated_instances/miplib2017_binary/-small/transformedmodel/miplib2017_binary-34_transformed.cip
+Traceback (most recent call last):
+  File "initialize_MILPs.py", line 31, in <module>
+    mllb.generate_instances_miplib2017_binary()
+  File "/home/liudefen/projects/ML4LocalBranch_extend/instance_generation.py", line 537, in generate_instances_miplib2017_binary
+    model.readProblem(filename)
+  File "src/pyscipopt/scip.pyx", line 4750, in pyscipopt.scip.Model.readProblem
+  File "src/pyscipopt/scip.pyx", line 235, in pyscipopt.scip.PY_SCIP_CALL
+OSError: SCIP: read error!
