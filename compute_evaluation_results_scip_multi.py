@@ -3,7 +3,7 @@ import numpy as np
 import pyscipopt
 import argparse
 from execute_heuristics import ExecuteHeuristic
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, mean_options
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 import torch
 import random
 import pathlib
@@ -19,8 +19,8 @@ args = parser.parse_args()
 # rl_model_path = args.rl_model_path
 # print(regression_model_path)
 # print(rl_model_path)
-func_mean = mean_options[args.mean]
-print(str(func_mean))
+mean_option = args.mean
+print(str(mean_option))
 
 seed = 0
 seed_mcts = 0
@@ -142,7 +142,7 @@ for i in range(4, 5):
                     incumbent_mode=incumbent_mode,
                     total_time_limit=total_time_limit,
                     node_time_limit=node_time_limit,
-                    func_mean=func_mean,
+                    mean_option=mean_option,
                     result_directory_1=result_directory_1,
                     result_directory_2=result_directory_2,
                     result_directory_3=result_directory_3,
