@@ -11,3 +11,985 @@ original problem has 67732 variables (67732 bin, 0 int, 0 impl, 0 cont) and 656 
 original problem has 63009 variables (63009 bin, 0 int, 0 impl, 0 cont) and 507 constraints
 original problem has 1298 variables (1254 bin, 0 int, 0 impl, 44 cont) and 353 constraints
 original problem has 322 variables (302 bin, 0 int, 0 impl, 20 cont) and 394 constraints
+original problem has 2993 variables (2993 bin, 0 int, 0 impl, 0 cont) and 102 constraints
+original problem has 1156 variables (1089 bin, 0 int, 0 impl, 67 cont) and 2178 constraints
+original problem has 260 variables (259 bin, 0 int, 0 impl, 1 cont) and 224 constraints
+original problem has 5325 variables (5323 bin, 0 int, 0 impl, 2 cont) and 3411 constraints
+original problem has 10958 variables (96 bin, 0 int, 0 impl, 10862 cont) and 4480 constraints
+original problem has 5174 variables (2349 bin, 0 int, 0 impl, 2825 cont) and 26509 constraints
+original problem has 6621 variables (6620 bin, 0 int, 0 impl, 1 cont) and 721 constraints
+original problem has 769 variables (768 bin, 0 int, 0 impl, 1 cont) and 64 constraints
+original problem has 2756 variables (2756 bin, 0 int, 0 impl, 0 cont) and 729 constraints
+original problem has 1835 variables (1835 bin, 0 int, 0 impl, 0 cont) and 2387 constraints
+original problem has 840 variables (48 bin, 0 int, 0 impl, 792 cont) and 1192 constraints
+original problem has 1372 variables (1372 bin, 0 int, 0 impl, 0 cont) and 4944 constraints
+original problem has 14101 variables (14101 bin, 0 int, 0 impl, 0 cont) and 1739 constraints
+original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 constraints
+original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
+original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
+original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+miplib_39binary-small
+rootsol
+seed: 0
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj of MIP: 21029.389
+LB heuristic is starting..
+LB heuristic starts at 0.045330999999999996 s
+No. of LB call:  1
+LB initial objective: 21029.389
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0112 Best Obj: 19211.9775 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0280 Best Obj: 18428.4577 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0408 Best Obj: 18053.4577 n_sols_subMIP: 12 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0531 Best Obj: 17305.6144 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0662 Best Obj: 17245.3339 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0798 Best Obj: 16995.3339 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.0928 Best Obj: 16995.3339 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 16.1049 Best Obj: 16995.3339 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 0
+LB heuristic finishes at 16.420461 s
+LB final objective: 16995.33387500001
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-0_transformed_a1c1s1
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  12021.64903125
+Solving time:  1200.027719
+
+
+[array([21029.389     , 19211.97746782, 18428.4576875 , 18053.4576875 ,
+       17305.6144    , 17245.333875  , 16995.333875  , 14435.867125  ,
+       14435.867125  , 14412.941125  , 14276.922375  , 13977.7835    ,
+       13802.34548524, 13665.3588125 , 13369.5915    , 12970.82940625,
+       12808.5999375 , 12727.71875   , 12197.3250625 , 12196.18173438,
+       12061.18173438, 12061.18173438, 12021.64903125]), array([   0.      ,    2.139117,    4.188933,    6.228391,    8.271499,
+         10.310047,   12.353851,   19.168978,   45.437657,   66.839249,
+         66.953263,  136.966691,  198.696658,  198.957872,  306.333978,
+        316.537479,  324.626886,  334.034327,  355.034924, 1001.931332,
+       1002.068825, 1102.4084  , 1102.556527])]
+instance:  1
+create a new SCIP model
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj of MIP: 1208.0
+LB heuristic is starting..
+LB heuristic starts at 0.008316 s
+No. of LB call:  1
+LB initial objective: 1208.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0000 Best Obj: 1208.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0009 Best Obj: 1208.0000 n_sols_subMIP: 3 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.037103 s
+LB final objective: 1208.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-1_transformed_aflow30a
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  1158.0
+Solving time:  67.344139
+
+
+[array([1208., 1203., 1185., 1174., 1172., 1164., 1160., 1159., 1158.]), array([ 0.      ,  4.987237, 12.674667, 18.654357, 25.668522, 30.084134,
+       34.794652, 49.281397, 50.011477])]
+instance:  2
+create a new SCIP model
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj of MIP: 1242.0
+LB heuristic is starting..
+LB heuristic starts at 0.032188 s
+No. of LB call:  1
+LB initial objective: 1242.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0006 Best Obj: 1242.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0013 Best Obj: 1242.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.097238 s
+LB final objective: 1242.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-2_transformed_aflow40b
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1168.0
+Solving time:  1200.000367
+
+
+[array([1242., 1228., 1213., 1187., 1171., 1168.]), array([   0.      ,    7.585532,    7.616365,   49.629587,   90.499147,
+       1095.666111])]
+instance:  3
+create a new SCIP model
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj of MIP: 56212.0
+LB heuristic is starting..
+LB heuristic starts at 0.193566 s
+No. of LB call:  1
+LB initial objective: 56212.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0087 Best Obj: 56212.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0172 Best Obj: 56212.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.500205 s
+LB final objective: 56212.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-3_transformed_air04
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  56137.0
+Solving time:  85.485848
+
+
+[array([56212., 56137.]), array([ 0.      , 41.853642])]
+instance:  4
+create a new SCIP model
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj of MIP: 45015.0
+LB heuristic is starting..
+LB heuristic starts at 0.123055 s
+No. of LB call:  1
+LB initial objective: 45015.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0070 Best Obj: 45015.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0092 Best Obj: 43824.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0103 Best Obj: 39663.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0174 Best Obj: 39663.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0249 Best Obj: 39663.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 10.535003 s
+LB final objective: 39663.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-4_transformed_air05
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  26374.000000000004
+Solving time:  93.830895
+
+
+[array([45015., 43824., 39663., 28737., 27596., 27219., 27203., 26805.,
+       26799., 26746., 26745., 26736., 26529., 26485., 26402., 26374.]), array([ 0.      ,  4.389355,  6.443053, 19.762083, 47.277554, 48.650779,
+       49.163931, 67.5571  , 68.474809, 68.483679, 68.549588, 75.222957,
+       75.587993, 75.69125 , 82.138164, 88.936383])]
+instance:  5
+create a new SCIP model
+The initial incumbent of miplib_39binary-5_transformed_cap6000 is successfully added to MIP model
+miplib_39binary-5_transformed_cap6000
+N of variables: 6000
+N of binary vars: 6000
+N of constraints: 2171
+Initial obj of MIP: -2449596.0
+LB heuristic is starting..
+LB heuristic starts at 0.10813199999999999 s
+No. of LB call:  1
+LB initial objective: -2451346.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0349 Best Obj: -2451346.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0461 Best Obj: -2451346.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.28619 s
+LB final objective: -2451346.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-5_transformed_cap6000
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -2451377.0
+Solving time:  25.632349
+
+
+[array([-2449596., -2451346., -2451355., -2451371., -2451377.]), array([ 0.      ,  0.108116, 18.3147  , 19.774394, 23.314546])]
+instance:  6
+create a new SCIP model
+The initial incumbent of miplib_39binary-6_transformed_dano3mip is successfully added to MIP model
+miplib_39binary-6_transformed_dano3mip
+N of variables: 13873
+N of binary vars: 552
+N of constraints: 3215
+Initial obj of MIP: 727.047619047619
+LB heuristic is starting..
+LB heuristic starts at 0.503356 s
+No. of LB call:  1
+LB initial objective: 727.047619047619
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0089 Best Obj: 727.0476 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0177 Best Obj: 727.0476 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.951066 s
+LB final objective: 727.047619047619
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-6_transformed_dano3mip
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  711.35
+Solving time:  1200.002419
+
+
+[array([727.04761905, 711.35      ]), array([  0.      , 617.137164])]
+instance:  7
+create a new SCIP model
+The initial incumbent of miplib_39binary-7_transformed_danoint is successfully added to MIP model
+miplib_39binary-7_transformed_danoint
+N of variables: 521
+N of binary vars: 56
+N of constraints: 688
+Initial obj of MIP: 70.0
+LB heuristic is starting..
+LB heuristic starts at 0.022706999999999998 s
+No. of LB call:  1
+LB initial objective: 70.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 70.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0005 Best Obj: 70.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.044296 s
+LB final objective: 70.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-7_transformed_danoint
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  65.66666666666666
+Solving time:  1200.001606
+
+
+[array([70.        , 68.33333333, 68.28571429, 66.5       , 65.66666667]), array([ 0.      , 34.832231, 68.112617, 68.964422, 72.590901])]
+instance:  8
+create a new SCIP model
+The initial incumbent of miplib_39binary-8_transformed_ds is successfully added to MIP model
+miplib_39binary-8_transformed_ds
+N of variables: 67732
+N of binary vars: 67732
+N of constraints: 656
+Initial obj of MIP: 396263.0
+LB heuristic is starting..
+LB heuristic starts at 2.528454 s
+No. of LB call:  1
+LB initial objective: 396263.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 12.2283 Best Obj: 396263.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 21.1450 Best Obj: 396263.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 27.012628 s
+LB final objective: 396263.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-8_transformed_ds
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  241054.0000000001
+Solving time:  1200.009626
+
+
+[array([396263., 241054.]), array([   0.      , 1065.174567])]
+instance:  9
+create a new SCIP model
+The initial incumbent of miplib_39binary-9_transformed_fast0507 is successfully added to MIP model
+miplib_39binary-9_transformed_fast0507
+N of variables: 63009
+N of binary vars: 63009
+N of constraints: 507
+Initial obj of MIP: 514.0
+LB heuristic is starting..
+LB heuristic starts at 11.861625 s
+No. of LB call:  1
+LB initial objective: 213.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0033 Best Obj: 213.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0066 Best Obj: 213.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 18.505968 s
+LB final objective: 213.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-9_transformed_fast0507
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  178.0
+Solving time:  1200.005672
+
+
+[array([514., 213., 178.]), array([ 0.      , 11.861594, 79.620067])]
+instance:  10
+create a new SCIP model
+The initial incumbent of miplib_39binary-10_transformed_fiber is successfully added to MIP model
+miplib_39binary-10_transformed_fiber
+N of variables: 1298
+N of binary vars: 1254
+N of constraints: 353
+Initial obj of MIP: 139950532.0
+LB heuristic is starting..
+LB heuristic starts at 0.011153 s
+No. of LB call:  1
+LB initial objective: 139950532.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0001 Best Obj: 78973838.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0005 Best Obj: 55934910.0000 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0007 Best Obj: 55934910.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0011 Best Obj: 43452286.0000 n_sols_subMIP: 9 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0015 Best Obj: 43452286.0000 n_sols_subMIP: 10 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0018 Best Obj: 41790759.0000 n_sols_subMIP: 33 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.0021 Best Obj: 41790759.0000 n_sols_subMIP: 11 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 16.0021 Best Obj: 41790759.0000 n_sols_subMIP: 11 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 16.108942 s
+LB final objective: 41790759.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-10_transformed_fiber
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  40593518.0
+Solving time:  18.163
+
+
+[array([1.39950532e+08, 7.89738380e+07, 5.59349100e+07, 4.34522860e+07,
+       4.17907590e+07, 4.09488620e+07, 4.07941580e+07, 4.05935180e+07]), array([ 0.      ,  2.045533,  4.055402,  8.072712, 12.091543, 17.684215,
+       18.03867 , 18.111397])]
+instance:  11
+create a new SCIP model
+The initial incumbent of miplib_39binary-11_transformed_glass4 is successfully added to MIP model
+miplib_39binary-11_transformed_glass4
+N of variables: 322
+N of binary vars: 302
+N of constraints: 394
+Initial obj of MIP: 3800031500.0
+LB heuristic is starting..
+LB heuristic starts at 0.005912 s
+No. of LB call:  1
+LB initial objective: 3800031500.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 2333352866.6687 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0003 Best Obj: 2283353266.6667 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0004 Best Obj: 2000018233.3333 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0005 Best Obj: 1966683816.6667 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0006 Best Obj: 1966683816.6667 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0007 Best Obj: 1966683816.6667 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 0
+LB heuristic finishes at 12.042523 s
+LB final objective: 1966683816.6666653
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-11_transformed_glass4
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1600014500.0000095
+Solving time:  1200.002512
+
+
+[array([3.80003150e+09, 2.33335287e+09, 2.28335327e+09, 2.00001823e+09,
+       1.96668382e+09, 1.95001535e+09, 1.93335342e+09, 1.73335101e+09,
+       1.70001680e+09, 1.63334933e+09, 1.60001560e+09, 1.60001560e+09,
+       1.60001500e+09, 1.60001450e+09]), array([  0.      ,   2.022968,   4.027192,   6.031249,   8.035393,
+        71.174672,  87.952956,  89.650079,  90.609442, 340.842141,
+       340.953817, 340.981414, 414.852038, 435.651815])]
+instance:  12
+create a new SCIP model
+The initial incumbent of miplib_39binary-12_transformed_harp2 is successfully added to MIP model
+miplib_39binary-12_transformed_harp2
+N of variables: 2993
+N of binary vars: 2993
+N of constraints: 102
+Initial obj of MIP: -60953969.0
+LB heuristic is starting..
+LB heuristic starts at 0.24454299999999998 s
+No. of LB call:  1
+LB initial objective: -60953969.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0003 Best Obj: -65663024.0000 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0008 Best Obj: -67857006.0000 n_sols_subMIP: 10 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0009 Best Obj: -68276897.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0013 Best Obj: -68541103.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0015 Best Obj: -68977974.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0020 Best Obj: -68977974.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.0024 Best Obj: -68977974.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 14.415078 s
+LB final objective: -68977974.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-12_transformed_harp2
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -73899792.0
+Solving time:  1200.000543
+
+
+[array([-60953969.        , -65663024.        , -67857006.        ,
+       -68276897.        , -68541103.        , -68977974.        ,
+       -73524350.        , -73532368.        , -73691500.        ,
+       -73698002.        , -73822411.        , -73864877.        ,
+       -73869578.99999999, -73880730.        , -73880836.        ,
+       -73887549.        , -73887934.00000001, -73888554.99999999,
+       -73888571.        , -73888732.00000001, -73888739.        ,
+       -73888751.        , -73888757.        , -73888764.        ,
+       -73888786.        , -73888789.        , -73891094.        ,
+       -73898827.        , -73899450.00000001, -73899545.00000001,
+       -73899766.        , -73899773.        , -73899783.        ,
+       -73899788.        , -73899790.        , -73899792.        ]), array([  0.      ,   2.309342,   4.33125 ,   6.349912,   8.367575,
+        10.387858,  15.176744,  20.728877,  27.636528,  29.726267,
+        32.87851 , 101.646926, 102.23666 , 103.337809, 114.653559,
+       117.482546, 122.941596, 123.078054, 124.189606, 125.113305,
+       144.325743, 160.94446 , 223.874167, 307.940656, 324.45956 ,
+       513.804842, 577.251425, 577.262725, 578.135602, 579.337092,
+       579.731066, 579.984956, 587.359601, 596.237394, 762.59425 ,
+       778.192708])]
+instance:  13
+create a new SCIP model
+The initial incumbent of miplib_39binary-13_transformed_liu is successfully added to MIP model
+miplib_39binary-13_transformed_liu
+N of variables: 1156
+N of binary vars: 1089
+N of constraints: 2178
+Initial obj of MIP: 5600.0
+LB heuristic is starting..
+LB heuristic starts at 0.044952 s
+No. of LB call:  1
+LB initial objective: 5598.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0066 Best Obj: 3624.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0144 Best Obj: 2998.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0207 Best Obj: 2234.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0240 Best Obj: 1922.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0324 Best Obj: 1920.0780 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0398 Best Obj: 1858.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.0461 Best Obj: 1828.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 16.0524 Best Obj: 1760.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 18.0585 Best Obj: 1752.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 20.0651 Best Obj: 1652.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 22.0715 Best Obj: 1630.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 24.0777 Best Obj: 1600.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 26.0843 Best Obj: 1580.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 14 Solving time: 28.0906 Best Obj: 1580.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 15 Solving time: 30.0967 Best Obj: 1552.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 16 Solving time: 32.1032 Best Obj: 1522.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 17 Solving time: 34.1096 Best Obj: 1508.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 18 Solving time: 36.1155 Best Obj: 1508.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 19 Solving time: 38.1158 Best Obj: 1454.0000 n_sols_subMIP: 3 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 20 Solving time: 40.1224 Best Obj: 1426.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 21 Solving time: 42.1287 Best Obj: 1398.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 22 Solving time: 44.1350 Best Obj: 1382.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 23 Solving time: 46.1411 Best Obj: 1382.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 24 Solving time: 48.1473 Best Obj: 1356.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 25 Solving time: 50.1538 Best Obj: 1356.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 26 Solving time: 52.1596 Best Obj: 1356.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 52.50966 s
+LB final objective: 1355.9999999999995
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-13_transformed_liu
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  1333.9999989999783
+Solving time:  1200.003164
+
+
+[array([5600.      , 5598.      , 3624.      , 2998.      , 2234.      ,
+       1922.      , 1920.078   , 1858.      , 1828.      , 1760.      ,
+       1752.      , 1652.      , 1630.      , 1600.      , 1580.      ,
+       1552.      , 1522.      , 1508.      , 1454.      , 1426.      ,
+       1398.      , 1382.      , 1356.      , 1354.      , 1348.      ,
+       1346.      , 1340.      , 1339.999999, 1334.      , 1333.999999]), array([0.00000000e+00, 3.93750000e-02, 2.09105900e+00, 4.11042400e+00,
+       6.12780700e+00, 8.14208500e+00, 1.01618250e+01, 1.21801950e+01,
+       1.41974710e+01, 1.62152720e+01, 1.82325250e+01, 2.02504380e+01,
+       2.22681710e+01, 2.42853500e+01, 2.63029630e+01, 3.03351950e+01,
+       3.23531110e+01, 3.43707660e+01, 3.83958150e+01, 4.04142340e+01,
+       4.24317710e+01, 4.44492100e+01, 4.84808260e+01, 8.32000420e+01,
+       1.56469732e+02, 2.69213407e+02, 3.93605916e+02, 6.78615540e+02,
+       7.67412450e+02, 8.01479871e+02])]
+instance:  14
+create a new SCIP model
+The initial incumbent of miplib_39binary-14_transformed_misc07 is successfully added to MIP model
+miplib_39binary-14_transformed_misc07
+N of variables: 260
+N of binary vars: 259
+N of constraints: 224
+Initial obj of MIP: 3020.0
+LB heuristic is starting..
+LB heuristic starts at 0.009722999999999999 s
+No. of LB call:  1
+LB initial objective: 3020.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0002 Best Obj: 3020.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 2.9825 Best Obj: 3020.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: infeasible
+K_final: 10 div_final: 1
+LB heuristic finishes at 3.012061 s
+LB final objective: 3020.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-14_transformed_misc07
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  2810.0
+Solving time:  68.424166
+
+
+[array([3020., 2895., 2810.]), array([0.      , 3.850873, 4.304131])]
+instance:  15
+create a new SCIP model
+The initial incumbent of miplib_39binary-15_transformed_mkc is successfully added to MIP model
+miplib_39binary-15_transformed_mkc
+N of variables: 5325
+N of binary vars: 5323
+N of constraints: 3411
+Initial obj of MIP: -151375.0
+LB heuristic is starting..
+LB heuristic starts at 0.270351 s
+No. of LB call:  1
+LB initial objective: -151375.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0054 Best Obj: -151375.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0076 Best Obj: -151375.0000 n_sols_subMIP: 2 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.418221 s
+LB final objective: -151375.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-15_transformed_mkc
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -278106.0
+Solving time:  1200.000537
+
+
+[array([-151375., -180359., -249665., -261063., -263863., -265513.,
+       -269763., -272263., -273191., -273491., -273841., -274691.,
+       -274991., -275041., -275091., -276076., -277206., -277616.,
+       -278106.]), array([   0.      ,    4.727917,   15.006246,   72.250773,   85.373996,
+        355.803791,  368.762672,  376.387342,  413.59428 ,  426.637472,
+        435.020488,  496.568477,  518.013796,  523.866416,  524.016383,
+        609.331927,  618.064495, 1026.707028, 1084.458938])]
+instance:  16
+create a new SCIP model
+The initial incumbent of miplib_39binary-16_transformed_mod011 is successfully added to MIP model
+miplib_39binary-16_transformed_mod011
+N of variables: 10958
+N of binary vars: 96
+N of constraints: 4480
+Initial obj of MIP: -19328601.238845017
+LB heuristic is starting..
+LB heuristic starts at 0.794021 s
+No. of LB call:  1
+LB initial objective: -21241416.23884518
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0082 Best Obj: -21241416.2388 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0140 Best Obj: -21241416.2388 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 5.115847 s
+LB final objective: -21241416.23884518
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-16_transformed_mod011
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -54558535.014227584
+Solving time:  284.86622
+
+
+[array([-19328601.23884502, -19328601.23884518, -21241416.23884518,
+       -42783986.6658617 , -43212216.69005907, -53656254.10896146,
+       -53844661.38240829, -54180041.67639855, -54417655.61153626,
+       -54422236.8512832 , -54558535.01422735, -54558535.01422756,
+       -54558535.01422757, -54558535.01422758]), array([  0.      ,   0.787466,   0.794006,   5.681519,   6.095916,
+        13.090172,  78.677097,  81.680571, 101.411076, 107.323414,
+       218.970234, 239.839085, 269.777002, 280.127807])]
+instance:  17
+create a new SCIP model
+The initial incumbent of miplib_39binary-17_transformed_momentum1 is successfully added to MIP model
+miplib_39binary-17_transformed_momentum1
+N of variables: 5174
+N of binary vars: 2349
+N of constraints: 26509
+Initial obj of MIP: 365999.3778172444
+LB heuristic is starting..
+LB heuristic starts at 0.581935 s
+No. of LB call:  1
+LB initial objective: 365999.3778172444
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 1.6721 Best Obj: 333905.7628 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 3.6781 Best Obj: 333905.7628 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 5.6806 Best Obj: 333905.7628 n_sols_subMIP: 4 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 6.604406 s
+LB final objective: 333905.76283691823
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-17_transformed_momentum1
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  205550.21110074478
+Solving time:  1200.008991
+
+
+[array([365999.37781724, 333905.76283692, 288965.84310613, 250425.27976169,
+       231225.27976169, 205550.21110074]), array([   0.      ,    2.45665 ,  671.24119 , 1014.303243, 1014.310322,
+       1018.67565 ])]
+instance:  18
+create a new SCIP model
+The initial incumbent of miplib_39binary-19_transformed_nsrand-ipx is successfully added to MIP model
+miplib_39binary-19_transformed_nsrand-ipx
+N of variables: 6621
+N of binary vars: 6620
+N of constraints: 721
+Initial obj of MIP: 180960.0
+LB heuristic is starting..
+LB heuristic starts at 9.226621 s
+No. of LB call:  1
+LB initial objective: 180960.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0004 Best Obj: 141920.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0032 Best Obj: 101120.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0047 Best Obj: 74720.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0055 Best Obj: 73440.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0061 Best Obj: 73440.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0226 Best Obj: 73440.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 21.904447 s
+LB final objective: 73440.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-19_transformed_nsrand-ipx
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  52800.0
+Solving time:  1200.000416
+
+
+[array([180960., 141920., 101120.,  74720.,  73440.,  72640.,  71520.,
+        70560.,  68480.,  54720.,  54080.,  53760.,  53440.,  53280.,
+        52800.]), array([  0.      ,  11.511846,  13.600165,  15.683526,  17.766275,
+        38.950973,  43.804023,  44.512768,  45.193089,  65.579558,
+       135.938651, 224.600643, 654.117433, 663.309779, 768.264874])]
+instance:  19
+create a new SCIP model
+The initial incumbent of miplib_39binary-20_transformed_opt1217 is successfully added to MIP model
+miplib_39binary-20_transformed_opt1217
+N of variables: 769
+N of binary vars: 768
+N of constraints: 64
+Initial obj of MIP: -14.0
+LB heuristic is starting..
+LB heuristic starts at 0.006285 s
+No. of LB call:  1
+LB initial objective: -14.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0001 Best Obj: -16.0000 n_sols_subMIP: 25 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0068 Best Obj: -16.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0070 Best Obj: -16.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 6.048857 s
+LB final objective: -16.000000000000007
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-20_transformed_opt1217
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -16.00000017179702
+Solving time:  1200.005231
+
+
+[array([-14.        , -16.        , -16.00000001, -16.00000002,
+       -16.00000003, -16.00000005, -16.00000017, -16.00000017]), array([  0.      ,   2.032714,  35.603232, 164.020649, 185.396243,
+       185.407909, 192.07036 , 865.727538])]
+instance:  20
+create a new SCIP model
+The initial incumbent of miplib_39binary-21_transformed_p2756 is successfully added to MIP model
+miplib_39binary-21_transformed_p2756
+N of variables: 2756
+N of binary vars: 2756
+N of constraints: 729
+Initial obj of MIP: 14683.0
+LB heuristic is starting..
+LB heuristic starts at 0.052027 s
+No. of LB call:  1
+LB initial objective: 14683.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 1.4893 Best Obj: 8361.0000 n_sols_subMIP: 12 K: 20 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 3.4897 Best Obj: 6541.0000 n_sols_subMIP: 15 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 5.4907 Best Obj: 5738.0000 n_sols_subMIP: 12 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 7.4911 Best Obj: 5448.0000 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 9.4920 Best Obj: 4951.0000 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 11.4921 Best Obj: 4765.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 13.5004 Best Obj: 4362.0000 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 15.5008 Best Obj: 4315.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 17.5013 Best Obj: 4185.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 19.5104 Best Obj: 4184.0000 n_sols_subMIP: 4 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 21.5203 Best Obj: 4083.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 23.5204 Best Obj: 4078.0000 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 25.5360 Best Obj: 4078.0000 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 14 Solving time: 27.5364 Best Obj: 3994.0000 n_sols_subMIP: 22 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 15 Solving time: 29.5372 Best Obj: 3985.0000 n_sols_subMIP: 12 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 16 Solving time: 31.5376 Best Obj: 3985.0000 n_sols_subMIP: 11 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 17 Solving time: 33.5378 Best Obj: 3948.0000 n_sols_subMIP: 15 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 18 Solving time: 35.5381 Best Obj: 3948.0000 n_sols_subMIP: 10 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 19 Solving time: 37.5387 Best Obj: 3872.0000 n_sols_subMIP: 25 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 20 Solving time: 39.5389 Best Obj: 3711.0000 n_sols_subMIP: 19 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 21 Solving time: 41.5392 Best Obj: 3711.0000 n_sols_subMIP: 15 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 22 Solving time: 43.5394 Best Obj: 3671.0000 n_sols_subMIP: 20 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 23 Solving time: 45.5395 Best Obj: 3638.0000 n_sols_subMIP: 18 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 24 Solving time: 47.5396 Best Obj: 3638.0000 n_sols_subMIP: 21 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 25 Solving time: 49.5403 Best Obj: 3638.0000 n_sols_subMIP: 17 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 50.13051 s
+LB final objective: 3638.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-21_transformed_p2756
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  3124.0
+Solving time:  52.858475
+
+
+[array([14683.,  8361.,  6541.,  5738.,  5448.,  4951.,  4765.,  4362.,
+        4315.,  4185.,  4184.,  4083.,  4078.,  3994.,  3985.,  3948.,
+        3872.,  3711.,  3671.,  3638.,  3173.,  3144.,  3143.,  3129.,
+        3128.,  3126.,  3124.]), array([ 0.      ,  1.605635,  3.627398,  5.649983,  7.671031,  9.690001,
+       11.709758, 13.739416, 15.760268, 17.780137, 19.808333, 21.839025,
+       23.859918, 27.913833, 29.937902, 33.977529, 38.016082, 40.03759 ,
+       44.076117, 46.097842, 50.311805, 50.31406 , 51.301866, 51.790911,
+       52.50291 , 52.841682, 52.846954])]
+instance:  21
+create a new SCIP model
+The initial incumbent of miplib_39binary-22_transformed_protfold is successfully added to MIP model
+miplib_39binary-22_transformed_protfold
+N of variables: 1835
+N of binary vars: 1835
+N of constraints: 2387
+Initial obj of MIP: -22.0
+LB heuristic is starting..
+LB heuristic starts at 0.037857999999999996 s
+No. of LB call:  1
+LB initial objective: -22.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0014 Best Obj: -22.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0027 Best Obj: -22.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.103178 s
+LB final objective: -22.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-22_transformed_protfold
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -22.0
+Solving time:  1200.000473
+
+
+[array([-22.]), array([0.])]
+instance:  22
+create a new SCIP model
+The initial incumbent of miplib_39binary-23_transformed_qiu is successfully added to MIP model
+miplib_39binary-23_transformed_qiu
+N of variables: 840
+N of binary vars: 48
+N of constraints: 1192
+Initial obj of MIP: 1816.116983380783
+LB heuristic is starting..
+LB heuristic starts at 0.014913 s
+No. of LB call:  1
+LB initial objective: 1816.116983380783
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0004 Best Obj: 320.5513 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0008 Best Obj: 320.5513 n_sols_subMIP: 12 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0011 Best Obj: 320.5513 n_sols_subMIP: 10 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 0
+LB heuristic finishes at 6.054965 s
+LB final objective: 320.55134305300146
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-23_transformed_qiu
+Status of SCIP_baseline:  optimal
+Best obj of SCIP_baseline:  -132.87313694699932
+Solving time:  64.220581
+
+
+[array([1816.11698338,  320.55134305,  219.73600305,  175.69945814,
+        117.22596894,  101.25880778,   -4.56186982,   -5.62047695,
+        -23.24535695,  -32.05779695,  -40.87023695, -124.06069695,
+       -124.06069695, -128.46691695, -132.87313695]), array([ 0.      ,  2.042713, 21.945751, 22.628632, 24.4522  , 25.928373,
+       25.930894, 25.950018, 25.996347, 26.167972, 26.279286, 28.300786,
+       28.361921, 29.62759 , 30.978341])]
+instance:  23
+create a new SCIP model
+The initial incumbent of miplib_39binary-24_transformed_seymour is successfully added to MIP model
+miplib_39binary-24_transformed_seymour
+N of variables: 1372
+N of binary vars: 1372
+N of constraints: 4944
+Initial obj of MIP: 770.0
+LB heuristic is starting..
+LB heuristic starts at 0.080666 s
+No. of LB call:  1
+LB initial objective: 457.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 0.3446 Best Obj: 448.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 0.7931 Best Obj: 442.0000 n_sols_subMIP: 10 K: 20 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 2.7940 Best Obj: 438.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 4.8033 Best Obj: 435.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 6.8137 Best Obj: 434.0000 n_sols_subMIP: 5 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 7.5452 Best Obj: 430.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 9.5560 Best Obj: 429.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 11.5680 Best Obj: 429.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 13.5788 Best Obj: 428.0000 n_sols_subMIP: 6 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 15.5898 Best Obj: 427.0000 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 17.6020 Best Obj: 427.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 19.6138 Best Obj: 427.0000 n_sols_subMIP: 7 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 19.967113 s
+LB final objective: 427.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-24_transformed_seymour
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  424.0
+Solving time:  1200.000357
+
+
+[array([770., 457., 448., 442., 438., 435., 434., 430., 429., 428., 427.,
+       426., 425., 424.]), array([0.00000000e+00, 8.06500000e-02, 4.78702000e-01, 9.47224000e-01,
+       2.96838200e+00, 4.99857400e+00, 7.02979200e+00, 7.78160800e+00,
+       9.81361600e+00, 1.38745450e+01, 1.59079430e+01, 2.41829307e+02,
+       2.86435563e+02, 1.01059089e+03])]
+instance:  24
+create a new SCIP model
+The initial incumbent of miplib_39binary-25_transformed_sp97ar is successfully added to MIP model
+miplib_39binary-25_transformed_sp97ar
+N of variables: 14101
+N of binary vars: 14101
+N of constraints: 1739
+Initial obj of MIP: 3204417165.0
+LB heuristic is starting..
+LB heuristic starts at 0.5882609999999999 s
+No. of LB call:  1
+LB initial objective: 3204417165.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0082 Best Obj: 3204417165.0000 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0151 Best Obj: 3204417165.0000 n_sols_subMIP: 3 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 5.254513 s
+LB final objective: 3204417165.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-25_transformed_sp97ar
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  2116032267.0
+Solving time:  1200.000408
+
+
+[array([3.20441716e+09, 2.24705038e+09, 2.24131002e+09, 2.23449524e+09,
+       2.22612727e+09, 2.21592550e+09, 2.20216174e+09, 2.19934262e+09,
+       2.16988169e+09, 2.15317576e+09, 2.13915284e+09, 2.12623444e+09,
+       2.11603227e+09]), array([  0.      ,  40.596616,  40.743193,  40.754295, 149.823504,
+       150.100803, 191.77853 , 192.066989, 260.815189, 385.914015,
+       427.746532, 519.315198, 604.484525])]
+instance:  25
+create a new SCIP model
+The initial incumbent of miplib_39binary-26_transformed_swath is successfully added to MIP model
+miplib_39binary-26_transformed_swath
+N of variables: 6805
+N of binary vars: 6724
+N of constraints: 564
+Initial obj of MIP: 608.736209
+LB heuristic is starting..
+LB heuristic starts at 0.875973 s
+No. of LB call:  1
+LB initial objective: 608.736209
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0027 Best Obj: 608.7362 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0033 Best Obj: 608.7362 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 5.136591 s
+LB final objective: 608.736209
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-26_transformed_swath
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  504.11941599999994
+Solving time:  1200.001122
+
+
+[array([608.736209, 598.219914, 575.466826, 562.422858, 552.681464,
+       550.962888, 535.370819, 535.370819, 530.217113, 527.6241  ,
+       510.279426, 508.21643 , 504.258254, 504.119416]), array([  0.      ,  15.820323,  20.925111,  25.959661,  26.041992,
+        26.080433, 135.472781, 155.546478, 726.255311, 727.940641,
+       737.966685, 822.991201, 903.504066, 903.519562])]
+instance:  26
+create a new SCIP model
+The initial incumbent of miplib_39binary-27_transformed_t1717 is successfully added to MIP model
+miplib_39binary-27_transformed_t1717
+N of variables: 73885
+N of binary vars: 73885
+N of constraints: 1755
+Initial obj of MIP: 568646.0
+LB heuristic is starting..
+LB heuristic starts at 2.709659 s
+No. of LB call:  1
+LB initial objective: 568646.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0192 Best Obj: 568646.0000 n_sols_subMIP: 1 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 5.9097 Best Obj: 568646.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 12.095965 s
+LB final objective: 568646.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib_39binary-27_transformed_t1717
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  568646.0
+Solving time:  1200.004073
+
+
+[array([568646.]), array([0.])]
+instance:  27
+create a new SCIP model
+The initial incumbent of miplib_39binary-28_transformed_tr12-30 is successfully added to MIP model
+miplib_39binary-28_transformed_tr12-30
+N of variables: 1080
+N of binary vars: 360
+N of constraints: 742
+Initial obj of MIP: 241956.0
+LB heuristic is starting..
+LB heuristic starts at 0.018966999999999998 s
+No. of LB call:  1
+LB initial objective: 240956.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0006 Best Obj: 195706.0000 n_sols_subMIP: 6 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0028 Best Obj: 170229.0000 n_sols_subMIP: 7 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 6.0034 Best Obj: 161749.0000 n_sols_subMIP: 8 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 8.0048 Best Obj: 151506.0000 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.0053 Best Obj: 145074.0000 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.0091 Best Obj: 142112.0000 n_sols_subMIP: 9 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 14.0255 Best Obj: 142112.0000 n_sols_subMIP: 10 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 16.0313 Best Obj: 142112.0000 n_sols_subMIP: 7 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 16.134474 s
+LB final objective: 142112.0
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-28_transformed_tr12-30
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  132228.0
+Solving time:  1200.002536
+
+
+[array([241956., 240956., 195706., 170229., 161749., 151506., 145074.,
+       142112., 142110., 141514., 139330., 139070., 137912., 137124.,
+       136682., 136146., 133725., 133725., 132730., 132396., 132228.]), array([0.00000000e+00, 1.89550000e-02, 2.04892500e+00, 4.05890700e+00,
+       6.06828900e+00, 8.07814700e+00, 1.00872270e+01, 1.20994190e+01,
+       2.45364420e+01, 3.15968860e+01, 4.55625250e+01, 4.56917060e+01,
+       5.15647430e+01, 5.16008340e+01, 8.54422700e+01, 9.29998010e+01,
+       9.56758320e+01, 9.70199720e+01, 2.52819895e+02, 5.22312818e+02,
+       5.26415290e+02])]
+instance:  28
+create a new SCIP model
+The initial incumbent of miplib_39binary-29_transformed_van is successfully added to MIP model
+miplib_39binary-29_transformed_van
+N of variables: 12481
+N of binary vars: 192
+N of constraints: 22400
+Initial obj of MIP: 35.98636241703319
+LB heuristic is starting..
+LB heuristic starts at 2.486524 s
+No. of LB call:  1
+LB initial objective: 35.98636241703319
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 0.7139 Best Obj: 26.2784 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 2.7406 Best Obj: 24.0878 n_sols_subMIP: 3 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 4.9337 Best Obj: 24.0878 n_sols_subMIP: 2 K: 20 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 6.9406 Best Obj: 24.0878 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 10.608815 s
+LB final objective: 24.08781544651003
+LB heurisitc succeeds, finds an improving solution
+Instance: miplib_39binary-29_transformed_van
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  4.838662549457049
+Solving time:  1200.001423
+
+
+[array([35.98636242, 26.27835184, 24.08781545,  6.35326202,  5.35326202,
+        5.0884494 ,  4.83866255]), array([  0.      ,   3.824012,   6.062924,  73.812924, 203.68288 ,
+       645.844758, 905.715218])]
+miplib_39binary-large
+rootsol
+seed: 0
+cpu
