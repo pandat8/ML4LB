@@ -10,7 +10,7 @@ import pickle
 import json
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol
+from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol, mean_options
 
 import torch.nn.functional as F
 import torch_geometric
@@ -980,11 +980,13 @@ class ExecuteHeuristic:
 
         print("seed mcts: ", seed_mcts)
 
-    def primal_integral_multicall_03(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, func_mean=np.mean, result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None, result_directory_6=None, result_directory_7=None, result_directory_8=None, result_directory_9=None):
+    def primal_integral_multicall_03(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, mean_option='arithmetic', result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None, result_directory_6=None, result_directory_7=None, result_directory_8=None, result_directory_9=None):
 
         instance_type = instance_type
         incumbent_mode = incumbent_mode
         instance_size = instance_size
+        func_mean = mean_options[mean_option]
+        print(mean_option)
 
         # direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
         # directory_transformedmodel = direc + 'transformedmodel' + '/'
@@ -1702,7 +1704,7 @@ class ExecuteHeuristic:
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode_multi_freq100.png')
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit)+ '_tnode' + str(node_time_limit) + '_disable_presolve_beforenode_multi_freq100_' + mean_option + '.png')
         plt.show()
         plt.clf()
 
@@ -1738,7 +1740,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_multi_freq100.png')
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq100_' + mean_option + '.png')
         plt.show()
         plt.clf()
 
