@@ -3,7 +3,7 @@ import numpy as np
 import pyscipopt
 import argparse
 from execute_heuristics import ExecuteHeuristic
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, mean_options
 import torch
 import random
 import pathlib
@@ -12,13 +12,15 @@ import pathlib
 parser = argparse.ArgumentParser()
 # parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 # parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
-
+parser.add_argument('--mean', type = str, default='arithmetic')
 args = parser.parse_args()
 
 # regression_model_path = args.regression_model_path
 # rl_model_path = args.rl_model_path
 # print(regression_model_path)
 # print(rl_model_path)
+func_mean = mean_options[args.mean]
+print(str(func_mean))
 
 seed = 0
 seed_mcts = 0
@@ -140,6 +142,7 @@ for i in range(4, 5):
                     incumbent_mode=incumbent_mode,
                     total_time_limit=total_time_limit,
                     node_time_limit=node_time_limit,
+                    func_mean=func_mean,
                     result_directory_1=result_directory_1,
                     result_directory_2=result_directory_2,
                     result_directory_3=result_directory_3,
