@@ -466,104 +466,107 @@ class InstanceGeneration:
 
         file_directory = './result/miplib2017/miplib2017_purebinary_solved.txt'
         print(file_directory)
-        index_instance = 0
+        index_instance = 34 # 0
         with open(file_directory) as fp:
             Lines = fp.readlines()
+            i = 1
             for line in Lines:
+                if i > 55: #  start from i==56
+                    instance_str = line.strip()
+                    MIP_model = Loader().load_instance(instance_str)
+                    original_name = MIP_model.getProbName()
+                    print(original_name)
 
-                instance_str = line.strip()
-                MIP_model = Loader().load_instance(instance_str)
-                original_name = MIP_model.getProbName()
-                print(original_name)
+                    MIP_model.setProbName(instance_type + '-' + str(index_instance))
+                    instance_name = MIP_model.getProbName()
+                    print('\n')
+                    print(instance_name)
+                    print('Number of variables', MIP_model.getNVars())
+                    print('Number of binary variables', MIP_model.getNBinVars())
 
-                MIP_model.setProbName(instance_type + '-' + str(index_instance))
-                instance_name = MIP_model.getProbName()
-                print('\n')
-                print(instance_name)
-                print('Number of variables', MIP_model.getNVars())
-                print('Number of binary variables', MIP_model.getNBinVars())
+                    # initialize MIP
+                    MIP_model_2, MIP_2_vars, success = MIP_model.createCopy(
+                        problemName='Baseline', origcopy=True)
 
-                # initialize MIP
-                MIP_model_2, MIP_2_vars, success = MIP_model.createCopy(
-                    problemName='Baseline', origcopy=True)
+                    # MIP_model_orig, MIP_vars_orig, success = MIP_model.createCopy(
+                    #     problemName='Baseline', origcopy=True)
 
-                # MIP_model_orig, MIP_vars_orig, success = MIP_model.createCopy(
-                #     problemName='Baseline', origcopy=True)
+                    incumbent_mode = 'firstsol'
+                    incumbent_mode_2 = 'rootsol'
 
-                incumbent_mode = 'firstsol'
-                incumbent_mode_2 = 'rootsol'
+                    status, feasible, MIP_model, incumbent_solution = self.set_and_optimize_MIP(MIP_model, incumbent_mode)
 
-                status, feasible, MIP_model, incumbent_solution = self.set_and_optimize_MIP(MIP_model, incumbent_mode)
+                    status_2, feasible_2, MIP_model_2, incumbent_solution_2 = self.set_and_optimize_MIP(MIP_model_2,
+                                                                                                        incumbent_mode_2)
 
-                status_2, feasible_2, MIP_model_2, incumbent_solution_2 = self.set_and_optimize_MIP(MIP_model_2,
-                                                                                                    incumbent_mode_2)
+                    feasible = feasible and feasible_2
 
-                feasible = feasible and feasible_2
+                    if (not status == 'optimal') and (not status_2 == 'optimal'):
+                        not_optimal = True
+                    else:
+                        not_optimal = False
 
-                if (not status == 'optimal') and (not status_2 == 'optimal'):
-                    not_optimal = True
-                else:
-                    not_optimal = False
+                    if not_optimal and feasible:
+                        valid = True
+                    else:
+                        valid = False
 
-                if not_optimal and feasible:
-                    valid = True
-                else:
-                    valid = False
+                    if valid:
 
-                if valid:
+                        MIP_model.resetParams()
+                        MIP_model_transformed, MIP_copy_vars, success = MIP_model.createCopy(
+                            problemName='transformed', origcopy=False)
+                        MIP_model_transformed, sol_MIP_first = copy_sol(MIP_model, MIP_model_transformed, incumbent_solution,
+                                                                MIP_copy_vars)
+                        MIP_model_transformed, sol_MIP_root = copy_sol(MIP_model_2, MIP_model_transformed, incumbent_solution_2,
+                                                                MIP_copy_vars)
 
-                    MIP_model.resetParams()
-                    MIP_model_transformed, MIP_copy_vars, success = MIP_model.createCopy(
-                        problemName='transformed', origcopy=False)
-                    MIP_model_transformed, sol_MIP_first = copy_sol(MIP_model, MIP_model_transformed, incumbent_solution,
-                                                            MIP_copy_vars)
-                    MIP_model_transformed, sol_MIP_root = copy_sol(MIP_model_2, MIP_model_transformed, incumbent_solution_2,
-                                                            MIP_copy_vars)
+                        transformed_model_name = MIP_model_transformed.getProbName()
+                        MIP_model_transformed.setProbName(transformed_model_name + '_' + original_name)
 
-                    transformed_model_name = MIP_model_transformed.getProbName()
-                    MIP_model_transformed.setProbName(transformed_model_name + '_' + original_name)
+                        filename = f'{directory_transformedmodel}{transformed_model_name}.cip'
+                        MIP_model_transformed.writeProblem(filename=filename, trans=False)
 
-                    filename = f'{directory_transformedmodel}{transformed_model_name}.cip'
-                    MIP_model_transformed.writeProblem(filename=filename, trans=False)
+                        firstsol_filename = f'{directory_firstsol}firstsol-{transformed_model_name}.sol'
+                        MIP_model_transformed.writeSol(solution=sol_MIP_first, filename=firstsol_filename)
 
-                    firstsol_filename = f'{directory_firstsol}firstsol-{transformed_model_name}.sol'
-                    MIP_model_transformed.writeSol(solution=sol_MIP_first, filename=firstsol_filename)
+                        rootsol_filename = f'{directory_rootsol}rootsol-{transformed_model_name}.sol'
+                        MIP_model_transformed.writeSol(solution=sol_MIP_root, filename=rootsol_filename)
 
-                    rootsol_filename = f'{directory_rootsol}rootsol-{transformed_model_name}.sol'
-                    MIP_model_transformed.writeSol(solution=sol_MIP_root, filename=rootsol_filename)
+                        model = Model()
+                        model.readProblem(filename)
+                        sol = model.readSolFile(rootsol_filename)
 
-                    model = Model()
-                    model.readProblem(filename)
-                    sol = model.readSolFile(rootsol_filename)
+                        feas = model.checkSol(sol)
+                        if not feas:
+                            print('the root solution of '+ model.getProbName()+ 'is not feasible!')
 
-                    feas = model.checkSol(sol)
-                    if not feas:
-                        print('the root solution of '+ model.getProbName()+ 'is not feasible!')
+                        model.addSol(sol, False)
+                        print(model.getSolObjVal(sol))
+                        instance = ecole.scip.Model.from_pyscipopt(model)
+                        scipMIP = instance.as_pyscipopt()
+                        sol2 = scipMIP.getBestSol()
+                        print(scipMIP.getSolObjVal(sol2))
 
-                    model.addSol(sol, False)
-                    print(model.getSolObjVal(sol))
-                    instance = ecole.scip.Model.from_pyscipopt(model)
-                    scipMIP = instance.as_pyscipopt()
-                    sol2 = scipMIP.getBestSol()
-                    print(scipMIP.getSolObjVal(sol2))
+                        # MIP_model_2.resetParams()
+                        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model_2.createCopy(
+                        #     problemName='rootsol',
+                        #     origcopy=False)
+                        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model_2, MIP_model_copy2, incumbent_solution_2,
+                        #                                           MIP_copy_vars2)
 
-                    # MIP_model_2.resetParams()
-                    # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model_2.createCopy(
-                    #     problemName='rootsol',
-                    #     origcopy=False)
-                    # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model_2, MIP_model_copy2, incumbent_solution_2,
-                    #                                           MIP_copy_vars2)
+                        MIP_model.freeProb()
+                        MIP_model_2.freeProb()
+                        MIP_model_transformed.freeProb()
+                        model.freeProb()
+                        del MIP_model
+                        del MIP_model_2
+                        del MIP_model_transformed
+                        del model
 
-                    MIP_model.freeProb()
-                    MIP_model_2.freeProb()
-                    MIP_model_transformed.freeProb()
-                    model.freeProb()
-                    del MIP_model
-                    del MIP_model_2
-                    del MIP_model_transformed
-                    del model
+                        index_instance += 1
 
-                    index_instance += 1
+                i += 1
 
     def generate_instances_miplib_39binary(self, instance_type='miplib_39binary', instance_size='-small'):
 

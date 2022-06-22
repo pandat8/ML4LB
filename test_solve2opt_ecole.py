@@ -35,7 +35,7 @@ test_instance_size = instancesizes[0]
 incumbent_mode = incumbent_modes[0]
 
 
-for t in range(5, 6):
+for t in range(6, 7):
     instance_type = instancetypes[t]
 
     direc = './data/generated_instances/' + instance_type + '/' + test_instance_size + '/'
@@ -45,7 +45,7 @@ for t in range(5, 6):
     # generator = generator_switcher(dataset)
     # generator.seed(100)
 
-    for i in range(0, 1):
+    for i in range(34, 35):
         filename = f'{directory_transformedmodel}{instance_type}-{str(i)}_transformed.cip'
         firstsol_filename = f'{directory_sol}{incumbent_mode}-{instance_type}-{str(i)}_transformed.sol'
 
