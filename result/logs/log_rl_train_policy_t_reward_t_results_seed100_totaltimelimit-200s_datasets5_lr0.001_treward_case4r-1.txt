@@ -14328,3 +14328,1610 @@ LB round: 20 Solving time: 144.8308 Best Obj: 1159.0000 n_sols_subMIP: 9 K: 30 t
 LB round: 21 Solving time: 147.3312 Best Obj: 1159.0000 n_sols_subMIP: 10 K: 45 t_node: 2.5 self.div: 5 LB Status: timelimit
 LB round: 22 Solving time: 152.3313 Best Obj: 1159.0000 n_sols_subMIP: 8 K: 23 t_node: 5.0 self.div: 5 LB Status: timelimit
 LB round: 23 Solving time: 152.3457 Best Obj: 1159.0000 n_sols_subMIP: 7 K: 23 t_node: 10.0 self.div: 6 LB Status: sollimit
+LB round: 24 Solving time: 172.3457 Best Obj: 1158.0000 n_sols_subMIP: 32 K: 35 t_node: 20.0 self.div: 6 LB Status: timelimit
+LB round: 25 Solving time: 191.2939 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 20 t_node: 20.0 self.div: 6 LB Status: infeasible
+LB round: 26 Solving time: 191.3613 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 6 LB Status: infeasible
+LB round: 27 Solving time: 191.4033 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 7 LB Status: sollimit
+LB round: 28 Solving time: 200.0001 Best Obj: 1158.0000 n_sols_subMIP: 24 K: 45 t_node: 10.0 self.div: 7 LB Status: timelimit
+K_final: 45 div_final: 7
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00009799999992
+
+
+instance:  3
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0014 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0017 Best Obj: 16541.3136 n_sols_subMIP: 100 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 50.0023 Best Obj: 15392.9131 n_sols_subMIP: 100 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 70.0026 Best Obj: 15061.8485 n_sols_subMIP: 18 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 90.0038 Best Obj: 13976.1977 n_sols_subMIP: 50 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 110.0055 Best Obj: 13976.1977 n_sols_subMIP: 11 K: 68 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 130.0088 Best Obj: 13976.1977 n_sols_subMIP: 8 K: 34 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 150.0107 Best Obj: 13788.3506 n_sols_subMIP: 11 K: 34 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 170.0320 Best Obj: 13672.6378 n_sols_subMIP: 14 K: 51 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 180.0334 Best Obj: 13672.6378 n_sols_subMIP: 5 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 200.0317 Best Obj: 13599.0240 n_sols_subMIP: 12 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 0
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  13599.024043247744
+Solving time:  200.031739
+
+
+instance:  4
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1775 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 5.1777 Best Obj: 2363.0000 n_sols_subMIP: 11 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.1783 Best Obj: 2004.0000 n_sols_subMIP: 9 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 20.1788 Best Obj: 1878.0000 n_sols_subMIP: 4 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 25.1792 Best Obj: 1671.0000 n_sols_subMIP: 2 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 27.6798 Best Obj: 1657.0000 n_sols_subMIP: 3 K: 30 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 32.6803 Best Obj: 1657.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 42.6808 Best Obj: 1657.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 52.6813 Best Obj: 1657.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 65.8414 Best Obj: 1657.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 11 Solving time: 85.8419 Best Obj: 1422.0000 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 95.8421 Best Obj: 1422.0000 n_sols_subMIP: 8 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 115.8422 Best Obj: 1355.0000 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 135.8427 Best Obj: 1248.0000 n_sols_subMIP: 6 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 15 Solving time: 155.8431 Best Obj: 1248.0000 n_sols_subMIP: 7 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 16 Solving time: 175.8436 Best Obj: 1248.0000 n_sols_subMIP: 6 K: 15 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 17 Solving time: 175.8748 Best Obj: 1248.0000 n_sols_subMIP: 5 K: 15 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 18 Solving time: 185.8755 Best Obj: 1248.0000 n_sols_subMIP: 5 K: 23 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 19 Solving time: 190.8761 Best Obj: 1248.0000 n_sols_subMIP: 5 K: 35 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 20 Solving time: 190.8977 Best Obj: 1248.0000 n_sols_subMIP: 4 K: 35 t_node: 5.0 self.div: 4 LB Status: sollimit
+LB round: 21 Solving time: 193.3980 Best Obj: 1248.0000 n_sols_subMIP: 5 K: 53 t_node: 2.5 self.div: 4 LB Status: timelimit
+LB round: 22 Solving time: 198.3986 Best Obj: 1248.0000 n_sols_subMIP: 5 K: 53 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 23 Solving time: 198.4294 Best Obj: 1248.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 5 LB Status: sollimit
+LB round: 24 Solving time: 200.0005 Best Obj: 1248.0000 n_sols_subMIP: 3 K: 30 t_node: 10.0 self.div: 5 LB Status: timelimit
+K_final: 30 div_final: 5
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1248.0
+Solving time:  200.000464
+
+
+Return policy k: 50.269868
+Return policy t: -8.872543
+Primal ingtegral: 56.824609
+Epoch 71
+instance:  0
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.7067 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 2 Solving time: 5.7070 Best Obj: 1249.0000 n_sols_subMIP: 15 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 8.2072 Best Obj: 1249.0000 n_sols_subMIP: 12 K: 45 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 13.2073 Best Obj: 1207.0000 n_sols_subMIP: 11 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 23.2074 Best Obj: 1158.0000 n_sols_subMIP: 18 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 43.2075 Best Obj: 1158.0000 n_sols_subMIP: 37 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 63.2076 Best Obj: 1158.0000 n_sols_subMIP: 25 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 63.2234 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 9 Solving time: 83.2234 Best Obj: 1158.0000 n_sols_subMIP: 19 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 103.2235 Best Obj: 1158.0000 n_sols_subMIP: 27 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 103.2493 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 12 Solving time: 123.2494 Best Obj: 1158.0000 n_sols_subMIP: 17 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 133.2495 Best Obj: 1158.0000 n_sols_subMIP: 15 K: 45 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 133.2745 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 143.2753 Best Obj: 1158.0000 n_sols_subMIP: 13 K: 30 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 153.2754 Best Obj: 1158.0000 n_sols_subMIP: 19 K: 45 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 17 Solving time: 153.2898 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 18 Solving time: 173.2899 Best Obj: 1158.0000 n_sols_subMIP: 24 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 19 Solving time: 193.2900 Best Obj: 1158.0000 n_sols_subMIP: 34 K: 30 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 20 Solving time: 200.0001 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+K_final: 20 div_final: 5
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00008300000002
+
+
+instance:  1
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0012 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 15.0133 Best Obj: 18108.5176 n_sols_subMIP: 11 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 25.0139 Best Obj: 17011.3333 n_sols_subMIP: 38 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 35.0159 Best Obj: 16467.8326 n_sols_subMIP: 41 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 40.0286 Best Obj: 16362.9850 n_sols_subMIP: 6 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 42.5406 Best Obj: 16362.9850 n_sols_subMIP: 7 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 45.0526 Best Obj: 16148.4226 n_sols_subMIP: 9 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 50.0538 Best Obj: 16148.4226 n_sols_subMIP: 7 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 55.0562 Best Obj: 16058.8887 n_sols_subMIP: 8 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 65.0576 Best Obj: 15734.3937 n_sols_subMIP: 11 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 85.0931 Best Obj: 13998.7597 n_sols_subMIP: 47 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 105.0940 Best Obj: 13638.9424 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 125.1182 Best Obj: 13638.9424 n_sols_subMIP: 12 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 14 Solving time: 135.1185 Best Obj: 13638.9424 n_sols_subMIP: 11 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 15 Solving time: 155.1402 Best Obj: 13556.7314 n_sols_subMIP: 14 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 16 Solving time: 175.1410 Best Obj: 13486.4186 n_sols_subMIP: 12 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 17 Solving time: 195.1743 Best Obj: 13486.4186 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 18 Solving time: 200.0006 Best Obj: 13486.4186 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 0
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  13486.41860682601
+Solving time:  200.00055600000002
+
+
+instance:  2
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0044 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0054 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 20.0460 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 30.0473 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 5 Solving time: 50.0481 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 60.0509 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 80.0515 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 80.1764 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 9 Solving time: 100.1766 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 10 Solving time: 110.1774 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 120.1781 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 130.1802 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 135.1819 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 14 Solving time: 137.6834 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 4 LB Status: timelimit
+LB round: 15 Solving time: 142.6856 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 5 LB Status: timelimit
+LB round: 16 Solving time: 152.6863 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 6 LB Status: timelimit
+LB round: 17 Solving time: 162.6884 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 18 Solving time: 167.6908 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 8 LB Status: timelimit
+LB round: 19 Solving time: 177.6915 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 9 LB Status: timelimit
+LB round: 20 Solving time: 197.6919 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 10 LB Status: timelimit
+LB round: 21 Solving time: 200.0135 Best Obj: 29144.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 11 LB Status: timelimit
+K_final: 20 div_final: 12
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29144.0
+Solving time:  200.01353200000003
+
+
+instance:  3
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0023 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 15.0058 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 25.0094 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 4 Solving time: 35.0139 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 5 Solving time: 40.0161 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 6 Solving time: 45.0182 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 7 Solving time: 50.0200 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 30 t_node: 5.0 self.div: 5 LB Status: timelimit
+LB round: 8 Solving time: 55.0220 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 6 LB Status: timelimit
+LB round: 9 Solving time: 65.0267 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 10 Solving time: 85.0279 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 8 LB Status: timelimit
+LB round: 11 Solving time: 90.2390 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 9 LB Status: sollimit
+LB round: 12 Solving time: 95.2412 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 10 t_node: 5.0 self.div: 9 LB Status: timelimit
+LB round: 13 Solving time: 97.7533 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 2.5 self.div: 9 LB Status: timelimit
+LB round: 14 Solving time: 102.7553 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 10 LB Status: timelimit
+LB round: 15 Solving time: 107.7573 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 11 LB Status: timelimit
+LB round: 16 Solving time: 112.7591 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 12 LB Status: timelimit
+LB round: 17 Solving time: 117.7610 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 13 LB Status: timelimit
+LB round: 18 Solving time: 125.0976 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 14 LB Status: sollimit
+LB round: 19 Solving time: 145.0988 Best Obj: 56865.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 14 LB Status: timelimit
+LB round: 20 Solving time: 165.1003 Best Obj: 56865.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 14 LB Status: timelimit
+LB round: 21 Solving time: 185.1018 Best Obj: 56865.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 14 LB Status: timelimit
+LB round: 22 Solving time: 193.5359 Best Obj: 56865.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 15 LB Status: sollimit
+LB round: 23 Solving time: 200.0028 Best Obj: 56865.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 15 LB Status: timelimit
+K_final: 20 div_final: 15
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  56864.99999999997
+Solving time:  200.00279899999995
+
+
+instance:  4
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1651 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 0.5472 Best Obj: 3785.0000 n_sols_subMIP: 6 K: 10 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 1.9595 Best Obj: 2843.0000 n_sols_subMIP: 2 K: 10 t_node: 5.0 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 11.9599 Best Obj: 1903.0000 n_sols_subMIP: 4 K: 15 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 21.9603 Best Obj: 1903.0000 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 41.9608 Best Obj: 1473.0000 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 51.9614 Best Obj: 1473.0000 n_sols_subMIP: 5 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 61.9619 Best Obj: 1354.0000 n_sols_subMIP: 3 K: 10 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 66.9625 Best Obj: 1354.0000 n_sols_subMIP: 2 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 76.9631 Best Obj: 1354.0000 n_sols_subMIP: 3 K: 10 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 76.9817 Best Obj: 1354.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 12 Solving time: 96.9818 Best Obj: 1321.0000 n_sols_subMIP: 7 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 116.9820 Best Obj: 1258.0000 n_sols_subMIP: 11 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 14 Solving time: 136.9823 Best Obj: 1233.0000 n_sols_subMIP: 16 K: 45 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 15 Solving time: 156.9823 Best Obj: 1233.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 16 Solving time: 176.9832 Best Obj: 1233.0000 n_sols_subMIP: 7 K: 10 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 17 Solving time: 177.0261 Best Obj: 1233.0000 n_sols_subMIP: 6 K: 10 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 18 Solving time: 182.0266 Best Obj: 1233.0000 n_sols_subMIP: 6 K: 15 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 19 Solving time: 192.0270 Best Obj: 1233.0000 n_sols_subMIP: 6 K: 23 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 20 Solving time: 192.0491 Best Obj: 1233.0000 n_sols_subMIP: 5 K: 20 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 21 Solving time: 200.0006 Best Obj: 1233.0000 n_sols_subMIP: 5 K: 30 t_node: 10.0 self.div: 3 LB Status: timelimit
+K_final: 30 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1233.0
+Solving time:  200.0006
+
+
+Return policy k: 51.831475
+Return policy t: -9.915283
+Primal ingtegral: 56.556119
+Epoch 72
+instance:  0
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.7211 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 5.7213 Best Obj: 1249.0000 n_sols_subMIP: 15 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 10.7214 Best Obj: 1207.0000 n_sols_subMIP: 11 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 20.7215 Best Obj: 1158.0000 n_sols_subMIP: 18 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 40.7218 Best Obj: 1158.0000 n_sols_subMIP: 37 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 50.7218 Best Obj: 1158.0000 n_sols_subMIP: 28 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 50.7349 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 30 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 8 Solving time: 70.7356 Best Obj: 1158.0000 n_sols_subMIP: 23 K: 45 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 80.7358 Best Obj: 1158.0000 n_sols_subMIP: 21 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 80.7490 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 45 t_node: 5.0 self.div: 2 LB Status: sollimit
+LB round: 11 Solving time: 90.7495 Best Obj: 1158.0000 n_sols_subMIP: 27 K: 68 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 100.7496 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 102 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 110.7497 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 102 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 110.7644 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 102 t_node: 5.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 115.7648 Best Obj: 1158.0000 n_sols_subMIP: 17 K: 153 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 125.7649 Best Obj: 1158.0000 n_sols_subMIP: 26 K: 230 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 17 Solving time: 145.7651 Best Obj: 1158.0000 n_sols_subMIP: 38 K: 345 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 18 Solving time: 164.7051 Best Obj: 1158.0000 n_sols_subMIP: 28 K: 20 t_node: 20.0 self.div: 3 LB Status: infeasible
+LB round: 19 Solving time: 164.7481 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 4 LB Status: infeasible
+LB round: 20 Solving time: 164.7805 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 10 t_node: 10.0 self.div: 5 LB Status: infeasible
+LB round: 21 Solving time: 164.8123 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 6 LB Status: infeasible
+LB round: 22 Solving time: 164.8453 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 7 LB Status: infeasible
+LB round: 23 Solving time: 164.8895 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 8 LB Status: infeasible
+LB round: 24 Solving time: 164.9237 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 9 LB Status: infeasible
+LB round: 25 Solving time: 164.9584 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 10 LB Status: infeasible
+LB round: 26 Solving time: 164.9938 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 11 LB Status: infeasible
+LB round: 27 Solving time: 165.0300 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 1.2 self.div: 12 LB Status: infeasible
+LB round: 28 Solving time: 165.0678 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 1.2 self.div: 13 LB Status: infeasible
+LB round: 29 Solving time: 165.1069 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 14 LB Status: infeasible
+LB round: 30 Solving time: 165.1286 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 5.0 self.div: 15 LB Status: sollimit
+LB round: 31 Solving time: 167.6288 Best Obj: 1158.0000 n_sols_subMIP: 8 K: 45 t_node: 2.5 self.div: 15 LB Status: timelimit
+LB round: 32 Solving time: 170.1288 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 68 t_node: 2.5 self.div: 15 LB Status: timelimit
+LB round: 33 Solving time: 172.6289 Best Obj: 1158.0000 n_sols_subMIP: 7 K: 34 t_node: 2.5 self.div: 15 LB Status: timelimit
+LB round: 34 Solving time: 172.6417 Best Obj: 1158.0000 n_sols_subMIP: 3 K: 20 t_node: 1.2 self.div: 16 LB Status: sollimit
+LB round: 35 Solving time: 182.6420 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 30 t_node: 10.0 self.div: 16 LB Status: timelimit
+LB round: 36 Solving time: 200.0003 Best Obj: 1158.0000 n_sols_subMIP: 28 K: 45 t_node: 20.0 self.div: 16 LB Status: timelimit
+K_final: 45 div_final: 16
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.000312
+
+
+instance:  1
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0024 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0048 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0109 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 4 Solving time: 60.0183 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 5 Solving time: 80.0193 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 6 Solving time: 100.0209 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 7 Solving time: 110.0244 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 5 LB Status: timelimit
+LB round: 8 Solving time: 120.0266 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 6 LB Status: timelimit
+LB round: 9 Solving time: 130.0301 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 10 Solving time: 150.0312 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 8 LB Status: timelimit
+LB round: 11 Solving time: 170.0337 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 9 LB Status: timelimit
+LB round: 12 Solving time: 190.0348 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 10 LB Status: timelimit
+LB round: 13 Solving time: 200.0025 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 11 LB Status: timelimit
+K_final: 20 div_final: 12
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  57283.999999999985
+Solving time:  200.00245099999998
+
+
+instance:  2
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0008 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 15.0027 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.0455 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 35.0465 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 5 Solving time: 55.0475 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 75.0486 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 85.0503 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 85.1410 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 9 Solving time: 95.1428 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 15 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 10 Solving time: 115.1446 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 135.1460 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 155.1473 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 158.0143 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 14 Solving time: 178.0152 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 45 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 15 Solving time: 198.0160 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 198.1588 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 17 Solving time: 200.0087 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 4 LB Status: timelimit
+K_final: 20 div_final: 4
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29144.0
+Solving time:  200.00870999999998
+
+
+instance:  3
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1748 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 10.1750 Best Obj: 2129.0000 n_sols_subMIP: 19 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 20.1755 Best Obj: 1398.0000 n_sols_subMIP: 12 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 25.1760 Best Obj: 1398.0000 n_sols_subMIP: 9 K: 45 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 30.1765 Best Obj: 1398.0000 n_sols_subMIP: 2 K: 23 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 30.1954 Best Obj: 1398.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 1 LB Status: sollimit
+LB round: 7 Solving time: 40.1964 Best Obj: 1398.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 45.1970 Best Obj: 1398.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 50.1974 Best Obj: 1398.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 10 Solving time: 55.1980 Best Obj: 1398.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 11 Solving time: 57.6985 Best Obj: 1398.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 4 LB Status: timelimit
+LB round: 12 Solving time: 62.6991 Best Obj: 1398.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 5 LB Status: timelimit
+LB round: 13 Solving time: 72.6997 Best Obj: 1398.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 6 LB Status: timelimit
+LB round: 14 Solving time: 79.2912 Best Obj: 1398.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 7 LB Status: sollimit
+LB round: 15 Solving time: 89.2917 Best Obj: 1398.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 16 Solving time: 109.2918 Best Obj: 1398.0000 n_sols_subMIP: 4 K: 20 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 17 Solving time: 129.2931 Best Obj: 1398.0000 n_sols_subMIP: 5 K: 20 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 18 Solving time: 139.2937 Best Obj: 1398.0000 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 19 Solving time: 159.2943 Best Obj: 1306.0000 n_sols_subMIP: 6 K: 20 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 20 Solving time: 169.2945 Best Obj: 1306.0000 n_sols_subMIP: 6 K: 30 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 21 Solving time: 174.2963 Best Obj: 1306.0000 n_sols_subMIP: 6 K: 30 t_node: 5.0 self.div: 7 LB Status: timelimit
+LB round: 22 Solving time: 174.3202 Best Obj: 1306.0000 n_sols_subMIP: 4 K: 20 t_node: 5.0 self.div: 8 LB Status: sollimit
+LB round: 23 Solving time: 184.3209 Best Obj: 1306.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 8 LB Status: timelimit
+LB round: 24 Solving time: 194.3217 Best Obj: 1306.0000 n_sols_subMIP: 5 K: 45 t_node: 10.0 self.div: 8 LB Status: timelimit
+LB round: 25 Solving time: 194.3439 Best Obj: 1306.0000 n_sols_subMIP: 3 K: 20 t_node: 5.0 self.div: 9 LB Status: sollimit
+LB round: 26 Solving time: 199.3449 Best Obj: 1306.0000 n_sols_subMIP: 4 K: 20 t_node: 5.0 self.div: 9 LB Status: timelimit
+LB round: 27 Solving time: 200.0014 Best Obj: 1306.0000 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 9 LB Status: timelimit
+K_final: 20 div_final: 10
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1306.0
+Solving time:  200.00142199999996
+
+
+instance:  4
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0013 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0377 Best Obj: 16292.3649 n_sols_subMIP: 100 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0389 Best Obj: 15509.4080 n_sols_subMIP: 21 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 45.0398 Best Obj: 15509.4080 n_sols_subMIP: 11 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 55.0414 Best Obj: 15255.0981 n_sols_subMIP: 13 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 75.0560 Best Obj: 15173.8836 n_sols_subMIP: 17 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 95.0840 Best Obj: 15041.8563 n_sols_subMIP: 16 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 115.0843 Best Obj: 14953.8384 n_sols_subMIP: 15 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 125.0849 Best Obj: 14953.8384 n_sols_subMIP: 12 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 145.0852 Best Obj: 14953.8384 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 165.0869 Best Obj: 14953.8384 n_sols_subMIP: 12 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 165.1147 Best Obj: 14953.8384 n_sols_subMIP: 5 K: 10 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 13 Solving time: 175.1154 Best Obj: 14953.8384 n_sols_subMIP: 8 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 14 Solving time: 185.1163 Best Obj: 14953.8384 n_sols_subMIP: 9 K: 23 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 15 Solving time: 200.0003 Best Obj: 14953.8384 n_sols_subMIP: 13 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+K_final: 20 div_final: 2
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  14953.838375000003
+Solving time:  200.00030499999997
+
+
+Return policy k: 50.135634
+Return policy t: -9.379094
+Primal ingtegral: 56.349277
+Epoch 73
+instance:  0
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1766 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 10.1770 Best Obj: 2129.0000 n_sols_subMIP: 19 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.1779 Best Obj: 1355.0000 n_sols_subMIP: 20 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 50.1781 Best Obj: 1238.0000 n_sols_subMIP: 17 K: 68 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.1786 Best Obj: 1238.0000 n_sols_subMIP: 8 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 90.1791 Best Obj: 1238.0000 n_sols_subMIP: 3 K: 10 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 90.1989 Best Obj: 1238.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 8 Solving time: 100.1991 Best Obj: 1238.0000 n_sols_subMIP: 3 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 105.1996 Best Obj: 1238.0000 n_sols_subMIP: 3 K: 20 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 115.2161 Best Obj: 1228.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 125.2162 Best Obj: 1201.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 145.2164 Best Obj: 1201.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 165.2166 Best Obj: 1201.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 14 Solving time: 165.2445 Best Obj: 1201.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 15 Solving time: 185.2468 Best Obj: 1201.0000 n_sols_subMIP: 4 K: 15 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 16 Solving time: 200.0005 Best Obj: 1201.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+K_final: 20 div_final: 2
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1201.0
+Solving time:  200.000473
+
+
+instance:  1
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0008 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0013 Best Obj: 30155.0000 n_sols_subMIP: 3 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0030 Best Obj: 30155.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 50.0040 Best Obj: 30155.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.0048 Best Obj: 30155.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 70.0751 Best Obj: 30155.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 7 Solving time: 90.0760 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 110.0778 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 120.0785 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 140.0792 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 140.2288 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 12 Solving time: 160.2308 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 170.2334 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 174.5975 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 194.5993 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 200.0111 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 3 LB Status: timelimit
+K_final: 30 div_final: 4
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29144.0
+Solving time:  200.01107899999997
+
+
+instance:  2
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0023 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0033 Best Obj: 56774.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 50.0044 Best Obj: 56774.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 68.0769 Best Obj: 56508.0000 n_sols_subMIP: 3 K: 15 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 78.0784 Best Obj: 56508.0000 n_sols_subMIP: 0 K: 23 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 98.0796 Best Obj: 56508.0000 n_sols_subMIP: 0 K: 23 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 103.5494 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 8 Solving time: 113.5511 Best Obj: 56355.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 133.5532 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 153.5549 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 153.7063 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 12 Solving time: 173.7079 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 45 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 183.7099 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 200.0035 Best Obj: 56355.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+K_final: 20 div_final: 4
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  56355.00000000022
+Solving time:  200.00351600000002
+
+
+instance:  3
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0005 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 15.0131 Best Obj: 17421.4900 n_sols_subMIP: 12 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 25.0143 Best Obj: 16750.4586 n_sols_subMIP: 8 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 45.0342 Best Obj: 15370.1556 n_sols_subMIP: 20 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 65.0349 Best Obj: 14373.9416 n_sols_subMIP: 16 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 75.0351 Best Obj: 14373.9416 n_sols_subMIP: 6 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 80.0485 Best Obj: 14373.9416 n_sols_subMIP: 7 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 85.0671 Best Obj: 14373.9416 n_sols_subMIP: 9 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 85.0986 Best Obj: 14373.9416 n_sols_subMIP: 9 K: 30 t_node: 5.0 self.div: 1 LB Status: sollimit
+LB round: 10 Solving time: 90.1001 Best Obj: 14373.9416 n_sols_subMIP: 10 K: 45 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 92.6006 Best Obj: 14373.9416 n_sols_subMIP: 11 K: 68 t_node: 2.5 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 97.6177 Best Obj: 14373.9416 n_sols_subMIP: 5 K: 20 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 97.6454 Best Obj: 14373.9416 n_sols_subMIP: 5 K: 30 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 14 Solving time: 102.6462 Best Obj: 14373.9416 n_sols_subMIP: 6 K: 45 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 15 Solving time: 112.6686 Best Obj: 14373.9416 n_sols_subMIP: 9 K: 45 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 16 Solving time: 122.6714 Best Obj: 14373.9416 n_sols_subMIP: 12 K: 68 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 17 Solving time: 132.6725 Best Obj: 14373.9416 n_sols_subMIP: 45 K: 102 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 18 Solving time: 137.6851 Best Obj: 14373.9416 n_sols_subMIP: 5 K: 20 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 19 Solving time: 142.7016 Best Obj: 14373.9416 n_sols_subMIP: 4 K: 10 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 20 Solving time: 142.7280 Best Obj: 14373.9416 n_sols_subMIP: 4 K: 20 t_node: 5.0 self.div: 3 LB Status: sollimit
+LB round: 21 Solving time: 152.7287 Best Obj: 14107.0521 n_sols_subMIP: 7 K: 30 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 22 Solving time: 172.7304 Best Obj: 13442.8529 n_sols_subMIP: 11 K: 45 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 23 Solving time: 182.7335 Best Obj: 13442.8529 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 24 Solving time: 187.7508 Best Obj: 13442.8529 n_sols_subMIP: 5 K: 20 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 25 Solving time: 192.7630 Best Obj: 13442.8529 n_sols_subMIP: 6 K: 20 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 26 Solving time: 192.7863 Best Obj: 13442.8529 n_sols_subMIP: 6 K: 20 t_node: 5.0 self.div: 4 LB Status: sollimit
+LB round: 27 Solving time: 200.0007 Best Obj: 13442.8529 n_sols_subMIP: 8 K: 30 t_node: 10.0 self.div: 4 LB Status: timelimit
+K_final: 30 div_final: 4
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  13442.852937499998
+Solving time:  200.00074700000002
+
+
+instance:  4
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.6985 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 10.6986 Best Obj: 1160.0000 n_sols_subMIP: 32 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.6988 Best Obj: 1158.0000 n_sols_subMIP: 48 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 50.6988 Best Obj: 1158.0000 n_sols_subMIP: 30 K: 68 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.6990 Best Obj: 1158.0000 n_sols_subMIP: 31 K: 34 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 70.7125 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 7 Solving time: 90.7125 Best Obj: 1158.0000 n_sols_subMIP: 25 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 100.7128 Best Obj: 1158.0000 n_sols_subMIP: 11 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 100.7320 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 10 Solving time: 110.7321 Best Obj: 1158.0000 n_sols_subMIP: 18 K: 30 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 120.7322 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 120.7554 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 30 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 13 Solving time: 130.7557 Best Obj: 1158.0000 n_sols_subMIP: 16 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 14 Solving time: 140.7563 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 15 Solving time: 140.7806 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 16 Solving time: 150.7806 Best Obj: 1158.0000 n_sols_subMIP: 13 K: 30 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 17 Solving time: 155.7807 Best Obj: 1158.0000 n_sols_subMIP: 15 K: 45 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 18 Solving time: 155.8083 Best Obj: 1158.0000 n_sols_subMIP: 7 K: 20 t_node: 2.5 self.div: 5 LB Status: sollimit
+LB round: 19 Solving time: 157.0583 Best Obj: 1158.0000 n_sols_subMIP: 8 K: 30 t_node: 1.2 self.div: 5 LB Status: timelimit
+LB round: 20 Solving time: 158.3085 Best Obj: 1158.0000 n_sols_subMIP: 8 K: 30 t_node: 1.2 self.div: 5 LB Status: timelimit
+LB round: 21 Solving time: 158.3214 Best Obj: 1158.0000 n_sols_subMIP: 4 K: 15 t_node: 1.2 self.div: 6 LB Status: sollimit
+LB round: 22 Solving time: 159.5716 Best Obj: 1158.0000 n_sols_subMIP: 5 K: 23 t_node: 1.2 self.div: 6 LB Status: timelimit
+LB round: 23 Solving time: 162.0717 Best Obj: 1158.0000 n_sols_subMIP: 5 K: 20 t_node: 2.5 self.div: 6 LB Status: timelimit
+LB round: 24 Solving time: 162.0917 Best Obj: 1158.0000 n_sols_subMIP: 4 K: 20 t_node: 2.5 self.div: 7 LB Status: sollimit
+LB round: 25 Solving time: 167.0919 Best Obj: 1158.0000 n_sols_subMIP: 12 K: 30 t_node: 5.0 self.div: 7 LB Status: timelimit
+LB round: 26 Solving time: 172.0920 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 45 t_node: 5.0 self.div: 7 LB Status: timelimit
+LB round: 27 Solving time: 182.0921 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 28 Solving time: 182.1079 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 8 LB Status: sollimit
+LB round: 29 Solving time: 200.0000 Best Obj: 1158.0000 n_sols_subMIP: 37 K: 30 t_node: 20.0 self.div: 8 LB Status: timelimit
+K_final: 30 div_final: 8
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00002700000002
+
+
+Return policy k: 51.991445
+Return policy t: -8.282423
+Primal ingtegral: 56.255144
+Epoch 74
+instance:  0
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0019 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 15.0029 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 10 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.0506 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 35.0514 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 5 Solving time: 55.0531 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 75.0550 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 95.0559 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 95.1852 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 9 Solving time: 115.1863 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 10 Solving time: 135.1876 Best Obj: 29327.0000 n_sols_subMIP: 2 K: 15 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 155.1884 Best Obj: 29327.0000 n_sols_subMIP: 1 K: 23 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 175.1899 Best Obj: 29327.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 179.9186 Best Obj: 29327.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 14 Solving time: 199.9194 Best Obj: 29327.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 15 Solving time: 200.0611 Best Obj: 29327.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+K_final: 30 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29327.0
+Solving time:  200.06110700000002
+
+
+instance:  1
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0013 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0015 Best Obj: 16541.3136 n_sols_subMIP: 100 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 50.0015 Best Obj: 15392.9131 n_sols_subMIP: 100 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 60.0037 Best Obj: 15392.9131 n_sols_subMIP: 11 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 80.0065 Best Obj: 14608.3945 n_sols_subMIP: 16 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 90.0491 Best Obj: 14608.3945 n_sols_subMIP: 12 K: 45 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 100.0499 Best Obj: 14608.3945 n_sols_subMIP: 6 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 120.0502 Best Obj: 14600.7357 n_sols_subMIP: 13 K: 10 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 130.0522 Best Obj: 14600.7357 n_sols_subMIP: 9 K: 10 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 150.0722 Best Obj: 14481.1024 n_sols_subMIP: 14 K: 15 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 11 Solving time: 170.0882 Best Obj: 14372.7812 n_sols_subMIP: 22 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 12 Solving time: 190.0883 Best Obj: 14372.7812 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 13 Solving time: 200.0012 Best Obj: 14372.7812 n_sols_subMIP: 10 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+K_final: 30 div_final: 0
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  14372.78118181818
+Solving time:  200.001231
+
+
+instance:  2
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.7038 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 5.7039 Best Obj: 1249.0000 n_sols_subMIP: 15 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 10.7040 Best Obj: 1249.0000 n_sols_subMIP: 15 K: 45 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 13.2040 Best Obj: 1249.0000 n_sols_subMIP: 10 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 13.2100 Best Obj: 1249.0000 n_sols_subMIP: 3 K: 10 t_node: 5.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 23.2102 Best Obj: 1224.0000 n_sols_subMIP: 6 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 33.2105 Best Obj: 1194.0000 n_sols_subMIP: 10 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 38.2107 Best Obj: 1194.0000 n_sols_subMIP: 13 K: 20 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 48.2108 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 58.2108 Best Obj: 1158.0000 n_sols_subMIP: 19 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 63.2109 Best Obj: 1158.0000 n_sols_subMIP: 12 K: 20 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 63.2245 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 13 Solving time: 73.2245 Best Obj: 1158.0000 n_sols_subMIP: 23 K: 30 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 78.2247 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 20 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 15 Solving time: 78.2387 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 3 LB Status: sollimit
+LB round: 16 Solving time: 98.2388 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 17 Solving time: 108.2388 Best Obj: 1158.0000 n_sols_subMIP: 16 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 18 Solving time: 128.2389 Best Obj: 1158.0000 n_sols_subMIP: 32 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 19 Solving time: 128.2635 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 45 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 20 Solving time: 138.2635 Best Obj: 1158.0000 n_sols_subMIP: 32 K: 68 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 21 Solving time: 143.2637 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 20 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 22 Solving time: 143.2846 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 5 LB Status: sollimit
+LB round: 23 Solving time: 163.2847 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 20 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 24 Solving time: 173.2848 Best Obj: 1158.0000 n_sols_subMIP: 16 K: 30 t_node: 10.0 self.div: 5 LB Status: timelimit
+LB round: 25 Solving time: 193.2849 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 20 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 26 Solving time: 193.3105 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 6 LB Status: sollimit
+LB round: 27 Solving time: 200.0000 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 20 t_node: 10.0 self.div: 6 LB Status: timelimit
+K_final: 20 div_final: 6
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00004099999998
+
+
+instance:  3
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1781 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 3.9595 Best Obj: 2835.0000 n_sols_subMIP: 8 K: 20 t_node: 5.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 6.4603 Best Obj: 2835.0000 n_sols_subMIP: 1 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 11.4607 Best Obj: 2835.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 11.4735 Best Obj: 2835.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 21.4737 Best Obj: 1656.0000 n_sols_subMIP: 8 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 41.4748 Best Obj: 1590.0000 n_sols_subMIP: 8 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 61.4750 Best Obj: 1316.0000 n_sols_subMIP: 12 K: 45 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 71.4758 Best Obj: 1316.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 91.4763 Best Obj: 1316.0000 n_sols_subMIP: 3 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 91.5011 Best Obj: 1316.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 12 Solving time: 101.5021 Best Obj: 1316.0000 n_sols_subMIP: 3 K: 30 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 111.5026 Best Obj: 1316.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 111.5275 Best Obj: 1316.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 121.5279 Best Obj: 1316.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 141.5281 Best Obj: 1316.0000 n_sols_subMIP: 10 K: 45 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 17 Solving time: 161.5287 Best Obj: 1316.0000 n_sols_subMIP: 5 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 18 Solving time: 181.5287 Best Obj: 1316.0000 n_sols_subMIP: 8 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 19 Solving time: 200.0008 Best Obj: 1316.0000 n_sols_subMIP: 7 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+K_final: 30 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1316.0
+Solving time:  200.00076899999996
+
+
+instance:  4
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0022 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0045 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0107 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 4 Solving time: 60.0181 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 5 Solving time: 70.0220 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 6 Solving time: 90.0248 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 7 Solving time: 110.0269 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 8 Solving time: 117.1872 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 6 LB Status: sollimit
+LB round: 9 Solving time: 137.1921 Best Obj: 56355.0000 n_sols_subMIP: 2 K: 45 t_node: 20.0 self.div: 6 LB Status: timelimit
+LB round: 10 Solving time: 157.1930 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 6 LB Status: timelimit
+LB round: 11 Solving time: 163.9923 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 7 LB Status: sollimit
+LB round: 12 Solving time: 173.9939 Best Obj: 56355.0000 n_sols_subMIP: 3 K: 10 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 13 Solving time: 183.9969 Best Obj: 56355.0000 n_sols_subMIP: 2 K: 15 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 14 Solving time: 193.9990 Best Obj: 56355.0000 n_sols_subMIP: 2 K: 15 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 15 Solving time: 194.1046 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 8 LB Status: sollimit
+LB round: 16 Solving time: 200.0055 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 8 LB Status: timelimit
+K_final: 30 div_final: 8
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  56355.0
+Solving time:  200.005497
+
+
+Return policy k: 50.201213
+Return policy t: -7.152921
+Primal ingtegral: 56.480956
+Epoch 75
+instance:  0
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1739 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 3.9966 Best Obj: 2835.0000 n_sols_subMIP: 8 K: 20 t_node: 5.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 6.4972 Best Obj: 2600.0000 n_sols_subMIP: 3 K: 10 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 7.7477 Best Obj: 2068.0000 n_sols_subMIP: 6 K: 10 t_node: 1.2 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 10.2481 Best Obj: 1968.0000 n_sols_subMIP: 7 K: 15 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 12.7486 Best Obj: 1968.0000 n_sols_subMIP: 6 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 17.7487 Best Obj: 1960.0000 n_sols_subMIP: 7 K: 10 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 20.2492 Best Obj: 1960.0000 n_sols_subMIP: 6 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 9 Solving time: 22.7498 Best Obj: 1960.0000 n_sols_subMIP: 6 K: 20 t_node: 2.5 self.div: 0 LB Status: timelimit
+LB round: 10 Solving time: 22.7708 Best Obj: 1960.0000 n_sols_subMIP: 1 K: 10 t_node: 5.0 self.div: 1 LB Status: sollimit
+LB round: 11 Solving time: 32.7710 Best Obj: 1721.0000 n_sols_subMIP: 13 K: 10 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 52.7719 Best Obj: 1518.0000 n_sols_subMIP: 12 K: 15 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 72.7775 Best Obj: 1518.0000 n_sols_subMIP: 9 K: 23 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 14 Solving time: 92.7779 Best Obj: 1518.0000 n_sols_subMIP: 8 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 15 Solving time: 92.8216 Best Obj: 1518.0000 n_sols_subMIP: 7 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 16 Solving time: 112.8221 Best Obj: 1292.0000 n_sols_subMIP: 14 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 17 Solving time: 132.8223 Best Obj: 1238.0000 n_sols_subMIP: 13 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 18 Solving time: 152.8226 Best Obj: 1218.0000 n_sols_subMIP: 13 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 19 Solving time: 172.8236 Best Obj: 1215.0000 n_sols_subMIP: 12 K: 45 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 20 Solving time: 192.8240 Best Obj: 1215.0000 n_sols_subMIP: 11 K: 68 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 21 Solving time: 200.0002 Best Obj: 1215.0000 n_sols_subMIP: 11 K: 68 t_node: 20.0 self.div: 2 LB Status: timelimit
+K_final: 68 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1215.0
+Solving time:  200.00023399999998
+
+
+instance:  1
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0048 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0069 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0142 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 4 Solving time: 50.0167 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 5 Solving time: 55.0186 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 30 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 6 Solving time: 60.0205 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 7 Solving time: 65.0221 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 5 LB Status: timelimit
+LB round: 8 Solving time: 70.0241 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 6 LB Status: timelimit
+LB round: 9 Solving time: 75.0275 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 7 LB Status: timelimit
+LB round: 10 Solving time: 80.0342 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 8 LB Status: timelimit
+LB round: 11 Solving time: 82.5462 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 9 LB Status: timelimit
+LB round: 12 Solving time: 85.0588 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 2.5 self.div: 10 LB Status: timelimit
+LB round: 13 Solving time: 90.0608 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 11 LB Status: timelimit
+LB round: 14 Solving time: 100.0652 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 12 LB Status: timelimit
+LB round: 15 Solving time: 120.0681 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 13 LB Status: timelimit
+LB round: 16 Solving time: 140.0699 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 14 LB Status: timelimit
+LB round: 17 Solving time: 160.0710 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 15 LB Status: timelimit
+LB round: 18 Solving time: 180.0782 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 30 t_node: 20.0 self.div: 16 LB Status: timelimit
+LB round: 19 Solving time: 200.0010 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 17 LB Status: timelimit
+K_final: 20 div_final: 18
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  57283.999999999985
+Solving time:  200.00097000000002
+
+
+instance:  2
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0009 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0017 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0455 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 37.2400 Best Obj: 30081.0000 n_sols_subMIP: 2 K: 10 t_node: 10.0 self.div: 1 LB Status: optimal
+LB round: 5 Solving time: 47.2407 Best Obj: 30081.0000 n_sols_subMIP: 0 K: 10 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 67.2412 Best Obj: 29368.0000 n_sols_subMIP: 1 K: 15 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 87.2420 Best Obj: 29368.0000 n_sols_subMIP: 2 K: 23 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 97.2443 Best Obj: 29368.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 97.4193 Best Obj: 29368.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 10 Solving time: 107.4210 Best Obj: 29368.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 117.4293 Best Obj: 29368.0000 n_sols_subMIP: 2 K: 45 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 137.4307 Best Obj: 29368.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 157.4325 Best Obj: 29368.0000 n_sols_subMIP: 0 K: 10 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 14 Solving time: 177.4350 Best Obj: 29368.0000 n_sols_subMIP: 0 K: 10 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 15 Solving time: 197.4373 Best Obj: 29368.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 16 Solving time: 200.0097 Best Obj: 29368.0000 n_sols_subMIP: 0 K: 30 t_node: 20.0 self.div: 6 LB Status: timelimit
+K_final: 30 div_final: 7
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29367.999999999996
+Solving time:  200.009686
+
+
+instance:  3
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0013 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0029 Best Obj: 17474.2686 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0191 Best Obj: 15350.0714 n_sols_subMIP: 100 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 60.0199 Best Obj: 13890.2169 n_sols_subMIP: 42 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.0199 Best Obj: 13890.2169 n_sols_subMIP: 38 K: 68 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 80.0203 Best Obj: 13890.2169 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 100.0396 Best Obj: 13890.2169 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 100.0719 Best Obj: 13890.2169 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 9 Solving time: 120.0722 Best Obj: 13890.2169 n_sols_subMIP: 17 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 140.0731 Best Obj: 13890.2169 n_sols_subMIP: 12 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 160.0731 Best Obj: 13890.2169 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 180.0932 Best Obj: 13890.2169 n_sols_subMIP: 13 K: 10 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 180.1262 Best Obj: 13890.2169 n_sols_subMIP: 10 K: 15 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 14 Solving time: 200.0198 Best Obj: 13890.2169 n_sols_subMIP: 15 K: 23 t_node: 20.0 self.div: 2 LB Status: timelimit
+K_final: 23 div_final: 2
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  13890.216875000007
+Solving time:  200.01975099999999
+
+
+instance:  4
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.7033 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 5.7035 Best Obj: 1249.0000 n_sols_subMIP: 15 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.7037 Best Obj: 1168.0000 n_sols_subMIP: 22 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 20.7037 Best Obj: 1168.0000 n_sols_subMIP: 8 K: 15 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 30.7038 Best Obj: 1168.0000 n_sols_subMIP: 15 K: 15 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 30.7160 Best Obj: 1168.0000 n_sols_subMIP: 9 K: 20 t_node: 5.0 self.div: 1 LB Status: sollimit
+LB round: 7 Solving time: 40.7161 Best Obj: 1168.0000 n_sols_subMIP: 20 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 50.7162 Best Obj: 1168.0000 n_sols_subMIP: 23 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 60.7165 Best Obj: 1168.0000 n_sols_subMIP: 12 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 60.7350 Best Obj: 1168.0000 n_sols_subMIP: 6 K: 10 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 11 Solving time: 75.3804 Best Obj: 1158.0000 n_sols_subMIP: 13 K: 15 t_node: 20.0 self.div: 2 LB Status: optimal
+LB round: 12 Solving time: 85.3892 Best Obj: 1158.0000 n_sols_subMIP: 15 K: 23 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 90.3892 Best Obj: 1158.0000 n_sols_subMIP: 13 K: 23 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 90.4030 Best Obj: 1158.0000 n_sols_subMIP: 10 K: 35 t_node: 10.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 110.4033 Best Obj: 1158.0000 n_sols_subMIP: 37 K: 53 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 128.5089 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 20 t_node: 20.0 self.div: 3 LB Status: infeasible
+LB round: 17 Solving time: 128.5641 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 10 t_node: 20.0 self.div: 3 LB Status: infeasible
+LB round: 18 Solving time: 128.5941 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 4 LB Status: infeasible
+LB round: 19 Solving time: 128.6119 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 5.0 self.div: 5 LB Status: sollimit
+LB round: 20 Solving time: 131.1121 Best Obj: 1158.0000 n_sols_subMIP: 8 K: 45 t_node: 2.5 self.div: 5 LB Status: timelimit
+LB round: 21 Solving time: 136.1122 Best Obj: 1158.0000 n_sols_subMIP: 16 K: 68 t_node: 5.0 self.div: 5 LB Status: timelimit
+LB round: 22 Solving time: 146.1122 Best Obj: 1158.0000 n_sols_subMIP: 30 K: 102 t_node: 10.0 self.div: 5 LB Status: timelimit
+LB round: 23 Solving time: 156.1125 Best Obj: 1158.0000 n_sols_subMIP: 26 K: 51 t_node: 10.0 self.div: 5 LB Status: timelimit
+LB round: 24 Solving time: 166.1125 Best Obj: 1158.0000 n_sols_subMIP: 11 K: 20 t_node: 10.0 self.div: 5 LB Status: timelimit
+LB round: 25 Solving time: 166.1368 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 6 LB Status: sollimit
+LB round: 26 Solving time: 176.1369 Best Obj: 1158.0000 n_sols_subMIP: 18 K: 30 t_node: 10.0 self.div: 6 LB Status: timelimit
+LB round: 27 Solving time: 186.1371 Best Obj: 1158.0000 n_sols_subMIP: 12 K: 20 t_node: 10.0 self.div: 6 LB Status: timelimit
+LB round: 28 Solving time: 200.0001 Best Obj: 1158.0000 n_sols_subMIP: 25 K: 20 t_node: 20.0 self.div: 6 LB Status: timelimit
+K_final: 20 div_final: 6
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00006499999998
+
+
+Return policy k: 51.399486
+Return policy t: -8.755232
+Primal ingtegral: 56.811632
+Epoch 76
+instance:  0
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0014 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 2 Solving time: 30.0356 Best Obj: 16292.3649 n_sols_subMIP: 100 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0366 Best Obj: 15509.4080 n_sols_subMIP: 21 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 60.0523 Best Obj: 15309.5255 n_sols_subMIP: 18 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.0525 Best Obj: 15309.5255 n_sols_subMIP: 12 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 90.0671 Best Obj: 15309.5255 n_sols_subMIP: 12 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 110.0675 Best Obj: 15309.5255 n_sols_subMIP: 14 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 110.0993 Best Obj: 15309.5255 n_sols_subMIP: 10 K: 30 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 9 Solving time: 120.1012 Best Obj: 15008.4470 n_sols_subMIP: 26 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 140.1038 Best Obj: 13630.9634 n_sols_subMIP: 19 K: 68 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 150.1048 Best Obj: 13630.9634 n_sols_subMIP: 4 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 170.1050 Best Obj: 13384.2446 n_sols_subMIP: 11 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 190.1050 Best Obj: 13208.8310 n_sols_subMIP: 14 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 14 Solving time: 200.0003 Best Obj: 13208.8310 n_sols_subMIP: 7 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+K_final: 20 div_final: 1
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  13208.830999999993
+Solving time:  200.000349
+
+
+instance:  1
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.7122 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 10.7125 Best Obj: 1160.0000 n_sols_subMIP: 32 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.7126 Best Obj: 1160.0000 n_sols_subMIP: 21 K: 45 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 20.7126 Best Obj: 1160.0000 n_sols_subMIP: 12 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 20.7197 Best Obj: 1160.0000 n_sols_subMIP: 9 K: 20 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 39.7433 Best Obj: 1158.0000 n_sols_subMIP: 38 K: 20 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 7 Solving time: 49.7434 Best Obj: 1158.0000 n_sols_subMIP: 13 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 68.7782 Best Obj: 1158.0000 n_sols_subMIP: 16 K: 20 t_node: 20.0 self.div: 1 LB Status: infeasible
+LB round: 9 Solving time: 68.8234 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 2 LB Status: infeasible
+LB round: 10 Solving time: 68.8649 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 3 LB Status: sollimit
+LB round: 11 Solving time: 73.8723 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 30 t_node: 5.0 self.div: 3 LB Status: timelimit
+LB round: 12 Solving time: 83.8724 Best Obj: 1158.0000 n_sols_subMIP: 23 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 13 Solving time: 93.8725 Best Obj: 1158.0000 n_sols_subMIP: 17 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 14 Solving time: 108.5649 Best Obj: 1158.0000 n_sols_subMIP: 23 K: 20 t_node: 20.0 self.div: 3 LB Status: infeasible
+LB round: 15 Solving time: 108.6085 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 4 LB Status: infeasible
+LB round: 16 Solving time: 108.6412 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 5.0 self.div: 5 LB Status: infeasible
+LB round: 17 Solving time: 108.6729 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 6 LB Status: infeasible
+LB round: 18 Solving time: 108.7336 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 7 LB Status: sollimit
+LB round: 19 Solving time: 128.7406 Best Obj: 1158.0000 n_sols_subMIP: 36 K: 45 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 20 Solving time: 148.7407 Best Obj: 1158.0000 n_sols_subMIP: 35 K: 68 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 21 Solving time: 158.7409 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 68 t_node: 10.0 self.div: 7 LB Status: timelimit
+LB round: 22 Solving time: 178.7410 Best Obj: 1158.0000 n_sols_subMIP: 26 K: 68 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 23 Solving time: 198.7410 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 20 t_node: 20.0 self.div: 7 LB Status: timelimit
+LB round: 24 Solving time: 200.0002 Best Obj: 1158.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 7 LB Status: timelimit
+K_final: 20 div_final: 8
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.000217
+
+
+instance:  2
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1698 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 10.7459 Best Obj: 2058.0000 n_sols_subMIP: 21 K: 30 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 30.7465 Best Obj: 1381.0000 n_sols_subMIP: 3 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 50.7490 Best Obj: 1259.0000 n_sols_subMIP: 5 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.7492 Best Obj: 1217.0000 n_sols_subMIP: 7 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 80.7497 Best Obj: 1217.0000 n_sols_subMIP: 7 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 100.7499 Best Obj: 1217.0000 n_sols_subMIP: 3 K: 10 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 100.7719 Best Obj: 1217.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 9 Solving time: 110.7723 Best Obj: 1217.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 130.7727 Best Obj: 1212.0000 n_sols_subMIP: 3 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 140.7732 Best Obj: 1212.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 150.7733 Best Obj: 1212.0000 n_sols_subMIP: 2 K: 10 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 13 Solving time: 150.8014 Best Obj: 1212.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 14 Solving time: 170.8073 Best Obj: 1212.0000 n_sols_subMIP: 9 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 15 Solving time: 190.8075 Best Obj: 1212.0000 n_sols_subMIP: 6 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 16 Solving time: 200.0005 Best Obj: 1212.0000 n_sols_subMIP: 6 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+K_final: 20 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1212.0
+Solving time:  200.00047399999997
+
+
+instance:  3
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0024 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 15.0046 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 25.0080 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 4 Solving time: 29.1719 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 5 Solving time: 39.1734 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 6 Solving time: 59.1752 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 7 Solving time: 65.5086 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 8 Solving time: 75.5129 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 9 Solving time: 85.5157 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 10 Solving time: 93.8274 Best Obj: 57018.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 11 Solving time: 103.8345 Best Obj: 57018.0000 n_sols_subMIP: 1 K: 15 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 12 Solving time: 113.8357 Best Obj: 56865.0000 n_sols_subMIP: 2 K: 23 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 13 Solving time: 133.8370 Best Obj: 56712.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 14 Solving time: 153.8380 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 15 Solving time: 163.8397 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 16 Solving time: 179.7927 Best Obj: 56370.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 5 LB Status: sollimit
+LB round: 17 Solving time: 199.7943 Best Obj: 56370.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 18 Solving time: 200.0085 Best Obj: 56370.0000 n_sols_subMIP: 2 K: 10 t_node: 20.0 self.div: 5 LB Status: timelimit
+K_final: 10 div_final: 6
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  56370.000000000015
+Solving time:  200.008507
+
+
+instance:  4
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0015 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0028 Best Obj: 30550.0000 n_sols_subMIP: 3 K: 10 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 50.0043 Best Obj: 30550.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 70.0064 Best Obj: 30550.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.0685 Best Obj: 30550.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 90.0707 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 100.0709 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 110.0730 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 130.0738 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 130.2846 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 11 Solving time: 150.2854 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 15 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 160.2876 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 170.2883 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 170.4342 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 190.4362 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 200.0008 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+K_final: 20 div_final: 4
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29429.0
+Solving time:  200.00082700000002
+
+
+Return policy k: 50.878958
+Return policy t: -6.429274
+Primal ingtegral: 56.140874
+Epoch 77
+instance:  0
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0026 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0049 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 24.7619 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 44.7631 Best Obj: 57284.0000 n_sols_subMIP: 2 K: 15 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 5 Solving time: 64.7643 Best Obj: 57284.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 74.7668 Best Obj: 57284.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 94.7677 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 10 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 8 Solving time: 100.8252 Best Obj: 56949.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: sollimit
+LB round: 9 Solving time: 120.8264 Best Obj: 56712.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 10 Solving time: 140.8272 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 11 Solving time: 160.8350 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 12 Solving time: 169.2192 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 4 LB Status: sollimit
+LB round: 13 Solving time: 189.2222 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 14 Solving time: 200.0027 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
+K_final: 20 div_final: 5
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  56712.00000000003
+Solving time:  200.00271299999997
+
+
+instance:  1
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0007 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0022 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 10 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 20.0476 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 15 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 25.0493 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 23 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 5 Solving time: 27.5518 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 23 t_node: 2.5 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 30.2280 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 2 LB Status: sollimit
+LB round: 7 Solving time: 35.2288 Best Obj: 29873.0000 n_sols_subMIP: 2 K: 20 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 8 Solving time: 45.2312 Best Obj: 29873.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 9 Solving time: 65.2327 Best Obj: 29312.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 10 Solving time: 85.2346 Best Obj: 29312.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 105.2354 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 115.2362 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 135.2371 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 14 Solving time: 145.2405 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 15 Solving time: 165.2459 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 30 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 16 Solving time: 185.2483 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 6 LB Status: timelimit
+LB round: 17 Solving time: 200.0061 Best Obj: 29312.0000 n_sols_subMIP: 0 K: 30 t_node: 20.0 self.div: 7 LB Status: timelimit
+K_final: 30 div_final: 8
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  29312.00000000009
+Solving time:  200.006124
+
+
+instance:  2
+create a new SCIP model
+original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
+The initial incumbent of miplib_39binary-1_transformed_aflow30a is successfully added to MIP model
+Instance:  miplib_39binary-1_transformed_aflow30a
+N of variables: 842
+N of binary vars: 421
+N of constraints: 479
+Initial obj before LB: 4374.0
+binary support:  29
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.7036 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 5.7039 Best Obj: 1249.0000 n_sols_subMIP: 15 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.7039 Best Obj: 1173.0000 n_sols_subMIP: 14 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 34.0051 Best Obj: 1158.0000 n_sols_subMIP: 25 K: 20 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 52.2025 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 20.0 self.div: 0 LB Status: infeasible
+LB round: 6 Solving time: 52.2325 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 0 LB Status: infeasible
+LB round: 7 Solving time: 52.2690 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 8 Solving time: 72.2691 Best Obj: 1158.0000 n_sols_subMIP: 35 K: 45 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 92.2692 Best Obj: 1158.0000 n_sols_subMIP: 23 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 102.2695 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 121.6362 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 20 t_node: 20.0 self.div: 1 LB Status: infeasible
+LB round: 12 Solving time: 121.6992 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 2 LB Status: infeasible
+LB round: 13 Solving time: 121.7491 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 3 LB Status: infeasible
+LB round: 14 Solving time: 122.9747 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 5.0 self.div: 4 LB Status: sollimit
+LB round: 15 Solving time: 125.4752 Best Obj: 1158.0000 n_sols_subMIP: 12 K: 45 t_node: 2.5 self.div: 4 LB Status: timelimit
+LB round: 16 Solving time: 130.4757 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 20 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 17 Solving time: 140.4758 Best Obj: 1158.0000 n_sols_subMIP: 18 K: 30 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 18 Solving time: 145.4760 Best Obj: 1158.0000 n_sols_subMIP: 14 K: 30 t_node: 5.0 self.div: 4 LB Status: timelimit
+LB round: 19 Solving time: 155.4762 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 15 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 20 Solving time: 155.5003 Best Obj: 1158.0000 n_sols_subMIP: 4 K: 10 t_node: 20.0 self.div: 5 LB Status: sollimit
+LB round: 21 Solving time: 175.5004 Best Obj: 1158.0000 n_sols_subMIP: 20 K: 15 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 22 Solving time: 195.5006 Best Obj: 1158.0000 n_sols_subMIP: 23 K: 23 t_node: 20.0 self.div: 5 LB Status: timelimit
+LB round: 23 Solving time: 200.0000 Best Obj: 1158.0000 n_sols_subMIP: 12 K: 20 t_node: 10.0 self.div: 5 LB Status: timelimit
+K_final: 20 div_final: 6
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00000999999997
+
+
+instance:  3
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+Instance:  miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj before LB: 21141.52
+binary support:  173
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0013 Best Obj: 18791.4790 n_sols_subMIP: 100 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0013 Best Obj: 16292.3649 n_sols_subMIP: 100 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.0318 Best Obj: 15949.6262 n_sols_subMIP: 16 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 60.0324 Best Obj: 14847.4147 n_sols_subMIP: 11 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 80.0340 Best Obj: 14847.4147 n_sols_subMIP: 13 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 90.0362 Best Obj: 14847.4147 n_sols_subMIP: 11 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 110.0372 Best Obj: 14847.4147 n_sols_subMIP: 17 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 110.0674 Best Obj: 14847.4147 n_sols_subMIP: 6 K: 10 t_node: 10.0 self.div: 1 LB Status: sollimit
+LB round: 9 Solving time: 120.0683 Best Obj: 14847.4147 n_sols_subMIP: 8 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 130.0703 Best Obj: 14847.4147 n_sols_subMIP: 8 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 135.0834 Best Obj: 14847.4147 n_sols_subMIP: 9 K: 20 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 12 Solving time: 135.1156 Best Obj: 14847.4147 n_sols_subMIP: 9 K: 20 t_node: 5.0 self.div: 2 LB Status: sollimit
+LB round: 13 Solving time: 145.1159 Best Obj: 14847.4147 n_sols_subMIP: 12 K: 30 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 165.1229 Best Obj: 13879.0127 n_sols_subMIP: 14 K: 45 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 15 Solving time: 175.1239 Best Obj: 13879.0127 n_sols_subMIP: 18 K: 68 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 16 Solving time: 195.1283 Best Obj: 13879.0127 n_sols_subMIP: 31 K: 102 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 17 Solving time: 200.0132 Best Obj: 13879.0127 n_sols_subMIP: 7 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+K_final: 20 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-0_transformed_a1c1s1_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  13879.012687499988
+Solving time:  200.01317999999998
+
+
+instance:  4
+create a new SCIP model
+original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
+The initial incumbent of miplib_39binary-2_transformed_aflow40b is successfully added to MIP model
+Instance:  miplib_39binary-2_transformed_aflow40b
+N of variables: 2728
+N of binary vars: 1364
+N of constraints: 1442
+Initial obj before LB: 8410.0
+binary support:  39
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 0.1737 Best Obj: 4974.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 5.1738 Best Obj: 2363.0000 n_sols_subMIP: 11 K: 30 t_node: 5.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 15.1743 Best Obj: 1826.0000 n_sols_subMIP: 9 K: 15 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 35.1745 Best Obj: 1317.0000 n_sols_subMIP: 14 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 55.1750 Best Obj: 1240.0000 n_sols_subMIP: 10 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 75.1782 Best Obj: 1240.0000 n_sols_subMIP: 9 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 7 Solving time: 85.1788 Best Obj: 1240.0000 n_sols_subMIP: 6 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 8 Solving time: 85.2018 Best Obj: 1240.0000 n_sols_subMIP: 2 K: 10 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 9 Solving time: 95.2019 Best Obj: 1240.0000 n_sols_subMIP: 2 K: 15 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 115.2023 Best Obj: 1240.0000 n_sols_subMIP: 2 K: 10 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 11 Solving time: 115.2296 Best Obj: 1240.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 2 LB Status: sollimit
+LB round: 12 Solving time: 125.2297 Best Obj: 1240.0000 n_sols_subMIP: 2 K: 15 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 135.2300 Best Obj: 1240.0000 n_sols_subMIP: 2 K: 15 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 135.2560 Best Obj: 1240.0000 n_sols_subMIP: 1 K: 15 t_node: 10.0 self.div: 3 LB Status: sollimit
+LB round: 15 Solving time: 145.2563 Best Obj: 1240.0000 n_sols_subMIP: 3 K: 23 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 16 Solving time: 165.2573 Best Obj: 1240.0000 n_sols_subMIP: 8 K: 20 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 17 Solving time: 185.2578 Best Obj: 1240.0000 n_sols_subMIP: 10 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 18 Solving time: 200.0005 Best Obj: 1240.0000 n_sols_subMIP: 9 K: 45 t_node: 20.0 self.div: 3 LB Status: timelimit
+K_final: 45 div_final: 3
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-2_transformed_aflow40b_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1240.0
+Solving time:  200.00050199999998
+
+
+Return policy k: 51.717093
+Return policy t: -6.388753
+Primal ingtegral: 56.204656
+Epoch 78
+instance:  0
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0031 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0096 Best Obj: 56774.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 50.0112 Best Obj: 56774.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 60.0123 Best Obj: 56774.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 67.4278 Best Obj: 56774.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 77.4469 Best Obj: 56774.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 87.4505 Best Obj: 56774.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 92.4556 Best Obj: 56774.0000 n_sols_subMIP: 1 K: 30 t_node: 5.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 102.4618 Best Obj: 56774.0000 n_sols_subMIP: 1 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 10 Solving time: 109.9207 Best Obj: 56774.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 2 LB Status: sollimit
+LB round: 11 Solving time: 129.9211 Best Obj: 56712.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 149.9236 Best Obj: 56712.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 13 Solving time: 159.9251 Best Obj: 56370.0000 n_sols_subMIP: 2 K: 10 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 14 Solving time: 179.9263 Best Obj: 56355.0000 n_sols_subMIP: 2 K: 15 t_node: 20.0 self.div: 2 LB Status: timelimit
+LB round: 15 Solving time: 189.6970 Best Obj: 56355.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 2 LB Status: infeasible
+LB round: 16 Solving time: 199.6986 Best Obj: 56355.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 17 Solving time: 200.0118 Best Obj: 56355.0000 n_sols_subMIP: 0 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+K_final: 30 div_final: 4
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-3_transformed_air04_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  56355.000000000015
+Solving time:  200.01176600000002
+
+
+instance:  1
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0006 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 30.0013 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0470 Best Obj: 30740.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 4 Solving time: 50.0489 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 5 Solving time: 60.0496 Best Obj: 29802.0000 n_sols_subMIP: 1 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 70.0525 Best Obj: 29429.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 80.0551 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 90.0578 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 9 Solving time: 90.1379 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 2 LB Status: sollimit
+LB round: 10 Solving time: 92.6399 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 30 t_node: 2.5 self.div: 2 LB Status: timelimit
+LB round: 11 Solving time: 97.6417 Best Obj: 29429.0000 n_sols_subMIP: 1 K: 20 t_node: 5.0 self.div: 2 LB Status: timelimit
+LB round: 12 Solving time: 101.8447 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 3 LB Status: sollimit
+LB round: 13 Solving time: 111.8470 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 14 Solving time: 131.8474 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 3 LB Status: timelimit
+LB round: 15 Solving time: 138.3309 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 15 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 16 Solving time: 148.3320 Best Obj: 29144.0000 n_sols_subMIP: 2 K: 23 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 17 Solving time: 168.3327 Best Obj: 29144.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
