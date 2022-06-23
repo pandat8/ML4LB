@@ -95,6 +95,7 @@ for i in range(4, 5):
                 total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_rl_beforenode/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
+            print(result_directory)
             scip_as_baseline = Execute_LB_RL(instance_directory,
                                                    solution_directory,
                                                    result_directory,

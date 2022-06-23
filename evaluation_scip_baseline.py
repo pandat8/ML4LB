@@ -62,6 +62,7 @@ for i in range(4, 5):
                 total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
+            print(result_directory)
             scip_as_baseline = ExecuteHeuristic(instance_directory,
                                                 solution_directory,
                                                 result_directory,
