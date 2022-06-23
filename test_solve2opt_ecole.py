@@ -45,7 +45,7 @@ for t in range(6, 7):
     # generator = generator_switcher(dataset)
     # generator.seed(100)
 
-    for i in range(34, 35):
+    for i in range(33, 34):
         filename = f'{directory_transformedmodel}{instance_type}-{str(i)}_transformed.cip'
         firstsol_filename = f'{directory_sol}{incumbent_mode}-{instance_type}-{str(i)}_transformed.sol'
 
