@@ -21428,3 +21428,42 @@ LB round: 33 Solving time: 100.2116 Best Obj: 8792.0000 n_sols_subMIP: 1 K: 102 
 LB round: 34 Solving time: 101.5708 Best Obj: 8792.0000 n_sols_subMIP: 1 K: 153 t_node: 20.0 self.div: 1 LB Status: optimal
 LB round: 35 Solving time: 102.9149 Best Obj: 8792.0000 n_sols_subMIP: 1 K: 230 t_node: 20.0 self.div: 1 LB Status: optimal
 LB round: 36 Solving time: 103.8610 Best Obj: 8792.0000 n_sols_subMIP: 3 K: 345 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 37 Solving time: 123.8618 Best Obj: 8407.0000 n_sols_subMIP: 2 K: 518 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 38 Solving time: 124.6447 Best Obj: 7708.0000 n_sols_subMIP: 3 K: 10 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 39 Solving time: 125.9806 Best Obj: 6913.0000 n_sols_subMIP: 1 K: 15 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 40 Solving time: 127.3812 Best Obj: 6236.0000 n_sols_subMIP: 1 K: 15 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 41 Solving time: 128.7805 Best Obj: 5318.0000 n_sols_subMIP: 1 K: 23 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 42 Solving time: 130.1778 Best Obj: 4186.0000 n_sols_subMIP: 1 K: 35 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 43 Solving time: 137.4831 Best Obj: 3009.0000 n_sols_subMIP: 5 K: 53 t_node: 20.0 self.div: 1 LB Status: optimal
+LB round: 44 Solving time: 157.4850 Best Obj: 2198.0000 n_sols_subMIP: 3 K: 80 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 45 Solving time: 177.4878 Best Obj: 2148.0000 n_sols_subMIP: 5 K: 80 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 46 Solving time: 197.4910 Best Obj: 2148.0000 n_sols_subMIP: 5 K: 120 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 47 Solving time: 200.0034 Best Obj: 2133.0000 n_sols_subMIP: 3 K: 10 t_node: 20.0 self.div: 1 LB Status: timelimit
+K_final: 10 div_final: 1
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: setcovering-1_transformed_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  2133.0
+Solving time:  200.00340000000003
+
+
+instance:  1
+create a new SCIP model
+original problem has 4000 variables (4000 bin, 0 int, 0 impl, 0 cont) and 10000 constraints
+The initial incumbent of setcovering-0_transformed is successfully added to MIP model
+Instance:  setcovering-0_transformed
+N of variables: 4000
+N of binary vars: 4000
+N of constraints: 10000
+Initial obj before LB: 198482.0
+binary support:  4000
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 1.1711 Best Obj: 197492.0000 n_sols_subMIP: 3 K: 10 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 2.3357 Best Obj: 196007.0000 n_sols_subMIP: 3 K: 15 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 3.8098 Best Obj: 193738.0000 n_sols_subMIP: 3 K: 23 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 4 Solving time: 5.4052 Best Obj: 191484.0000 n_sols_subMIP: 1 K: 23 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 5 Solving time: 6.8135 Best Obj: 188083.0000 n_sols_subMIP: 3 K: 35 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 6 Solving time: 8.2849 Best Obj: 182981.0000 n_sols_subMIP: 3 K: 53 t_node: 20.0 self.div: 0 LB Status: optimal
+LB round: 7 Solving time: 9.7418 Best Obj: 175418.0000 n_sols_subMIP: 3 K: 80 t_node: 20.0 self.div: 0 LB Status: optimal
