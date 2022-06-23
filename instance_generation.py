@@ -471,7 +471,7 @@ class InstanceGeneration:
             Lines = fp.readlines()
             i = 1
             for line in Lines:
-                if i > 55: #  start from i==56
+                if i > 56: #  start from i==57
                     instance_str = line.strip()
                     MIP_model = Loader().load_instance(instance_str)
                     original_name = MIP_model.getProbName()
