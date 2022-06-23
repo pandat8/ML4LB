@@ -12,3 +12,15 @@ Number of binary variables 16263
 * Model status: sollimit
 * Solving time: 3.307292
 * number of sol :  1
+* Model status: timelimit
+* Solving time: 3600.02092
+* number of sol :  1
+wrote problem to file /home/liudefen/projects/ML4LocalBranch_extend/data/generated_instances/miplib2017_binary/-small/transformedmodel/miplib2017_binary-34_transformed.cip
+Traceback (most recent call last):
+  File "initialize_MILPs.py", line 31, in <module>
+    mllb.generate_instances_miplib2017_binary()
+  File "/home/liudefen/projects/ML4LocalBranch_extend/instance_generation.py", line 537, in generate_instances_miplib2017_binary
+    model.readProblem(filename)
+  File "src/pyscipopt/scip.pyx", line 4750, in pyscipopt.scip.Model.readProblem
+  File "src/pyscipopt/scip.pyx", line 235, in pyscipopt.scip.PY_SCIP_CALL
+OSError: SCIP: read error!
