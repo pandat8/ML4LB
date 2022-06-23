@@ -72,6 +72,7 @@ for i in range(4, 5):
 
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
+            print(result_directory)
             scip_as_baseline = Execute_LB_Baseline(instance_directory,
                                                    solution_directory,
                                                    result_directory,
