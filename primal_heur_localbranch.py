@@ -332,7 +332,7 @@ class HeurLocalbranchMulticall(Heur):
         incumbent_solution = self.model.getBestSol()
 
         assert (incumbent_solution is not None), 'initial solution of LB is None'
-        assert self.model.checkSol(incumbent_solution), 'initial solution of LB is not feasible'
+        # assert self.model.checkSol(incumbent_solution), 'initial solution of LB is not feasible'
 
         lb_start_obj = self.model.getSolObjVal(incumbent_solution)
         if self.n_lb_calls == 0:
