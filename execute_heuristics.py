@@ -1715,7 +1715,7 @@ class ExecuteHeuristic:
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(instance_name + '-' + 'primal integral', fontsize=13)  # instance_name
         ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
-        ax.plot(t, pi_scip_baseline_ave, label='scip', color='tab:grey')
+        # ax.plot(t, pi_scip_baseline_ave, label='scip', color='tab:grey')
         # ax.plot(t, pi_baseline_ave, label='scip-lb', color='tab:blue')
         ax.plot(t, pi_lns_random_ave, label='scip-lb-regression', color='tab:orange')
         # ax.plot(t, pi_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
@@ -1740,7 +1740,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_multi_freq1_' + mean_option + '.png')
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq1_' + mean_option + '0.png')
         plt.show()
         plt.clf()
 
