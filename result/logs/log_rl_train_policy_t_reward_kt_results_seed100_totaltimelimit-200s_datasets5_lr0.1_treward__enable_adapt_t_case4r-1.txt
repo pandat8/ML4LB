@@ -10246,3 +10246,31 @@ LB round: 13 Solving time: 147.2759 Best Obj: 30081.0000 n_sols_subMIP: 0 K: 20 
 LB round: 14 Solving time: 150.6777 Best Obj: 30081.0000 n_sols_subMIP: 1 K: 10 t_node: 20.0 self.div: 8 LB Status: sollimit
 LB round: 15 Solving time: 170.6805 Best Obj: 30081.0000 n_sols_subMIP: 1 K: 15 t_node: 20.0 self.div: 8 LB Status: timelimit
 LB round: 16 Solving time: 190.6833 Best Obj: 30081.0000 n_sols_subMIP: 0 K: 23 t_node: 20.0 self.div: 8 LB Status: timelimit
+LB round: 17 Solving time: 200.0013 Best Obj: 30081.0000 n_sols_subMIP: 0 K: 12 t_node: 20.0 self.div: 8 LB Status: timelimit
+K_final: 12 div_final: 9
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-4_transformed_air05_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  30081.00000000001
+Solving time:  200.00129400000003
+
+
+instance:  3
+create a new SCIP model
+original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
+The initial incumbent of miplib_39binary-3_transformed_air04 is successfully added to MIP model
+Instance:  miplib_39binary-3_transformed_air04
+N of variables: 8904
+N of binary vars: 8904
+N of constraints: 1069
+Initial obj before LB: 57283.999999999985
+binary support:  103
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0024 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0047 Best Obj: 57284.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0083 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 4 Solving time: 40.0117 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 2 LB Status: timelimit
+LB round: 5 Solving time: 50.0146 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 3 LB Status: timelimit
+LB round: 6 Solving time: 70.0161 Best Obj: 57284.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 4 LB Status: timelimit
