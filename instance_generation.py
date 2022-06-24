@@ -471,7 +471,7 @@ class InstanceGeneration:
             Lines = fp.readlines()
             i = 1
             for line in Lines:
-                if i > 57: #  start from i==58
+                if i > 55: #  start from i==56
                     instance_str = line.strip()
                     MIP_model = Loader().load_instance(instance_str)
                     original_name = MIP_model.getProbName()
@@ -524,7 +524,7 @@ class InstanceGeneration:
                         transformed_model_name = MIP_model_transformed.getProbName()
                         MIP_model_transformed.setProbName(transformed_model_name + '_' + original_name)
 
-                        filename = f'{directory_transformedmodel}{transformed_model_name}.cip'
+                        filename = f'{directory_transformedmodel}{transformed_model_name}.mps'
                         MIP_model_transformed.writeProblem(filename=filename, trans=False)
 
                         firstsol_filename = f'{directory_firstsol}firstsol-{transformed_model_name}.sol'

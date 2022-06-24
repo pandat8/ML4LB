@@ -34,6 +34,30 @@ instance_size = instancesizes[0]
 test_instance_size = instancesizes[0]
 incumbent_mode = incumbent_modes[0]
 
+filename = './n2seq36f.mps'
+MIP_model = Model()
+print(filename)
+MIP_model.readProblem(filename)
+instance_name = MIP_model.getProbName()
+print(instance_name)
+n_vars = MIP_model.getNVars()
+n_binvars = MIP_model.getNBinVars()
+print("N of variables: {}".format(n_vars))
+print("N of binary vars: {}".format(n_binvars))
+print("N of constraints: {}".format(MIP_model.getNConss()))
+filename = './n2seq36f_2.mps'
+MIP_model.writeProblem(filename=filename, trans=False)
+
+MIP_model = Model()
+print(filename)
+MIP_model.readProblem(filename)
+instance_name = MIP_model.getProbName()
+print(instance_name)
+n_vars = MIP_model.getNVars()
+n_binvars = MIP_model.getNBinVars()
+print("N of variables: {}".format(n_vars))
+print("N of binary vars: {}".format(n_binvars))
+print("N of constraints: {}".format(MIP_model.getNConss()))
 
 for t in range(6, 7):
     instance_type = instancetypes[t]
@@ -45,7 +69,7 @@ for t in range(6, 7):
     # generator = generator_switcher(dataset)
     # generator.seed(100)
 
-    for i in range(33, 34):
+    for i in range(40, 41):
         filename = f'{directory_transformedmodel}{instance_type}-{str(i)}_transformed.cip'
         firstsol_filename = f'{directory_sol}{incumbent_mode}-{instance_type}-{str(i)}_transformed.sol'
 
