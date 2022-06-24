@@ -32,7 +32,7 @@ original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22
   avg = a.mean(axis)
 /home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
   ret = ret.dtype.type(ret / rcount)
-geometric
+arithmetic
 miplib_39binary-small
 rootsol
 symmetric
@@ -47,30 +47,30 @@ symmetric
 ./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode_freq100/seed0/
 seed: 0
 cpu
-geometric
+arithmetic
 miplib_39binary
 rootsolSolution
-scip-baseline primal integral:  37.09637572615685
-scip-lb-baseline primal integral:  42.880463565966835
-scip-lb-regression primal integral:  32.55723439254447
-scip-lb-rl primal integral:  39.719621800302974
-scip-lb-regression-rl primal integral:  32.35873725535558
-scip-lb-baseline-multi primal integral:  33.77857495608299
-scip-lb-regression-multi primal integral:  33.1901995259725
-scip-lb-rl-multi primal integral:  33.66668143148192
-scip-lb-regression-rl-multi primal integral:  33.01128493547762
+scip-baseline primal integral:  52.72426703118367
+scip-lb-baseline primal integral:  69.09191978854636
+scip-lb-regression primal integral:  53.72609874970212
+scip-lb-rl primal integral:  66.1176593940919
+scip-lb-regression-rl primal integral:  53.051745827265194
+scip-lb-baseline-multi primal integral:  54.39255482536953
+scip-lb-regression-multi primal integral:  54.15551018155145
+scip-lb-rl-multi primal integral:  53.960918307553385
+scip-lb-regression-rl-multi primal integral:  54.81435987860931
 rl primal integral:  nan
 
 
-scip-baseline primal gap:  0.9132267619705061
-scip-lb-baseline primal gap:  2.7977789995321984
-scip-lb-regression primal gap:  2.2667627042086593
-scip-lb-rl primal gap:  2.621614078476469
-scip-lb-regression-rl primal gap:  1.7880041457886193
-scip-lb-baseline-multi primal gap:  2.214626171283328
-scip-lb-regression-multi primal gap:  2.2230285679702746
-scip-lb-rl-multi primal gap:  1.7731399277481898
-scip-lb-regression-rl-multi primal gap:  2.108947637420073
+scip-baseline primal gap:  0.9281442941472022
+scip-lb-baseline primal gap:  3.1630375736786505
+scip-lb-regression primal gap:  2.620128624790354
+scip-lb-rl primal gap:  2.9823351193208367
+scip-lb-regression-rl primal gap:  2.129327697118711
+scip-lb-baseline-multi primal gap:  2.5773788033596787
+scip-lb-regression-multi primal gap:  2.5693152830309742
+scip-lb-rl-multi primal gap:  2.012938182279214
+scip-lb-regression-rl-multi primal gap:  2.4699354753631013
 rl primal gap:  nan
 seed mcts:  0
 seed mcts:  0
