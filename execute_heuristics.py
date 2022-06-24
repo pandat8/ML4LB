@@ -1722,11 +1722,11 @@ class ExecuteHeuristic:
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
         ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
 
-        ax.plot(t, pi_baseline_ave_mul,'--', label='scip-lb-multi', color='tab:blue') # scip-lb-multi scip-lb-regression-freq1
-        ax.plot(t, pi_lns_random_ave_mul,'--', label='scip-lb-regression-multi', color='tab:orange') #  scip-lb-regression-freq100
-        ax.plot(t, pi_lns_lblp_ave_mul,'--', label='scip-lb-rl-multi', color='tab:red') #  scip-lb-regression-rl-freq1
+        ax.plot(t, pi_baseline_ave_mul,'--', label='scip-lb-regression-freq1', color='tab:blue') # scip-lb-multi
+        ax.plot(t, pi_lns_random_ave_mul,'--', label='scip-lb-regression-freq100', color='tab:orange') # scip-lb-regression-multi
+        ax.plot(t, pi_lns_lblp_ave_mul,'--', label='scip-lb-regression-rl-freq1', color='tab:red') # scip-lb-rl-multi
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        ax.plot(t, pi_lns_lblpmcts_ave_mul,'--', label='scip-lb-regression-rl-multi', color='tab:green') #  scip-lb-regression-rl-freq100
+        ax.plot(t, pi_lns_lblpmcts_ave_mul,'--', label='scip-lb-regression-rl-freq100', color='tab:green') # scip-lb-regression-rl-multi
         # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         #
         # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
@@ -1740,7 +1740,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_multi_freq100_' + mean_option + '.png')
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq1_' + mean_option + '.png')
         plt.show()
         plt.clf()
 
