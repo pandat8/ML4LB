@@ -2511,7 +2511,7 @@ class ExecuteHeuristic:
         ax.plot(t, pi_scip_baseline_ave, label='scip', color='tab:grey')
         ax.plot(t, pi_baseline_ave, label='scip-lb-regression-freq1000', color='tab:blue') #
         ax.plot(t, pi_lns_random_ave, label='scip-lb-regression', color='tab:orange')
-        ax.plot(t, pi_lns_lblp_ave, label='scip-lb-regression-rl-freq100', color='tab:red') # scip-lb-rl
+        ax.plot(t, pi_lns_lblp_ave, label='scip-lb-regression-rl-freq1000', color='tab:red') # scip-lb-rl
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
         ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
 
