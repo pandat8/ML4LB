@@ -10198,3 +10198,54 @@ MIP copies are created
 incumbent solution is copied to MIP copies
 LB round: 1 Solving time: 0.7112 Best Obj: 1900.0000 n_sols_subMIP: 10 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
 LB round: 2 Solving time: 20.7113 Best Obj: 1159.0000 n_sols_subMIP: 40 K: 30 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 40.7114 Best Obj: 1158.0000 n_sols_subMIP: 25 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 60.7115 Best Obj: 1158.0000 n_sols_subMIP: 32 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 80.7116 Best Obj: 1158.0000 n_sols_subMIP: 26 K: 45 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 80.7257 Best Obj: 1158.0000 n_sols_subMIP: 9 K: 45 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 7 Solving time: 100.7260 Best Obj: 1158.0000 n_sols_subMIP: 34 K: 68 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 118.9884 Best Obj: 1158.0000 n_sols_subMIP: 26 K: 20 t_node: 20.0 self.div: 1 LB Status: infeasible
+LB round: 9 Solving time: 119.0255 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 10 t_node: 20.0 self.div: 2 LB Status: infeasible
+LB round: 10 Solving time: 119.0533 Best Obj: 1158.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 3 LB Status: infeasible
+LB round: 11 Solving time: 119.0719 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 12 Solving time: 125.4529 Best Obj: 1158.0000 n_sols_subMIP: 17 K: 20 t_node: 20.0 self.div: 4 LB Status: optimal
+LB round: 13 Solving time: 135.7880 Best Obj: 1158.0000 n_sols_subMIP: 22 K: 20 t_node: 20.0 self.div: 4 LB Status: optimal
+LB round: 14 Solving time: 155.7888 Best Obj: 1158.0000 n_sols_subMIP: 31 K: 30 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 15 Solving time: 175.7889 Best Obj: 1158.0000 n_sols_subMIP: 35 K: 45 t_node: 20.0 self.div: 4 LB Status: timelimit
+LB round: 16 Solving time: 175.8248 Best Obj: 1158.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 5 LB Status: sollimit
+LB round: 17 Solving time: 182.9810 Best Obj: 1158.0000 n_sols_subMIP: 13 K: 20 t_node: 20.0 self.div: 5 LB Status: optimal
+LB round: 18 Solving time: 200.0042 Best Obj: 1158.0000 n_sols_subMIP: 17 K: 30 t_node: 20.0 self.div: 5 LB Status: timelimit
+K_final: 30 div_final: 5
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib_39binary-1_transformed_aflow30a_GNN_reset
+Status of LB:  unknown
+Best obj of LB:  1158.0
+Solving time:  200.00422400000002
+
+
+Return policy k: 49.082845
+Return policy t: -6.202684
+Primal ingtegral: 56.238433
+Epoch 56
+instance:  0
+create a new SCIP model
+original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
+The initial incumbent of miplib_39binary-4_transformed_air05 is successfully added to MIP model
+Instance:  miplib_39binary-4_transformed_air05
+N of variables: 7195
+N of binary vars: 7195
+N of constraints: 714
+Initial obj before LB: 30740.0
+binary support:  66
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0024 Best Obj: 30740.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 2 Solving time: 30.0034 Best Obj: 30550.0000 n_sols_subMIP: 3 K: 10 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 50.0044 Best Obj: 30550.0000 n_sols_subMIP: 2 K: 10 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 70.0071 Best Obj: 30550.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 70.0653 Best Obj: 30550.0000 n_sols_subMIP: 1 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 90.0675 Best Obj: 29802.0000 n_sols_subMIP: 2 K: 30 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 110.0690 Best Obj: 29802.0000 n_sols_subMIP: 1 K: 45 t_node: 20.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 130.0705 Best Obj: 29429.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: timelimit
