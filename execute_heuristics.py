@@ -1680,7 +1680,7 @@ class ExecuteHeuristic:
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(instance_name + '-' + 'primal gap' , fontsize=13) # instance_name
         ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
-        ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        ax.plot(t, primalgap_scip_baseline_ave, label='scip', color='tab:grey')
         ax.plot(t, primalgap_baseline_ave, label='scip-lb', color='tab:blue')
         ax.plot(t, primalgap_lns_random_ave, label='scip-lb-srm', color='tab:orange')
         ax.plot(t, primalgap_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
@@ -1722,11 +1722,11 @@ class ExecuteHeuristic:
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
         ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl', color='tab:green')
 
-        ax.plot(t, pi_baseline_ave_mul,'--', label='scip-lb-regression-freq1', color='tab:blue') # scip-lb-multi
-        ax.plot(t, pi_lns_random_ave_mul,'--', label='scip-lb-regression-freq100', color='tab:orange') # scip-lb-regression-multi
-        ax.plot(t, pi_lns_lblp_ave_mul,'--', label='scip-lb-regression-rl-freq1', color='tab:red') # scip-lb-rl-multi
+        # ax.plot(t, pi_baseline_ave_mul,'--', label='scip-lb-multi', color='tab:blue') #
+        ax.plot(t, pi_lns_random_ave_mul,'--', label='scip-lb-regression-multi', color='tab:orange') #
+        # ax.plot(t, pi_lns_lblp_ave_mul,'--', label='scip-lb-rl-multi', color='tab:red') #
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        ax.plot(t, pi_lns_lblpmcts_ave_mul,'--', label='scip-lb-regression-rl-freq100', color='tab:green') # scip-lb-regression-rl-multi
+        ax.plot(t, pi_lns_lblpmcts_ave_mul,'--', label='scip-lb-regression-rl-multi', color='tab:green') #
         # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         #
         # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
@@ -4005,7 +4005,7 @@ class Execute_LB_Regression(ExecuteHeuristic):
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
                                     priority=-130000,
-                                    freq=0, #100
+                                    freq=100, #100
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
@@ -4362,7 +4362,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
                                     priority=-130000,
-                                    freq=0, #100
+                                    freq=100, #100
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
