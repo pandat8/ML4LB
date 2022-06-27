@@ -23,7 +23,7 @@ rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
 
-seed = 0
+seed = 1
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
