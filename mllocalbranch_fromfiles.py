@@ -8214,7 +8214,7 @@ class RlLocalbranch(MlLocalbranch):
             agent2, optim2, R = self.update_agent(agent2, optim2)
 
     def evaluate_lb_per_instance_rlactive_policy_kt(self, MIP_model, incumbent, node_time_limit, total_time_limit, reset_k_at_2nditeration=False,
-                                 agent1=None, agent2=None, agent_t_1=None, agent_t_2=None, enable_adapt_t=False
+                                 agent1=None, agent2=None, agent_t_1=None, agent_t_2=None,  t_reward_type = t_reward_types[2], enable_adapt_t=False
                                  ):
         """
         evaluate a single MIP instance by two algorithms: lb-baseline and lb-pred_k
@@ -8367,7 +8367,7 @@ class RlLocalbranch(MlLocalbranch):
         #     device=device
         # )
 
-        status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, _ = self.mdp_localbranch(
+        status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, agent_t_1 = self.mdp_localbranch(
             localbranch=lb_model3,
             is_symmetric=self.is_symmetric,
             reset_k_at_2nditeration=reset_k_at_2nditeration,
@@ -8375,6 +8375,7 @@ class RlLocalbranch(MlLocalbranch):
             optimizer_k=None,
             agent_t=agent_t_1,
             device=device,
+            t_reward_type=t_reward_type,
             enable_adapt_t=enable_adapt_t)
         print("Instance:", MIP_model_copy3.getProbName())
         print("Status of LB: ", status)
@@ -8401,7 +8402,7 @@ class RlLocalbranch(MlLocalbranch):
         #     device=device
         # )
 
-        status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, _ = self.mdp_localbranch(
+        status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, agent_t_2= self.mdp_localbranch(
             localbranch=lb_model2,
             is_symmetric=self.is_symmetric,
             reset_k_at_2nditeration=reset_k_at_2nditeration, #False
@@ -8409,6 +8410,7 @@ class RlLocalbranch(MlLocalbranch):
             optimizer_k=None,
             agent_t=agent_t_2,
             device=device,
+            t_reward_type=t_reward_type,
             enable_adapt_t=enable_adapt_t
         )
 
@@ -8437,10 +8439,10 @@ class RlLocalbranch(MlLocalbranch):
         del lb_model3
 
         # index_instance += 1
-        return agent1, agent2
+        return agent1, agent2, agent_t_1, agent_t_2
 
     def evaluate_localbranching_rlactive_policy_kt(self, evaluation_instance_size='-small', total_time_limit=60, node_time_limit=30,
-                                reset_k_at_2nditeration=False, greedy=False, lr=None, lr_t=None, regression_model_path='', rl_k_model_path='', rl_t_model_path='', enable_adapt_t=False):
+                                reset_k_at_2nditeration=False, greedy=False, lr=None, lr_t=None, regression_model_path='', rl_k_model_path='', rl_t_model_path='',  t_reward_type = t_reward_types[2], enable_adapt_t=False):
 
         self.regression_dataset = self.instance_type + '-small'
         # self.evaluation_dataset = self.instance_type + evaluation_instance_size
@@ -8540,7 +8542,7 @@ class RlLocalbranch(MlLocalbranch):
         for batch in (test_loader):
             MIP_model = batch['mip_model'][0]
             incumbent_solution = batch['incumbent_solution'][0]
-            agent1, agent2 = self.evaluate_lb_per_instance_rlactive_policy_kt(
+            agent1, agent2, agent_t_1, agent_t_2 = self.evaluate_lb_per_instance_rlactive_policy_kt(
                 MIP_model=MIP_model,
                 incumbent=incumbent_solution,
                 node_time_limit=node_time_limit,
@@ -8550,6 +8552,7 @@ class RlLocalbranch(MlLocalbranch):
                 agent2=agent2,
                 agent_t_1=agent_t_1,
                 agent_t_2=agent_t_2,
+                t_reward_type=t_reward_type,
                 enable_adapt_t=enable_adapt_t
                                                             )
 
