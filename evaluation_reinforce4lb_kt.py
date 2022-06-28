@@ -3,7 +3,7 @@ import numpy as np
 import pyscipopt
 import argparse
 from mllocalbranch_fromfiles import RlLocalbranch
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, t_reward_types
 import torch
 import random
 
@@ -11,7 +11,8 @@ import random
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
-parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_k+t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth')
+parser.add_argument('--t_reward_type', type=int, default=1, help='Reward signal for policy t, 0: reward_k, 1: reward_k + reward_node_time, 2: reward_node_time')
 parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
 parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
 parser.set_defaults(enable_adapt_t=False)
@@ -28,6 +29,9 @@ print(rl_t_model_path)
 enable_adapt_t = args.enable_adapt_t
 print(enable_adapt_t)
 
+t_reward_type = t_reward_types[args.t_reward_type]
+print('t_reward_type: ', t_reward_type)
+
 seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
@@ -42,7 +46,7 @@ instance_size = instancesizes[0]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 60
+total_time_limit = 600
 node_time_limit = 10
 
 reset_k_at_2nditeration = True
@@ -51,13 +55,13 @@ use_checkpoint = True
 # eps_list = [0, 0.02]
 epsilon = 0.0
 lr = 0.01
-lr_t = 0.1
+lr_t = 0.01
 
 l = [3, 4, 1]
 # for lr in lr_list:
 #     print('learning rate = ', lr)
 #     print('epsilon = ', epsilon)
-for i in range(0, 5):
+for i in range(4, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -94,6 +98,7 @@ for i in range(0, 5):
                     regression_model_path=regression_model_path,
                     rl_k_model_path=rl_k_model_path,
                     rl_t_model_path=rl_t_model_path,
+                    t_reward_type = t_reward_type,
                     enable_adapt_t=enable_adapt_t
                                                                    )
 
