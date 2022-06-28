@@ -466,12 +466,12 @@ class InstanceGeneration:
 
         file_directory = './result/miplib2017/miplib2017_purebinary_open.txt'
         print(file_directory)
-        index_instance = 34 # 0
+        index_instance = 105 # 34, 0
         with open(file_directory) as fp:
             Lines = fp.readlines()
             i = 1
             for line in Lines:
-                if i > 55: #  start from i==56
+                if i > 0: #  start from i==56
                     instance_str = line.strip()
                     MIP_model = Loader().load_instance(instance_str)
                     original_name = MIP_model.getProbName()
