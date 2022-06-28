@@ -4005,7 +4005,7 @@ class Execute_LB_Regression(ExecuteHeuristic):
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
                                     priority=-130000,
-                                    freq=0, #100
+                                    freq=100, #100
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
@@ -4362,7 +4362,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
                                     priority=-130000,
-                                    freq=0, #100
+                                    freq=100, #100
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
