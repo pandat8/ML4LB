@@ -5,7 +5,7 @@ from instance_generation import InstanceGeneration
 from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 
 
-for i in range(6, 7):
+for i in range(7, 8):
     for j in range(0, 2):
         instance_type = instancetypes[i]
         instance_size = instancesizes[j]
@@ -29,4 +29,6 @@ for i in range(6, 7):
             mllb.initialize_instances_floorplan()
         elif i == 6 and j == 0:
             mllb.generate_instances_miplib2017_binary()
+        elif i == 7 and j == 0:
+            mllb.generate_instances_miplib2017_binary(instance_type=instance_type)
 
