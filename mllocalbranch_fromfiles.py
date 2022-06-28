@@ -8086,7 +8086,9 @@ class RlLocalbranch(MlLocalbranch):
             reset_k_at_2nditeration=reset_k_at_2nditeration, #False
             agent_k=agent2,
             optimizer_k=None,
-            device=device)
+            device=device,
+            enable_adapt_t=enable_adapt_t
+        )
 
         objs_noregression_reinforce = np.array(lb_model2.primal_objs).reshape(-1)
         times_noregression_reinforce = np.array(lb_model2.primal_times).reshape(-1)
@@ -8210,6 +8212,351 @@ class RlLocalbranch(MlLocalbranch):
 
             agent1, optim1, R = self.update_agent(agent1, optim1)
             agent2, optim2, R = self.update_agent(agent2, optim2)
+
+    def evaluate_lb_per_instance_rlactive_policy_kt(self, MIP_model, incumbent, node_time_limit, total_time_limit, reset_k_at_2nditeration=False,
+                                 agent1=None, agent2=None, agent_t_1=None, agent_t_2=None, enable_adapt_t=False
+                                 ):
+        """
+        evaluate a single MIP instance by two algorithms: lb-baseline and lb-pred_k
+        :param node_time_limit:
+        :param total_time_limit:
+        :param index_instance:
+        :return:
+        """
+        incumbent_solution = incumbent
+
+        device = self.device
+        gc.collect()
+
+        # filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
+        # firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
+
+        # MIP_model = Model()
+        # MIP_model.readProblem(filename)
+        # incumbent_solution = MIP_model.readSolFile(firstsol_filename)
+
+        instance_name = MIP_model.getProbName()
+        print(instance_name)
+        n_vars = MIP_model.getNVars()
+        n_binvars = MIP_model.getNBinVars()
+        print("N of variables: {}".format(n_vars))
+        print("N of binary vars: {}".format(n_binvars))
+        print("N of constraints: {}".format(MIP_model.getNConss()))
+
+        feas = MIP_model.checkSol(incumbent_solution)
+        try:
+            MIP_model.addSol(incumbent_solution, False)
+        except:
+            print('Error: the root solution of ' + instance_name + ' is not feasible!')
+
+        instance = ecole.scip.Model.from_pyscipopt(MIP_model)
+        observation, _, _, done, _ = self.env.reset(instance)
+
+        # variable features: only incumbent solution
+        variable_features = observation.variable_features[:, -1:]
+        graph = BipartiteNodeData(observation.constraint_features,
+                                  observation.edge_features.indices,
+                                  observation.edge_features.values,
+                                  variable_features)
+
+        # graph = BipartiteNodeData(observation.constraint_features,
+        #                           observation.edge_features.indices,
+        #                           observation.edge_features.values,
+        #                           observation.variable_features)
+
+        # We must tell pytorch geometric how many nodes there are, for indexing purposes
+        graph.num_nodes = observation.constraint_features.shape[0] + \
+                          observation.variable_features.shape[
+                              0]
+        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
+        # MIP_model = instance
+
+        # MIP_model.optimize()
+        # print("Status:", MIP_model.getStatus())
+        # print("best obj: ", MIP_model.getObjVal())
+        # print("Solving time: ", MIP_model.getSolvingTime())
+
+        # solve the root node and get the LP solution, compute k_prime
+        k_prime = self.compute_k_prime(MIP_model, incumbent)
+
+        initial_obj = MIP_model.getSolObjVal(incumbent_solution)
+        print("Initial obj before LB: {}".format(initial_obj))
+
+        binary_supports = binary_support(MIP_model, incumbent_solution)
+        print('binary support: ', binary_supports)
+
+        # model_gnn.load_state_dict(torch.load(
+        #      'trained_params_' + self.instance_type + '.pth'))
+
+        k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
+                                            graph.variable_features)
+
+        k_pred = k_model.item() * k_prime
+        print('GNN prediction: ', k_model.item())
+
+        if self.is_symmetric == False:
+            k_pred = k_model.item() * k_prime
+
+        k_pred = np.ceil(k_pred)
+
+        if k_pred < 10:
+            k_pred = 10
+
+        del k_model
+        del graph
+        del observation
+
+        # create a copy of MIP
+        MIP_model.resetParams()
+        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
+        #     problemName='Baseline', origcopy=False)
+        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+            problemName='noregression-rl',
+            origcopy=False)
+        MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
+            problemName='regression-rl',
+            origcopy=False)
+
+        print('MIP copies are created')
+
+        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
+        #                                         MIP_copy_vars)
+        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
+                                                  MIP_copy_vars2)
+        MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
+                                                  MIP_copy_vars3)
+
+        print('incumbent solution is copied to MIP copies')
+        MIP_model.freeProb()
+        del MIP_model
+        del incumbent_solution
+
+        # sol = MIP_model_copy.getBestSol()
+        # initial_obj = MIP_model_copy.getSolObjVal(sol)
+        # print("Initial obj before LB: {}".format(initial_obj))
+
+        # # execute local branching baseline heuristic by Fischetti and Lodi
+        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
+        #                           node_time_limit=node_time_limit,
+        #                           total_time_limit=total_time_limit)
+        # status, obj_best, elapsed_time, lb_bits, times, objs = lb_model.search_localbranch(is_symmeric=self.is_symmetric,
+        #                                                              reset_k_at_2nditeration=False)
+        # print("Instance:", MIP_model_copy.getProbName())
+        # print("Status of LB: ", status)
+        # print("Best obj of LB: ", obj_best)
+        # print("Solving time: ", elapsed_time)
+        # print('\n')
+        #
+        # MIP_model_copy.freeProb()
+        # del sol_MIP_copy
+        # del MIP_model_copy
+
+        # sol = MIP_model_copy2.getBestSol()
+        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
+        # print("Initial obj before LB: {}".format(initial_obj))
+
+        # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
+        lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
+                                   node_time_limit=node_time_limit,
+                                   total_time_limit=total_time_limit)
+        # status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce, objs_regression_reinforce, loss_instance, accu_instance = lb_model3.mdp_localbranch(
+        #     is_symmetric=self.is_symmetric,
+        #     reset_k_at_2nditeration=reset_k_at_2nditeration,
+        #     policy=agent1,
+        #     optimizer=None,
+        #     device=device
+        # )
+
+        status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, _ = self.mdp_localbranch(
+            localbranch=lb_model3,
+            is_symmetric=self.is_symmetric,
+            reset_k_at_2nditeration=reset_k_at_2nditeration,
+            agent_k=agent1,
+            optimizer_k=None,
+            agent_t=agent_t_1,
+            device=device,
+            enable_adapt_t=enable_adapt_t)
+        print("Instance:", MIP_model_copy3.getProbName())
+        print("Status of LB: ", status)
+        print("Best obj of LB: ", obj_best)
+        print("Solving time: ", elapsed_time)
+        print('\n')
+
+        objs_regression_reinforce = np.array(lb_model3.primal_objs).reshape(-1)
+        times_regression_reinforce = np.array(lb_model3.primal_times).reshape(-1)
+
+        MIP_model_copy3.freeProb()
+        del sol_MIP_copy3
+        del MIP_model_copy3
+
+        # execute local branching with 1. first k predicted by GNN; 2. for 2nd iteration of lb, continue lb algorithm with no further injection
+        lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=self.k_baseline,
+                                   node_time_limit=node_time_limit,
+                                   total_time_limit=total_time_limit)
+        # status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce, objs_noregression_reinforce, _, _ = lb_model2.mdp_localbranch(
+        #     is_symmetric=self.is_symmetric,
+        #     reset_k_at_2nditeration=False,
+        #     policy=agent2,
+        #     optimizer=None,
+        #     device=device
+        # )
+
+        status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, _ = self.mdp_localbranch(
+            localbranch=lb_model2,
+            is_symmetric=self.is_symmetric,
+            reset_k_at_2nditeration=reset_k_at_2nditeration, #False
+            agent_k=agent2,
+            optimizer_k=None,
+            agent_t=agent_t_2,
+            device=device,
+            enable_adapt_t=enable_adapt_t
+        )
+
+        objs_noregression_reinforce = np.array(lb_model2.primal_objs).reshape(-1)
+        times_noregression_reinforce = np.array(lb_model2.primal_times).reshape(-1)
+
+
+        print("Instance:", MIP_model_copy2.getProbName())
+        print("Status of LB: ", status)
+        print("Best obj of LB: ", obj_best)
+        print("Solving time: ", elapsed_time)
+        print('\n')
+
+        MIP_model_copy2.freeProb()
+        del sol_MIP_copy2
+        del MIP_model_copy2
+
+        data = [objs_noregression_reinforce, times_noregression_reinforce, objs_regression_reinforce, times_regression_reinforce]
+        # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
+        filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
+        with gzip.open(filename, 'wb') as f:
+            pickle.dump(data, f)
+
+        del data
+        del lb_model2
+        del lb_model3
+
+        # index_instance += 1
+        return agent1, agent2
+
+    def evaluate_localbranching_rlactive_policy_kt(self, evaluation_instance_size='-small', total_time_limit=60, node_time_limit=30,
+                                reset_k_at_2nditeration=False, greedy=False, lr=None, lr_t=None, regression_model_path='', rl_k_model_path='', rl_t_model_path='', enable_adapt_t=False):
+
+        self.regression_dataset = self.instance_type + '-small'
+        # self.evaluation_dataset = self.instance_type + evaluation_instance_size
+
+        direc = './data/generated_instances/' + self.instance_type + '/' + evaluation_instance_size + '/'
+        directory_transformedmodel = direc + 'transformedmodel' + '/'
+        directory_sol = direc + self.incumbent_mode + '/'
+
+        incumbent_mode = self.incumbent_mode
+        test_dataset = self.load_test_mip_dataset(directory_transformedmodel, directory_sol, incumbent_mode)
+
+        test_loader = DataLoader(test_dataset, shuffle=False, batch_size=1, collate_fn=custom_collate)
+
+        self.k_baseline = 20
+
+        self.is_symmetric = True
+        if self.lbconstraint_mode == 'asymmetric':
+            self.is_symmetric = False
+            self.k_baseline = self.k_baseline / 2
+        total_time_limit = total_time_limit
+        node_time_limit = node_time_limit
+
+        self.saved_model_directory = './result/saved_models/'
+        self.regression_model_gnn = GNNPolicy()
+        self.regression_model_gnn.load_state_dict(torch.load(
+            regression_model_path))
+        self.regression_model_gnn.to(self.device)
+
+        evaluation_directory = './result/generated_instances/' + self.instance_type + '/' + evaluation_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
+        if enable_adapt_t:
+            self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
+            node_time_limit) + 's' + '-t_total' + str(
+            total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_baseline-rlpolicy/seed'+ str(self.seed) + '/'
+        else:
+            self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
+                node_time_limit) + 's' + '-t_total' + str(
+                total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_rlpolicy/seed' + str(
+                self.seed) + '/'
+        pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
+
+        rl_policy1 = SimplePolicy(7, 4)
+        rl_policy2 = SimplePolicy(7, 4)
+
+        rl_policy_t_1 = SimplePolicy(7, 4)
+        rl_policy_t_2 = SimplePolicy(7, 4)
+
+        # self.saved_rlmodels_directory = self.saved_gnn_directory + 'rl_noimitation/good_models/'
+        # self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/' + 'setcovering' + '/'
+
+        # checkpoint = torch.load(
+        #     self.saved_rlmodels_directory + 'checkpoint_noimitation_reward2_simplepolicy_rl4lb_reinforce_lr0.05_epsilon0.0.pth')
+        # rl_policy.load_state_dict(checkpoint['model_state_dict'])
+        checkpoint = torch.load(
+            # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
+            # self.saved_model_directory + '/rl_noimitation/good_models/checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_epoch210.pth'
+            rl_k_model_path
+        )
+        rl_policy1.load_state_dict(checkpoint['model_state_dict'])
+        rl_policy2.load_state_dict(checkpoint['model_state_dict'])
+
+        checkpoint_t = torch.load(rl_t_model_path)
+        rl_policy_t_1.load_state_dict(checkpoint_t['model_state_dict'])
+        rl_policy_t_2.load_state_dict(checkpoint_t['model_state_dict'])
+
+
+        # rl_policy.load_state_dict(torch.load(
+        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
+
+        rl_policy1.train()
+        rl_policy2.train()
+        rl_policy_t_1.train()
+        rl_policy_t_2.train()
+        # criterion = nn.CrossEntropyLoss()
+
+        optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
+        optim2 = torch.optim.Adam(rl_policy2.parameters(), lr=lr)
+        optim_t_1 = torch.optim.Adam(rl_policy_t_1.parameters(), lr=lr_t)
+        optim_t_2 = torch.optim.Adam(rl_policy_t_2.parameters(), lr=lr_t)
+
+        optim1.load_state_dict(checkpoint['optimizer_state_dict'])
+        optim2.load_state_dict(checkpoint['optimizer_state_dict'])
+        optim_t_1.load_state_dict(checkpoint['optimizer_state_dict'])
+        optim_t_2.load_state_dict(checkpoint['optimizer_state_dict'])
+
+        greedy = greedy
+        rl_policy1 = rl_policy1.to(self.device)
+        rl_policy2 = rl_policy2.to(self.device)
+        rl_policy_t_1 = rl_policy_t_1.to(self.device)
+        rl_policy_t_2 = rl_policy_t_2.to(self.device)
+
+        agent1 = AgentReinforce(rl_policy1, self.device, greedy, optim1, 0.0)
+        agent2 = AgentReinforce(rl_policy2, self.device, greedy, optim2, 0.0)
+
+        agent_t_1 = AgentReinforce(rl_policy_t_1, self.device, greedy, optim_t_1, 0.0)
+        agent_t_2 = AgentReinforce(rl_policy_t_2, self.device, greedy, optim_t_2, 0.0)
+
+        for batch in (test_loader):
+            MIP_model = batch['mip_model'][0]
+            incumbent_solution = batch['incumbent_solution'][0]
+            agent1, agent2 = self.evaluate_lb_per_instance_rlactive_policy_kt(
+                MIP_model=MIP_model,
+                incumbent=incumbent_solution,
+                node_time_limit=node_time_limit,
+                total_time_limit=total_time_limit,
+                reset_k_at_2nditeration=reset_k_at_2nditeration,
+                agent1=agent1,
+                agent2=agent2,
+                agent_t_1=agent_t_1,
+                agent_t_2=agent_t_2,
+                enable_adapt_t=enable_adapt_t
+                                                            )
+
+            agent1, optim1, R = self.update_agent(agent1, optim1)
+            agent2, optim2, R = self.update_agent(agent2, optim2)
+            agent_t_1, optim_t_1, R = self.update_agent(agent_t_1, optim_t_1)
+            agent_t_2, optim_t_2, R = self.update_agent(agent_t_2, optim_t_2)
 
     def evaluate_lb_per_instance_scip_rl(self, MIP_model, incumbent, node_time_limit, total_time_limit, reset_k_at_2nditeration=False,
                                  agent1=None, agent2=None, enable_adapt_t=False
