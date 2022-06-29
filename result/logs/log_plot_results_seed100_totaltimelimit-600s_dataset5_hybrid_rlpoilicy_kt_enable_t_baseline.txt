@@ -1,123 +1,113 @@
 nohup: ignoring input
-miplib_39binary-small
-firstsol
-symmetric
-seed: 100
-cpu
-original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
-original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
-original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
-original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
-original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
-original problem has 6000 variables (6000 bin, 0 int, 0 impl, 0 cont) and 2171 constraints
-original problem has 13873 variables (552 bin, 0 int, 0 impl, 13321 cont) and 3215 constraints
-original problem has 521 variables (56 bin, 0 int, 0 impl, 465 cont) and 688 constraints
-original problem has 67732 variables (67732 bin, 0 int, 0 impl, 0 cont) and 656 constraints
-original problem has 63009 variables (63009 bin, 0 int, 0 impl, 0 cont) and 507 constraints
-original problem has 1298 variables (1254 bin, 0 int, 0 impl, 44 cont) and 353 constraints
-original problem has 322 variables (302 bin, 0 int, 0 impl, 20 cont) and 394 constraints
-original problem has 2993 variables (2993 bin, 0 int, 0 impl, 0 cont) and 102 constraints
-original problem has 1156 variables (1089 bin, 0 int, 0 impl, 67 cont) and 2178 constraints
-original problem has 260 variables (259 bin, 0 int, 0 impl, 1 cont) and 224 constraints
-original problem has 5325 variables (5323 bin, 0 int, 0 impl, 2 cont) and 3411 constraints
-original problem has 10958 variables (96 bin, 0 int, 0 impl, 10862 cont) and 4480 constraints
-original problem has 5174 variables (2349 bin, 0 int, 0 impl, 2825 cont) and 26509 constraints
-original problem has 6621 variables (6620 bin, 0 int, 0 impl, 1 cont) and 721 constraints
-original problem has 769 variables (768 bin, 0 int, 0 impl, 1 cont) and 64 constraints
-original problem has 2756 variables (2756 bin, 0 int, 0 impl, 0 cont) and 729 constraints
-original problem has 1835 variables (1835 bin, 0 int, 0 impl, 0 cont) and 2387 constraints
-original problem has 840 variables (48 bin, 0 int, 0 impl, 792 cont) and 1192 constraints
-original problem has 1372 variables (1372 bin, 0 int, 0 impl, 0 cont) and 4944 constraints
-original problem has 14101 variables (14101 bin, 0 int, 0 impl, 0 cont) and 1739 constraints
-original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 constraints
-original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
-original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
-original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10513: RuntimeWarning: invalid value encountered in double_scalars
-  primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10524: RuntimeWarning: invalid value encountered in double_scalars
-  primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
-miplib_39binary-small
-firstsolSolution
-baseline primal integral:  78.37651111791911
-regression primal integral:  nan
-regression merged primal integral:  76.35801862640965
-rl primal integral:  63.84156657771737
-regression-rl primal integral:  63.22740983455727
-rl-hybrid primal integral:  84.39201311583518
-regression-rl-hybrid primal integral:  76.09605131688559
+ERROR:root:code for hash sha384 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type sha384
+ERROR:root:code for hash sha512 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type sha512
+ERROR:root:code for hash blake2b was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type blake2b
+ERROR:root:code for hash blake2s was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type blake2s
+ERROR:root:code for hash sha3_224 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type sha3_224
+ERROR:root:code for hash sha3_256 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type sha3_256
+ERROR:root:code for hash sha3_384 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type sha3_384
+ERROR:root:code for hash sha3_512 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type sha3_512
+ERROR:root:code for hash shake_128 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type shake_128
+ERROR:root:code for hash shake_256 was not found.
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 251, in <module>
+    globals()[__func_name] = __get_hash(__func_name)
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py", line 120, in __get_builtin_constructor
+    raise ValueError('unsupported hash type ' + name)
+ValueError: unsupported hash type shake_256
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/random.py", line 51, in <module>
+    from _sha512 import sha512 as _sha512
+ImportError: /home/liudefen/opt/python3.8.0/lib/python3.8/lib-dynload/_sha512.cpython-38-x86_64-linux-gnu.so: failed to map segment from shared object: Cannot allocate memory
 
+During handling of the above exception, another exception occurred:
 
-baseline primal gap:  2340.187503668767
-regression primal gap:  nan
-regression primal merged gap:  84.91260090624735
-rl primal gap:  2264.772508195721
-regression-rl-hybrid primal gap:  64.74448545161512
-rl-hybrid primal gap:  2350.7001696296475
-regression-rl-hybrid primal gap:  69.13673043768401
-miplib_39binary-large
-firstsol
-symmetric
-seed: 100
-cpu
-miplib_39binary-small
-rootsol
-symmetric
-seed: 100
-cpu
-original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
-original problem has 842 variables (421 bin, 0 int, 0 impl, 421 cont) and 479 constraints
-original problem has 2728 variables (1364 bin, 0 int, 0 impl, 1364 cont) and 1442 constraints
-original problem has 8904 variables (8904 bin, 0 int, 0 impl, 0 cont) and 1069 constraints
-original problem has 7195 variables (7195 bin, 0 int, 0 impl, 0 cont) and 714 constraints
-original problem has 6000 variables (6000 bin, 0 int, 0 impl, 0 cont) and 2171 constraints
-original problem has 13873 variables (552 bin, 0 int, 0 impl, 13321 cont) and 3215 constraints
-original problem has 521 variables (56 bin, 0 int, 0 impl, 465 cont) and 688 constraints
-original problem has 67732 variables (67732 bin, 0 int, 0 impl, 0 cont) and 656 constraints
-original problem has 63009 variables (63009 bin, 0 int, 0 impl, 0 cont) and 507 constraints
-original problem has 1298 variables (1254 bin, 0 int, 0 impl, 44 cont) and 353 constraints
-original problem has 322 variables (302 bin, 0 int, 0 impl, 20 cont) and 394 constraints
-original problem has 2993 variables (2993 bin, 0 int, 0 impl, 0 cont) and 102 constraints
-original problem has 1156 variables (1089 bin, 0 int, 0 impl, 67 cont) and 2178 constraints
-original problem has 260 variables (259 bin, 0 int, 0 impl, 1 cont) and 224 constraints
-original problem has 5325 variables (5323 bin, 0 int, 0 impl, 2 cont) and 3411 constraints
-original problem has 10958 variables (96 bin, 0 int, 0 impl, 10862 cont) and 4480 constraints
-original problem has 5174 variables (2349 bin, 0 int, 0 impl, 2825 cont) and 26509 constraints
-original problem has 6621 variables (6620 bin, 0 int, 0 impl, 1 cont) and 721 constraints
-original problem has 769 variables (768 bin, 0 int, 0 impl, 1 cont) and 64 constraints
-original problem has 2756 variables (2756 bin, 0 int, 0 impl, 0 cont) and 729 constraints
-original problem has 1835 variables (1835 bin, 0 int, 0 impl, 0 cont) and 2387 constraints
-original problem has 840 variables (48 bin, 0 int, 0 impl, 792 cont) and 1192 constraints
-original problem has 1372 variables (1372 bin, 0 int, 0 impl, 0 cont) and 4944 constraints
-original problem has 14101 variables (14101 bin, 0 int, 0 impl, 0 cont) and 1739 constraints
-original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 constraints
-original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
-original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
-original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10513: RuntimeWarning: invalid value encountered in double_scalars
-  primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10524: RuntimeWarning: invalid value encountered in double_scalars
-  primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
-miplib_39binary-small
-rootsolSolution
-baseline primal integral:  52.968468280807
-regression primal integral:  nan
-regression merged primal integral:  45.54445567399161
-rl primal integral:  41.644939293370435
-regression-rl primal integral:  34.37639595082554
-rl-hybrid primal integral:  55.10205687228211
-regression-rl-hybrid primal integral:  48.528976131262716
+Traceback (most recent call last):
+  File "bit_generator.pyx", line 40, in numpy.random.bit_generator
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/secrets.py", line 20, in <module>
+    from random import SystemRandom
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/random.py", line 54, in <module>
+    from hashlib import sha512 as _sha512
+ImportError: cannot import name 'sha512' from 'hashlib' (/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py)
 
+During handling of the above exception, another exception occurred:
 
-baseline primal gap:  6.830346281023578
-regression primal gap:  nan
-regression primal merged gap:  6.31722007208068
-rl primal gap:  6.394293421438833
-regression-rl-hybrid primal gap:  4.199591806093282
-rl-hybrid primal gap:  8.229410513198012
-regression-rl-hybrid primal gap:  6.902310514481334
-miplib_39binary-large
-rootsol
-symmetric
-seed: 100
-cpu
+Traceback (most recent call last):
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/random.py", line 51, in <module>
+    from _sha512 import sha512 as _sha512
+ImportError: /home/liudefen/opt/python3.8.0/lib/python3.8/lib-dynload/_sha512.cpython-38-x86_64-linux-gnu.so: failed to map segment from shared object: Cannot allocate memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/__init__.py", line 161, in <module>
+    from . import random
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/random/__init__.py", line 180, in <module>
+    from . import _pickle
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/numpy/random/_pickle.py", line 1, in <module>
+    from .mtrand import RandomState
+  File "mtrand.pyx", line 1, in init numpy.random.mtrand
+  File "bit_generator.pyx", line 43, in init numpy.random.bit_generator
+  File "/home/liudefen/opt/python3.8.0/lib/python3.8/random.py", line 54, in <module>
+    from hashlib import sha512 as _sha512
+ImportError: cannot import name 'sha512' from 'hashlib' (/home/liudefen/opt/python3.8.0/lib/python3.8/hashlib.py)
+Traceback (most recent call last):
+  File "compute_evaluation_results.py", line 1, in <module>
+    import ecole
+  File "/home/liudefen/ecole-env/lib/python3.8/site-packages/ecole/__init__.py", line 3, in <module>
+    from ecole.core import RandomEngine, seed, spawn_random_engine, Exception
+ImportError: SystemError: <built-in method __contains__ of dict object at 0x7f7fdf3f6a40> returned a result with an error set
