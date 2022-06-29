@@ -8512,19 +8512,19 @@ class RlLocalbranch(MlLocalbranch):
 
         rl_policy1.train()
         rl_policy2.train()
-        rl_policy_t_1.train()
-        rl_policy_t_2.train()
+        rl_policy_t_1.eval() # .train()
+        rl_policy_t_2.eval() # .train()
         # criterion = nn.CrossEntropyLoss()
 
         optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
         optim2 = torch.optim.Adam(rl_policy2.parameters(), lr=lr)
-        optim_t_1 = torch.optim.Adam(rl_policy_t_1.parameters(), lr=lr_t)
-        optim_t_2 = torch.optim.Adam(rl_policy_t_2.parameters(), lr=lr_t)
+        optim_t_1 = None # torch.optim.Adam(rl_policy_t_1.parameters(), lr=lr_t)
+        optim_t_2 = None # torch.optim.Adam(rl_policy_t_2.parameters(), lr=lr_t)
 
         optim1.load_state_dict(checkpoint['optimizer_state_dict'])
         optim2.load_state_dict(checkpoint['optimizer_state_dict'])
-        optim_t_1.load_state_dict(checkpoint['optimizer_state_dict'])
-        optim_t_2.load_state_dict(checkpoint['optimizer_state_dict'])
+        # optim_t_1.load_state_dict(checkpoint['optimizer_state_dict'])
+        # optim_t_2.load_state_dict(checkpoint['optimizer_state_dict'])
 
         greedy = greedy
         rl_policy1 = rl_policy1.to(self.device)
