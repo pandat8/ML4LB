@@ -68,7 +68,7 @@ for i in range(4, 5):
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(0, 2):
+    for j in range(0, 1):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
