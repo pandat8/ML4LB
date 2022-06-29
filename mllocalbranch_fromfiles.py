@@ -8479,8 +8479,7 @@ class RlLocalbranch(MlLocalbranch):
         else:
             self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
-                total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_rlpolicy/seed' + str(
-                self.seed) + '/'
+                total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_rlpolicy/seed' + str(self.seed) + '/'
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
         rl_policy1 = SimplePolicy(7, 4)
@@ -10131,7 +10130,7 @@ class RlLocalbranch(MlLocalbranch):
         # set directory for the test result of RL-policy1-t_node_baseline
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
         directory_lb_test_hybrid = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy/seed' + str(self.seed) + '/'
         # rlactive_t_node_baseline
 
         # directory_rl_talored = directory_lb_test + 'rlactive/'
@@ -10139,12 +10138,12 @@ class RlLocalbranch(MlLocalbranch):
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_hybrid_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
-                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy/'
+                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy/seed' + str(self.seed) + '/'
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_hybrid_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
-                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy/'
+                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy/seed' + str(self.seed) + '/'
 
         # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
         # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
