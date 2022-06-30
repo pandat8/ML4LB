@@ -139,9 +139,10 @@ class LocalBranching:
         if self.first:
             self.subMIP_model.setParam('limits/solutions', 1)
 
-        # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
-        self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.OFF)
+        self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+        self.subMIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
+        # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
+        # self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.OFF)
 
         self.subMIP_model.optimize()
 
@@ -422,7 +423,9 @@ class LocalBranching:
             self.MIP_model.setObjlimit(self.MIP_obj_best - self.eps)
             self.MIP_model.setParam('limits/time', self.total_time_available)
             self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-            self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+            self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
+            # self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+            # self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
             print('try to run optimize()')
             self.MIP_model.optimize()
             print('right branch optimize() is finished with no error.')
