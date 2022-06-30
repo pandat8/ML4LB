@@ -82,7 +82,7 @@ for i in range(4, 5):
                     lr=lr,
                     regression_model_path=regression_model_path,
                     rl_model_path=rl_model_path,
-                    enable_adapt_t=True
+                    enable_adapt_t=False
                                                                    )
 
             # reinforce_localbranch.primal_integral(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
