@@ -33,28 +33,28 @@ original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 c
 original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
 original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
 original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10513: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10512: RuntimeWarning: invalid value encountered in double_scalars
   primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10524: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10523: RuntimeWarning: invalid value encountered in double_scalars
   primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
 miplib_39binary-small
 firstsolSolution
-baseline primal integral:  78.40548673051752
+baseline primal integral:  78.51990472116559
 regression primal integral:  nan
-regression merged primal integral:  76.31141909930167
-rl primal integral:  64.09658549907942
-regression-rl primal integral:  63.50461960777778
-rl-hybrid primal integral:  80.37677913223314
-regression-rl-hybrid primal integral:  72.85403221460201
+regression merged primal integral:  76.3638476777614
+rl primal integral:  64.3973218759534
+regression-rl primal integral:  63.82451755690193
+rl-hybrid primal integral:  80.76102798654588
+regression-rl-hybrid primal integral:  75.33583971411286
 
 
-baseline primal gap:  2340.497902377188
+baseline primal gap:  2340.7844292898576
 regression primal gap:  nan
-regression primal merged gap:  85.61978884686447
-rl primal gap:  2264.887875786697
-regression-rl-hybrid primal gap:  64.87285179806318
-rl-hybrid primal gap:  2349.229436228331
-regression-rl-hybrid primal gap:  65.96744160922668
+regression primal merged gap:  86.25192924349504
+rl primal gap:  2265.0046299348996
+regression-rl-hybrid primal gap:  65.00087927874868
+rl-hybrid primal gap:  2349.3485150196248
+regression-rl-hybrid primal gap:  68.11268306966423
 miplib_39binary-large
 firstsol
 symmetric
@@ -94,28 +94,28 @@ original problem has 6805 variables (6724 bin, 0 int, 0 impl, 81 cont) and 564 c
 original problem has 73885 variables (73885 bin, 0 int, 0 impl, 0 cont) and 1755 constraints
 original problem has 1080 variables (360 bin, 0 int, 0 impl, 720 cont) and 742 constraints
 original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22400 constraints
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10513: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10512: RuntimeWarning: invalid value encountered in double_scalars
   primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10524: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10523: RuntimeWarning: invalid value encountered in double_scalars
   primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
 miplib_39binary-small
 rootsolSolution
-baseline primal integral:  52.56016704009261
+baseline primal integral:  51.98870610245702
 regression primal integral:  nan
-regression merged primal integral:  45.18231734766162
-rl primal integral:  41.282751213436114
-regression-rl primal integral:  34.03060742669274
-rl-hybrid primal integral:  59.66399531768419
-regression-rl-hybrid primal integral:  45.64480215179044
+regression merged primal integral:  44.56531495333899
+rl primal integral:  40.71101877030531
+regression-rl primal integral:  33.414440975663254
+rl-hybrid primal integral:  47.69745103070674
+regression-rl-hybrid primal integral:  43.91009410366587
 
 
-baseline primal gap:  6.736461151811191
+baseline primal gap:  6.6090583168940205
 regression primal gap:  nan
-regression primal merged gap:  6.210934314156364
-rl primal gap:  6.291778413731721
-regression-rl-hybrid primal gap:  4.093052452499669
-rl-hybrid primal gap:  9.887086321649583
-regression-rl-hybrid primal gap:  5.948899903583852
+regression primal merged gap:  6.095137399824927
+rl primal gap:  6.157642055305699
+regression-rl-hybrid primal gap:  3.9709425474399933
+rl-hybrid primal gap:  7.26288385217185
+regression-rl-hybrid primal gap:  5.379445603246952
 miplib_39binary-large
 rootsol
 symmetric
