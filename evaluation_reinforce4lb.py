@@ -11,6 +11,9 @@ import random
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
+parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
+parser.set_defaults(enable_adapt_t=False)
 parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
 args = parser.parse_args()
 
@@ -18,6 +21,9 @@ regression_model_path = args.regression_model_path
 rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
+
+enable_adapt_t = args.enable_adapt_t
+print(enable_adapt_t)
 
 seed = args.seed
 torch.manual_seed(seed)
@@ -54,7 +60,7 @@ for i in range(4, 5):
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(1, 2):
+    for j in range(0, 1):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
@@ -82,7 +88,7 @@ for i in range(4, 5):
                     lr=lr,
                     regression_model_path=regression_model_path,
                     rl_model_path=rl_model_path,
-                    enable_adapt_t=True
+                    enable_adapt_t=enable_adapt_t
                                                                    )
 
             # reinforce_localbranch.primal_integral(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
