@@ -198,11 +198,15 @@ class LocalBranching:
         subMIP_obj_best = None
 
         if n_sols_subMIP > 0:
-            # subMIP_sol_best = self.subMIP_model.getBestSol()
-            # subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
-            feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
-            feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
-            assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
+            # option 1: without checking the feasibility of best solution
+            subMIP_sol_best = self.subMIP_model.getBestSol()
+            subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
+            feasible = True
+
+            # # option 2: check the feasibility of best solution
+            # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
+            # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
+            # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
 
             if feasible and subMIP_obj_best < self.MIP_obj_best:
                 self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
