@@ -8,7 +8,7 @@ import random
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50
+parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
 args = parser.parse_args()
 
 seed = args.seed
