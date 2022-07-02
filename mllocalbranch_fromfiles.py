@@ -8481,6 +8481,9 @@ class RlLocalbranch(MlLocalbranch):
                 total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_rlpolicy-treward1/seed' + str(self.seed) + '/'
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
+        print('The results are saved in:')
+        print(self.directory_lb_test)
+
         rl_policy1 = SimplePolicy(7, 4)
         rl_policy2 = SimplePolicy(7, 4)
 
