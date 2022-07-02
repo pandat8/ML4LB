@@ -8474,11 +8474,11 @@ class RlLocalbranch(MlLocalbranch):
         if enable_adapt_t:
             self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(
-            total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed'+ str(self.seed) + '/'
+            total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward2/seed'+ str(self.seed) + '/' # rlactive_t_node_baseline-rlpolicy-treward1
         else:
             self.directory_lb_test = evaluation_directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
-                total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_rlpolicy-treward1/seed' + str(self.seed) + '/'
+                total_time_limit) + 's' + evaluation_instance_size + '/rlactive_t_node_rlpolicy-treward2/seed' + str(self.seed) + '/' # rlactive_t_node_rlpolicy-treward1
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
         print('The results are saved in:')
