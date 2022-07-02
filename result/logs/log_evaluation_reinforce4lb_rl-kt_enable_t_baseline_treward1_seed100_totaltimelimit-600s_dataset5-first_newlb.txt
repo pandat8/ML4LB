@@ -1,0 +1,29 @@
+nohup: ignoring input
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_k+t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth
+True
+t_reward_type:  reward_k+t
+miplib_39binary-small
+firstsol
+symmetric
+seed: 100
+cpu
+The results are saved in:
+./result/generated_instances/miplib_39binary/-small/symmetric/firstsol/rl/reinforce/test/old_models/evaluation-reinforce4lb-from-firstsol-t_node10s-t_total600s-small/rlactive_t_node_baseline-rlpolicy-treward1/seed100/
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+Initial obj before LB: 21141.52
+binary support:  173
+GNN prediction:  2.788595743208333e-10
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0012 Best Obj: 19760.4268 n_sols_subMIP: 100 K: 10 t_node: 10.0 self.div: 0 LB Status: timelimit
