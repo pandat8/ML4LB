@@ -10116,15 +10116,15 @@ class RlLocalbranch(MlLocalbranch):
         # set directory for the test result of RL-policy1
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
         directory_lb_test = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
         # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
-            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
+            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/old_models/'
-            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
+            directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
         # set directory for the test result of RL-policy1-t_node_baseline
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
@@ -10160,9 +10160,9 @@ class RlLocalbranch(MlLocalbranch):
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
             directory_lb_test_baseline_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
 
 
         elif self.incumbent_mode == 'rootsol':
@@ -10172,18 +10172,18 @@ class RlLocalbranch(MlLocalbranch):
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
             directory_lb_test_baseline_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
-                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+                node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
 
         # k_prime trained by data without merge
         directory_lb_test_k_prime = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
         # k_prime trained by data with merge
         directory_lb_test_k_prime_merged = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
         directory_lb_test_baseline = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_baseline/seed'+ str(self.seed) + '/'
 
         primal_int_baselines = []
         primal_int_regressions_merged = []
