@@ -11,7 +11,8 @@ import random
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
-parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth')
+# parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-2
+parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_k+t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-1
 parser.add_argument('--t_reward_type', type=int, default=1, help='Reward signal for policy t, 0: reward_k, 1: reward_k + reward_node_time, 2: reward_node_time')
 parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
 parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
