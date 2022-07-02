@@ -10696,7 +10696,7 @@ class RlLocalbranch(MlLocalbranch):
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline.png') # _hybrid.png, _hybrid_t_node_baseline.png
+        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t2.png') # _hybrid.png, _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
 
@@ -10721,7 +10721,7 @@ class RlLocalbranch(MlLocalbranch):
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
         plt.savefig('./result/plots/' + 'plot_primalintegral_' + self.instance_type + '_' + str(
-            test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
+            test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t2.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
 
