@@ -39,22 +39,22 @@ original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22
   primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
 miplib_39binary-small
 firstsolSolution
-baseline primal integral:  88.49985485839305
+baseline primal integral:  89.49332652141138
 regression primal integral:  nan
-regression merged primal integral:  70.06987760160962
-rl primal integral:  74.9315790455731
-regression-rl primal integral:  69.8768000434555
-rl-hybrid primal integral:  75.09687785731099
-regression-rl-hybrid primal integral:  67.97697765268938
+regression merged primal integral:  71.20204628346598
+rl primal integral:  76.13425493752567
+regression-rl primal integral:  71.08859182028819
+rl-hybrid primal integral:  63.421140470819275
+regression-rl-hybrid primal integral:  58.05232203448561
 
 
-baseline primal gap:  2374.768018957879
+baseline primal gap:  2375.01891471121
 regression primal gap:  nan
-regression primal merged gap:  65.02497043000791
-rl primal gap:  2387.90586992529
-regression-rl-hybrid primal gap:  68.261231511518
-rl-hybrid primal gap:  2388.320147134921
-regression-rl-hybrid primal gap:  65.81343746924455
+regression primal merged gap:  65.25826211282927
+rl primal gap:  2388.12130692793
+regression-rl-hybrid primal gap:  68.47548138251976
+rl-hybrid primal gap:  1684.1060932385271
+regression-rl-hybrid primal gap:  65.13315686849802
 miplib_39binary-large
 firstsol
 symmetric
@@ -116,3 +116,8 @@ rl primal gap:  6.603732083993132
 regression-rl-hybrid primal gap:  5.146293032996301
 rl-hybrid primal gap:  3.68545045749206
 regression-rl-hybrid primal gap:  3.484286653138451
+miplib_39binary-large
+rootsol
+symmetric
+seed: 100
+cpu
