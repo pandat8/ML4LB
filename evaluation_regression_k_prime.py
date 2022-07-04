@@ -37,14 +37,14 @@ for i in range(0, 3):
         lbconstraint_mode = 'symmetric'
     for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
-        for k in range(0, 1):
+        for k in range(1, 2):
             test_instance_size = instancesizes[k]
 
             print(instance_type + test_instance_size)
             print(incumbent_mode)
             print(lbconstraint_mode)
 
-            for m in range(0, 3):
+            for m in range(1, 3):
                 regre_mode = regression_modes[m]
                 if regre_mode == 'homo':
                     merged = False

@@ -63,7 +63,7 @@ for i in range(0, 3):
     for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
 
-        for k in range(0, 1):
+        for k in range(1, 2):
             test_instance_size = instancesizes[k]
 
             print(instance_type + test_instance_size)
