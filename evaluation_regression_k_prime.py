@@ -35,7 +35,7 @@ for i in range(3, 4):
         lbconstraint_mode = 'asymmetric'
     else:
         lbconstraint_mode = 'symmetric'
-    for j in range(1, 2):
+    for j in range(0, 1):
         incumbent_mode = incumbent_modes[j]
         for k in range(0, 2):
             test_instance_size = instancesizes[k]
