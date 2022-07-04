@@ -8,7 +8,7 @@ from utilities import instancetypes, instancesizes, incumbent_modes, lbconstrain
 # Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
-parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50
+parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
@@ -29,22 +29,22 @@ seed = args.seed
 lr = 0.0001
 print('learning rate:', lr)
 
-for i in range(3, 4):
+for i in range(0, 3):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:
         lbconstraint_mode = 'symmetric'
-    for j in range(0, 1):
+    for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
-        for k in range(0, 2):
+        for k in range(0, 1):
             test_instance_size = instancesizes[k]
 
             print(instance_type + test_instance_size)
             print(incumbent_mode)
             print(lbconstraint_mode)
 
-            for m in range(1, 3):
+            for m in range(0, 3):
                 regre_mode = regression_modes[m]
                 if regre_mode == 'homo':
                     merged = False
