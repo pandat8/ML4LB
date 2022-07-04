@@ -10132,7 +10132,7 @@ class RlLocalbranch(MlLocalbranch):
         # set directory for the test result of RL-policy1-t_node_baseline
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
         directory_lb_test_hybrid = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward2/seed' + str(103) + '/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward2/seed' + str(104) + '/'
         # rlactive_t_node_baseline, -rlpolicy/seed' + str(self.seed) + '/',  '/rlactive_t_node_baseline/seed'+ str(self.seed) + '/', '/rlactive_t_node_baseline-rlpolicy/seed' + str(self.seed) + '/'
 
         # directory_rl_talored = directory_lb_test + 'rlactive/'
