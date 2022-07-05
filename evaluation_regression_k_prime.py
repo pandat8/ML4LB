@@ -20,7 +20,7 @@ lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 node_time_limit = 10
 
-total_time_limit = 600
+total_time_limit = 60
 reset_k_at_2nditeration = True
 
 merged = False
@@ -29,13 +29,13 @@ seed = args.seed
 lr = 0.0001
 print('learning rate:', lr)
 
-for i in range(3, 4):
+for i in range(0, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:
         lbconstraint_mode = 'symmetric'
-    for j in range(1, 2):
+    for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
         for k in range(0, 2):
             test_instance_size = instancesizes[k]
@@ -43,8 +43,12 @@ for i in range(3, 4):
             print(instance_type + test_instance_size)
             print(incumbent_mode)
             print(lbconstraint_mode)
+            if i<3:
+                m_start = 0
+            else:
+                m_start = 1
 
-            for m in range(1, 3):
+            for m in range(m_start, 3):
                 regre_mode = regression_modes[m]
                 if regre_mode == 'homo':
                     merged = False
