@@ -9124,14 +9124,15 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
 
-        primalgaps_regression = None
-        for n, stepline_regression in enumerate(steplines_regression):
-            primal_gap = stepline_regression(t)
-            if n == 0:
-                primalgaps_regression = primal_gap
-            else:
-                primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
-        primalgap_regression_ave = np.average(primalgaps_regression, axis=0)
+        if test_instance_size == '-small':
+            primalgaps_regression = None
+            for n, stepline_regression in enumerate(steplines_regression):
+                primal_gap = stepline_regression(t)
+                if n == 0:
+                    primalgaps_regression = primal_gap
+                else:
+                    primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
+            primalgap_regression_ave = np.average(primalgaps_regression, axis=0)
 
         primalgaps_regression_merged = None
         for n, stepline_regression in enumerate(steplines_regression_merged):
@@ -9184,7 +9185,8 @@ class RlLocalbranch(MlLocalbranch):
         fig.suptitle(self.instance_type + test_instance_size + '-' + self.incumbent_mode, fontsize=13)
         # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, primalgap_baseline_ave, label='lb-base', color='tab:blue')
-        ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:grey')
+        if test_instance_size == '-small':
+            ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:grey')
         ax.plot(t, primalgap_regression_merged_ave, label='lb-srm', color='tab:orange')
         ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         ax.plot(t, primalgap_regression_reinforce_ave,'--', label='lb-srmrl', color='tab:red')
