@@ -94,7 +94,7 @@ for i in range(3, 4):
 
             if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
                 reinforce_localbranch.evaluate_localbranching_rlactive_policy_kt(
-                    evaluation_instance_size=instance_size,
+                    evaluation_instance_size=test_instance_size,
                     total_time_limit=total_time_limit,
                     node_time_limit=node_time_limit,
                     reset_k_at_2nditeration=reset_k_at_2nditeration,
