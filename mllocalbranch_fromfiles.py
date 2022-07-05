@@ -10132,7 +10132,7 @@ class RlLocalbranch(MlLocalbranch):
         # set directory for the test result of RL-policy1-t_node_baseline
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
         directory_lb_test_hybrid = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed' + str(102) + '/'
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward2/seed' + str(102) + '/'
         # rlactive_t_node_baseline, -rlpolicy/seed' + str(self.seed) + '/',  '/rlactive_t_node_baseline/seed'+ str(self.seed) + '/', '/rlactive_t_node_baseline-rlpolicy/seed' + str(self.seed) + '/'
 
         # directory_rl_talored = directory_lb_test + 'rlactive/'
@@ -10140,12 +10140,12 @@ class RlLocalbranch(MlLocalbranch):
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_hybrid_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
-                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed' + str(102) + '/' # -rlpolicy/seed' + str(self.seed) + '/',  /rlactive_t_node_baseline/seed'+ str(self.seed) + '/'
+                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward2/seed' + str(102) + '/' # -rlpolicy/seed' + str(self.seed) + '/',  /rlactive_t_node_baseline/seed'+ str(self.seed) + '/'
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_hybrid_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(
-                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed' + str(102) + '/' # , /rlactive_t_node_baseline/seed'+ str(self.seed) + '/'
+                total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward2/seed' + str(102) + '/' # , /rlactive_t_node_baseline/seed'+ str(self.seed) + '/'
 
         # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
         # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
@@ -10696,7 +10696,7 @@ class RlLocalbranch(MlLocalbranch):
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_seed102.png') # _hybrid.png, _hybrid_t_node_baseline.png
+        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t2_seed102.png') # _hybrid.png, _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
 
@@ -10721,7 +10721,7 @@ class RlLocalbranch(MlLocalbranch):
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
         plt.savefig('./result/plots/' + 'plot_primalintegral_' + self.instance_type + '_' + str(
-            test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_seed102.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
+            test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t2_seed102.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
 
