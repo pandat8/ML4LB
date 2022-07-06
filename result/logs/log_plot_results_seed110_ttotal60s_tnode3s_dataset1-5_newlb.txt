@@ -1,32 +1,32 @@
 nohup: ignoring input
 setcovering-small
-firstsol
+rootsol
 asymmetric
 seed: 110
 cpu
 setcovering-small
-firstsolSolution
-baseline primal integral:  55.988403256458504
-regression primal integral:  6.067059702480205
-regression merged primal integral:  7.182145781839749
-rl primal integral:  14.303802954603583
-regression-rl primal integral:  5.089189007050777
+rootsolSolution
+baseline primal integral:  4.587106905562771
+regression primal integral:  1.9013376328292573
+regression merged primal integral:  2.1483470714460884
+rl primal integral:  3.6056186413088036
+regression-rl primal integral:  1.800743990462177
 
 
-baseline primal gap:  732.5673509959838
-regression primal gap:  8.7586151839138
-regression primal merged gap:  10.422296536805993
-rl primal gap:  4.250432952007133
-regression-rl primal gap:  5.581072536708301
+baseline primal gap:  1.9953890096163112
+regression primal gap:  2.214901952923242
+regression primal merged gap:  2.395893058867756
+rl primal gap:  1.863134417167359
+regression-rl primal gap:  2.17209476091113
 setcovering-large
-firstsol
+rootsol
 asymmetric
 seed: 110
 cpu
 Traceback (most recent call last):
   File "compute_evaluation_results.py", line 77, in <module>
     reinforce_localbranch.primal_integral(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 8905, in primal_integral
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 8921, in primal_integral
     with gzip.open(filename, 'rb') as f:
   File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 58, in open
     binary_file = GzipFile(filename, gz_mode, compresslevel)
