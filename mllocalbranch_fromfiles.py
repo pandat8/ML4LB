@@ -9200,7 +9200,7 @@ class RlLocalbranch(MlLocalbranch):
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/' + self.instance_type + '_' + test_instance_size + '_' + self.incumbent_mode + 'server' + '_newlb_seed' + str(self.seed) + '.png')
+        plt.savefig('./result/plots/' + self.instance_type + '_' + test_instance_size + '_' + self.incumbent_mode + '_tnode' + str(node_time_limit) + 's' + '_ttotal' + str(total_time_limit) + 's_' + 'server' + '_newlb_seed' + str(self.seed) + '.png')
         plt.show()
         plt.clf()
 
@@ -9632,7 +9632,7 @@ class RlLocalbranch(MlLocalbranch):
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/' + test_instance_size + '_' + self.incumbent_mode + 'server'+ '_newlb_seed' + str(self.seed) +'.png')
+        plt.savefig('./result/plots/' + test_instance_size + '_' + self.incumbent_mode + '_tnode' + str(node_time_limit) + 's' + '_ttotal' + str(total_time_limit) + 's' + '_server'+ '_newlb_seed' + str(self.seed) +'.png')
         plt.show()
         plt.clf()
 
