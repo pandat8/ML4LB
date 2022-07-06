@@ -18,7 +18,7 @@ instance_size = instancesizes[1]
 # incumbent_mode = 'firstsol'
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
-node_time_limit = 3
+node_time_limit = 10
 
 total_time_limit = 60
 reset_k_at_2nditeration = True
