@@ -28,7 +28,7 @@ for i in range(0, 3):
         print(incumbent_mode)
         print(lbconstraint_mode)
 
-        regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100)
+        regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=200)
 
         regression_init_k.generate_k_samples_k_prime(t_limit=samples_time_limit, instance_size=instance_size)
         # regression_init_k.two_examples()
