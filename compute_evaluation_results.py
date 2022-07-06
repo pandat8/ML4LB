@@ -26,7 +26,7 @@ lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
 total_time_limit = 60
-node_time_limit = 3
+node_time_limit = 10
 
 reset_k_at_2nditeration = True
 use_checkpoint = True
@@ -46,7 +46,7 @@ for i in range(0, 5):
     else:
         lbconstraint_mode = 'symmetric'
 
-    for j in range(1, 2):
+    for j in range(0, 2):
         incumbent_mode = incumbent_modes[j]
 
         for k in range(0, 2):
