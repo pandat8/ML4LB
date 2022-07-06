@@ -139,10 +139,10 @@ class LocalBranching:
         if self.first:
             self.subMIP_model.setParam('limits/solutions', 1)
 
-        # option: 1
+        # option1: old
         self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
         self.subMIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
-        # # option 2:
+        # # option 2: new
         # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
         # self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.OFF)
 
@@ -200,12 +200,12 @@ class LocalBranching:
         subMIP_obj_best = None
 
         if n_sols_subMIP > 0:
-            # option 1: without checking the feasibility of best solution
+            # option 1: old: without checking the feasibility of best solution
             subMIP_sol_best = self.subMIP_model.getBestSol()
             subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
             feasible = True
 
-            # # option 2: check the feasibility of best solution
+            # # option 2: new: check the feasibility of best solution
             # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
             # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
             # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
@@ -428,17 +428,23 @@ class LocalBranching:
         if self.total_time_available > 0.01:
             self.MIP_model.setObjlimit(self.MIP_obj_best - self.eps)
             self.MIP_model.setParam('limits/time', self.total_time_available)
-            # self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-            # self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
+
+            # option 1: old
             self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-            self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+            self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
+
+            # # option 2: new
+            # self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+            # self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+
+
             print('try to run optimize()')
             self.MIP_model.optimize()
             print('right branch optimize() is finished with no error.')
 
             best_obj = self.MIP_model.getObjVal()
             if best_obj < self.MIP_obj_best:
-                # option 1:
+                # option 1: old
                 self.MIP_obj_best = best_obj
                 if self.MIP_model.getNSols() > 0:
                     primal_bounds = self.primalbound_handler.primal_bounds
@@ -450,7 +456,7 @@ class LocalBranching:
                     self.primal_objs.extend(primal_bounds)
                     self.primal_times.extend(primal_times)
 
-                # # option 2:
+                # # option 2: new
                 # if self.MIP_model.getNSols() > 0:
                 #     feasible, MIP_sol_best, MIP_obj_best = getBestFeasiSol(self.MIP_model)
                 #     if feasible and MIP_obj_best < self.MIP_obj_best:
