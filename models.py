@@ -80,7 +80,7 @@ class BipartiteGraphConvolution(torch_geometric.nn.MessagePassing):
     """
 
     def __init__(self):
-        super().__init__('add')
+        super().__init__('add') # mean
         emb_size = 64 # 64
 
         self.feature_module_left = torch.nn.Sequential(

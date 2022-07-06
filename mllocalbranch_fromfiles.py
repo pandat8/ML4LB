@@ -3183,7 +3183,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         :return:
         """
 
-        self.k_samples_directory = self.directory + 'k_samples_k_prime' + '/'
+        self.k_samples_directory = self.directory + 'k_samples_k_prime' + '/' + 'seed' + str(self.seed) + '/'
         pathlib.Path(self.k_samples_directory).mkdir(parents=True, exist_ok=True)
 
         direc = './data/generated_instances/' + self.instance_type + '/' + instance_size + '/'
@@ -3379,9 +3379,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
     def generate_regression_samples_k_prime(self, t_limit, instance_size='-small'):
 
-        self.k_samples_directory = self.directory + 'k_samples_k_prime' + '/'
-        self.regression_samples_directory_train = self.directory + 'regression_samples_k_prime' + '/train/'
-        self.regression_samples_directory_test = self.directory + 'regression_samples_k_prime' + '/test/'
+        self.k_samples_directory = self.directory + 'k_samples_k_prime' + '/' + 'seed' + str(self.seed) + '/'
+        self.regression_samples_directory_train = self.directory + 'regression_samples_k_prime' + '/train/' + 'seed' + str(self.seed) + '/'
+        self.regression_samples_directory_test = self.directory + 'regression_samples_k_prime' + '/test/' + 'seed' + str(self.seed) + '/'
         pathlib.Path(self.regression_samples_directory_train).mkdir(parents=True, exist_ok=True)
         pathlib.Path(self.regression_samples_directory_test).mkdir(parents=True, exist_ok=True)
 
@@ -3442,35 +3442,35 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('phi_0_star :', k_init)
             list_phi.append(k_init)
 
-            plt.clf()
-            fig, ax = plt.subplots(2, 1, figsize=(6.4, 6.4))
-            fig.suptitle("Evaluation of size of lb neighborhood")
-            fig.subplots_adjust(top=0.5)
-            ax[0].plot(k, objs)
-            ax[0].set_title(instance_name, loc='right')
-            ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
-            ax[0].set_ylabel("Objective")
-            ax[1].plot(k, t)
-            # ax[1].set_ylim([0,31])
-            ax[1].set_ylabel("Solving time")
-            # ax[2].plot(k, perf_score)
-            # ax[2].set_ylabel("Performance score")
-            plt.show()
+            # plt.clf()
+            # fig, ax = plt.subplots(2, 1, figsize=(6.4, 6.4))
+            # fig.suptitle("Evaluation of size of lb neighborhood")
+            # fig.subplots_adjust(top=0.5)
+            # ax[0].plot(k, objs)
+            # ax[0].set_title(instance_name, loc='right')
+            # ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
+            # ax[0].set_ylabel("Objective")
+            # ax[1].plot(k, t)
+            # # ax[1].set_ylim([0,31])
+            # ax[1].set_ylabel("Solving time")
+            # # ax[2].plot(k, perf_score)
+            # # ax[2].set_ylabel("Performance score")
+            # plt.show()
 
-            # instance = ecole.scip.Model.from_pyscipopt(MIP_model)
+            instance = ecole.scip.Model.from_pyscipopt(MIP_model)
 
-            # observation, _, _, done, _ = self.env.reset(instance)
-            #
-            # data_sample = [observation, k_init]
-            # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
-            # if index_instance < 160:
-            #     filename = f'{self.regression_samples_directory_train}regression-{saved_name}.pkl'
-            # else:
-            #     filename = f'{self.regression_samples_directory_test}regression-{saved_name}.pkl'
-            # with gzip.open(filename, 'wb') as f:
-            #     pickle.dump(data_sample, f)
-            #
-            # index_instance += 1
+            observation, _, _, done, _ = self.env.reset(instance)
+
+            data_sample = [observation, k_init]
+            saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
+            if index_instance < 160:
+                filename = f'{self.regression_samples_directory_train}regression-{saved_name}.pkl'
+            else:
+                filename = f'{self.regression_samples_directory_test}regression-{saved_name}.pkl'
+            with gzip.open(filename, 'wb') as f:
+                pickle.dump(data_sample, f)
+
+            index_instance += 1
 
         list_phi = np.array(list_phi).reshape(-1)
         phi_mean = list_phi.mean()
