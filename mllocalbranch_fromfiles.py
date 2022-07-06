@@ -9207,7 +9207,7 @@ class RlLocalbranch(MlLocalbranch):
     def primal_integral_03(self, test_instance_size, total_time_limit=60, node_time_limit=30):
 
         direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
-        directory_transformedmodel = direc + 'transformedmodel' + '/'
+        directory_transformedmodel = direc + 'transformedmodel' + '/test/'
 
         # set directory for the test result of RL-policy1
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
