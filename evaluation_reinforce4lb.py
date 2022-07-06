@@ -40,7 +40,7 @@ lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
 total_time_limit = 60
-node_time_limit = 10
+node_time_limit = 3
 
 reset_k_at_2nditeration = True
 use_checkpoint = True
