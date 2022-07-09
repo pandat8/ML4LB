@@ -1,27 +1,39 @@
 from pyscipopt import Model
 import pyscipopt
 import pathlib
+from utilities import instancetypes
 from geco.mips.loading.miplib import Loader
-file_directory = './result/miplib2017/miplib2017_purebinary_solved.txt'
-with open(file_directory) as fp:
-    Lines = fp.readlines()
-    i = 0
-    for line in Lines:
-        i += 1
-        instance_str = line.strip()
-        # MIP_model = Loader().load_instance(instance_str)
-        # print(MIP_model.getProbName())
-    print(i)
-# sample_files = [str(path) for path in pathlib.Path(instance_directory).glob(filename)]
-# print(sample_files)
-# i = 0
-# for instance in sample_files:
-#     print(instance)
-#     MIP_model = Model()
-#     MIP_model.readProblem(instance)
-#     print(MIP_model.getProbName())
-#     print('Number of variables', MIP_model.getNVars())
-#     print('Number of binary variables', MIP_model.getNBinVars())
+# file_directory = './result/miplib2017/miplib2017_purebinary_solved.txt'
+# with open(file_directory) as fp:
+#     Lines = fp.readlines()
+#     i = 0
+#     for line in Lines:
+#         i += 1
+#         instance_str = line.strip()
+#         # MIP_model = Loader().load_instance(instance_str)
+#         # print(MIP_model.getProbName())
+#     print(i)
+instance_type = instancetypes[6]
+instance_directory = './data/generated_instances/'+ instance_type +'/-small/transformedmodel/'
+instance_filename = f'{instance_type}-*_transformed.cip'
+sample_files = [str(path) for path in sorted(pathlib.Path(instance_directory).glob(instance_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
+
+print(sample_files)
+i = 0
+
+for instance in sample_files:
+    print(instance)
+    MIP_model = Model()
+    MIP_model.readProblem(instance)
+    print(MIP_model.getProbName())
+    print('Number of variables', MIP_model.getNVars())
+    print('Number of binary variables', MIP_model.getNBinVars())
+
+    directory_instance_name = instance.split('.')[0]
+    filename = f'{directory_instance_name}.mps'
+    print('Write to: '+ filename)
+    MIP_model.writeProblem(filename=filename, trans=False)
+
 #
 #     print("Solving first solution ...")
 #     MIP_model.setParam('presolving/maxrounds', 0)
