@@ -15,7 +15,7 @@ from geco.mips.loading.miplib import Loader
 #     print(i)
 instance_type = instancetypes[6]
 instance_directory = './data/generated_instances/'+ instance_type +'/-small/transformedmodel/'
-instance_filename = f'{instance_type}-*_transformed.cip'
+instance_filename = f'{instance_type}-*_transformed.mps'
 sample_files = [str(path) for path in sorted(pathlib.Path(instance_directory).glob(instance_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
 print(sample_files)
@@ -29,10 +29,10 @@ for instance in sample_files:
     print('Number of variables', MIP_model.getNVars())
     print('Number of binary variables', MIP_model.getNBinVars())
 
-    directory_instance_name = instance.split('.')[0]
-    filename = f'{directory_instance_name}.mps'
-    print('Write to: '+ filename)
-    MIP_model.writeProblem(filename=filename, trans=False)
+    # directory_instance_name = instance.split('.')[0]
+    # filename = f'{directory_instance_name}.mps'
+    # print('Write to: '+ filename)
+    # MIP_model.writeProblem(filename=filename, trans=False)
 
 #
 #     print("Solving first solution ...")
