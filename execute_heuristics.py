@@ -131,7 +131,7 @@ class ExecuteHeuristic:
     #     return train_dataset, valid_dataset, test_dataset
 
     def load_test_mip_dataset(self, instance_directory=None, sols_directory=None):
-        instance_filename = f'*_transformed.cip'
+        instance_filename = f'*_transformed.*'
         sol_filename = f'*_transformed.sol'
 
         test_instances_directory = instance_directory
@@ -197,15 +197,17 @@ class ExecuteHeuristic:
                 MIP_model.readProblem(mip_file)
 
                 incumbent_solution = MIP_model.readSolFile(sol_file)
-                assert MIP_model.checkSol(
-                    incumbent_solution), 'Warning: The initial incumbent of instance {} is not feasible!'.format(
-                    MIP_model.getProbName())
-                try:
-                    MIP_model.addSol(incumbent_solution, False)
-                    print('The initial incumbent of {} is successfully added to MIP model'.format(
-                        MIP_model.getProbName()))
-                except:
-                    print('Error: the initial incumbent of {} is not successfully added to MIP model'.format(
+                feasible = MIP_model.checkSol(incumbent_solution)
+                if feasible:
+                    try:
+                        MIP_model.addSol(incumbent_solution, False)
+                        print('The initial incumbent of {} is successfully added to MIP model'.format(
+                            MIP_model.getProbName()))
+                    except:
+                        print('Error: the initial incumbent of {} is not successfully added to MIP model'.format(
+                            MIP_model.getProbName()))
+                else:
+                    print('Warning: The initial incumbent of instance {} is not feasible!'.format(
                         MIP_model.getProbName()))
 
             i += 1
