@@ -76,9 +76,9 @@ for i in range(3, 5):
             if i< 3:
                 reinforce_localbranch.primal_integral(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
             elif (i == 3 and k == 0) or (i == 4 and k == 0):
-                reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-                # reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
-                #                                          total_time_limit=total_time_limit,
-                #                                          node_time_limit=node_time_limit)
+                # reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
+                reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
+                                                         total_time_limit=total_time_limit,
+                                                         node_time_limit=node_time_limit)
 
             # regression_init_k.solve2opt_evaluation(test_instance_size='-small')
