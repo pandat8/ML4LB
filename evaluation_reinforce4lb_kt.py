@@ -14,8 +14,8 @@ parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_mod
 # parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-2
 # parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_k+t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-1
 
-parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/setcovering/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_k+t_reinforce_0.1trainset_setcovering-large_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-1
-# parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/setcovering/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_t_reinforce_0.1trainset_setcovering-large_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-2
+# parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/setcovering/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_k+t_reinforce_0.1trainset_setcovering-large_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-1
+parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/setcovering/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_t_reinforce_0.1trainset_setcovering-large_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-2
 
 parser.add_argument('--t_reward_type', type=int, default=1, help='Reward signal for policy t, 0: reward_k, 1: reward_k + reward_node_time, 2: reward_node_time')
 parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
@@ -70,7 +70,7 @@ l = [3, 4, 1]
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    for i in range(3, 4):
+    for i in range(4, 5):
         instance_type = instancetypes[i]
         if instance_type == instancetypes[0]:
             lbconstraint_mode = 'asymmetric'
