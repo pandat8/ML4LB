@@ -39,24 +39,28 @@ original problem has 1743 variables (1743 bin, 0 int, 0 impl, 0 cont) and 2015 c
 original problem has 3778 variables (3778 bin, 0 int, 0 impl, 0 cont) and 4607 constraints
 original problem has 4950 variables (4950 bin, 0 int, 0 impl, 0 cont) and 6158 constraints
 original problem has 5190 variables (5190 bin, 0 int, 0 impl, 0 cont) and 6411 constraints
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:9513: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10517: RuntimeWarning: invalid value encountered in double_scalars
   primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:9524: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10528: RuntimeWarning: invalid value encountered in double_scalars
   primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
 generalized_independentset-small
 firstsolSolution
-baseline primal integral:  96.09493154817397
+baseline primal integral:  112.78371519348322
 regression primal integral:  nan
-regression merged primal integral:  83.28650039324529
-rl primal integral:  112.5198500065638
-regression-rl primal integral:  98.75152738935246
+regression merged primal integral:  100.15954969648715
+rl primal integral:  129.21412377124398
+regression-rl primal integral:  115.37648739110567
+rl-hybrid primal integral:  122.44149990366303
+regression-rl-hybrid primal integral:  91.2823446844384
 
 
-baseline primal gap:  8.328681784468326
+baseline primal gap:  11.29358859425902
 regression primal gap:  nan
-regression primal merged gap:  6.683047475527476
-rl primal gap:  8.34408520980631
-regression-rl primal gap:  8.096726052064744
+regression primal merged gap:  9.69723868054106
+rl primal gap:  11.316602484890268
+regression-rl-hybrid primal gap:  11.093581383360885
+rl-hybrid primal gap:  5.152207587131251
+regression-rl-hybrid primal gap:  5.922021649049436
 generalized_independentset-large
 firstsol
 symmetric
@@ -102,24 +106,28 @@ original problem has 1743 variables (1743 bin, 0 int, 0 impl, 0 cont) and 2015 c
 original problem has 3778 variables (3778 bin, 0 int, 0 impl, 0 cont) and 4607 constraints
 original problem has 4950 variables (4950 bin, 0 int, 0 impl, 0 cont) and 6158 constraints
 original problem has 5190 variables (5190 bin, 0 int, 0 impl, 0 cont) and 6411 constraints
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:9513: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10517: RuntimeWarning: invalid value encountered in double_scalars
   primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:9524: RuntimeWarning: invalid value encountered in double_scalars
+/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py:10528: RuntimeWarning: invalid value encountered in double_scalars
   primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
 generalized_independentset-small
 rootsolSolution
-baseline primal integral:  74.62218383366073
+baseline primal integral:  93.19612284607284
 regression primal integral:  nan
-regression merged primal integral:  72.08485159360387
-rl primal integral:  122.10203828721242
-regression-rl primal integral:  71.56924702975725
+regression merged primal integral:  90.74582113758396
+rl primal integral:  140.73988103171826
+regression-rl primal integral:  90.42127291725842
+rl-hybrid primal integral:  125.81648511137449
+regression-rl-hybrid primal integral:  70.62984201025117
 
 
-baseline primal gap:  5.2738717370126995
+baseline primal gap:  8.555831005899519
 regression primal gap:  nan
-regression primal merged gap:  6.724396914610018
-rl primal gap:  13.76065513254362
-regression-rl primal gap:  7.730339245423428
+regression primal merged gap:  10.022967421906372
+rl primal gap:  17.023335174953235
+regression-rl-hybrid primal gap:  10.988010018810062
+rl-hybrid primal gap:  11.620099312492439
+regression-rl-hybrid primal gap:  5.683829342582083
 generalized_independentset-large
 rootsol
 symmetric
@@ -132,9 +140,9 @@ seed: 120
 cpu
 original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
 Traceback (most recent call last):
-  File "compute_evaluation_results.py", line 79, in <module>
-    reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 9310, in primal_integral_03
+  File "compute_evaluation_results.py", line 80, in <module>
+    reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
+  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 10248, in primal_gap_integral_hybrid_03
     with gzip.open(filename, 'rb') as f:
   File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 58, in open
     binary_file = GzipFile(filename, gz_mode, compresslevel)
