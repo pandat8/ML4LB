@@ -201,8 +201,8 @@ class ExecuteHeuristic:
                 if feasible:
                     try:
                         MIP_model.addSol(incumbent_solution, False)
-                        print('The initial incumbent of {} is successfully added to MIP model'.format(
-                            MIP_model.getProbName()))
+                        # print('The initial incumbent of {} is successfully added to MIP model'.format(
+                        #     MIP_model.getProbName()))
                     except:
                         print('Error: the initial incumbent of {} is not successfully added to MIP model'.format(
                             MIP_model.getProbName()))
