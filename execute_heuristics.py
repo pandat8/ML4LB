@@ -166,6 +166,50 @@ class ExecuteHeuristic:
 
         return instance_test_files
 
+    def test_instanceset(self):
+        """
+        execution method for evaluating the underlying heuristic on a specified MIP instance set
+        :param total_time_limit:
+        :param node_time_limit:
+        :return:
+        """
+
+        # self.regression_dataset = self.instance_type + '-small'
+        # self.evaluation_dataset = self.instance_type + evaluation_instance_size
+
+        instance_directory = self.instance_directory
+        directory_sol = self.solution_directory
+
+        test_dataset = self.load_test_mip_dataset(instance_directory, directory_sol)
+
+        test_loader = DataLoader(test_dataset, shuffle=False, batch_size=1, collate_fn=custom_collate)
+
+        i = 0
+        for batch in (test_loader):
+            if i >= 0: #3
+                print("instance: ", i)
+                MIP_model = Model()
+                print("create a new SCIP model")
+
+                mip_file = batch['mipfile'][0]
+                sol_file = batch['solfile'][0]
+
+                MIP_model.readProblem(mip_file)
+
+                incumbent_solution = MIP_model.readSolFile(sol_file)
+                assert MIP_model.checkSol(
+                    incumbent_solution), 'Warning: The initial incumbent of instance {} is not feasible!'.format(
+                    MIP_model.getProbName())
+                try:
+                    MIP_model.addSol(incumbent_solution, False)
+                    print('The initial incumbent of {} is successfully added to MIP model'.format(
+                        MIP_model.getProbName()))
+                except:
+                    print('Error: the initial incumbent of {} is not successfully added to MIP model'.format(
+                        MIP_model.getProbName()))
+
+            i += 1
+
     def execute_heuristic_per_instance(self, MIP_model, incumbent, node_time_limit, total_time_limit):
         """
         call the underlying heuristic method over an MIP instance, this is the basic method by directly running scip to solve the problem

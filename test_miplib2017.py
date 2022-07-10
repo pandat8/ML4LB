@@ -13,9 +13,9 @@ from geco.mips.loading.miplib import Loader
 #         # MIP_model = Loader().load_instance(instance_str)
 #         # print(MIP_model.getProbName())
 #     print(i)
-instance_type = instancetypes[6]
+instance_type = instancetypes[6] # 6
 instance_directory = './data/generated_instances/'+ instance_type +'/-small/transformedmodel/'
-instance_filename = f'{instance_type}-*_transformed.mps'
+instance_filename = f'{instance_type}-*_transformed.cip'
 sample_files = [str(path) for path in sorted(pathlib.Path(instance_directory).glob(instance_filename), key=lambda path: int(path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
 print(sample_files)
