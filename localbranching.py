@@ -425,7 +425,7 @@ class LocalBranching:
 
         self.primalbound_handler.primal_bounds = []
         self.primalbound_handler.primal_times = []
-        if self.total_time_available > 0.01:
+        if self.total_time_available > 0.1:
             self.MIP_model.setObjlimit(self.MIP_obj_best - self.eps)
             self.MIP_model.setParam('limits/time', self.total_time_available)
 
@@ -442,35 +442,36 @@ class LocalBranching:
             self.MIP_model.optimize()
             print('right branch optimize() is finished with no error.')
 
-            best_obj = self.MIP_model.getObjVal()
-            if best_obj < self.MIP_obj_best:
-                # option 1: old
-                self.MIP_obj_best = best_obj
-                if self.MIP_model.getNSols() > 0:
-                    primal_bounds = self.primalbound_handler.primal_bounds
-                    primal_times = self.primalbound_handler.primal_times
+            if self.MIP_model.getNSols() > 0:
+                best_obj = self.MIP_model.getObjVal()
+                if best_obj < self.MIP_obj_best:
+                    # option 1: old
+                    self.MIP_obj_best = best_obj
+                    if self.MIP_model.getNSols() > 0:
+                        primal_bounds = self.primalbound_handler.primal_bounds
+                        primal_times = self.primalbound_handler.primal_times
 
-                    for i in range(len(primal_times)):
-                        primal_times[i] += self.total_time_expired
+                        for i in range(len(primal_times)):
+                            primal_times[i] += self.total_time_expired
 
-                    self.primal_objs.extend(primal_bounds)
-                    self.primal_times.extend(primal_times)
+                        self.primal_objs.extend(primal_bounds)
+                        self.primal_times.extend(primal_times)
 
-                # # option 2: new
-                # if self.MIP_model.getNSols() > 0:
-                #     feasible, MIP_sol_best, MIP_obj_best = getBestFeasiSol(self.MIP_model)
-                #     if feasible and MIP_obj_best < self.MIP_obj_best:
-                #         self.MIP_obj_best = best_obj
-                #         self.MIP_sol_best = MIP_sol_best
-                #
-                #         primal_bounds = self.primalbound_handler.primal_bounds
-                #         primal_times = self.primalbound_handler.primal_times
-                #
-                #         for i in range(len(primal_times)):
-                #             primal_times[i] += self.total_time_expired
-                #
-                #         self.primal_objs.extend(primal_bounds)
-                #         self.primal_times.extend(primal_times)
+                    # # option 2: new
+                    # if self.MIP_model.getNSols() > 0:
+                    #     feasible, MIP_sol_best, MIP_obj_best = getBestFeasiSol(self.MIP_model)
+                    #     if feasible and MIP_obj_best < self.MIP_obj_best:
+                    #         self.MIP_obj_best = best_obj
+                    #         self.MIP_sol_best = MIP_sol_best
+                    #
+                    #         primal_bounds = self.primalbound_handler.primal_bounds
+                    #         primal_times = self.primalbound_handler.primal_times
+                    #
+                    #         for i in range(len(primal_times)):
+                    #             primal_times[i] += self.total_time_expired
+                    #
+                    #         self.primal_objs.extend(primal_bounds)
+                    #         self.primal_times.extend(primal_times)
 
             self.total_time_available -= self.MIP_model.getSolvingTime()
             self.total_time_expired += self.MIP_model.getSolvingTime()
