@@ -23,7 +23,7 @@ rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
 
-seed = 1
+seed = 120 #1
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
@@ -69,7 +69,7 @@ for i in range(4, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_beforenode_freq100/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_beforenode/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True) # beforenode_homo
 
             print(result_directory)
