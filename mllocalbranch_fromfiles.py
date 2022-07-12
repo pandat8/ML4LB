@@ -7179,10 +7179,11 @@ class RlLocalbranch(MlLocalbranch):
         return agent, optimizer, R
 
 
-    def train_agent_policy_k(self, train_instance_size='-small', total_time_limit=60, node_time_limit=10,
+    def train_agent_policy_k(self, train_instance_size='-small', train_incumbent_mode=incumbent_modes[0], total_time_limit=60, node_time_limit=10,
                              reset_k_at_2nditeration=False, lr=0.001, n_epochs=20, epsilon=0, use_checkpoint=False):
 
         train_instance_type = self.instance_type
+        train_data = train_instance_type + train_instance_size
         direc = './data/generated_instances/' + train_instance_type + '/' + train_instance_size + '/'
 
         instances_directory = direc + 'transformedmodel' + '/'
@@ -7192,8 +7193,16 @@ class RlLocalbranch(MlLocalbranch):
         train_dataset_root, valid_dataset_root, test_dataset_root = self.load_mip_dataset(instances_directory=instances_directory,
                                                                            sols_directory=sols_directory, incumbent_mode='rootsol')
         train_datasets = [train_dataset_first, train_dataset_root]
-        train_dataset = ConcatDataset(train_datasets)
-        train_loader = DataLoader(train_dataset_first, shuffle=True, batch_size=1, collate_fn=custom_collate)
+        firstroot_dataset = ConcatDataset(train_datasets)
+
+        if train_incumbent_mode == incumbent_modes[0]:
+            train_dataset = train_dataset_first
+        elif train_incumbent_mode == incumbent_modes[1]:
+            train_dataset = train_dataset_root
+        else:
+            train_dataset = firstroot_dataset
+
+        train_loader = DataLoader(train_dataset, shuffle=True, batch_size=1, collate_fn=custom_collate)
         size_trainset = len(train_loader.dataset)
         print(size_trainset)
 
@@ -7220,7 +7229,7 @@ class RlLocalbranch(MlLocalbranch):
         #     self.saved_model_directory + 'trained_params_' + self.regression_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth'))
         # self.regression_model_gnn.to(device)
 
-        self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/k_policy/' + train_instance_type + '/'
+        self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/k_policy/' + train_instance_type + '/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/' + 'seed' + str(self.seed) + '/'
         pathlib.Path(self.saved_rlmodels_k_policy_directory).mkdir(parents=True, exist_ok=True)
 
         train_directory = './result/generated_instances/' + self.instance_type + '/' + train_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
@@ -7291,10 +7300,34 @@ class RlLocalbranch(MlLocalbranch):
             primal_integral_epoch = 0
             primal_gap_epoch = 0
 
+            i = 0
+
             # while index_instance < size_trainset:
             for batch in (train_loader):
-                MIP_model = batch['mip_model'][0]
-                incumbent_solution = batch['incumbent_solution'][0]
+                # MIP_model = batch['mip_model'][0]
+                # incumbent_solution = batch['incumbent_solution'][0]
+
+                print("instance: ", i)
+                MIP_model = Model()
+                print("create a new SCIP model")
+
+                mip_file = batch['mipfile'][0]
+                sol_file = batch['solfile'][0]
+
+                MIP_model.readProblem(mip_file)
+
+                incumbent_solution = MIP_model.readSolFile(sol_file)
+                assert MIP_model.checkSol(
+                    incumbent_solution), 'Warning: The initial incumbent of instance {} is not feasible!'.format(
+                    MIP_model.getProbName())
+                try:
+                    MIP_model.addSol(incumbent_solution, False)
+                    print('The initial incumbent of {} is successfully added to MIP model'.format(
+                        MIP_model.getProbName()))
+                except:
+                    print('Error: the initial incumbent of {} is not successfully added to MIP model'.format(
+                        MIP_model.getProbName()))
+
                 # train_previous rl_policy
                 index_instance, agent_k, _ , primal_integral, primal_gap_final = self.train_rl_policy_per_instance(MIP_model=MIP_model,
                                                                                                                incumbent_solution=incumbent_solution,
@@ -7312,6 +7345,8 @@ class RlLocalbranch(MlLocalbranch):
 
                 primal_integral_epoch += primal_integral
                 primal_gap_epoch += primal_gap_final
+
+                i += 1
 
             return_epoch = return_epoch/size_trainset
             primal_integral_epoch = primal_integral_epoch/size_trainset
@@ -7353,6 +7388,40 @@ class RlLocalbranch(MlLocalbranch):
                 #            # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce-checkpoint50_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
                 #            self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr' + str(lr) +'_epsilon' + str(epsilon) + '.pth'
                 #            )
+
+                epochs_np = np.array(epochs).reshape(-1)
+                returns_np = np.array(returns_k).reshape(-1)
+                primal_integrals_np = np.array(primal_integrals).reshape(-1)
+                primal_gaps_np = np.array(primal_gaps).reshape(-1)
+
+                plt.close('all')
+                plt.clf()
+                fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
+                fig.suptitle(train_data)
+                fig.subplots_adjust()
+                ax[0].set_title('lr= ' + str(lr) + ', epsilon=' + str(epsilon) + ', t_limit=' + str(total_time_limit),
+                                loc='right')
+                ax[0].plot(epochs_np, returns_np, label='loss')
+                ax[0].set_xlabel('epoch')
+                ax[0].set_ylabel("return t")
+
+                ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
+                ax[1].set_xlabel('epoch')
+                ax[1].set_ylabel("primal integral")
+                # ax[1].set_ylim([0, 1.1])
+                ax[1].legend()
+
+                ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
+                ax[2].set_xlabel('epoch')
+                ax[2].set_ylabel("primal gap")
+                ax[2].legend()
+
+
+                plt.savefig(
+                    './result/plots/plot_train_rl_reinforce_train_k_policy_' + train_instance_type + '_' + train_instance_size + '_' + train_incumbent_mode + '_'  + 'total_timelimit' + str(
+                        total_time_limit) + 's' + '_lr ' + str(lr) + '.png')
+
+                plt.show()
 
         # epochs_np = np.array(epochs).reshape(-1)
         # returns_np = np.array(returns_k).reshape(-1)
@@ -7404,7 +7473,7 @@ class RlLocalbranch(MlLocalbranch):
         else:
             train_dataset = firstroot_dataset
 
-        train_loader = DataLoader(train_dataset_first, shuffle=True, batch_size=1, collate_fn=custom_collate)
+        train_loader = DataLoader(train_dataset, shuffle=True, batch_size=1, collate_fn=custom_collate)
         size_trainset = len(train_loader.dataset)
         print(size_trainset)
 

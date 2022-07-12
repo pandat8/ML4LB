@@ -26,12 +26,12 @@ random.seed(seed)
 
 
 # instance_type = instancetypes[1]
-instance_size = instancesizes[0]
+instance_size = instancesizes[1]
 # incumbent_mode = 'firstsol'
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 60
+total_time_limit = 600
 node_time_limit = 10
 
 reset_k_at_2nditeration = False
@@ -59,10 +59,11 @@ for lr in lr_list:
             reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=seed)
 
             reinforce_localbranch.train_agent_policy_k(train_instance_size=instance_size,
+                                                       train_incumbent_mode=incumbent_mode,
                                                        total_time_limit=total_time_limit,
                                                        node_time_limit=node_time_limit,
                                                        reset_k_at_2nditeration=reset_k_at_2nditeration,
-                                                       lr_k=lr,
+                                                       lr=lr,
                                                        n_epochs=301,
                                                        epsilon=epsilon,
                                                        use_checkpoint=use_checkpoint
