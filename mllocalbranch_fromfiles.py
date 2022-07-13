@@ -9,7 +9,7 @@ import pickle
 import json
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, t_reward_types, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, copy_sol
+from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, t_reward_types, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, copy_sol, mean_shift
 from localbranching import addLBConstraint, addLBConstraintAsymmetric
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
 from models import GraphDataset, GNNPolicy, BipartiteNodeData
@@ -10182,7 +10182,9 @@ class RlLocalbranch(MlLocalbranch):
         plt.show()
         plt.clf()
 
-    def primal_gap_integral_hybrid_03(self, test_instance_size, total_time_limit=60, node_time_limit=30):
+    def primal_gap_integral_hybrid_03(self, test_instance_size, total_time_limit=60, node_time_limit=30, mean_option='arithmetic'):
+
+        print(mean_option)
 
         direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
         directory_transformedmodel = direc + 'transformedmodel' + '/test/'
@@ -10582,28 +10584,37 @@ class RlLocalbranch(MlLocalbranch):
         primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
 
         # avarage primal integral over test dataset
-        primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
-        primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-        primal_int_regression_merged_ave = primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
-        primal_int_regression_reinforce_ave = primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
-        primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
-            primal_int_reinforces)
+        primal_int_base_ave = mean_shift(primal_int_baselines,
+                                         mean_option=mean_option) # primal_int_baselines.sum() / len(primal_int_baselines)
+        primal_int_regression_ave = mean_shift(primal_int_regressions,
+                                         mean_option=mean_option) # primal_int_regressions.sum() / len(primal_int_regressions)
+        primal_int_regression_merged_ave = mean_shift(primal_int_regressions_merged,
+                                         mean_option=mean_option) # primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
+        primal_int_regression_reinforce_ave = mean_shift(primal_int_regression_reinforces,
+                                         mean_option=mean_option) # primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
+        primal_int_reinforce_ave = mean_shift(primal_int_reinforces,
+                                         mean_option=mean_option) # primal_int_reinforces.sum() / len(primal_int_reinforces)
 
-        primal_int_regression_reinforce_talored_ave = primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
-        primal_int_reinforce_talored_ave = primal_int_reinforces_talored.sum() / len(
-            primal_int_reinforces_talored)
+        primal_int_regression_reinforce_talored_ave = mean_shift(primal_int_regression_reinforces_talored,
+                                         mean_option=mean_option) # primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
+        primal_int_reinforce_talored_ave = mean_shift(primal_int_reinforces_talored,
+                                         mean_option=mean_option) # primal_int_reinforces_talored.sum() / len(primal_int_reinforces_talored)
 
-        primal_gap_final_baseline_ave = primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
-        primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
-        primal_gap_final_regression_merged_ave = primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
-        primal_gap_final_regression_reinforce_ave = primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
-        primal_gap_final_reinforce_ave = primal_gap_final_reinforces.sum() / len(
-            primal_gap_final_reinforces)
+        primal_gap_final_baseline_ave = mean_shift(primal_gap_final_baselines,
+                                         mean_option=mean_option) # primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
+        primal_gap_final_regression_ave = mean_shift(primal_gap_final_regressions,
+                                         mean_option=mean_option) # primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
+        primal_gap_final_regression_merged_ave = mean_shift(primal_gap_final_regressions_merged,
+                                         mean_option=mean_option) # primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
+        primal_gap_final_regression_reinforce_ave = mean_shift(primal_gap_final_regression_reinforces,
+                                         mean_option=mean_option) # primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
+        primal_gap_final_reinforce_ave = mean_shift(primal_gap_final_reinforces,
+                                         mean_option=mean_option) # primal_gap_final_reinforces.sum() / len(primal_gap_final_reinforces)
 
-        primal_gap_final_regression_reinforce_talored_ave = primal_gap_final_regression_reinforces_talored.sum() / len(
-            primal_gap_final_regression_reinforces_talored)
-        primal_gap_final_reinforce_talored_ave = primal_gap_final_reinforces_talored.sum() / len(
-            primal_gap_final_reinforces_talored)
+        primal_gap_final_regression_reinforce_talored_ave = mean_shift(primal_gap_final_regression_reinforces_talored,
+                                         mean_option=mean_option) # primal_gap_final_regression_reinforces_talored.sum() / len(primal_gap_final_regression_reinforces_talored)
+        primal_gap_final_reinforce_talored_ave = mean_shift(primal_gap_final_reinforces_talored,
+                                         mean_option=mean_option) # primal_gap_final_reinforces_talored.sum() / len(primal_gap_final_reinforces_talored)
 
         print(self.instance_type + test_instance_size)
         print(self.incumbent_mode + 'Solution')
@@ -10635,7 +10646,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_baseline = primal_gap
             else:
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
-        primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
+        primalgap_baseline_ave = mean_shift(primalgaps_baseline, axis=0, mean_option=mean_option) # np.average(primalgaps_baseline, axis=0)
 
         # primalgaps_regression = None
         # for n, stepline_regression in enumerate(steplines_regression):
@@ -10644,7 +10655,7 @@ class RlLocalbranch(MlLocalbranch):
         #         primalgaps_regression = primal_gap
         #     else:
         #         primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
-        # primalgap_regression_ave = np.average(primalgaps_regression, axis=0)
+        # primalgap_regression_ave = mean_shift(primalgaps_regression, axis=0, mean_option=mean_option) # np.average(primalgaps_regression, axis=0)
 
         primalgaps_regression_merged = None
         for n, stepline_regression in enumerate(steplines_regression_merged):
@@ -10653,7 +10664,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression_merged = primal_gap
             else:
                 primalgaps_regression_merged = np.vstack((primalgaps_regression_merged, primal_gap))
-        primalgap_regression_merged_ave = np.average(primalgaps_regression_merged, axis=0)
+        primalgap_regression_merged_ave = mean_shift(primalgaps_regression_merged, axis=0, mean_option=mean_option) # np.average(primalgaps_regression_merged, axis=0)
 
         primalgaps_regression_reinforce = None
         for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce):
@@ -10662,7 +10673,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression_reinforce = primal_gap
             else:
                 primalgaps_regression_reinforce = np.vstack((primalgaps_regression_reinforce, primal_gap))
-        primalgap_regression_reinforce_ave = np.average(primalgaps_regression_reinforce, axis=0)
+        primalgap_regression_reinforce_ave = mean_shift(primalgaps_regression_reinforce, axis=0, mean_option=mean_option) # np.average(primalgaps_regression_reinforce, axis=0)
 
         primalgaps_reinforce = None
         for n, stepline_reinforce in enumerate(steplines_reinforce):
@@ -10671,7 +10682,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_reinforce = primal_gap
             else:
                 primalgaps_reinforce = np.vstack((primalgaps_reinforce, primal_gap))
-        primalgap_reinforce_ave = np.average(primalgaps_reinforce, axis=0)
+        primalgap_reinforce_ave = mean_shift(primalgaps_reinforce, axis=0, mean_option=mean_option) # np.average(primalgaps_reinforce, axis=0)
 
         primalgaps_regression_reinforce_talored = None
         for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce_talored):
@@ -10680,7 +10691,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression_reinforce_talored = primal_gap
             else:
                 primalgaps_regression_reinforce_talored = np.vstack((primalgaps_regression_reinforce_talored, primal_gap))
-        primalgap_regression_reinforce_talored_ave = np.average(primalgaps_regression_reinforce_talored, axis=0)
+        primalgap_regression_reinforce_talored_ave = mean_shift(primalgaps_regression_reinforce_talored, axis=0, mean_option=mean_option) # np.average(primalgaps_regression_reinforce_talored, axis=0)
 
         primalgaps_reinforce_talored = None
         for n, stepline_reinforce in enumerate(steplines_reinforce_talored):
@@ -10689,7 +10700,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_reinforce_talored = primal_gap
             else:
                 primalgaps_reinforce_talored = np.vstack((primalgaps_reinforce_talored, primal_gap))
-        primalgap_reinforce_talored_ave = np.average(primalgaps_reinforce_talored, axis=0)
+        primalgap_reinforce_talored_ave = mean_shift(primalgaps_regression_reinforce_talored, axis=0, mean_option=mean_option) # np.average(primalgaps_reinforce_talored, axis=0)
 
 
 
@@ -10700,7 +10711,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_baseline = pi
             else:
                 pi_baseline = np.vstack((pi_baseline, pi))
-        pi_baseline_ave = np.average(pi_baseline, axis=0)
+        pi_baseline_ave = mean_shift(pi_baseline, axis=0, mean_option=mean_option) # np.average(pi_baseline, axis=0)
 
         pi_regression_merged = None
         for n, pi_stepline_regression_merged in enumerate(pi_steplines_regression_merged):
@@ -10709,7 +10720,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_regression_merged = pi
             else:
                 pi_regression_merged = np.vstack((pi_regression_merged, pi))
-        pi_regression_merged_ave = np.average(pi_regression_merged, axis=0)
+        pi_regression_merged_ave = mean_shift(pi_regression_merged, axis=0, mean_option=mean_option) # np.average(pi_regression_merged, axis=0)
 
         pi_regression_reinforce = None
         for n, pi_stepline_regression_reinforce in enumerate(pi_steplines_regression_reinforce):
@@ -10718,7 +10729,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_regression_reinforce = pi
             else:
                 pi_regression_reinforce = np.vstack((pi_regression_reinforce, pi))
-        pi_regression_reinforce_ave = np.average(pi_regression_reinforce, axis=0)
+        pi_regression_reinforce_ave = mean_shift(pi_regression_reinforce, axis=0, mean_option=mean_option) # np.average(pi_regression_reinforce, axis=0)
 
         pi_reinforce = None
         for n, pi_stepline_reinforce in enumerate(pi_steplines_reinforce):
@@ -10727,7 +10738,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_reinforce = pi
             else:
                 pi_reinforce = np.vstack((pi_reinforce, pi))
-        pi_reinforce_ave = np.average(pi_reinforce, axis=0)
+        pi_reinforce_ave = mean_shift(pi_reinforce, axis=0, mean_option=mean_option) # np.average(pi_reinforce, axis=0)
 
         pi_regression_reinforce_talored = None
         for n, pi_stepline_regression_reinforce_talored in enumerate(pi_steplines_regression_reinforce_talored):
@@ -10736,7 +10747,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_regression_reinforce_talored = pi
             else:
                 pi_regression_reinforce_talored = np.vstack((pi_regression_reinforce_talored, pi))
-        pi_regression_reinforce_talored_ave = np.average(pi_regression_reinforce_talored, axis=0)
+        pi_regression_reinforce_talored_ave = mean_shift(pi_regression_reinforce_talored, axis=0, mean_option=mean_option) # np.average(pi_regression_reinforce_talored, axis=0)
 
         pi_reinforce_talored = None
         for n, pi_stepline_reinforce_talored in enumerate(pi_steplines_reinforce_talored):
@@ -10745,7 +10756,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_reinforce_talored = pi
             else:
                 pi_reinforce_talored = np.vstack((pi_reinforce_talored, pi))
-        pi_reinforce_talored_ave = np.average(pi_reinforce_talored, axis=0)
+        pi_reinforce_talored_ave = mean_shift(pi_reinforce_talored, axis=0, mean_option=mean_option) # np.average(pi_reinforce_talored, axis=0)
 
         plt.close('all')
         plt.clf()
@@ -10767,7 +10778,7 @@ class RlLocalbranch(MlLocalbranch):
         ax.grid()
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
-        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_seed120.png') # _hybrid.png, _hybrid_t_node_baseline.png
+        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_'+ 'seed' + str(self.seed) + '_' + mean_option + '.png') # _hybrid.png, _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
 
@@ -10792,7 +10803,7 @@ class RlLocalbranch(MlLocalbranch):
         # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
         # fig.tight_layout()
         plt.savefig('./result/plots/' + 'plot_primalintegral_' + self.instance_type + '_' + str(
-            test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_seed120.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
+            test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1' + 'seed' + str(self.seed) + '_' + mean_option + '.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
 

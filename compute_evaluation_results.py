@@ -9,6 +9,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
+parser.add_argument('--mean', type = str, default='arithmetic')
 args = parser.parse_args()
 
 seed = args.seed
@@ -18,6 +19,8 @@ np.random.seed(seed)
 torch.manual_seed(seed)
 random.seed(seed)
 
+mean_option = args.mean
+print(str(mean_option))
 
 # instance_type = instancetypes[0]
 instance_size = instancesizes[0]
@@ -78,7 +81,8 @@ for i in range(3, 5):
             elif (i == 3 and k == 0) or (i == 4 and k == 0):
                 # reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
                 reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
-                                                         total_time_limit=total_time_limit,
-                                                         node_time_limit=node_time_limit)
+                                                                    total_time_limit=total_time_limit,
+                                                                    node_time_limit=node_time_limit,
+                                                                    mean_option=mean_option)
 
             # regression_init_k.solve2opt_evaluation(test_instance_size='-small')
