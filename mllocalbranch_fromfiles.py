@@ -10860,7 +10860,7 @@ class RlLocalbranch(MlLocalbranch):
         plt.close('all')
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
-        fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
+        # fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
         # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, pi_baseline_ave, label='lb-base', color='tab:blue')
         # ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:orange')
