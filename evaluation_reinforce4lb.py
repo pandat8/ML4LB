@@ -10,11 +10,12 @@ import random
 # Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
-parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+# parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/k_policy/setcovering/t_node10s-t_total600s/seed100/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-large_0.1trainset_lr0.01_epochs70.pth')
 parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
 parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
 parser.set_defaults(enable_adapt_t=False)
-parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
+parser.add_argument('--seed', type=int, default=121, help='Radom seed') #50
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
@@ -39,7 +40,7 @@ instance_size = instancesizes[0]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 60
+total_time_limit = 600
 node_time_limit = 10
 
 reset_k_at_2nditeration = True
@@ -64,7 +65,7 @@ for k in range(0, 2):
         else:
             lbconstraint_mode = 'symmetric'
 
-        for j in range(0, 2):
+        for j in range(0, 1):
             incumbent_mode = incumbent_modes[j]
 
             print(instance_type + test_instance_size)
