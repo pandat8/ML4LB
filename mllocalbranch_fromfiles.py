@@ -10867,7 +10867,7 @@ class RlLocalbranch(MlLocalbranch):
 
         # ax.plot(t, pi_regression_merged_ave, label='lb-srm', color='tab:orange')
         # ax.plot(t, pi_reinforce_ave, '--', label='lb-rl', color='tab:green')
-        ax.plot(t, pi_regression_reinforce_ave, '--', label='lb-srm-rl', color='tab:red')
+        ax.plot(t, pi_regression_reinforce_ave, label='lb-srm-rl', color='tab:green') # ax.plot(t, pi_regression_reinforce_ave, '--', label='lb-srm-rl', color='tab:red')
         #
         # ax.plot(t, pi_reinforce_talored_ave, ':', label='lb-rl-adapt-t', color='tab:green')
         ax.plot(t, pi_regression_reinforce_talored_ave, ':', label='lb-srm-rl-adapt-t', color='tab:red')
