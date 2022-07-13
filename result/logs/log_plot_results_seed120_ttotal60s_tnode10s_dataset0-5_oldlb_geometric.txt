@@ -411,18 +411,18 @@ original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22
   ret = ret.dtype.type(ret / rcount)
 miplib_39binary-small
 firstsolSolution
-baseline primal integral:  13.309858729771449
+baseline primal integral:  13.23768415243211
 regression primal integral:  nan
-regression merged primal integral:  11.429912075543328
-rl primal integral:  13.070606832728785
-regression-rl primal integral:  11.096226657141543
+regression merged primal integral:  11.355679015273694
+rl primal integral:  12.998836946323507
+regression-rl primal integral:  11.02073864464964
 
 
-baseline primal gap:  2380.575891048104
+baseline primal gap:  2380.371890576933
 regression primal gap:  nan
-regression primal merged gap:  100.98749236817525
-rl primal gap:  2354.147642427012
-regression-rl primal gap:  69.00959561930429
+regression primal merged gap:  100.78467860501414
+rl primal gap:  2353.9581834790874
+regression-rl primal gap:  68.81453854501862
 miplib_39binary-large
 firstsol
 symmetric
@@ -469,18 +469,18 @@ original problem has 12481 variables (192 bin, 0 int, 0 impl, 12289 cont) and 22
   ret = ret.dtype.type(ret / rcount)
 miplib_39binary-small
 rootsolSolution
-baseline primal integral:  8.864990481098175
+baseline primal integral:  9.444411413980703
 regression primal integral:  nan
-regression merged primal integral:  7.458401467866011
-rl primal integral:  8.744512015254884
-regression-rl primal integral:  7.371413286998163
+regression merged primal integral:  7.838523358263032
+rl primal integral:  8.673112150692859
+regression-rl primal integral:  7.293831685848133
 
 
-baseline primal gap:  6.61926707076843
+baseline primal gap:  14.090621025520562
 regression primal gap:  nan
-regression primal merged gap:  10.472230801993732
-rl primal gap:  14.163750264800328
-regression-rl primal gap:  9.300102366027645
+regression primal merged gap:  13.883171412129201
+rl primal gap:  13.931166951326972
+regression-rl primal gap:  9.097686445560612
 miplib_39binary-large
 rootsol
 symmetric
