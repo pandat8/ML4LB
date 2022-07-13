@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser()
 # parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 # parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
 parser.add_argument('--mean', type = str, default='arithmetic')
+parser.add_argument('--ttotal', type = int, default=60)
 args = parser.parse_args()
 
 # regression_model_path = args.regression_model_path
@@ -32,7 +33,7 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 1200
+total_time_limit = args.ttotal
 node_time_limit = 2
 is_heuristic = True
 
