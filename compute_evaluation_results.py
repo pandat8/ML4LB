@@ -10,6 +10,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
 parser.add_argument('--mean', type = str, default='arithmetic')
+parser.add_argument('--t_total', type = int, default=60)
+parser.add_argument('--t_node', type = int, default=10)
 args = parser.parse_args()
 
 seed = args.seed
@@ -28,8 +30,11 @@ instance_size = instancesizes[0]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 600
-node_time_limit = 10
+total_time_limit = args.t_total
+node_time_limit = args.t_node
+
+print('total time limit:', total_time_limit)
+print('node time limit:', node_time_limit)
 
 reset_k_at_2nditeration = True
 use_checkpoint = True
@@ -77,10 +82,13 @@ for i in range(3, 5):
             #                                                    )
 
             if i< 3:
-                reinforce_localbranch.primal_integral(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
+                if total_time_limit == 60:
+                    reinforce_localbranch.primal_integral(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
             elif (i == 3 and k == 0) or (i == 4 and k == 0):
-                # reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-                reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
+                if total_time_limit == 60:
+                    reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
+                else:
+                    reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
                                                                     total_time_limit=total_time_limit,
                                                                     node_time_limit=node_time_limit,
                                                                     mean_option=mean_option)
