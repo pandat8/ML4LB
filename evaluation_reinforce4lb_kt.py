@@ -80,7 +80,7 @@ for k in range(0, 2):
         else:
             lbconstraint_mode = 'symmetric'
 
-        for j in range(0, 1):
+        for j in range(1, 2):
             incumbent_mode = incumbent_modes[j]
 
             print(instance_type + test_instance_size)
