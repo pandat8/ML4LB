@@ -10860,17 +10860,17 @@ class RlLocalbranch(MlLocalbranch):
         plt.close('all')
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
-        # fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
+        fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
         # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, pi_baseline_ave, label='lb-base', color='tab:blue')
         # ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:orange')
 
-        # ax.plot(t, pi_regression_merged_ave, label='lb-srm', color='tab:orange')
-        # ax.plot(t, pi_reinforce_ave, '--', label='lb-rl', color='tab:green')
-        ax.plot(t, pi_regression_reinforce_ave, label='lb-srm-rl', color='tab:green') # ax.plot(t, pi_regression_reinforce_ave, '--', label='lb-srm-rl', color='tab:red')
+        ax.plot(t, pi_regression_merged_ave, label='lb-srm', color='tab:orange')
+        ax.plot(t, pi_reinforce_ave, '--', label='lb-rl', color='tab:green')
+        ax.plot(t, pi_regression_reinforce_ave, '--', label='lb-srm-rl', color='tab:red') # ax.plot(t, pi_regression_reinforce_ave, label='lb-srm-rl', color='tab:green')
         #
-        # ax.plot(t, pi_reinforce_talored_ave, ':', label='lb-rl-adapt-t', color='tab:green')
-        ax.plot(t, pi_regression_reinforce_talored_ave, label='lb-srm-rl-adapt-t', color='tab:red') # ax.plot(t, pi_regression_reinforce_talored_ave, ':', label='lb-srm-rl-adapt-t', color='tab:red')
+        ax.plot(t, pi_reinforce_talored_ave, ':', label='lb-rl-adapt-t', color='tab:green')
+        ax.plot(t, pi_regression_reinforce_talored_ave, ':', label='lb-srm-rl-adapt-t', color='tab:red') # ax.plot(t, pi_regression_reinforce_talored_ave, label='lb-srm-rl-adapt-t', color='tab:red')
 
         ax.set_xlabel('time /s', fontsize=12)
         ax.set_ylabel("primal integral", fontsize=12)
