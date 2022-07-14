@@ -10,8 +10,8 @@ import random
 # Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
-# parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
-parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_models/rl/reinforce/k_policy/setcovering/t_node10s-t_total600s/seed100/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-large_0.1trainset_lr0.01_epochs70.pth')
+parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+# parser.add_argument('--rl_k_model_path', type = str, default='./result/saved_models/rl/reinforce/k_policy/setcovering/t_node10s-t_total600s/seed100/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-large_0.1trainset_lr0.01_epochs70.pth')
 
 
 # parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_models/rl/reinforce/t_policy/miplib_39binary/t_node10s-t_total600s/checkpoint_rl4lb_trained_-t_policy-simplepolicy-reward_t_reinforce_0.1trainset_miplib_39binary-small_firstsol_total_timelimit600s_lr0.1_saved.pth') # t-reward-2
@@ -73,14 +73,14 @@ l = [3, 4, 1]
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    for i in range(3, 5):
+    for i in range(4, 5):
         instance_type = instancetypes[i]
         if instance_type == instancetypes[0]:
             lbconstraint_mode = 'asymmetric'
         else:
             lbconstraint_mode = 'symmetric'
 
-        for j in range(0, 2):
+        for j in range(1, 2):
             incumbent_mode = incumbent_modes[j]
 
             print(instance_type + test_instance_size)
