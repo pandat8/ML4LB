@@ -32,22 +32,22 @@ print('learning rate:', lr)
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    for i in range(0, 5):
+    for i in range(4, 5):
         instance_type = instancetypes[i]
         if instance_type == instancetypes[0]:
             lbconstraint_mode = 'asymmetric'
         else:
             lbconstraint_mode = 'symmetric'
-        for j in range(0, 2):
+        for j in range(1, 2):
             incumbent_mode = incumbent_modes[j]
 
             print(instance_type + test_instance_size)
             print(incumbent_mode)
             print(lbconstraint_mode)
             if i<3:
-                m_start = 0
+                m_start = 0 # 0
             else:
-                m_start = 1
+                m_start = 2# 1
 
             for m in range(m_start, 3):
                 regre_mode = regression_modes[m]
