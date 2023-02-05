@@ -2,8 +2,14 @@ nohup: ignoring input
 Traceback (most recent call last):
   File "evaluation_regression_k_prime.py", line 5, in <module>
     from mllocalbranch_fromfiles import RegressionInitialK_KPrime
-  File "/home/mpc-linux-01/projects/ML4LB/mllocalbranch_fromfiles.py", line 13, in <module>
-    from localbranching import addLBConstraint, addLBConstraintAsymmetric
-  File "/home/mpc-linux-01/projects/ML4LB/localbranching.py", line 5, in <module>
-    from memory_profiler import profile
-ModuleNotFoundError: No module named 'memory_profiler'
+  File "/home/mpc-linux-01/projects/ML4LB/mllocalbranch_fromfiles.py", line 15, in <module>
+    from models import GraphDataset, GNNPolicy, BipartiteNodeData
+  File "/home/mpc-linux-01/projects/ML4LB/models.py", line 3, in <module>
+    import torch_geometric
+  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/torch_geometric/__init__.py", line 9, in <module>
+    import torch_geometric.profile
+  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/torch_geometric/profile/__init__.py", line 1, in <module>
+    from .profile import profileit, timeit, get_stats_summary
+  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/torch_geometric/profile/profile.py", line 8, in <module>
+    from torch.profiler import ProfilerActivity, profile
+ModuleNotFoundError: No module named 'torch.profiler'
