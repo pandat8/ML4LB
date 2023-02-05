@@ -1,15 +1,46 @@
 nohup: ignoring input
+original problem has 2000 variables (2000 bin, 0 int, 0 impl, 0 cont) and 5000 constraints
+/home/mpc-linux-01/projects/ML4LB/localbranching.py:961: FutureWarning: In the future `np.object` will be defined as the corresponding NumPy scalar.  (This may have returned Python scalars in past versions.
+  cons_vars = np.empty(n_binvars, dtype=np.object)
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+learning rate: 0.0001
+setcovering-small
+firstsol
+asymmetric
+merged :, False
+baseline : False
+seed: 100
+cpu
+setcovering-160_transformed
+N of variables: 2000
+N of binary vars: 2000
+N of constraints: 5000
+MIP copies are created
+incumbent solution is copied to MIP copies
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  20
+k_prime:  1769.0
+Initial obj before LB: 99504.0
+binary support:  2000
+GNN prediction:  0.8794556856155396
 Traceback (most recent call last):
-  File "evaluation_regression_k_prime.py", line 5, in <module>
-    from mllocalbranch_fromfiles import RegressionInitialK_KPrime
-  File "/home/mpc-linux-01/projects/ML4LB/mllocalbranch_fromfiles.py", line 15, in <module>
-    from models import GraphDataset, GNNPolicy, BipartiteNodeData
-  File "/home/mpc-linux-01/projects/ML4LB/models.py", line 3, in <module>
-    import torch_geometric
-  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/torch_geometric/__init__.py", line 9, in <module>
-    import torch_geometric.profile
-  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/torch_geometric/profile/__init__.py", line 1, in <module>
-    from .profile import profileit, timeit, get_stats_summary
-  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/torch_geometric/profile/profile.py", line 8, in <module>
-    from torch.profiler import ProfilerActivity, profile
-ModuleNotFoundError: No module named 'torch.profiler'
+  File "evaluation_regression_k_prime.py", line 77, in <module>
+    regression_init_k.evaluate_localbranching_k_prime(test_instance_size=test_instance_size,train_instance_size='-small', total_time_limit=total_time_limit, node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration, merged=merged, baseline=baseline, regression_model_path=regression_model_path)
+  File "/home/mpc-linux-01/projects/ML4LB/mllocalbranch_fromfiles.py", line 4723, in evaluate_localbranching_k_prime
+    index_instance = self.evaluate_lb_per_instance_k_prime(node_time_limit=node_time_limit,
+  File "/home/mpc-linux-01/projects/ML4LB/mllocalbranch_fromfiles.py", line 4167, in evaluate_lb_per_instance_k_prime
+    status, obj_best, elapsed_time, lb_bits_regression_reset, times_regression_reset_, objs_regression_reset_, _, _ = lb_model3.mdp_localbranch(
+  File "/home/mpc-linux-01/projects/ML4LB/localbranching.py", line 553, in mdp_localbranch
+    state, reward_k, reward_t, done, _ = self.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
+  File "/home/mpc-linux-01/projects/ML4LB/localbranching.py", line 177, in step_localbranch
+    self.left_branch(t_node, is_symmetric=self.is_symmetric)  # execute 1 iteration of lb
+  File "/home/mpc-linux-01/projects/ML4LB/localbranching.py", line 135, in left_branch
+    self.add_LBconstraintAsym()
+  File "/home/mpc-linux-01/projects/ML4LB/localbranching.py", line 961, in add_LBconstraintAsym
+    cons_vars = np.empty(n_binvars, dtype=np.object)
+  File "/home/mpc-linux-01/ml4lb-env/lib/python3.8/site-packages/numpy/__init__.py", line 284, in __getattr__
+    raise AttributeError("module {!r} has no attribute "
+AttributeError: module 'numpy' has no attribute 'object'
