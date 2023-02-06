@@ -8,7 +8,7 @@ import random
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--seed', type=int, default=101, help='Radom seed') #50
+parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50 101
 parser.add_argument('--mean', type = str, default='arithmetic')
 parser.add_argument('--t_total', type = int, default=60)
 parser.add_argument('--t_node', type = int, default=10)
