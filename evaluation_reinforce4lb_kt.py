@@ -23,8 +23,8 @@ parser.add_argument('--rl_t_model_path', type = str, default='./result/saved_mod
 parser.add_argument('--t_reward_type', type=int, default=1, help='Reward signal for policy t, 0: reward_k, 1: reward_k + reward_node_time, 2: reward_node_time')
 parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
 parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
-parser.set_defaults(enable_adapt_t=False)
-parser.add_argument('--seed', type=int, default=122, help='Radom seed') #50 # 122
+parser.set_defaults(enable_adapt_t=True)
+parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50 # 122
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
@@ -65,7 +65,7 @@ epsilon = 0.0
 lr = 0.01
 lr_t = 0.01
 
-l = [3, 4, 1]
+# l = [3, 4, 1]
 # for lr in lr_list:
 #     print('learning rate = ', lr)
 #     print('epsilon = ', epsilon)
