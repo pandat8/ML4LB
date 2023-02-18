@@ -21,7 +21,7 @@ lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
 node_time_limit = 10
-total_time_limit = 60
+total_time_limit = 600
 reset_k_at_2nditeration = True
 
 merged = False
@@ -30,10 +30,10 @@ seed = args.seed
 lr = 0.0001
 print('learning rate:', lr)
 
-for k in range(1, 2):
+for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    for i in range(2, 5):
+    for i in range(3, 5):
         instance_type = instancetypes[i]
         if instance_type == instancetypes[0]:
             lbconstraint_mode = 'asymmetric'

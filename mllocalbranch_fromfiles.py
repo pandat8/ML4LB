@@ -10600,12 +10600,12 @@ class RlLocalbranch(MlLocalbranch):
 
                 # lb-reinforce-tailored
 
-                primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored = self.compute_primal_integral(
-                    times=times_reinforce_hybrid, objs=objs_reinforce_hybrid, obj_opt=obj_opt,
-                    total_time_limit=total_time_limit)
-                primal_gap_final_reinforces_talored.append(primal_gap_final_reinforce_talored)
-                steplines_reinforce_talored.append(stepline_reinforce_talored)
-                primal_int_reinforces_talored.append(primal_int_reinforce_talored)
+                # primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored = self.compute_primal_integral(
+                #     times=times_reinforce_hybrid, objs=objs_reinforce_hybrid, obj_opt=obj_opt,
+                #     total_time_limit=total_time_limit)
+                # primal_gap_final_reinforces_talored.append(primal_gap_final_reinforce_talored)
+                # steplines_reinforce_talored.append(stepline_reinforce_talored)
+                # primal_int_reinforces_talored.append(primal_int_reinforce_talored)
 
                 primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored, pi_stepline_reinforce_talored = self.compute_primal_integral_2(
                     times=times_reinforce_hybrid, objs=objs_reinforce_hybrid, obj_opt=obj_opt, total_time_limit=total_time_limit)
