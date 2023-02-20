@@ -58,7 +58,7 @@ l = [3, 4, 1]
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    for i in range(3, 5):
+    for i in range(4, 5):
         instance_type = instancetypes[i]
         if instance_type == instancetypes[0]:
             lbconstraint_mode = 'asymmetric'
