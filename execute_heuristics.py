@@ -4374,6 +4374,9 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         print("get the feature observations")
         observation, _, _, done, _ = self.env.reset(instance)
 
+        for ti in range(200):
+            print("feature observation from ecole environment is received!")
+
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
         graph = BipartiteNodeData(observation.constraint_features,
