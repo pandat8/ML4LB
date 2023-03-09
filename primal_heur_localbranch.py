@@ -354,8 +354,8 @@ class HeurLocalbranchMulticall(Heur):
             n_binvars = self.model.getNBinVars()
             fixed_vals = np.empty(n_binvars)
             fixed_vars = np.empty(n_binvars, dtype=np.object)
-            for ti in range(100):
-                print("creating a subMIP for LB primal heuristic")
+
+            print("creating a subMIP for LB primal heuristic")
             MIP_model_copy, MIP_copy_vars, success = self.model.createCopyMipLns(fixed_vars, fixed_vals, 0, uselprows=False,
                                                                       copycuts=True)
 
@@ -379,6 +379,8 @@ class HeurLocalbranchMulticall(Heur):
                                 is_heuristic=self.is_heuristic
                                 )
 
+            for ti in range(100):
+                print("start LB search")
             status, obj_best, elapsed_time, agent_k, _, success_lb = self.mdp_localbranch(
                 localbranch=lb,
                 is_symmetric=self.is_symmetric,
@@ -388,6 +390,9 @@ class HeurLocalbranchMulticall(Heur):
                 optimizer_k=None,
                 device=self.device)
 
+
+            for ti in range(50):
+                print("LB search is done")
             if agent_k is not None:
                 self.agent_k, self.optim_k, R = self.update_agent(agent_k, self.optim_k)
 
