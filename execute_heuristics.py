@@ -4366,9 +4366,9 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
                                                   MIP_copy_vars2)
 
-        # MIP_model_copy2._freescip = True
+        MIP_model._freescip = True
         print("call Ecole to transfer the SCIP model to an Ecole instance")
-        instance = ecole.scip.Model.from_pyscipopt(MIP_model, "mip_model")
+        instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         print("get the feature observations")
         observation, _, _, done, _ = self.env.reset(instance)
 
