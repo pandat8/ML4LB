@@ -12,9 +12,9 @@ from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
 
 # Argument setting
 parser = argparse.ArgumentParser()
-parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
-parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
-
+parser.add_argument('--regression_model_path', type=str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
+parser.add_argument('--rl_model_path', type=str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+parser.add_argument('--freq', type=int, default=0, help='the frequency to call the primal heuristic in Branch-and-Bound tree')
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
@@ -23,6 +23,9 @@ regression_model_path = args.regression_model_path
 rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
+
+freq = args.freq
+print('The frequency of calling LB primal heuristic within SCIP BB tree is : ', freq)
 
 seed = 100 # 1
 torch.manual_seed(seed)
@@ -98,7 +101,7 @@ for i in range(4, 5):
                 evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
             result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode/seed' + str(seed) + '/'
+                total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_' + str(freq) + '/seed' + str(seed) + '/'
             pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)  # beforenode_homo, freq_1000
 
             print(result_directory)
@@ -108,6 +111,7 @@ for i in range(4, 5):
                                                    lbconstraint_mode=lbconstraint_mode,
                                                    no_improve_iteration_limit=no_improve_iteration_limit,
                                                    seed=seed,
+                                                   freq=freq,
                                                    is_heuristic=is_heuristic,
                                                    instance_type=instance_type,
                                                    incumbent_mode=incumbent_mode,

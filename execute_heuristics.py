@@ -34,12 +34,13 @@ class ExecuteHeuristic:
     Basic class for the execution of a MIP heuristic on a specific instance set. This basic class uses SCIP solver as the underlying heuristic method
     """
 
-    def __init__(self, instance_directory, solution_directory, result_directory, no_improve_iteration_limit=20, seed=100, enable_gpu=False):
+    def __init__(self, instance_directory, solution_directory, result_directory, no_improve_iteration_limit=20, seed=100, enable_gpu=False, freq=0):
 
         self.instance_directory = instance_directory
         self.solution_directory = solution_directory
         self.result_directory = result_directory
         self.no_improve_iteration_limit = no_improve_iteration_limit
+        self.freq = freq
 
         self.seed = seed
         print('seed: {}'.format(str(seed)))
@@ -4206,10 +4207,10 @@ class Execute_LB_RL(ExecuteHeuristic):
 class Execute_LB_Regression_RL(ExecuteHeuristic):
 
     def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
-                 no_improve_iteration_limit=20, seed=100, enable_gpu=False,
+                 no_improve_iteration_limit=20, seed=100, enable_gpu=False, freq=0,
                  is_heuristic=False, instance_type='miplib_39binary', incumbent_mode='firstsol', regression_model_gnn=None, agent_k=None, optim_k=None):
         super().__init__(instance_directory, solution_directory, result_derectory,
-                         no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu)
+                         no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu, freq=freq)
 
         self.lbconstraint_mode = lbconstraint_mode
         self.is_heuristic = is_heuristic
@@ -4419,7 +4420,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                     "Localbranching baseline heuristic implemented in python",
                                     "Y",
                                     priority=-130000,
-                                    freq=0, #0，100
+                                    freq=self.freq, #0，100
                                     freqofs=0,
                                     maxdepth=-1,
                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
