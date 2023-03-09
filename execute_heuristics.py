@@ -400,7 +400,7 @@ class ExecuteHeuristic:
             if i >= 0: #3
                 print("instance: ", i)
                 MIP_model = Model()
-                for ti in range(100):
+                for ti in range(1000):
                     print("create a new SCIP model")
 
                 mip_file = batch['mipfile'][0]
