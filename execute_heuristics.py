@@ -389,8 +389,10 @@ class ExecuteHeuristic:
         instance_directory = self.instance_directory
         directory_sol = self.solution_directory
 
+        print("Load test dataset")
         test_dataset = self.load_test_mip_dataset(instance_directory, directory_sol)
 
+        print("get the DataLoader")
         test_loader = DataLoader(test_dataset, shuffle=False, batch_size=1, collate_fn=custom_collate)
 
         i = 0
@@ -398,7 +400,8 @@ class ExecuteHeuristic:
             if i >= 0: #3
                 print("instance: ", i)
                 MIP_model = Model()
-                print("create a new SCIP model")
+                for ti in range(100):
+                    print("create a new SCIP model")
 
                 mip_file = batch['mipfile'][0]
                 sol_file = batch['solfile'][0]
