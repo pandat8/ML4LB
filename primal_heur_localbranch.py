@@ -355,12 +355,10 @@ class HeurLocalbranchMulticall(Heur):
             fixed_vals = np.empty(n_binvars)
             fixed_vars = np.empty(n_binvars, dtype=np.object)
 
-            print("creating a subMIP for LB primal heuristic")
+            # print("creating a subMIP for LB primal heuristic")
             MIP_model_copy, MIP_copy_vars, success = self.model.createCopyMipLns(fixed_vars, fixed_vals, 0, uselprows=False,
                                                                       copycuts=True)
 
-            for ti in range(100):
-                print("The subMIP for LB primal heuristic is created")
             # MIP_model_copy, MIP_copy_vars, success = self.model.createCopy(
             #     problemName='lb-subMIP',
             #     origcopy=False)
@@ -379,8 +377,7 @@ class HeurLocalbranchMulticall(Heur):
                                 is_heuristic=self.is_heuristic
                                 )
 
-            for ti in range(100):
-                print("start LB search")
+            # print("start LB search")
             status, obj_best, elapsed_time, agent_k, _, success_lb = self.mdp_localbranch(
                 localbranch=lb,
                 is_symmetric=self.is_symmetric,
@@ -391,8 +388,7 @@ class HeurLocalbranchMulticall(Heur):
                 device=self.device)
 
 
-            for ti in range(50):
-                print("LB search is done")
+            # print("LB search is done")
             if agent_k is not None:
                 self.agent_k, self.optim_k, R = self.update_agent(agent_k, self.optim_k)
 
@@ -449,6 +445,8 @@ class HeurLocalbranchMulticall(Heur):
                                                                              lb_bits=lb_bits)
         done = done or (localbranch.primal_no_improvement_account > self.no_improve_iteration_limit - 1)
 
+        print(done)
+        print("prepare the 2nd LB iteration")
         if success_step and (localbranch.MIP_vars is not None):
             _, _, feasible = copy_sol_from_subMIP_to_MIP(localbranch.MIP_model, self.model,
                                                                   localbranch.MIP_sol_best, localbranch.MIP_vars)

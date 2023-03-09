@@ -74,13 +74,15 @@ def copy_sol_from_subMIP_to_MIP(subMIP_model, MIP_model, sol_subMIP, subMIP_vars
     :return:
     """
 
-    # print("start copying solution of subMIP to MIP")
+    print("start copying solution of subMIP to MIP")
     if check_feasibility:
         feasible = subMIP_model.checkSol(solution=sol_subMIP)
+        print("check feasibility")
         assert feasible, "Error: the trivial solution of the subMIP model " + subMIP_model.getProbName() + " is not feasible!"
 
+    print("try to initialize a new solution")
     sol_mip_target = MIP_model.createSol()
-    # print("a new solution is initialized!")
+    print("a new solution is initialized!")
 
     # create a primal solution for the copy MIP by copying the solution of original MIP
     n_vars = MIP_model.getNVars()

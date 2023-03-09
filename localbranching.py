@@ -199,31 +199,31 @@ class LocalBranching:
         n_sols_subMIP = self.subMIP_model.getNSols()
         subMIP_obj_best = None
 
-        if n_sols_subMIP > 0:
-            # option 1: old: without checking the feasibility of best solution
-            subMIP_sol_best = self.subMIP_model.getBestSol()
-            subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
-            feasible = True
-
-            # # option 2: new: check the feasibility of best solution
-            # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
-            # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
-            # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
-
-            if feasible and subMIP_obj_best < self.MIP_obj_best:
-                self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-                self.MIP_obj_best = subMIP_obj_best # self.MIP_model.getSolObjVal(self.MIP_sol_best)
-                success = True
-
-                primal_bounds = self.primalbound_handler.primal_bounds
-                primal_times = self.primalbound_handler.primal_times
-                self.primal_no_improvement_account = 0
-
-                for i in range(len(primal_times)):
-                    primal_times[i] += self.total_time_expired
-
-                self.primal_objs.extend(primal_bounds)
-                self.primal_times.extend(primal_times)
+        # if n_sols_subMIP > 0:
+        #     # option 1: old: without checking the feasibility of best solution
+        #     subMIP_sol_best = self.subMIP_model.getBestSol()
+        #     subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
+        #     feasible = True
+        #
+        #     # # option 2: new: check the feasibility of best solution
+        #     # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
+        #     # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
+        #     # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
+        #
+        #     if feasible and subMIP_obj_best < self.MIP_obj_best:
+        #         self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
+        #         self.MIP_obj_best = subMIP_obj_best # self.MIP_model.getSolObjVal(self.MIP_sol_best)
+        #         success = True
+        #
+        #         primal_bounds = self.primalbound_handler.primal_bounds
+        #         primal_times = self.primalbound_handler.primal_times
+        #         self.primal_no_improvement_account = 0
+        #
+        #         for i in range(len(primal_times)):
+        #             primal_times[i] += self.total_time_expired
+        #
+        #         self.primal_objs.extend(primal_bounds)
+        #         self.primal_times.extend(primal_times)
 
         # case 1
         if subMIP_status == "optimal" or subMIP_status == "bestsollimit":
@@ -339,6 +339,33 @@ class LocalBranching:
                 #     self.k -= np.ceil(self.k_standard / 2)
                 self.diversify = True
 
+        if n_sols_subMIP > 0:
+            # option 1: old: without checking the feasibility of best solution
+            subMIP_sol_best = self.subMIP_model.getBestSol()
+            subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
+            feasible = True
+
+            # # option 2: new: check the feasibility of best solution
+            # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
+            # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
+            # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
+
+            if feasible and subMIP_obj_best < self.MIP_obj_best:
+                self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
+                self.MIP_obj_best = subMIP_obj_best # self.MIP_model.getSolObjVal(self.MIP_sol_best)
+                success = True
+
+                primal_bounds = self.primalbound_handler.primal_bounds
+                primal_times = self.primalbound_handler.primal_times
+                self.primal_no_improvement_account = 0
+
+                for i in range(len(primal_times)):
+                    primal_times[i] += self.total_time_expired
+
+                self.primal_objs.extend(primal_bounds)
+                self.primal_times.extend(primal_times)
+
+
         self.subMIP_model.delCons(self.constraint_LB)
         self.subMIP_model.releasePyCons(self.constraint_LB)
         del self.constraint_LB
@@ -409,6 +436,7 @@ class LocalBranching:
         # info = None
 
         self.total_time_expired += t_leftbranch
+        # print("LB step is done")
         return state, reward_k, reward_t, done, success# info
 
     def solve_rightbranch(self):

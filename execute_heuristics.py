@@ -400,8 +400,7 @@ class ExecuteHeuristic:
             if i >= 0: #3
                 print("instance: ", i)
                 MIP_model = Model()
-                for ti in range(1000):
-                    print("create a new SCIP model")
+                print("create a new SCIP model")
 
                 mip_file = batch['mipfile'][0]
                 sol_file = batch['solfile'][0]
@@ -4374,8 +4373,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         print("get the feature observations")
         observation, _, _, done, _ = self.env.reset(instance)
 
-        for ti in range(200):
-            print("feature observation from ecole environment is received!")
+        print("feature observation from ecole environment is received!")
 
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
