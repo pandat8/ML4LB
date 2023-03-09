@@ -4367,8 +4367,8 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                                   MIP_copy_vars2)
 
         # MIP_model_copy2._freescip = True
-        print("call Ecole to transfer the SCIP model to an Ecole instance")
         print("The freescip attribute is ", MIP_model._freescip)
+        print("call Ecole to transfer the SCIP model to an Ecole instance")
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         print("get the feature observations")
