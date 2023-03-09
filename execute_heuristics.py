@@ -334,6 +334,8 @@ class ExecuteHeuristic:
         # print("Initial obj of copied MIP: {}".format(initial_obj))
 
         # call and execute heuristic search for the given instance
+        print("call and execute heuristic search for the given instance")
+
         data = self.execute_heuristic_per_instance(MIP_model, incumbent, node_time_limit,
                                                           total_time_limit)
         print(data)
@@ -404,10 +406,10 @@ class ExecuteHeuristic:
                 MIP_model.readProblem(mip_file)
 
                 incumbent_solution = MIP_model.readSolFile(sol_file)
-                assert MIP_model.checkSol(
-                    incumbent_solution), 'Warning: The initial incumbent of instance {} is not feasible!'.format(
-                    MIP_model.getProbName())
                 try:
+                    assert MIP_model.checkSol(
+                        incumbent_solution), 'Warning: The initial incumbent of instance {} is not feasible!'.format(
+                        MIP_model.getProbName())
                     MIP_model.addSol(incumbent_solution, False)
                     print('The initial incumbent of {} is successfully added to MIP model'.format(
                         MIP_model.getProbName()))
@@ -4354,6 +4356,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         """
 
         MIP_model.resetParams()
+        print("copy the instance for the heuristic subproblem")
         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
             problemName='gnn-copy',
             origcopy=False)
@@ -4361,7 +4364,9 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                                   MIP_copy_vars2)
 
         # MIP_model_copy2._freescip = True
+        print("call Ecole to transfer the SCIP model to an Ecole instance")
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
+        print("get the feature observations")
         observation, _, _, done, _ = self.env.reset(instance)
 
         # variable features: only incumbent solution
