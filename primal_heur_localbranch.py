@@ -354,9 +354,12 @@ class HeurLocalbranchMulticall(Heur):
             n_binvars = self.model.getNBinVars()
             fixed_vals = np.empty(n_binvars)
             fixed_vars = np.empty(n_binvars, dtype=np.object)
+            print("creating a subMIP for LB primal heuristic")
             MIP_model_copy, MIP_copy_vars, success = self.model.createCopyMipLns(fixed_vars, fixed_vals, 0, uselprows=False,
                                                                       copycuts=True)
 
+            for ti in range(100):
+                print("The subMIP for LB primal heuristic is created")
             # MIP_model_copy, MIP_copy_vars, success = self.model.createCopy(
             #     problemName='lb-subMIP',
             #     origcopy=False)
