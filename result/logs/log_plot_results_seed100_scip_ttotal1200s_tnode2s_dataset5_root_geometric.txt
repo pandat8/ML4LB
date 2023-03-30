@@ -1,0 +1,28 @@
+nohup: ignoring input
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+geometric
+miplib_39binary-small
+rootsol
+symmetric
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_beforenode/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_beforenode_freq1000/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_beforenode_freq1/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_beforenode/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_beforenode_freq100/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode_freq1000/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode_freq1/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode/seed100/
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode_freq100/seed100/
+seed: 100
+cpu
+geometric
+Traceback (most recent call last):
+  File "compute_evaluation_results_scip_multi_2.py", line 157, in <module>
+    run_localbranch.primal_integral_multicall_freq_03(
+  File "/home/mpc-linux-01/projects/ML4LB/execute_heuristics.py", line 1982, in primal_integral_multicall_freq_03
+    with gzip.open(filename, 'rb') as f:
+  File "/home/mpc-linux-01/opt/python3.8.0/lib/python3.8/gzip.py", line 58, in open
+    binary_file = GzipFile(filename, gz_mode, compresslevel)
+  File "/home/mpc-linux-01/opt/python3.8.0/lib/python3.8/gzip.py", line 173, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode_freq1/seed100/lb-test-miplib_39binary-0_transformed_a1c1s1.pkl'
