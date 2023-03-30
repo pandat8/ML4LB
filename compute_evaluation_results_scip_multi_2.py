@@ -119,12 +119,12 @@ for i in range(4, 5):
 
             result_directory_9 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + '-t_node' + str(
-                node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq100/seed' + str(
+                node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_100/seed' + str(
                 seed) + '/'
 
             result_directory_7 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + '-t_node' + str(
-                node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq1/seed' + str(
+                node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1/seed' + str(
                 seed) + '/'
 
             result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
