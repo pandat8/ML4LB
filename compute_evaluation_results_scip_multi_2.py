@@ -22,8 +22,8 @@ args = parser.parse_args()
 mean_option = args.mean
 print(str(mean_option))
 
-seed = 120 # 0
-seed_mcts = 120 # 0
+seed = 100 # 0
+seed_mcts = 100 # 0
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
