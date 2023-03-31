@@ -2561,7 +2561,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_multi_freq1_' + mean_option + '0.png')
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq-0-1-100_' + mean_option + '_0.png')
         plt.show()
         plt.clf()
 
