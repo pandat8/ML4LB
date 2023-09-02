@@ -2,7 +2,7 @@ import ecole
 import numpy as np
 from scipy.stats import gmean
 
-instancetypes = ['setcovering', 'independentset', 'combinatorialauction', 'generalized_independentset', 'miplib_39binary', 'floorplan_gsrc', 'miplib2017_binary','miplib2017_binary_open' , 'capacitedfacility'
+instancetypes = ['setcovering', 'independentset', 'combinatorialauction', 'generalized_independentset', 'miplib_39binary'
                  ]
 instancesizes = ['-small','-large']
 lbconstraint_modes = ['symmetric', 'asymmetric']

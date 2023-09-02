@@ -8,6 +8,12 @@ import torch
 import random
 import pathlib
 
+"""
+This script is for printing and plotting the results in Section 6
+
+"""
+
+
 # Argument setting
 parser = argparse.ArgumentParser()
 # parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')

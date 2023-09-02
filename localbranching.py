@@ -12,6 +12,12 @@ import gzip
 import pickle
 from event import PrimalBoundChangeEventHandler
 
+"""
+This file implements the basic localbranching heuristic algorithm in Python.
+It calls SCIP as the off-the-shelf MIP solver for solving local branching sub-problems.
+It also includes the necessary methods/functions for extending the LB algorithm with ML
+"""
+
 class LocalBranching:
 
     def __init__(self, MIP_model, MIP_sol_bar, MIP_vars=None, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True, is_heuristic=False):
@@ -25,6 +31,9 @@ class LocalBranching:
         self.MIP_obj_bar = self.MIP_obj_best
         self.n_vars = self.MIP_model.getNVars()
         self.n_binvars = self.MIP_model.getNBinVars()
+
+        feasible = self.MIP_model.checkSol(solution=self.MIP_sol_bar)
+        assert feasible, "Error: the initial incumbent solution for LNS heuristic is not feasible!"
 
         self.default_node_time_limit = node_time_limit
         self.default_initial_node_time_limit = node_time_limit

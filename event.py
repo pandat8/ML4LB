@@ -1,5 +1,9 @@
 from pyscipopt import Model, Eventhdlr, SCIP_EVENTTYPE
 
+"""
+Python implementation of SCIP Event handler for capturing the timestamp when primal bounds changes
+"""
+
 class PrimalBoundChangeEventHandler(Eventhdlr):
 
     def __init__(self):

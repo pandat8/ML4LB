@@ -7,6 +7,11 @@ import torch
 import random
 import argparse
 
+"""
+This script is for printing and plotting the results in Section 5
+
+"""
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50 101
 parser.add_argument('--mean', type = str, default='arithmetic')

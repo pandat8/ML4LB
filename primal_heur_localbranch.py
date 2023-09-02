@@ -4,7 +4,9 @@ import numpy as np
 import torch
 
 from localbranching import LocalBranching
-
+"""
+This file implements the ML-based local branching algorithm as an integrated primal heuristic into SCIP.
+"""
 
 t_reward_types = ['reward_k', 'reward_k+t']
 
@@ -299,7 +301,6 @@ class HeurLocalbranch(Heur):
         del agent.rewards[:]
         del agent.log_probs[:]
         return agent, optimizer, R
-
 
 class HeurLocalbranchMulticall(Heur):
 

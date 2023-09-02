@@ -10,6 +10,10 @@ import pathlib
 from models import GNNPolicy
 from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
 
+"""
+Run this script for evaluating the SCIP solver integrated with ML-based local branching algorithm
+"""
+
 # Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type=str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
@@ -36,8 +40,8 @@ random.seed(seed)
 
 samples_time_limit = 3
 
-total_time_limit = 1200 # 60 # 600# 60
-node_time_limit = 2 #10 # 60 # 5
+total_time_limit = 60 # 1200 # 60 # 600# 60
+node_time_limit = 2 # 2 #10 # 60 # 5
 is_heuristic = True
 no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True

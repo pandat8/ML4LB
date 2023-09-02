@@ -29,6 +29,11 @@ from primal_heur_localbranch import HeurLocalbranch, HeurLocalbranchMulticall
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
 from models import GraphDataset, GNNPolicy, BipartiteNodeData
 
+"""
+This file implement the wrapper classes for calling SCIP integrated with customized primal heuristcs 
+(including the wrapper class for primal heuristic template, LB primal heuristic, ML-base LB primal heuristic)
+"""
+
 class ExecuteHeuristic:
     """
     Basic class for the execution of a MIP heuristic on a specific instance set. This basic class uses SCIP solver as the underlying heuristic method
@@ -3816,368 +3821,368 @@ class Execute_LB_Baseline(ExecuteHeuristic):
 
         return data
 
-class Execute_LB_Regression(ExecuteHeuristic):
-
-    def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
-                 no_improve_iteration_limit=20, seed=100, enable_gpu=False,
-                 is_heuristic=False, instance_type='miplib_39binary', incumbent_mode='firstsol', regression_model_gnn=None):
-        super().__init__(instance_directory, solution_directory, result_derectory,
-                         no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu)
-
-        self.lbconstraint_mode = lbconstraint_mode
-        self.is_heuristic = is_heuristic
-        self.k_0 = 20
-
-        self.is_symmetric = True
-        if self.lbconstraint_mode == 'asymmetric':
-            self.is_symmetric = False
-            self.k_0 = self.k_0 / 2
-        self.incumbent_mode = incumbent_mode
-        self.instance_type = instance_type
-
-        self.initialize_ecole_env()
-        self.env.seed(self.seed)  # environment (SCIP)
-        self.regression_model_gnn = regression_model_gnn
-        self.regression_model_gnn.to(self.device)
-
-
-    def initialize_ecole_env(self):
-
-        if self.incumbent_mode == 'firstsol':
-
-            self.env = ecole.environment.Configuring(
-
-                # set up a few SCIP parameters
-                scip_params={
-                    "presolving/maxrounds": 0,  # deactivate presolving
-                    "presolving/maxrestarts": 0,
-                },
-
-                observation_function=ecole.observation.MilpBipartite(),
-
-                reward_function=None,
-
-                # collect additional metrics for information purposes
-                information_function={
-                    'time': ecole.reward.SolvingTime().cumsum(),
-                }
-            )
-
-        elif self.incumbent_mode == 'rootsol':
-
-            if self.instance_type == 'independentset':
-                self.env = SimpleConfiguring(
-
-                    # set up a few SCIP parameters
-                    scip_params={
-                        "presolving/maxrounds": 0,  # deactivate presolving
-                        "presolving/maxrestarts": 0,
-                    },
-
-                    observation_function=ecole.observation.MilpBipartite(),
-
-                    reward_function=None,
-
-                    # collect additional metrics for information purposes
-                    information_function={
-                        'time': ecole.reward.SolvingTime().cumsum(),
-                    }
-                )
-            else:
-                self.env = SimpleConfiguringEnablecuts(
-
-                    # set up a few SCIP parameters
-                    scip_params={
-                        "presolving/maxrounds": 0,  # deactivate presolving
-                        "presolving/maxrestarts": 0,
-                    },
-
-                    observation_function=ecole.observation.MilpBipartite(),
-
-                    reward_function=None,
-
-                    # collect additional metrics for information purposes
-                    information_function={
-                        'time': ecole.reward.SolvingTime().cumsum(),
-                    }
-                )
-            # elif self.instance_type == 'capacitedfacility':
-            #     self.env = SimpleConfiguringEnableheuristics(
-            #
-            #         # set up a few SCIP parameters
-            #         scip_params={
-            #             "presolving/maxrounds": 0,  # deactivate presolving
-            #             "presolving/maxrestarts": 0,
-            #         },
-            #
-            #         observation_function=ecole.observation.MilpBipartite(),
-            #
-            #         reward_function=None,
-            #
-            #         # collect additional metrics for information purposes
-            #         information_function={
-            #             'time': ecole.reward.SolvingTime().cumsum(),
-            #         }
-            #     )
-
-    def compute_k_prime(self, MIP_model, incumbent):
-
-        # solve the root node and get the LP solution
-        MIP_model.freeTransform()
-        status = MIP_model.getStatus()
-        print("* Model status: %s" % status)
-        MIP_model.resetParams()
-        MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
-        MIP_model.setHeuristics(pyscipopt.SCIP_PARAMSETTING.OFF)
-        MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
-        MIP_model.setIntParam("lp/solvefreq", 0)
-        MIP_model.setParam("limits/nodes", 1)
-        # MIP_model.setParam("limits/solutions", 1)
-        MIP_model.setParam("display/verblevel", 0)
-        MIP_model.setParam("lp/disablecutoff", 1)
-
-        # MIP_model.setParam("limits/solutions", 1)
-        MIP_model.optimize()
-        #
-        status = MIP_model.getStatus()
-        lp_status = MIP_model.getLPSolstat()
-        stage = MIP_model.getStage()
-        n_sols = MIP_model.getNSols()
-        # root_time = MIP_model.getSolvingTime()
-        print("* Model status: %s" % status)
-        print("* Solve stage: %s" % stage)
-        print("* LP status: %s" % lp_status)
-        print('* number of sol : ', n_sols)
-
-        sol_lp = MIP_model.createLPSol()
-        # sol_relax = MIP_model.createRelaxSol()
-
-        k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
-        if not self.is_symmetric:
-            k_prime = haming_distance_solutions_asym(MIP_model, incumbent, sol_lp)
-        k_prime = np.ceil(k_prime)
-
-        return k_prime
-
-    def execute_heuristic_per_instance(self, MIP_model, incumbent, node_time_limit, total_time_limit):
-        """
-        call the underlying heuristic method over an MIP instance, this is the basic method by directly running scip to solve the problem
-        :param MIP_model:
-        :param incumbent:
-        :param node_time_limit:
-        :param total_time_limit:
-        :return:
-        """
-        MIP_model.resetParams()
-        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-            problemName='gnn-copy',
-            origcopy=False)
-        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-                                                  MIP_copy_vars2)
-
-        # MIP_model_copy2._freescip = True
-        instance = ecole.scip.Model.from_pyscipopt(MIP_model)
-        observation, _, _, done, _ = self.env.reset(instance)
-
-        # variable features: only incumbent solution
-        variable_features = observation.variable_features[:, -1:]
-        graph = BipartiteNodeData(observation.constraint_features,
-                                  observation.edge_features.indices,
-                                  observation.edge_features.values,
-                                  variable_features)
-        # We must tell pytorch geometric how many nodes there are, for indexing purposes
-        graph.num_nodes = observation.constraint_features.shape[0] + \
-                          observation.variable_features.shape[
-                              0]
-        # solve the root node and get the LP solution, compute k_prime
-        k_prime = self.compute_k_prime(MIP_model, incumbent)
-
-        k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
-                                            graph.variable_features)
-        k_pred = k_model.item() * k_prime
-        print('GNN prediction: ', k_model.item())
-        k_pred = np.ceil(k_pred)
-        print('GNN k_0: ', k_pred)
-
-        if k_pred < 10:
-            k_pred = 10
-
-        # MIP_model.resetParams()
-        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-        #     problemName='gnn-copy',
-        #     origcopy=False)
-        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-        #                                           MIP_copy_vars2)
-
-
-        objs = []
-        times = []
-        MIP_obj_best = MIP_model_copy2.getSolObjVal(sol_MIP_copy2)
-        times.append(0.0)
-        objs.append(MIP_obj_best)
-
-
-
-        primalbound_handler = PrimalBoundChangeEventHandler()
-        primalbound_handler.primal_times = []
-        primalbound_handler.primal_bounds = []
-
-        MIP_model_copy2.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
-                                   'store every new primal bound and its time stamp')
-
-        heuristic = HeurLocalbranchMulticall(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
-        MIP_model_copy2.includeHeur(heuristic,
-                                    "PyHeur_LB_baseline",
-                                    "Localbranching baseline heuristic implemented in python",
-                                    "Y",
-                                    priority=-130000,
-                                    freq=0, #100
-                                    freqofs=0,
-                                    maxdepth=-1,
-                                    timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
-                                    usessubscip=True
-                                    )
-
-        MIP_model_copy2.setParam('limits/time', total_time_limit)
-        MIP_model_copy2.setParam("display/verblevel", 0)
-        MIP_model_copy2.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-        MIP_model_copy2.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
-        MIP_model_copy2.optimize()
-        status = MIP_model_copy2.getStatus()
-        n_sols_MIP = MIP_model_copy2.getNSols()
-        # MIP_model.freeTransform()
-        # feasible = MIP_model.checkSol(solution=MIP_model.getBestSol())
-        elapsed_time = MIP_model_copy2.getSolvingTime()
-
-        if n_sols_MIP > 0:
-            feasible, MIP_sol_incumbent, MIP_obj_incumbent = getBestFeasiSol(MIP_model_copy2)
-            feasible = MIP_model_copy2.checkSol(solution=MIP_sol_incumbent)
-            assert feasible, "Error: the best solution from current SCIP solving is not feasible!"
-            # MIP_obj_incumbent = MIP_model.getSolObjVal(MIP_sol_incumbent)
-
-            if MIP_obj_incumbent < MIP_obj_best:
-                primal_bounds = primalbound_handler.primal_bounds
-                primal_times = primalbound_handler.primal_times
-                MIP_obj_best = MIP_obj_incumbent
-
-                # for i in range(len(primal_times)):
-                #     primal_times[i] += self.total_time_expired
-
-                objs.extend(primal_bounds)
-                times.extend(primal_times)
-
-        obj_best = MIP_obj_best
-        objs = np.array(objs).reshape(-1)
-        times = np.array(times).reshape(-1)
-
-        print("Instance:", MIP_model_copy2.getProbName())
-        print("Status of SCIP_baseline: ", status)
-        print("Best obj of SCIP_baseline: ", obj_best)
-        print("Solving time: ", elapsed_time)
-        print('\n')
-
-        data = [objs, times]
-
-        return data
-
-class Execute_LB_RL(ExecuteHeuristic):
-
-    def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
-                 no_improve_iteration_limit=20, seed=100, enable_gpu=False,
-                 is_heuristic=False, agent_k=None, optim_k=None):
-        super().__init__(instance_directory, solution_directory, result_derectory,
-                         no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu)
-
-        self.lbconstraint_mode = lbconstraint_mode
-        self.is_heuristic = is_heuristic
-        self.k_0 = 20
-
-        self.is_symmetric = True
-        if self.lbconstraint_mode == 'asymmetric':
-            self.is_symmetric = False
-            self.k_0 = self.k_0 / 2
-
-        self.agent_k = agent_k
-        self.optim_k = optim_k
-
-    def execute_heuristic_per_instance(self, MIP_model, incumbent, node_time_limit, total_time_limit):
-        """
-        call the underlying heuristic method over an MIP instance, this is the basic method by directly running scip to solve the problem
-        :param MIP_model:
-        :param incumbent:
-        :param node_time_limit:
-        :param total_time_limit:
-        :return:
-        """
-
-        objs = []
-        times = []
-        MIP_obj_best = MIP_model.getSolObjVal(incumbent)
-        times.append(0.0)
-        objs.append(MIP_obj_best)
-
-        primalbound_handler = PrimalBoundChangeEventHandler()
-        primalbound_handler.primal_times = []
-        primalbound_handler.primal_bounds = []
-
-        MIP_model.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
-                                   'store every new primal bound and its time stamp')
-
-        heuristic = HeurLocalbranchMulticall(k_0=self.k_0, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit, device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
-        MIP_model.includeHeur(heuristic,
-                              "PyHeur_LB_baseline",
-                              "Localbranching baseline heuristic implemented in python",
-                              "Y",
-                              priority=-130000,
-                              freq=0, #100
-                              freqofs=0,
-                              maxdepth=-1,
-                              timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
-                              usessubscip=True
-                              )
-
-        MIP_model.setParam('limits/time', total_time_limit)
-        MIP_model.setParam("display/verblevel", 0)
-        MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-        MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
-        MIP_model.optimize()
-        status = MIP_model.getStatus()
-        n_sols_MIP = MIP_model.getNSols()
-        # MIP_model.freeTransform()
-        # feasible = MIP_model.checkSol(solution=MIP_model.getBestSol())
-        elapsed_time = MIP_model.getSolvingTime()
-
-
-        if n_sols_MIP > 0:
-            feasible, MIP_sol_incumbent, MIP_obj_incumbent = getBestFeasiSol(MIP_model)
-            feasible = MIP_model.checkSol(solution=MIP_sol_incumbent)
-            assert feasible, "Error: the best solution from current SCIP solving is not feasible!"
-            # MIP_obj_incumbent = MIP_model.getSolObjVal(MIP_sol_incumbent)
-
-            if MIP_obj_incumbent < MIP_obj_best:
-                primal_bounds = primalbound_handler.primal_bounds
-                primal_times = primalbound_handler.primal_times
-                MIP_obj_best = MIP_obj_incumbent
-
-                # for i in range(len(primal_times)):
-                #     primal_times[i] += self.total_time_expired
-
-                objs.extend(primal_bounds)
-                times.extend(primal_times)
-
-        obj_best = MIP_obj_best
-        objs = np.array(objs).reshape(-1)
-        times = np.array(times).reshape(-1)
-
-        print("Instance:", MIP_model.getProbName())
-        print("Status of SCIP_baseline: ", status)
-        print("Best obj of SCIP_baseline: ", obj_best)
-        print("Solving time: ", elapsed_time)
-        print('\n')
-
-        data = [objs, times]
-
-        return data
+# class Execute_LB_Regression(ExecuteHeuristic):
+#
+#     def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
+#                  no_improve_iteration_limit=20, seed=100, enable_gpu=False,
+#                  is_heuristic=False, instance_type='miplib_39binary', incumbent_mode='firstsol', regression_model_gnn=None):
+#         super().__init__(instance_directory, solution_directory, result_derectory,
+#                          no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu)
+#
+#         self.lbconstraint_mode = lbconstraint_mode
+#         self.is_heuristic = is_heuristic
+#         self.k_0 = 20
+#
+#         self.is_symmetric = True
+#         if self.lbconstraint_mode == 'asymmetric':
+#             self.is_symmetric = False
+#             self.k_0 = self.k_0 / 2
+#         self.incumbent_mode = incumbent_mode
+#         self.instance_type = instance_type
+#
+#         self.initialize_ecole_env()
+#         self.env.seed(self.seed)  # environment (SCIP)
+#         self.regression_model_gnn = regression_model_gnn
+#         self.regression_model_gnn.to(self.device)
+#
+#
+#     def initialize_ecole_env(self):
+#
+#         if self.incumbent_mode == 'firstsol':
+#
+#             self.env = ecole.environment.Configuring(
+#
+#                 # set up a few SCIP parameters
+#                 scip_params={
+#                     "presolving/maxrounds": 0,  # deactivate presolving
+#                     "presolving/maxrestarts": 0,
+#                 },
+#
+#                 observation_function=ecole.observation.MilpBipartite(),
+#
+#                 reward_function=None,
+#
+#                 # collect additional metrics for information purposes
+#                 information_function={
+#                     'time': ecole.reward.SolvingTime().cumsum(),
+#                 }
+#             )
+#
+#         elif self.incumbent_mode == 'rootsol':
+#
+#             if self.instance_type == 'independentset':
+#                 self.env = SimpleConfiguring(
+#
+#                     # set up a few SCIP parameters
+#                     scip_params={
+#                         "presolving/maxrounds": 0,  # deactivate presolving
+#                         "presolving/maxrestarts": 0,
+#                     },
+#
+#                     observation_function=ecole.observation.MilpBipartite(),
+#
+#                     reward_function=None,
+#
+#                     # collect additional metrics for information purposes
+#                     information_function={
+#                         'time': ecole.reward.SolvingTime().cumsum(),
+#                     }
+#                 )
+#             else:
+#                 self.env = SimpleConfiguringEnablecuts(
+#
+#                     # set up a few SCIP parameters
+#                     scip_params={
+#                         "presolving/maxrounds": 0,  # deactivate presolving
+#                         "presolving/maxrestarts": 0,
+#                     },
+#
+#                     observation_function=ecole.observation.MilpBipartite(),
+#
+#                     reward_function=None,
+#
+#                     # collect additional metrics for information purposes
+#                     information_function={
+#                         'time': ecole.reward.SolvingTime().cumsum(),
+#                     }
+#                 )
+#             # elif self.instance_type == 'capacitedfacility':
+#             #     self.env = SimpleConfiguringEnableheuristics(
+#             #
+#             #         # set up a few SCIP parameters
+#             #         scip_params={
+#             #             "presolving/maxrounds": 0,  # deactivate presolving
+#             #             "presolving/maxrestarts": 0,
+#             #         },
+#             #
+#             #         observation_function=ecole.observation.MilpBipartite(),
+#             #
+#             #         reward_function=None,
+#             #
+#             #         # collect additional metrics for information purposes
+#             #         information_function={
+#             #             'time': ecole.reward.SolvingTime().cumsum(),
+#             #         }
+#             #     )
+#
+#     def compute_k_prime(self, MIP_model, incumbent):
+#
+#         # solve the root node and get the LP solution
+#         MIP_model.freeTransform()
+#         status = MIP_model.getStatus()
+#         print("* Model status: %s" % status)
+#         MIP_model.resetParams()
+#         MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+#         MIP_model.setHeuristics(pyscipopt.SCIP_PARAMSETTING.OFF)
+#         MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
+#         MIP_model.setIntParam("lp/solvefreq", 0)
+#         MIP_model.setParam("limits/nodes", 1)
+#         # MIP_model.setParam("limits/solutions", 1)
+#         MIP_model.setParam("display/verblevel", 0)
+#         MIP_model.setParam("lp/disablecutoff", 1)
+#
+#         # MIP_model.setParam("limits/solutions", 1)
+#         MIP_model.optimize()
+#         #
+#         status = MIP_model.getStatus()
+#         lp_status = MIP_model.getLPSolstat()
+#         stage = MIP_model.getStage()
+#         n_sols = MIP_model.getNSols()
+#         # root_time = MIP_model.getSolvingTime()
+#         print("* Model status: %s" % status)
+#         print("* Solve stage: %s" % stage)
+#         print("* LP status: %s" % lp_status)
+#         print('* number of sol : ', n_sols)
+#
+#         sol_lp = MIP_model.createLPSol()
+#         # sol_relax = MIP_model.createRelaxSol()
+#
+#         k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
+#         if not self.is_symmetric:
+#             k_prime = haming_distance_solutions_asym(MIP_model, incumbent, sol_lp)
+#         k_prime = np.ceil(k_prime)
+#
+#         return k_prime
+#
+#     def execute_heuristic_per_instance(self, MIP_model, incumbent, node_time_limit, total_time_limit):
+#         """
+#         call the underlying heuristic method over an MIP instance, this is the basic method by directly running scip to solve the problem
+#         :param MIP_model:
+#         :param incumbent:
+#         :param node_time_limit:
+#         :param total_time_limit:
+#         :return:
+#         """
+#         MIP_model.resetParams()
+#         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+#             problemName='gnn-copy',
+#             origcopy=False)
+#         MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
+#                                                   MIP_copy_vars2)
+#
+#         # MIP_model_copy2._freescip = True
+#         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
+#         observation, _, _, done, _ = self.env.reset(instance)
+#
+#         # variable features: only incumbent solution
+#         variable_features = observation.variable_features[:, -1:]
+#         graph = BipartiteNodeData(observation.constraint_features,
+#                                   observation.edge_features.indices,
+#                                   observation.edge_features.values,
+#                                   variable_features)
+#         # We must tell pytorch geometric how many nodes there are, for indexing purposes
+#         graph.num_nodes = observation.constraint_features.shape[0] + \
+#                           observation.variable_features.shape[
+#                               0]
+#         # solve the root node and get the LP solution, compute k_prime
+#         k_prime = self.compute_k_prime(MIP_model, incumbent)
+#
+#         k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
+#                                             graph.variable_features)
+#         k_pred = k_model.item() * k_prime
+#         print('GNN prediction: ', k_model.item())
+#         k_pred = np.ceil(k_pred)
+#         print('GNN k_0: ', k_pred)
+#
+#         if k_pred < 10:
+#             k_pred = 10
+#
+#         # MIP_model.resetParams()
+#         # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+#         #     problemName='gnn-copy',
+#         #     origcopy=False)
+#         # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
+#         #                                           MIP_copy_vars2)
+#
+#
+#         objs = []
+#         times = []
+#         MIP_obj_best = MIP_model_copy2.getSolObjVal(sol_MIP_copy2)
+#         times.append(0.0)
+#         objs.append(MIP_obj_best)
+#
+#
+#
+#         primalbound_handler = PrimalBoundChangeEventHandler()
+#         primalbound_handler.primal_times = []
+#         primalbound_handler.primal_bounds = []
+#
+#         MIP_model_copy2.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
+#                                    'store every new primal bound and its time stamp')
+#
+#         heuristic = HeurLocalbranchMulticall(k_0=k_pred, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit,  device=self.device)
+#         MIP_model_copy2.includeHeur(heuristic,
+#                                     "PyHeur_LB_baseline",
+#                                     "Localbranching baseline heuristic implemented in python",
+#                                     "Y",
+#                                     priority=-130000,
+#                                     freq=0, #100
+#                                     freqofs=0,
+#                                     maxdepth=-1,
+#                                     timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
+#                                     usessubscip=True
+#                                     )
+#
+#         MIP_model_copy2.setParam('limits/time', total_time_limit)
+#         MIP_model_copy2.setParam("display/verblevel", 0)
+#         MIP_model_copy2.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+#         MIP_model_copy2.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+#         MIP_model_copy2.optimize()
+#         status = MIP_model_copy2.getStatus()
+#         n_sols_MIP = MIP_model_copy2.getNSols()
+#         # MIP_model.freeTransform()
+#         # feasible = MIP_model.checkSol(solution=MIP_model.getBestSol())
+#         elapsed_time = MIP_model_copy2.getSolvingTime()
+#
+#         if n_sols_MIP > 0:
+#             feasible, MIP_sol_incumbent, MIP_obj_incumbent = getBestFeasiSol(MIP_model_copy2)
+#             feasible = MIP_model_copy2.checkSol(solution=MIP_sol_incumbent)
+#             assert feasible, "Error: the best solution from current SCIP solving is not feasible!"
+#             # MIP_obj_incumbent = MIP_model.getSolObjVal(MIP_sol_incumbent)
+#
+#             if MIP_obj_incumbent < MIP_obj_best:
+#                 primal_bounds = primalbound_handler.primal_bounds
+#                 primal_times = primalbound_handler.primal_times
+#                 MIP_obj_best = MIP_obj_incumbent
+#
+#                 # for i in range(len(primal_times)):
+#                 #     primal_times[i] += self.total_time_expired
+#
+#                 objs.extend(primal_bounds)
+#                 times.extend(primal_times)
+#
+#         obj_best = MIP_obj_best
+#         objs = np.array(objs).reshape(-1)
+#         times = np.array(times).reshape(-1)
+#
+#         print("Instance:", MIP_model_copy2.getProbName())
+#         print("Status of SCIP_baseline: ", status)
+#         print("Best obj of SCIP_baseline: ", obj_best)
+#         print("Solving time: ", elapsed_time)
+#         print('\n')
+#
+#         data = [objs, times]
+#
+#         return data
+#
+# class Execute_LB_RL(ExecuteHeuristic):
+#
+#     def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
+#                  no_improve_iteration_limit=20, seed=100, enable_gpu=False,
+#                  is_heuristic=False, agent_k=None, optim_k=None):
+#         super().__init__(instance_directory, solution_directory, result_derectory,
+#                          no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu)
+#
+#         self.lbconstraint_mode = lbconstraint_mode
+#         self.is_heuristic = is_heuristic
+#         self.k_0 = 20
+#
+#         self.is_symmetric = True
+#         if self.lbconstraint_mode == 'asymmetric':
+#             self.is_symmetric = False
+#             self.k_0 = self.k_0 / 2
+#
+#         self.agent_k = agent_k
+#         self.optim_k = optim_k
+#
+#     def execute_heuristic_per_instance(self, MIP_model, incumbent, node_time_limit, total_time_limit):
+#         """
+#         call the underlying heuristic method over an MIP instance, this is the basic method by directly running scip to solve the problem
+#         :param MIP_model:
+#         :param incumbent:
+#         :param node_time_limit:
+#         :param total_time_limit:
+#         :return:
+#         """
+#
+#         objs = []
+#         times = []
+#         MIP_obj_best = MIP_model.getSolObjVal(incumbent)
+#         times.append(0.0)
+#         objs.append(MIP_obj_best)
+#
+#         primalbound_handler = PrimalBoundChangeEventHandler()
+#         primalbound_handler.primal_times = []
+#         primalbound_handler.primal_bounds = []
+#
+#         MIP_model.includeEventhdlr(primalbound_handler, 'primal_bound_update_handler',
+#                                    'store every new primal bound and its time stamp')
+#
+#         heuristic = HeurLocalbranchMulticall(k_0=self.k_0, node_time_limit=node_time_limit, total_time_limit=total_time_limit, is_symmetric=self.is_symmetric, is_heuristic=self.is_heuristic, reset_k_at_2nditeration=False, no_improve_iteration_limit = self.no_improve_iteration_limit, device=self.device, agent_k=self.agent_k, optim_k=self.optim_k)
+#         MIP_model.includeHeur(heuristic,
+#                               "PyHeur_LB_baseline",
+#                               "Localbranching baseline heuristic implemented in python",
+#                               "Y",
+#                               priority=-130000,
+#                               freq=0, #100
+#                               freqofs=0,
+#                               maxdepth=-1,
+#                               timingmask=SCIP_HEURTIMING.BEFORENODE,  # SCIP_HEURTIMING.AFTERLPNODE
+#                               usessubscip=True
+#                               )
+#
+#         MIP_model.setParam('limits/time', total_time_limit)
+#         MIP_model.setParam("display/verblevel", 0)
+#         MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
+#         MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
+#         MIP_model.optimize()
+#         status = MIP_model.getStatus()
+#         n_sols_MIP = MIP_model.getNSols()
+#         # MIP_model.freeTransform()
+#         # feasible = MIP_model.checkSol(solution=MIP_model.getBestSol())
+#         elapsed_time = MIP_model.getSolvingTime()
+#
+#
+#         if n_sols_MIP > 0:
+#             feasible, MIP_sol_incumbent, MIP_obj_incumbent = getBestFeasiSol(MIP_model)
+#             feasible = MIP_model.checkSol(solution=MIP_sol_incumbent)
+#             assert feasible, "Error: the best solution from current SCIP solving is not feasible!"
+#             # MIP_obj_incumbent = MIP_model.getSolObjVal(MIP_sol_incumbent)
+#
+#             if MIP_obj_incumbent < MIP_obj_best:
+#                 primal_bounds = primalbound_handler.primal_bounds
+#                 primal_times = primalbound_handler.primal_times
+#                 MIP_obj_best = MIP_obj_incumbent
+#
+#                 # for i in range(len(primal_times)):
+#                 #     primal_times[i] += self.total_time_expired
+#
+#                 objs.extend(primal_bounds)
+#                 times.extend(primal_times)
+#
+#         obj_best = MIP_obj_best
+#         objs = np.array(objs).reshape(-1)
+#         times = np.array(times).reshape(-1)
+#
+#         print("Instance:", MIP_model.getProbName())
+#         print("Status of SCIP_baseline: ", status)
+#         print("Best obj of SCIP_baseline: ", obj_best)
+#         print("Solving time: ", elapsed_time)
+#         print('\n')
+#
+#         data = [objs, times]
+#
+#         return data
 
 class Execute_LB_Regression_RL(ExecuteHeuristic):
 

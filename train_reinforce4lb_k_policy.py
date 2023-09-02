@@ -7,6 +7,10 @@ import torch
 import random
 import argparse
 
+"""
+Run this script for training the RL model for adapting the value of k
+"""
+
 
 # Argument setting
 parser = argparse.ArgumentParser()
@@ -31,7 +35,7 @@ instance_size = instancesizes[1]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 600
+total_time_limit = 60
 node_time_limit = 10
 
 reset_k_at_2nditeration = False

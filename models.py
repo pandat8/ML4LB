@@ -6,6 +6,10 @@ import pathlib
 import gzip
 import pickle
 
+"""
+The GNN regression model for predicting k of the first LB iteration
+"""
+
 class BipartiteNodeData(torch_geometric.data.Data):
     """
     This class encode a node bipartite graph observation as returned by the `ecole.observation.NodeBipartite`

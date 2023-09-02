@@ -8,6 +8,10 @@ import torch
 import random
 import pathlib
 
+"""
+Run this script for evaluating SCIP baseline
+"""
+
 # Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')

@@ -6,6 +6,9 @@ from utilities import instancetypes, instancesizes, incumbent_modes, lbconstrain
 import torch
 import random
 import argparse
+"""
+Run this script for training the RL model for adapting the value of t
+"""
 
 
 # Argument setting

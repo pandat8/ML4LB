@@ -9,6 +9,9 @@ import gzip
 import pickle
 
 
+"""
+The RL model for adapting k and t
+"""
 class SimplePolicy(nn.Module):
 
     def __init__(self, input_dim, output_dim):

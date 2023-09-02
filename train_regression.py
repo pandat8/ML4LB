@@ -4,6 +4,10 @@ import pyscipopt
 from mllocalbranch_fromfiles import RegressionInitialK_KPrime
 from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, regression_modes
 
+"""
+Run this script for training the regression model for predicting the value of k for the first LB iteration
+"""
+
 instance_size = instancesizes[0]
 instance_type = instancetypes[0]
 incumbent_mode = incumbent_modes[0]
