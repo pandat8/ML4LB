@@ -42,7 +42,7 @@ regression_model_gnn = GNNPolicy()
 regression_model_gnn.load_state_dict(torch.load(regression_model_path))
 
 
-for i in range(4, 5):
+for i in range(6, 7):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
