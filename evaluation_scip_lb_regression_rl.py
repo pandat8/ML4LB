@@ -1,5 +1,5 @@
-import ecole
 import numpy as np
+import ecole
 import pyscipopt
 import argparse
 from execute_heuristics import Execute_LB_Regression_RL

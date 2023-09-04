@@ -1,6 +1,4 @@
-import ecole
 import numpy as np
-import pyscipopt
 import argparse
 from execute_heuristics import ExecuteHeuristic, Execute_LB_Baseline
 from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
