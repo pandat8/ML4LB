@@ -20,7 +20,7 @@ rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
 
-seed = 120 # 0
+seed = 100 # 120 # 0
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
@@ -30,13 +30,13 @@ random.seed(seed)
 samples_time_limit = 3
 
 total_time_limit = 1200 # 60 # 600# 60
-node_time_limit = 10 #10 # 60 # 5
+node_time_limit = 2 # 10 #10 # 60 # 5
 is_heuristic = True
-no_improve_iteration_limit = 10 # 3
+no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(4, 5):
+for i in range(6, 7):
     instance_type = instancetypes[i]
 
     for j in range(1, 2):

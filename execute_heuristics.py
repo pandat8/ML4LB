@@ -3786,7 +3786,7 @@ class Execute_LB_Baseline(ExecuteHeuristic):
                               "Localbranching baseline heuristic implemented in python",
                               "Y",
                               priority=-130000,
-                              freq=0, #100
+                              freq=0, #100 #0: only once #100: per 100 nodes
                               freqofs=0,
                               maxdepth=-1,
                               timingmask=SCIP_HEURTIMING.BEFORENODE, # SCIP_HEURTIMING.AFTERLPNODE
