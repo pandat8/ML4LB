@@ -18,7 +18,7 @@ rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
 
-seed = 120 # 0
+seed = 100 # 120 # 0
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
@@ -34,7 +34,7 @@ no_improve_iteration_limit = 2 # 10 # 3
 enable_solve_master_problem = True
 
 
-for i in range(4, 5):
+for i in range(6, 7):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
