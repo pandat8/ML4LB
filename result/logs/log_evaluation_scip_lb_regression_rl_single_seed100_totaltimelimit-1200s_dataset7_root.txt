@@ -1,0 +1,95 @@
+nohup: les entrées sont ignorées
+original problem has 200 variables (200 bin, 0 int, 0 impl, 0 cont) and 17013 constraints
+original problem has 200 variables (200 bin, 0 int, 0 impl, 0 cont) and 17013 constraints
+unknown variable <t_v5859> in line 2 of solution file </home/liudefen/projects/ML4LocalBranch_extend/data/generated_instances/miplib2017_binary/-small/rootsol/test/rootsol-miplib2017_binary-1_transformed.sol>
+  (further unknown variables are ignored)
+original problem has 10772 variables (10771 bin, 0 int, 0 impl, 1 cont) and 12050 constraints
+unknown variable <t_C0000030> in line 2 of solution file </home/liudefen/projects/ML4LocalBranch_extend/data/generated_instances/miplib2017_binary/-small/rootsol/test/rootsol-miplib2017_binary-2_transformed.sol>
+  (further unknown variables are ignored)
+solution violates original bounds of variable <t_one> [1,1] solution value <0>
+/home/liudefen/projects/ML4LocalBranch_extend/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+miplib2017_binary-small
+rootsol
+./result/generated_instances/miplib2017_binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total1200s-t_node2s-small_lb_k0_regression_rl_beforenode/seed100/
+seed: 100
+cpu
+instance:  0
+create a new SCIP model
+The initial incumbent of miplib2017_binary-0_transformed_2club200v15p5scn is successfully added to MIP model
+miplib2017_binary-0_transformed_2club200v15p5scn
+N of variables: 200
+N of binary vars: 200
+N of constraints: 17013
+Initial obj of MIP: -27.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.0
+GNN k_0:  0.0
+LB heuristic is starting..
+LB heuristic starts at 0.075704 s
+No. of LB call:  1
+LB initial objective: -27.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0012 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0033 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.151276 s
+LB final objective: -27.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib2017_binary-0_transformed_2club200v15p5scn_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -48.0
+Solving time:  1200.000103
+
+
+[array([-27., -32., -33., -41., -42., -47., -48.]), array([  0.      ,  34.764817,  81.300424, 139.416469, 139.433627,
+       710.821716, 710.845297])]
+instance:  1
+create a new SCIP model
+The initial incumbent of miplib2017_binary-0_transformed_2club200v15p5scn is successfully added to MIP model
+miplib2017_binary-0_transformed_2club200v15p5scn
+N of variables: 200
+N of binary vars: 200
+N of constraints: 17013
+Initial obj of MIP: 0.0
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.0
+GNN k_0:  0.0
+LB heuristic is starting..
+LB heuristic starts at 0.077011 s
+No. of LB call:  1
+LB initial objective: -27.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0014 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 4.0027 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.14909 s
+LB final objective: -27.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib2017_binary-0_transformed_2club200v15p5scn_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -57.0
+Solving time:  1200.002713
+
+
+[array([  0., -27., -40., -42., -50., -51., -52., -54., -57.]), array([0.00000000e+00, 7.69920000e-02, 1.12398534e+02, 1.12423553e+02,
+       1.24694908e+02, 1.24719921e+02, 1.37993532e+02, 1.03774037e+03,
+       1.05472741e+03])]
+instance:  2
+create a new SCIP model
+Traceback (most recent call last):
+  File "evaluation_scip_lb_regression_rl.py", line 120, in <module>
+    scip_as_baseline.execute_heuristic_baseline(
+  File "/home/liudefen/projects/ML4LocalBranch_extend/execute_heuristics.py", line 407, in execute_heuristic_baseline
+    assert MIP_model.checkSol(
+AssertionError: Warning: The initial incumbent of instance miplib2017_binary-1_transformed_30_70_45_05_100 is not feasible!
