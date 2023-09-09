@@ -71,7 +71,7 @@ rl_policy1 = rl_policy1.to(device)
 agent1 = AgentReinforce(rl_policy1, device, greedy, optim1, 0.0)
 
 
-for i in range(6, 7):
+for i in range(4, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
