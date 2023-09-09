@@ -20,7 +20,7 @@ lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
 node_time_limit = 10
-total_time_limit = 600
+total_time_limit = 60
 reset_k_at_2nditeration = True
 
 merged = False
@@ -47,7 +47,7 @@ for k in range(0, 2):
             if i<3:
                 m_start = 0 # 0
             else:
-                m_start = 2# 1
+                m_start = 1# 1
 
             for m in range(m_start, 3):
                 regre_mode = regression_modes[m]
