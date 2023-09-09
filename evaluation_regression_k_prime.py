@@ -20,7 +20,7 @@ lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
 node_time_limit = 10
-total_time_limit = 60
+total_time_limit = 600
 reset_k_at_2nditeration = True
 
 merged = False
