@@ -1,0 +1,21 @@
+nohup: ignoring input
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+learning rate: 0.0001
+miplib2017_binary-small
+rootsol
+symmetric
+merged :, False
+baseline : True
+seed: 100
+cpu
+./data/generated_instances/miplib2017_binary/-small/transformedmodel/test/miplib2017_binary-160_transformed.cip
+Traceback (most recent call last):
+  File "evaluation_regression_k_prime.py", line 77, in <module>
+    regression_init_k.evaluate_localbranching_k_prime(test_instance_size=test_instance_size,train_instance_size='-small', total_time_limit=total_time_limit, node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration, merged=merged, baseline=baseline, regression_model_path=regression_model_path)
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 4716, in evaluate_localbranching_k_prime
+    index_instance = self.evaluate_lb_per_instance_baseline(node_time_limit=node_time_limit,
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 4456, in evaluate_lb_per_instance_baseline
+    MIP_model.readProblem(filename)
+  File "src/pyscipopt/scip.pyx", line 4750, in pyscipopt.scip.Model.readProblem
+  File "src/pyscipopt/scip.pyx", line 239, in pyscipopt.scip.PY_SCIP_CALL
+OSError: SCIP: file not found error!

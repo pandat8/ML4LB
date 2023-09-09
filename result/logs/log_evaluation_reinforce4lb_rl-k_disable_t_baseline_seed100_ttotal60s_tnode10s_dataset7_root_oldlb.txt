@@ -1,0 +1,29 @@
+nohup: ignoring input
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+False
+miplib2017_binary-small
+rootsol
+symmetric
+seed: 100
+cpu
+original problem has 200 variables (200 bin, 0 int, 0 impl, 0 cont) and 17013 constraints
+miplib2017_binary-0_transformed_2club200v15p5scn
+N of variables: 200
+N of binary vars: 200
+N of constraints: 17013
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+Initial obj before LB: -27.0
+binary support:  27
+GNN prediction:  0.0
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0009 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0030 Best Obj: -27.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+/local_workspace/liudefen/projects/ML4LB/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 3 Solving time: 30.0044 Best Obj: -37.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
