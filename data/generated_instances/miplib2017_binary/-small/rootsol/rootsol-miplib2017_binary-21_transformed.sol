@@ -1,9 +1,0 @@
-objective value:                                   -8
-t_x1023                                             1 	(obj:-1)
-t_x1                                                1 	(obj:-1)
-t_x387                                              1 	(obj:-1)
-t_x433                                              1 	(obj:-1)
-t_x473                                              1 	(obj:-1)
-t_x692                                              1 	(obj:-1)
-t_x735                                              1 	(obj:-1)
-t_x748                                              1 	(obj:-1)
