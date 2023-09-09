@@ -40,7 +40,7 @@ instance_size = instancesizes[0]
 lbconstraint_mode = 'symmetric'
 samples_time_limit = 3
 
-total_time_limit = 60
+total_time_limit = 600
 node_time_limit = 10
 
 reset_k_at_2nditeration = True
@@ -58,7 +58,7 @@ l = [3, 4, 1]
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    for i in range(6, 7):
+    for i in range(4, 5):
         instance_type = instancetypes[i]
         if instance_type == instancetypes[0]:
             lbconstraint_mode = 'asymmetric'
