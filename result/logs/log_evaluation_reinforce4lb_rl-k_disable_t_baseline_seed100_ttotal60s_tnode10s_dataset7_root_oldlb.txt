@@ -27,3 +27,152 @@ LB round: 2 Solving time: 20.0030 Best Obj: -27.0000 n_sols_subMIP: 1 K: 20 t_no
 /local_workspace/liudefen/projects/ML4LB/models_rl.py:61: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
   probs = F.log_softmax(preds)
 LB round: 3 Solving time: 30.0044 Best Obj: -37.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 40.0056 Best Obj: -46.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 50.0075 Best Obj: -46.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 60.0014 Best Obj: -46.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+K_final: 20 div_final: 0
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib2017_binary-0_transformed_2club200v15p5scn_regression-rl
+Status of LB:  unknown
+Best obj of LB:  -46.00000000000001
+Solving time:  60.001375
+
+
+LB round: 1 Solving time: 10.0022 Best Obj: -27.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0044 Best Obj: -27.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0058 Best Obj: -37.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 40.0069 Best Obj: -46.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 50.0089 Best Obj: -46.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 6 Solving time: 60.0016 Best Obj: -46.0000 n_sols_subMIP: 1 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+K_final: 30 div_final: 0
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib2017_binary-0_transformed_2club200v15p5scn_noregression-rl
+Status of LB:  unknown
+Best obj of LB:  -46.00000000000001
+Solving time:  60.001628
+
+
+original problem has 10772 variables (10771 bin, 0 int, 0 impl, 1 cont) and 12050 constraints
+miplib2017_binary-1_transformed_30_70_45_05_100
+N of variables: 10772
+N of binary vars: 10771
+N of constraints: 12050
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+Initial obj before LB: 12.0
+binary support:  3367
+GNN prediction:  0.5387573838233948
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0022 Best Obj: 12.0000 n_sols_subMIP: 1 K: 1450 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 17.8113 Best Obj: 10.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 3 Solving time: 27.8792 Best Obj: 10.0000 n_sols_subMIP: 3 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 37.9177 Best Obj: 10.0000 n_sols_subMIP: 3 K: 45 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 5 Solving time: 38.1964 Best Obj: 10.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 6 Solving time: 46.1131 Best Obj: 10.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 1 LB Status: optimal
+LB round: 7 Solving time: 56.2047 Best Obj: 10.0000 n_sols_subMIP: 2 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 8 Solving time: 60.0011 Best Obj: 10.0000 n_sols_subMIP: 2 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+K_final: 45 div_final: 2
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib2017_binary-1_transformed_30_70_45_05_100_regression-rl
+Status of LB:  unknown
+Best obj of LB:  10.0
+Solving time:  60.001108
+
+
+LB round: 1 Solving time: 7.7472 Best Obj: 10.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: optimal
+LB round: 2 Solving time: 13.6048 Best Obj: 10.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 0 LB Status: infeasible
+LB round: 3 Solving time: 23.6050 Best Obj: 10.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 23.7352 Best Obj: 10.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 1 LB Status: infeasible
+LB round: 5 Solving time: 23.8657 Best Obj: 10.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 2 LB Status: infeasible
+LB round: 6 Solving time: 24.0062 Best Obj: 10.0000 n_sols_subMIP: 0 K: 20 t_node: 20.0 self.div: 3 LB Status: infeasible
+LB round: 7 Solving time: 24.6422 Best Obj: 10.0000 n_sols_subMIP: 1 K: 30 t_node: 20.0 self.div: 4 LB Status: sollimit
+LB round: 8 Solving time: 34.6458 Best Obj: 10.0000 n_sols_subMIP: 7 K: 45 t_node: 10.0 self.div: 4 LB Status: timelimit
+LB round: 9 Solving time: 40.0879 Best Obj: 10.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 4 LB Status: optimal
+LB round: 10 Solving time: 48.2920 Best Obj: 10.0000 n_sols_subMIP: 1 K: 20 t_node: 10.0 self.div: 4 LB Status: infeasible
+LB round: 11 Solving time: 48.4730 Best Obj: 10.0000 n_sols_subMIP: 0 K: 20 t_node: 10.0 self.div: 4 LB Status: infeasible
+LB round: 12 Solving time: 60.0133 Best Obj: 10.0000 n_sols_subMIP: 0 K: 30 t_node: 20.0 self.div: 5 LB Status: timelimit
+K_final: 30 div_final: 6
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib2017_binary-1_transformed_30_70_45_05_100_noregression-rl
+Status of LB:  unknown
+Best obj of LB:  10.0
+Solving time:  60.013262
+
+
+original problem has 12675 variables (12675 bin, 0 int, 0 impl, 0 cont) and 11893 constraints
+miplib2017_binary-2_transformed_ab51-40-100
+N of variables: 12675
+N of binary vars: 12675
+N of constraints: 11893
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+Initial obj before LB: -8931557659.0
+binary support:  78
+GNN prediction:  0.35380369424819946
+MIP copies are created
+incumbent solution is copied to MIP copies
+LB round: 1 Solving time: 10.0007 Best Obj: -8931557659.0000 n_sols_subMIP: 1 K: 26 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0012 Best Obj: -8931557659.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0018 Best Obj: -8931557659.0000 n_sols_subMIP: 5 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 30.2777 Best Obj: -8931557659.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 5 Solving time: 40.2783 Best Obj: -8931557659.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 50.2789 Best Obj: -8931557659.0000 n_sols_subMIP: 2 K: 20 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 60.0005 Best Obj: -8931557659.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+K_final: 30 div_final: 2
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib2017_binary-2_transformed_ab51-40-100_regression-rl
+Status of LB:  unknown
+Best obj of LB:  -8931557659.0
+Solving time:  60.000538
+
+
+LB round: 1 Solving time: 10.0008 Best Obj: -8931557659.0000 n_sols_subMIP: 3 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 2 Solving time: 20.0015 Best Obj: -8931557659.0000 n_sols_subMIP: 5 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 3 Solving time: 30.0021 Best Obj: -8931557659.0000 n_sols_subMIP: 5 K: 20 t_node: 10.0 self.div: 0 LB Status: timelimit
+LB round: 4 Solving time: 30.2965 Best Obj: -8931557659.0000 n_sols_subMIP: 2 K: 20 t_node: 20.0 self.div: 1 LB Status: sollimit
+LB round: 5 Solving time: 40.2971 Best Obj: -8931557659.0000 n_sols_subMIP: 4 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 6 Solving time: 50.2978 Best Obj: -8931557659.0000 n_sols_subMIP: 2 K: 30 t_node: 10.0 self.div: 1 LB Status: timelimit
+LB round: 7 Solving time: 60.0007 Best Obj: -8931557659.0000 n_sols_subMIP: 2 K: 45 t_node: 10.0 self.div: 1 LB Status: timelimit
+K_final: 45 div_final: 2
+try to solve right branch
+right branch is solved/arriving at time limit.
+Instance: miplib2017_binary-2_transformed_ab51-40-100_noregression-rl
+Status of LB:  unknown
+Best obj of LB:  -8931557659.0
+Solving time:  60.00069899999999
+
+
+original problem has 12812 variables (12812 bin, 0 int, 0 impl, 0 cont) and 12092 constraints
+miplib2017_binary-3_transformed_ab67-40-100
+N of variables: 12812
+N of binary vars: 12812
+N of constraints: 12092
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 0
+* number of sol :  1
+Traceback (most recent call last):
+  File "evaluation_reinforce4lb.py", line 85, in <module>
+    reinforce_localbranch.evaluate_localbranching_rlactive(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 8270, in evaluate_localbranching_rlactive
+    agent1, agent2 = self.evaluate_lb_per_instance_rlactive(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 8029, in evaluate_lb_per_instance_rlactive
+    k_prime = self.compute_k_prime(MIP_model, incumbent)
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 165, in compute_k_prime
+    sol_lp = MIP_model.createLPSol()
+  File "src/pyscipopt/scip.pyx", line 4115, in pyscipopt.scip.Model.createLPSol
+  File "src/pyscipopt/scip.pyx", line 247, in pyscipopt.scip.PY_SCIP_CALL
+Exception: SCIP: method cannot be called at this time in solution process!
