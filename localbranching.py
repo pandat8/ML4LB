@@ -995,7 +995,7 @@ class LocalBranching:
 
         lhs = 0
         rhs = self.k
-        cons_vars = np.empty(n_binvars, dtype=np.object)
+        cons_vars = np.empty(n_binvars, dtype=object)
         cons_vals = np.empty(n_binvars)
 
         # compute coefficients for LB constraint
@@ -1032,7 +1032,7 @@ def addLBConstraint(mip_model, mip_sol, neighborhoodsize):
 
     lhs = 0
     rhs = neighborhoodsize
-    cons_vars = np.empty(n_binvars, dtype=np.object)
+    cons_vars = np.empty(n_binvars, dtype=object)
     cons_vals = np.empty(n_binvars)
 
     # compute coefficients for LB constraint
@@ -1069,7 +1069,7 @@ def addLBConstraintAsymmetric(mip_model, mip_sol, neighborhoodsize):
 
     lhs = 0
     rhs = neighborhoodsize
-    cons_vars = np.empty(n_binvars, dtype=np.object)
+    cons_vars = np.empty(n_binvars, dtype=object)
     cons_vals = np.empty(n_binvars)
 
     # compute coefficients for LB constraint
@@ -1108,7 +1108,7 @@ def addLBConstraintAsymJustslackvars(mip_model, mip_sol, neighborhoodsize, index
 
     lhs = 0
     rhs = neighborhoodsize
-    cons_vars = np.empty(n_slackvars, dtype=np.object)
+    cons_vars = np.empty(n_slackvars, dtype=object)
     cons_vals = np.empty(n_slackvars)
 
     # compute coefficients for LB constraint
