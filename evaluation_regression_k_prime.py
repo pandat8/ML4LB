@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
 parser.add_argument('--t_total', type=int, default=60)
 parser.add_argument('--dataset_id', type=int, default=0)
-parser.add_argument('--seed', type=int, default=0, help='Radom seed') # 100 50 101
+parser.add_argument('--seed', type=int, default=0, help='Radom seed') ## 100 50 101
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
