@@ -22,7 +22,7 @@ parser.add_argument('--dataset_id', type=int, default=0)
 parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_true', help='enable_adapt_t')
 parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
 parser.set_defaults(enable_adapt_t=False)
-parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50  122
+parser.add_argument('--seed', type=int, default=0, help='Radom seed') #50  122
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
