@@ -881,7 +881,7 @@ class LocalBranching:
         rhs = self.MIP_model.infinity()
         lhs = k + 1
 
-        cons_vars = np.empty(n_binvars, dtype=np.object)
+        cons_vars = np.empty(n_binvars, dtype=object)
         cons_vals = np.empty(n_binvars)
 
         # compute coefficient for reversed LB constraint
@@ -921,7 +921,7 @@ class LocalBranching:
         rhs = self.MIP_model.infinity()
         lhs = k + 1
 
-        cons_vars = np.empty(n_binvars, dtype=np.object)
+        cons_vars = np.empty(n_binvars, dtype=object)
         cons_vals = np.empty(n_binvars)
 
         # compute coefficient for reversed LB constraint
@@ -957,7 +957,7 @@ class LocalBranching:
 
         lhs = 0
         rhs = self.k
-        cons_vars = np.empty(n_binvars, dtype=np.object)
+        cons_vars = np.empty(n_binvars, dtype=object)
         cons_vals = np.empty(n_binvars)
 
         # compute coefficients for LB constraint
