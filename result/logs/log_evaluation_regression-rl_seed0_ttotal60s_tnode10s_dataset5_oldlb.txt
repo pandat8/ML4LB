@@ -1,0 +1,47 @@
+nohup: ignoring input
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+False
+miplib_39binary-small
+firstsol
+symmetric
+seed: 0
+cpu
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+Initial obj before LB: 21141.52
+binary support:  173
+GNN prediction:  2.788595743208333e-10
+MIP copies are created
+incumbent solution is copied to MIP copies
+/local_workspace/liudefen/projects/ML4LB/localbranching.py:960: FutureWarning: In the future `np.object` will be defined as the corresponding NumPy scalar.
+  cons_vars = np.empty(n_binvars, dtype=np.object)
+Traceback (most recent call last):
+  File "evaluation_reinforce4lb.py", line 91, in <module>
+    reinforce_localbranch.evaluate_localbranching_rlactive(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 7394, in evaluate_localbranching_rlactive
+    agent1, agent2 = self.evaluate_lb_per_instance_rlactive(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 7243, in evaluate_lb_per_instance_rlactive
+    status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, _ = self.mdp_localbranch(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 6001, in mdp_localbranch
+    state, reward_k, reward_time , done, _ = localbranch.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
+  File "/local_workspace/liudefen/projects/ML4LB/localbranching.py", line 186, in step_localbranch
+    self.left_branch(t_node, is_symmetric=self.is_symmetric)  # execute 1 iteration of lb
+  File "/local_workspace/liudefen/projects/ML4LB/localbranching.py", line 142, in left_branch
+    self.add_LBconstraint()
+  File "/local_workspace/liudefen/projects/ML4LB/localbranching.py", line 960, in add_LBconstraint
+    cons_vars = np.empty(n_binvars, dtype=np.object)
+  File "/home/liudefen/.conda/envs/mpclb/lib/python3.8/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'object'.
+`np.object` was a deprecated alias for the builtin `object`. To avoid this error in existing code, use `object` by itself. Doing this will not modify any behavior and is safe. 
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
