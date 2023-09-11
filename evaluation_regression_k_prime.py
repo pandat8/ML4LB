@@ -28,7 +28,7 @@ samples_time_limit = 3
 
 node_time_limit = 10
 total_time_limit = args.t_total
-i = args.dataset_id
+dataset_id = args.dataset_id
 reset_k_at_2nditeration = True
 
 merged = False
@@ -40,7 +40,7 @@ print('learning rate:', lr)
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    instance_type = instancetypes[i]
+    instance_type = instancetypes[dataset_id]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:

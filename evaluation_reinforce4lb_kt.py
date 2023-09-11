@@ -54,7 +54,7 @@ torch.manual_seed(seed)
 random.seed(seed)
 
 total_time_limit = args.t_total
-i = args.dataset_id
+dataset_id = args.dataset_id
 
 # instance_type = instancetypes[0]
 instance_size = instancesizes[0]
@@ -80,7 +80,7 @@ lr_t = 0.01
 for k in range(0, 2):
     test_instance_size = instancesizes[k]
 
-    instance_type = instancetypes[i]
+    instance_type = instancetypes[dataset_id]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
     else:
