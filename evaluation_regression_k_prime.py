@@ -51,7 +51,7 @@ for k in range(0, 2):
         print(instance_type + test_instance_size)
         print(incumbent_mode)
         print(lbconstraint_mode)
-        if i<3:
+        if dataset_id<3:
             m_start = 0 # 0
         else:
             m_start = 1 # 1 # 2
@@ -80,7 +80,7 @@ for k in range(0, 2):
             # regression_init_k.execute_regression_k_prime(lr=0.00001, n_epochs=201) # setcovering small: lr=0.00002; capa-small: samne; independentset-small: first: lr=0.00002, root: lr=0.00003
 
             # regression_init_k.execute_regression_mergedatasets(lr=lr, n_epochs=201)  # setcovering small: lr=0.00002; capa-small: samne; independentset-small: first: lr=0.00002, root: lr=0.00003
-            if not ((i==3 and k==1) or (i==4 and k==1) or (i==3 and m==0) or (i==4 and m==0)):
+            if not ((dataset_id==3 and k==1) or (dataset_id==4 and k==1) or (dataset_id==3 and m==0) or (dataset_id==4 and m==0)):
                 gc.collect()
                 regression_init_k.evaluate_localbranching_k_prime(test_instance_size=test_instance_size,train_instance_size='-small', total_time_limit=total_time_limit, node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration, merged=merged, baseline=baseline, regression_model_path=regression_model_path)
 

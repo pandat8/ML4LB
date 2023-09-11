@@ -75,7 +75,7 @@ for j in range(1, 2):
                                             no_improve_iteration_limit=no_improve_iteration_limit,
                                             seed=seed)
 
-        if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
+        if not ((dataset_id == 3 and k == 1) or (dataset_id == 4 and k == 1)):
             scip_as_baseline.execute_heuristic_baseline(
                 total_time_limit=total_time_limit,
                 node_time_limit=node_time_limit,

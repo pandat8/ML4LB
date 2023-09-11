@@ -4258,10 +4258,14 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         incumbent = MIP_model.readSolFile(firstsol_filename)
 
         feas = MIP_model.checkSol(incumbent)
+        if not feas:
+            print('Error: the initial solution of ' + instance_name + ' is not feasible!')
+        else:
+            print('The initial solution of ' + instance_name + ' is feasible!')
         try:
             MIP_model.addSol(incumbent, False)
         except:
-            print('Error: the root solution of ' + instance_name + ' is not feasible!')
+            print('Error: the initial solution of ' + instance_name + ' is not feasible!')
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
@@ -7117,6 +7121,11 @@ class RlLocalbranch(MlLocalbranch):
         print("N of constraints: {}".format(MIP_model.getNConss()))
 
         feas = MIP_model.checkSol(incumbent_solution)
+        if not feas:
+            print('Error: the initial solution of ' + instance_name + ' is not feasible!')
+        else:
+            print('The initial solution of ' + instance_name + ' is feasible!')
+
         try:
             MIP_model.addSol(incumbent_solution, False)
         except:
@@ -7179,8 +7188,8 @@ class RlLocalbranch(MlLocalbranch):
         del graph
         del observation
 
-        # create a copy of MIP
-        MIP_model.resetParams()
+        # # create a copy of MIP
+        # MIP_model.resetParams()
         # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
         #     problemName='Baseline', origcopy=False)
         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
