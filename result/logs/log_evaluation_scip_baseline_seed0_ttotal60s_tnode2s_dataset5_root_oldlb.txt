@@ -1,0 +1,12 @@
+nohup: ignoring input
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+miplib_39binary-small
+rootsol
+./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total60s-small_scip_baseline/seed0/
+seed: 0
+cpu
+Traceback (most recent call last):
+  File "evaluation_scip_baseline.py", line 78, in <module>
+    if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
+NameError: name 'i' is not defined
