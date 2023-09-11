@@ -454,3 +454,27 @@ N of variables: 63009
 N of binary vars: 63009
 N of constraints: 507
 * Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  4
+Initial obj before LB: 122425.0
+binary support:  63009
+GNN prediction:  0.9506951570510864
+MIP copies are created
+solution violates original bounds of variable <t_t_x20670> [-0,0] solution value <1>
+Error: the trivial solution of miplib_39binary-9_transformed_fast0507_noregression-rl is not feasible!
+solution violates original bounds of variable <t_t_x20670> [-0,0] solution value <1>
+Error: the trivial solution of miplib_39binary-9_transformed_fast0507_regression-rl is not feasible!
+incumbent solution is copied to MIP copies
+solution violates original bounds of variable <t_t_x20670> [-0,0] solution value <1>
+Traceback (most recent call last):
+  File "evaluation_reinforce4lb.py", line 91, in <module>
+    reinforce_localbranch.evaluate_localbranching_rlactive(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 7394, in evaluate_localbranching_rlactive
+    agent1, agent2 = self.evaluate_lb_per_instance_rlactive(
+  File "/local_workspace/liudefen/projects/ML4LB/mllocalbranch_fromfiles.py", line 7232, in evaluate_lb_per_instance_rlactive
+    lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
+  File "/local_workspace/liudefen/projects/ML4LB/localbranching.py", line 36, in __init__
+    assert feasible, "Error: the initial incumbent solution for LNS heuristic is not feasible!"
+AssertionError: Error: the initial incumbent solution for LNS heuristic is not feasible!
