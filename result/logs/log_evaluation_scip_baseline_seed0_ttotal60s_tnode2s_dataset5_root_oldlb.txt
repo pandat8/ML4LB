@@ -6,7 +6,15 @@ rootsol
 ./result/generated_instances/miplib_39binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total60s-small_scip_baseline/seed0/
 seed: 0
 cpu
-Traceback (most recent call last):
-  File "evaluation_scip_baseline.py", line 78, in <module>
-    if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
-NameError: name 'i' is not defined
+Load test dataset
+get the DataLoader
+instance:  0
+create a new SCIP model
+original problem has 3648 variables (192 bin, 0 int, 0 impl, 3456 cont) and 3312 constraints
+The initial incumbent of miplib_39binary-0_transformed_a1c1s1 is successfully added to MIP model
+miplib_39binary-0_transformed_a1c1s1
+N of variables: 3648
+N of binary vars: 192
+N of constraints: 3312
+Initial obj of MIP: 21029.389
+call and execute heuristic search for the given instance
