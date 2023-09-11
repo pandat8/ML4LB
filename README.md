@@ -75,11 +75,11 @@ python compute_evaluation_results.py --t_total=600 --mean='geometric'
 # to evaluate Algorithm scip, run:
 python evaluation_scip_baseline.py
 # to evaluate Algorithm scip-lb-regression-rl-single, run:
-python evaluation_lb_regression_rl.py --freq=0
+python evaluation_scip_lb_regression_rl.py --freq=0
 # to evaluate Algorithm scip-lb-regression-rl-freq1, run:
-python evaluation_lb_regression_rl.py --freq=1
+python evaluation_scip_lb_regression_rl.py --freq=1
 # to evaluate Algorithm scip-lb-regression-rl-freq100, run:
-python evaluation_lb_regression_rl.py --freq=100
+python evaluation_scip_lb_regression_rl.py --freq=100
 
 # After completing all the runs above, to plot Figure 5, run:
 # ( Figure 5 will be saved in "result/plots/seed100_primalintegral_miplib_39binary_-small_rootsol_scip_ttotal1200_tnode2_disable_presolve_beforenode_multi_freq-0-1-100_geometric_0.png" )
