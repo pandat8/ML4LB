@@ -7131,6 +7131,28 @@ class RlLocalbranch(MlLocalbranch):
         except:
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
+        # # create MIP copies for LB search
+        # MIP_model.resetParams()
+        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
+        #     problemName='Baseline', origcopy=False)
+        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+            problemName='noregression-rl',
+            origcopy=False)
+        MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
+            problemName='regression-rl',
+            origcopy=False)
+
+        print('MIP copies are created')
+
+        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
+        #                                         MIP_copy_vars)
+        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
+                                                  MIP_copy_vars2)
+        MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
+                                                  MIP_copy_vars3)
+        print('incumbent solution is copied to MIP copies')
+
+
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
 
@@ -7188,27 +7210,7 @@ class RlLocalbranch(MlLocalbranch):
         del graph
         del observation
 
-        # # create a copy of MIP
-        # MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
-        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-            problemName='noregression-rl',
-            origcopy=False)
-        MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
-            problemName='regression-rl',
-            origcopy=False)
 
-        print('MIP copies are created')
-
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-        #                                         MIP_copy_vars)
-        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
-                                                  MIP_copy_vars2)
-        MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
-                                                  MIP_copy_vars3)
-
-        print('incumbent solution is copied to MIP copies')
         MIP_model.freeProb()
         del MIP_model
         del incumbent_solution
@@ -7450,6 +7452,28 @@ class RlLocalbranch(MlLocalbranch):
         except:
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
+        # create a copy of MIP
+        # MIP_model.resetParams()
+        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
+        #     problemName='Baseline', origcopy=False)
+        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
+            problemName='noregression-rl',
+            origcopy=False)
+        MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
+            problemName='regression-rl',
+            origcopy=False)
+
+        print('MIP copies are created')
+
+        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
+        #                                         MIP_copy_vars)
+        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
+                                                  MIP_copy_vars2)
+        MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
+                                                  MIP_copy_vars3)
+        print('incumbent solution is copied to MIP copies')
+
+
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
 
@@ -7507,27 +7531,8 @@ class RlLocalbranch(MlLocalbranch):
         del graph
         del observation
 
-        # create a copy of MIP
-        MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
-        MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-            problemName='noregression-rl',
-            origcopy=False)
-        MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
-            problemName='regression-rl',
-            origcopy=False)
 
-        print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-        #                                         MIP_copy_vars)
-        MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
-                                                  MIP_copy_vars2)
-        MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
-                                                  MIP_copy_vars3)
-
-        print('incumbent solution is copied to MIP copies')
         MIP_model.freeProb()
         del MIP_model
         del incumbent_solution
