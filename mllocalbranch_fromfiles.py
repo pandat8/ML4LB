@@ -7447,6 +7447,12 @@ class RlLocalbranch(MlLocalbranch):
         print("N of constraints: {}".format(MIP_model.getNConss()))
 
         feas = MIP_model.checkSol(incumbent_solution)
+
+        if not feas:
+            print('Error: the initial solution of ' + instance_name + ' is not feasible!')
+        else:
+            print('The initial solution of ' + instance_name + ' is feasible!')
+
         try:
             MIP_model.addSol(incumbent_solution, False)
         except:
