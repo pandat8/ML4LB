@@ -69,7 +69,8 @@ for j in range(1, 2):
         pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
         print(result_directory)
-        scip_as_baseline = ExecuteHeuristic(instance_directory,
+        scip_as_baseline = ExecuteHeuristic(instance_type,
+                                            instance_directory,
                                             solution_directory,
                                             result_directory,
                                             no_improve_iteration_limit=no_improve_iteration_limit,

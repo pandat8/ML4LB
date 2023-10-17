@@ -114,7 +114,8 @@ for j in range(1, 2):
         pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)  # beforenode_homo, freq_1000
 
         print(result_directory)
-        scip_as_baseline = Execute_LB_Regression_RL(instance_directory,
+        scip_as_baseline = Execute_LB_Regression_RL(instance_type,
+                                               instance_directory,
                                                solution_directory,
                                                result_directory,
                                                lbconstraint_mode=lbconstraint_mode,
@@ -122,7 +123,6 @@ for j in range(1, 2):
                                                seed=seed,
                                                freq=freq,
                                                is_heuristic=is_heuristic,
-                                               instance_type=instance_type,
                                                incumbent_mode=incumbent_mode,
                                                regression_model_gnn=regression_model_gnn,
                                                agent_k=agent1,

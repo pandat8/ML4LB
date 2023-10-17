@@ -39,8 +39,9 @@ class ExecuteHeuristic:
     Basic class for the execution of a MIP heuristic on a specific instance set. This basic class uses SCIP solver as the underlying heuristic method
     """
 
-    def __init__(self, instance_directory, solution_directory, result_directory, no_improve_iteration_limit=20, seed=100, enable_gpu=False, freq=0):
+    def __init__(self, instance_type, instance_directory, solution_directory, result_directory, no_improve_iteration_limit=20, seed=100, enable_gpu=False, freq=0):
 
+        self.instance_type = instance_type
         self.instance_directory = instance_directory
         self.solution_directory = solution_directory
         self.result_directory = result_directory
@@ -403,7 +404,7 @@ class ExecuteHeuristic:
 
         i = 0
         for batch in (test_loader):
-            if i >= 0: #3
+            if not (self.instance_type==instancetypes[6] and (i==48 or i==95)):
                 print("instance: ", i)
                 MIP_model = Model()
                 print("create a new SCIP model")
@@ -4502,10 +4503,10 @@ class ExecuteHeuristic:
 
 class Execute_LB_Baseline(ExecuteHeuristic):
 
-    def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
+    def __init__(self, instance_type, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
                  no_improve_iteration_limit=20, seed=100, enable_gpu=False,
                  is_heuristic=False):
-        super().__init__(instance_directory, solution_directory, result_derectory,
+        super().__init__(instance_type, instance_directory, solution_directory, result_derectory,
                          no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu)
 
         self.lbconstraint_mode = lbconstraint_mode
@@ -4961,10 +4962,10 @@ class Execute_LB_Baseline(ExecuteHeuristic):
 
 class Execute_LB_Regression_RL(ExecuteHeuristic):
 
-    def __init__(self, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
+    def __init__(self, instance_type, instance_directory, solution_directory, result_derectory, lbconstraint_mode,
                  no_improve_iteration_limit=20, seed=100, enable_gpu=False, freq=0,
-                 is_heuristic=False, instance_type='miplib_39binary', incumbent_mode='firstsol', regression_model_gnn=None, agent_k=None, optim_k=None):
-        super().__init__(instance_directory, solution_directory, result_derectory,
+                 is_heuristic=False, incumbent_mode='firstsol', regression_model_gnn=None, agent_k=None, optim_k=None):
+        super().__init__(instance_type, instance_directory, solution_directory, result_derectory,
                          no_improve_iteration_limit=no_improve_iteration_limit, seed=seed, enable_gpu=enable_gpu, freq=freq)
 
         self.lbconstraint_mode = lbconstraint_mode
@@ -4976,7 +4977,6 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
             self.is_symmetric = False
             self.k_0 = self.k_0 / 2
         self.incumbent_mode = incumbent_mode
-        self.instance_type = instance_type
 
         self.initialize_ecole_env()
         self.env.seed(self.seed)  # environment (SCIP)
