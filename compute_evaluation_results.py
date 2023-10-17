@@ -37,7 +37,6 @@ samples_time_limit = 3
 
 total_time_limit = args.t_total
 node_time_limit = args.t_node
-
 print('total time limit:', total_time_limit)
 print('node time limit:', node_time_limit)
 

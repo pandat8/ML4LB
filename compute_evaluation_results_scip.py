@@ -16,30 +16,34 @@ This script is for printing and plotting the results in Section 6
 
 # Argument setting
 parser = argparse.ArgumentParser()
-# parser.add_argument('--regression_model_path', type = str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
-# parser.add_argument('--rl_model_path', type = str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
+parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50 101
 parser.add_argument('--mean', type = str, default='arithmetic')
+parser.add_argument('--t_total', type = int, default=600)
+parser.add_argument('--t_node', type = int, default=2)
 args = parser.parse_args()
 
 # regression_model_path = args.regression_model_path
 # rl_model_path = args.rl_model_path
 # print(regression_model_path)
 # print(rl_model_path)
-mean_option = args.mean
-print(str(mean_option))
 
-seed = 0 # 100
-seed_mcts = 0 # 100
+seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
 torch.manual_seed(seed)
 random.seed(seed)
 
+mean_option = args.mean
+print(str(mean_option))
+
 samples_time_limit = 3
 
-total_time_limit = 600
-node_time_limit = 2
+total_time_limit = args.t_total
+node_time_limit = args.t_node
+print('total time limit:', total_time_limit)
+print('node time limit:', node_time_limit)
+
 is_heuristic = True
 
 for i in range(4, 5):
@@ -106,7 +110,7 @@ for i in range(4, 5):
 
             if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
                 run_localbranch.primal_integral_scip_comparison(
-                    seed_mcts=seed_mcts,
+                    seed_mcts=seed,
                     instance_type=instance_type,
                     instance_size=instance_size,
                     incumbent_mode=incumbent_mode,
