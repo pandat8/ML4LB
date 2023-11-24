@@ -1,0 +1,285 @@
+nohup: les entrées sont ignorées
+./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth
+./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth
+The frequency of calling LB primal heuristic within SCIP BB tree is :  1
+miplib2017_binary-small
+rootsol
+./result/generated_instances/miplib2017_binary/-small/rootsol/scip/heuristic_mode/lb-from-rootsol-t_total60s-t_node2s-small_lb_k0_regression_rl_beforenode_freq_1/seed0/
+seed: 0
+cpu
+Load test dataset
+get the DataLoader
+instance:  0
+create a new SCIP model
+original problem has 200 variables (200 bin, 0 int, 0 impl, 0 cont) and 17013 constraints
+The initial incumbent of miplib2017_binary-0_transformed_2club200v15p5scn is successfully added to MIP model
+miplib2017_binary-0_transformed_2club200v15p5scn
+N of variables: 200
+N of binary vars: 200
+N of constraints: 17013
+Initial obj of MIP: -27.0
+call and execute heuristic search for the given instance
+copy the instance for the heuristic subproblem
+The freescip attribute is  True
+call Ecole to transfer the SCIP model to an Ecole instance
+get the feature observations
+feature observation from ecole environment is received!
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.0
+GNN k_0:  0.0
+LB heuristic is starting..
+LB heuristic starts at 0.07679899999999999 s
+No. of LB call:  1
+LB initial objective: -27.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0015 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+False
+prepare the 2nd LB iteration
+/local_workspace/liudefen/projects/ML4LB/models_rl.py:64: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  probs = F.log_softmax(preds)
+LB round: 2 Solving time: 4.0034 Best Obj: -27.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 4.156383 s
+LB final objective: -27.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 23.854483 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 26.139139 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 27.447293 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 30.071024 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 31.403597 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 32.889176 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 35.074008 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 35.927048 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 36.025464 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 37.006287 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 38.092751 s
+No. of LB call:  2
+LB initial objective: -32.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0005 Best Obj: -32.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+False
+prepare the 2nd LB iteration
+LB round: 2 Solving time: 4.0009 Best Obj: -32.0000 n_sols_subMIP: 1 K: 10 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 10 div_final: 1
+LB heuristic finishes at 42.179828 s
+LB final objective: -32.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 43.116958 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 45.301189 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 46.6503 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 47.826137 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 49.741548 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 50.80142 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 51.346186 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 54.036815 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 55.105451 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 58.080896 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 58.119711 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 58.130921 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 58.165969 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 59.721287 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+Instance: miplib2017_binary-0_transformed_2club200v15p5scn_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -32.0
+Solving time:  60.001375
+
+
+[array([-27., -32.]), array([ 0.     , 37.97126])]
+instance:  1
+create a new SCIP model
+original problem has 10772 variables (10771 bin, 0 int, 0 impl, 1 cont) and 12050 constraints
+The initial incumbent of miplib2017_binary-1_transformed_30_70_45_05_100 is successfully added to MIP model
+miplib2017_binary-1_transformed_30_70_45_05_100
+N of variables: 10772
+N of binary vars: 10771
+N of constraints: 12050
+Initial obj of MIP: 12.0
+call and execute heuristic search for the given instance
+copy the instance for the heuristic subproblem
+The freescip attribute is  True
+call Ecole to transfer the SCIP model to an Ecole instance
+get the feature observations
+feature observation from ecole environment is received!
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.5387573838233948
+GNN k_0:  1591.0
+LB heuristic is starting..
+LB heuristic starts at 0.245325 s
+No. of LB call:  1
+LB initial objective: 12.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0012 Best Obj: 12.0000 n_sols_subMIP: 1 K: 1591 t_node: 2.0 self.div: 0 LB Status: timelimit
+False
+prepare the 2nd LB iteration
+LB round: 2 Solving time: 4.0023 Best Obj: 12.0000 n_sols_subMIP: 1 K: 2387 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 2387 div_final: 1
+LB heuristic finishes at 4.632222 s
+LB final objective: 12.0
+LB heurisitc fails, can not find an improving solution
+Instance: miplib2017_binary-1_transformed_30_70_45_05_100_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  12.0
+Solving time:  60.165555
+
+
+[array([12.]), array([0.])]
+instance:  2
+create a new SCIP model
+original problem has 12675 variables (12675 bin, 0 int, 0 impl, 0 cont) and 11893 constraints
+The initial incumbent of miplib2017_binary-2_transformed_ab51-40-100 is successfully added to MIP model
+miplib2017_binary-2_transformed_ab51-40-100
+N of variables: 12675
+N of binary vars: 12675
+N of constraints: 11893
+Initial obj of MIP: -8931557659.0
+call and execute heuristic search for the given instance
+copy the instance for the heuristic subproblem
+The freescip attribute is  True
+call Ecole to transfer the SCIP model to an Ecole instance
+get the feature observations
+feature observation from ecole environment is received!
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 1
+* number of sol :  1
+GNN prediction:  0.35380369424819946
+GNN k_0:  32.0
+LB heuristic is starting..
+LB heuristic starts at 0.241481 s
+No. of LB call:  1
+LB initial objective: -8931557659.0
+The init sol of original MIP is feasible
+LB round: 1 Solving time: 2.0008 Best Obj: -8931557659.0000 n_sols_subMIP: 1 K: 32 t_node: 2.0 self.div: 0 LB Status: timelimit
+False
+prepare the 2nd LB iteration
+LB round: 2 Solving time: 4.0189 Best Obj: -8931557659.0000 n_sols_subMIP: 1 K: 16 t_node: 2.0 self.div: 0 LB Status: timelimit
+K_final: 16 div_final: 1
+LB heuristic finishes at 4.701865 s
+LB final objective: -8931557659.0
+LB heurisitc fails, can not find an improving solution
+LB heuristic is starting..
+LB heuristic starts at 18.325688 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 26.322098 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 30.797764 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 35.327177 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 50.894853 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 53.70706 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 54.653887 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 55.092311 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+LB heuristic is starting..
+LB heuristic starts at 57.813631 s
+LB heurisitc exits, since the incumbent is not updated by the solver after last LB call
+Instance: miplib2017_binary-2_transformed_ab51-40-100_gnn-copy
+Status of SCIP_baseline:  timelimit
+Best obj of SCIP_baseline:  -8931557659.0
+Solving time:  60.002864
+
+
+[array([-8.93155766e+09]), array([0.])]
+instance:  3
+create a new SCIP model
+original problem has 12812 variables (12812 bin, 0 int, 0 impl, 0 cont) and 12092 constraints
+The initial incumbent of miplib2017_binary-3_transformed_ab67-40-100 is successfully added to MIP model
+miplib2017_binary-3_transformed_ab67-40-100
+N of variables: 12812
+N of binary vars: 12812
+N of constraints: 12092
+Initial obj of MIP: -2135573378.0
+call and execute heuristic search for the given instance
+copy the instance for the heuristic subproblem
+The freescip attribute is  True
+call Ecole to transfer the SCIP model to an Ecole instance
+get the feature observations
+feature observation from ecole environment is received!
+* Model status: unknown
+* Model status: nodelimit
+* Solve stage: 9
+* LP status: 0
+* number of sol :  1
+Traceback (most recent call last):
+  File "evaluation_scip_lb_regression_rl.py", line 133, in <module>
+    scip_as_baseline.execute_heuristic_baseline(
+  File "/local_workspace/liudefen/projects/ML4LB/execute_heuristics.py", line 429, in execute_heuristic_baseline
+    self.setup_heuristic_per_instance(MIP_model=MIP_model,
+  File "/local_workspace/liudefen/projects/ML4LB/execute_heuristics.py", line 346, in setup_heuristic_per_instance
+    data = self.execute_heuristic_per_instance(MIP_model, incumbent, node_time_limit,
+  File "/local_workspace/liudefen/projects/ML4LB/execute_heuristics.py", line 5145, in execute_heuristic_per_instance
+    k_prime = self.compute_k_prime(MIP_model, incumbent)
+  File "/local_workspace/liudefen/projects/ML4LB/execute_heuristics.py", line 5096, in compute_k_prime
+    sol_lp = MIP_model.createLPSol()
+  File "src/pyscipopt/scip.pyx", line 4115, in pyscipopt.scip.Model.createLPSol
+  File "src/pyscipopt/scip.pyx", line 247, in pyscipopt.scip.PY_SCIP_CALL
+Exception: SCIP: method cannot be called at this time in solution process!
