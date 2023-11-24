@@ -5093,13 +5093,16 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         print("* LP status: %s" % lp_status)
         print('* number of sol : ', n_sols)
 
-        sol_lp = MIP_model.createLPSol()
+        if lp_status==1:
+            sol_lp = MIP_model.createLPSol()
         # sol_relax = MIP_model.createRelaxSol()
+            k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
+            if not self.is_symmetric:
+                k_prime = haming_distance_solutions_asym(MIP_model, incumbent, sol_lp)
+            k_prime = np.ceil(k_prime)
+        else:
+            k_prime = MIP_model.getNBinVars()
 
-        k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
-        if not self.is_symmetric:
-            k_prime = haming_distance_solutions_asym(MIP_model, incumbent, sol_lp)
-        k_prime = np.ceil(k_prime)
 
         return k_prime
 
