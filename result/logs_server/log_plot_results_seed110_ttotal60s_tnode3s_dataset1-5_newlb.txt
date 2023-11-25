@@ -1,35 +1,3 @@
-nohup: ignoring input
-setcovering-small
-rootsol
-asymmetric
-seed: 110
-cpu
-setcovering-small
-rootsolSolution
-baseline primal integral:  4.587106905562771
-regression primal integral:  1.9013376328292573
-regression merged primal integral:  2.1483470714460884
-rl primal integral:  3.6056186413088036
-regression-rl primal integral:  1.800743990462177
-
-
-baseline primal gap:  1.9953890096163112
-regression primal gap:  2.214901952923242
-regression primal merged gap:  2.395893058867756
-rl primal gap:  1.863134417167359
-regression-rl primal gap:  2.17209476091113
-setcovering-large
-rootsol
-asymmetric
-seed: 110
-cpu
-Traceback (most recent call last):
-  File "compute_evaluation_results.py", line 77, in <module>
-    reinforce_localbranch.primal_integral(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-  File "/home/liudefen/projects/ML4LocalBranch_extend/mllocalbranch_fromfiles.py", line 8921, in primal_integral
-    with gzip.open(filename, 'rb') as f:
-  File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 58, in open
-    binary_file = GzipFile(filename, gz_mode, compresslevel)
-  File "/home/liudefen/opt/python3.8.0/lib/python3.8/gzip.py", line 173, in __init__
-    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: './result/generated_instances/setcovering/-large/asymmetric/firstsol/k_prime/lb-from-firstsol-t_node3s-t_total60s-large_merged/seed110/lb-test-setcovering-160_transformed.pkl'
+version https://git-lfs.github.com/spec/v1
+oid sha256:e540d0c09ffcc81e9ceb91caf7879a92c9ced5932d946ff5f406f3501d485ee8
+size 1534
