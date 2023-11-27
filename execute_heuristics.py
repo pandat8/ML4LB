@@ -404,7 +404,7 @@ class ExecuteHeuristic:
 
         i = 0
         for batch in (test_loader):
-            if not (self.instance_type==instancetypes[6] and (i==48 or i==95)):
+            if not (self.instance_type==instancetypes[5] and (i==48 or i==95)):
                 print("instance: ", i)
                 MIP_model = Model()
                 print("create a new SCIP model")
