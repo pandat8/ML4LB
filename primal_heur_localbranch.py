@@ -349,7 +349,9 @@ class HeurLocalbranchMulticall(Heur):
             if feas:
                 print('The init sol of original MIP is feasible')
             else:
-                print('Error: The init sol of original MIP is not feasible!')
+                # print('Error: The init sol of original MIP is not feasible!')
+                print('LB heurisitc exits, since the initial incumbent solution passed to LB is not feasible!')
+                return {"result": SCIP_RESULT.DIDNOTFIND}
             # self.model.resetParams()
 
             n_binvars = self.model.getNBinVars()

@@ -33,7 +33,7 @@ class LocalBranching:
         self.n_binvars = self.MIP_model.getNBinVars()
 
         feasible = self.MIP_model.checkSol(solution=self.MIP_sol_bar)
-        assert feasible, "Error: the initial incumbent solution for LB heuristic is not feasible!"
+        # assert feasible, "Error: the initial incumbent solution for LB heuristic is not feasible!"
 
         self.default_node_time_limit = node_time_limit
         self.default_initial_node_time_limit = node_time_limit
