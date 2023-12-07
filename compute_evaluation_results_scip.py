@@ -46,7 +46,7 @@ print('node time limit:', node_time_limit)
 
 is_heuristic = True
 
-for i in range(4, 5):
+for i in range(5, 6):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
@@ -89,10 +89,10 @@ for i in range(4, 5):
                 node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_100/seed' + str(
                 seed) + '/'
 
-            result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-                total_time_limit) + 's' + '-t_node' + str(
-                node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1000/seed' + str(
-                seed) + '/'
+            # result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+            #     total_time_limit) + 's' + '-t_node' + str(
+            #     node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1000/seed' + str(
+            #     seed) + '/'
 
 
             source_directory = './data/generated_instances/' + instance_type + '/' + instance_size + '/'
