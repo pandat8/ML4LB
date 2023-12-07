@@ -2714,16 +2714,37 @@ class ExecuteHeuristic:
             index_mix = 160
             index_max = 200
 
-        for i in range(index_mix, index_max):
 
-            if not (instance_type == instancetypes[4] and (i == 18)):  # or i==4 # or i==5 or i==10 or i==21
+    # for i in range(index_mix, index_max):
+        # if not (instance_type == instancetypes[4] and (i == 18)):  # or i==4 # or i==5 or i==10 or i==21
+        #     instance_name = instance_type + '-' + str(i) + '_transformed'  # instance 100-199
+        #
+        #     mip_filename = f'{self.instance_directory}{instance_name}.cip'
+        #     mip = Model()
+        #     MIP_model = Model()
+        #     MIP_model.readProblem(mip_filename)
 
-                instance_name = instance_type + '-' + str(i) + '_transformed'  # instance 100-199
+        instance_directory = self.instance_directory
+        directory_sol = self.solution_directory
 
-                mip_filename = f'{self.instance_directory}{instance_name}.cip'
-                mip = Model()
+        print("Load test dataset")
+        test_dataset = self.load_test_mip_dataset(instance_directory, directory_sol)
+
+        print("get the DataLoader")
+        test_loader = DataLoader(test_dataset, shuffle=False, batch_size=1, collate_fn=custom_collate)
+
+        i = 0
+        for batch in (test_loader):
+            if not (self.instance_type == instancetypes[5] and (i == 48 or i == 95)):
+                print("instance: ", i)
                 MIP_model = Model()
-                MIP_model.readProblem(mip_filename)
+                print("create a new SCIP model")
+
+                mip_file = batch['mipfile'][0]
+                sol_file = batch['solfile'][0]
+
+                MIP_model.readProblem(mip_file)
+
                 instance_name = MIP_model.getProbName()
 
                 # filename = f'{directory_lb_test}lb-test-{instance_name}.pkl'
@@ -2992,6 +3013,7 @@ class ExecuteHeuristic:
                 # ax.set_ylabel("objective")
                 # ax.legend()
                 # plt.show()
+            i += 1
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_lns_lblp_list = np.array(primal_int_lns_lblp_list).reshape(-1)
