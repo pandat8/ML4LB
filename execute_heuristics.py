@@ -3137,14 +3137,14 @@ class ExecuteHeuristic:
         #         primalgaps_lns_lblp = np.vstack((primalgaps_lns_lblp, primal_gap))
         # primalgap_lns_lblp_ave = mean_shift(primalgaps_lns_lblp, axis=0, mean_option=mean_option)
         #
-        # primalgaps_lns_lblp = None
-        # for n, stepline_lns_lblp in enumerate(steplines_lns_lblp_list_mul):
-        #     primal_gap = stepline_lns_lblp(t)
-        #     if n == 0:
-        #         primalgaps_lns_lblp = primal_gap.reshape(1, -1)
-        #     else:
-        #         primalgaps_lns_lblp = np.vstack((primalgaps_lns_lblp, primal_gap))
-        # primalgap_lns_lblp_ave_mul = mean_shift(primalgaps_lns_lblp, axis=0, mean_option=mean_option)
+        primalgaps_lns_lblp = None
+        for n, stepline_lns_lblp in enumerate(steplines_lns_lblp_list_mul):
+            primal_gap = stepline_lns_lblp(t)
+            if n == 0:
+                primalgaps_lns_lblp = primal_gap.reshape(1, -1)
+            else:
+                primalgaps_lns_lblp = np.vstack((primalgaps_lns_lblp, primal_gap))
+        primalgap_lns_lblp_ave_mul = mean_shift(primalgaps_lns_lblp, axis=0, mean_option=mean_option)
         #
         # primalgaps_lns_random = None
         # for n, stepline_lns_lblp in enumerate(steplines_lns_random_list):
@@ -3164,32 +3164,32 @@ class ExecuteHeuristic:
         #         primalgaps_lns_random = np.vstack((primalgaps_lns_random, primal_gap))
         # primalgap_lns_random_ave_mul = mean_shift(primalgaps_lns_random, axis=0, mean_option=mean_option)
         #
-        # primalgaps_scip_baseline = None
-        # for n, stepline_scip in enumerate(steplines_scip_baseline_list):
-        #     primal_gap = stepline_scip(t)
-        #     if n == 0:
-        #         primalgaps_scip_baseline = primal_gap.reshape(1, -1)
-        #     else:
-        #         primalgaps_scip_baseline = np.vstack((primalgaps_scip_baseline, primal_gap))
-        # primalgap_scip_baseline_ave = mean_shift(primalgaps_scip_baseline, axis=0, mean_option=mean_option)
-        #
-        # primalgaps_lns_lblpmcts = None
-        # for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list):
-        #     primal_gap = stepline_lns_lblpmcts(t)
-        #     if n == 0:
-        #         primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
-        #     else:
-        #         primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
-        # primalgap_lns_lblpmcts_ave = mean_shift(primalgaps_lns_lblpmcts, axis=0, mean_option=mean_option)
-        #
-        # primalgaps_lns_lblpmcts = None
-        # for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list_mul):
-        #     primal_gap = stepline_lns_lblpmcts(t)
-        #     if n == 0:
-        #         primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
-        #     else:
-        #         primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
-        # primalgap_lns_lblpmcts_ave_mul = mean_shift(primalgaps_lns_lblpmcts, axis=0, mean_option=mean_option)
+        primalgaps_scip_baseline = None
+        for n, stepline_scip in enumerate(steplines_scip_baseline_list):
+            primal_gap = stepline_scip(t)
+            if n == 0:
+                primalgaps_scip_baseline = primal_gap.reshape(1, -1)
+            else:
+                primalgaps_scip_baseline = np.vstack((primalgaps_scip_baseline, primal_gap))
+        primalgap_scip_baseline_ave = mean_shift(primalgaps_scip_baseline, axis=0, mean_option=mean_option)
+
+        primalgaps_lns_lblpmcts = None
+        for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list):
+            primal_gap = stepline_lns_lblpmcts(t)
+            if n == 0:
+                primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
+            else:
+                primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
+        primalgap_lns_lblpmcts_ave = mean_shift(primalgaps_lns_lblpmcts, axis=0, mean_option=mean_option)
+
+        primalgaps_lns_lblpmcts = None
+        for n, stepline_lns_lblpmcts in enumerate(steplines_lns_lblpmcts_list_mul):
+            primal_gap = stepline_lns_lblpmcts(t)
+            if n == 0:
+                primalgaps_lns_lblpmcts = primal_gap.reshape(1, -1)
+            else:
+                primalgaps_lns_lblpmcts = np.vstack((primalgaps_lns_lblpmcts, primal_gap))
+        primalgap_lns_lblpmcts_ave_mul = mean_shift(primalgaps_lns_lblpmcts, axis=0, mean_option=mean_option)
         #
         # pi_stack_baseline = None
         # for n, pi_stepline_baseline in enumerate(pi_steplines_baseline):
@@ -3271,42 +3271,43 @@ class ExecuteHeuristic:
             else:
                 pi_stack_lns_lblpmcts = np.vstack((pi_stack_lns_lblpmcts, pi_samples))
         pi_lns_lblpmcts_ave_mul = mean_shift(pi_stack_lns_lblpmcts, axis=0, mean_option=mean_option)
+
         #
         #
-        # plt.close('all')
-        # plt.clf()
-        # fig, ax = plt.subplots(figsize=(6.4, 4.8))
+        plt.close('all')
+        plt.clf()
+        fig, ax = plt.subplots(figsize=(6.4, 4.8))
         # fig.suptitle(instance_name + '-' + 'primal gap', fontsize=13)  # instance_name
         # ax.set_title(instance_type + instance_size + '-' + incumbent_mode, fontsize=14)
-        # ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
+        ax.plot(t, primalgap_scip_baseline_ave, '--', label='scip', color='tab:grey')
         # ax.plot(t, primalgap_baseline_ave, label='scip-lb', color='tab:blue')
         # ax.plot(t, primalgap_lns_random_ave, label='scip-lb-srm', color='tab:orange')
         # ax.plot(t, primalgap_lns_lblp_ave, label='scip-lb-rl', color='tab:red')
         # # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        # ax.plot(t, primalgap_lns_lblpmcts_ave, label='scip-lb-srm-rl', color='tab:green')
+        ax.plot(t, primalgap_lns_lblpmcts_ave, label='scip-lb-regression-rl-single', color='tab:green')
         #
         # ax.plot(t, primalgap_baseline_ave_mul, '--', label='scip-lb-multi', color='tab:blue')
         # ax.plot(t, primalgap_lns_random_ave_mul, '--', label='scip-lb-srm-multi', color='tab:orange')
-        # ax.plot(t, primalgap_lns_lblp_ave_mul, '--', label='scip-lb-rl-multi', color='tab:red')
+        ax.plot(t, primalgap_lns_lblp_ave_mul, '--', label='scip-lb-regression-rl-freq1', color='tab:red')
         # # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        # ax.plot(t, primalgap_lns_lblpmcts_ave_mul, '--', label='scip-lb-srm-rl-multi', color='tab:green')
+        ax.plot(t, primalgap_lns_lblpmcts_ave_mul, '--', label='scip-lb-regression-rl-freq100', color='tab:green')
         #
         # # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         # #
         # # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
         # # ax.plot(t, primalgap_regression_reinforce_talored_ave, ':', label='lb-regression-rl-active', color='tab:red')
         #
-        # ax.set_xlabel('time /s', fontsize=12)
-        # ax.set_ylabel("scaled primal gap", fontsize=12)
-        # ax.legend()
-        # ax.grid()
-        # # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # # fig.tight_layout()
-        # plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(
-        #     instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-        #     node_time_limit) + '_disable_presolve_beforenode_multi_freq1_' + mean_option + '.png')
-        # plt.show()
-        # plt.clf()
+        ax.set_xlabel('time /s', fontsize=12)
+        ax.set_ylabel("scaled primal gap", fontsize=12)
+        ax.legend()
+        ax.grid()
+        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
+        # fig.tight_layout()
+        plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(
+            instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq-0-1-100' + mean_option + '.png')
+        plt.show()
+        plt.clf()
 
         print("seed mcts: ", seed_mcts)
 
