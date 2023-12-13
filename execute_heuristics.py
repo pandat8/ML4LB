@@ -2719,7 +2719,7 @@ class ExecuteHeuristic:
         # if not (instance_type == instancetypes[4] and (i == 18)):  # or i==4 # or i==5 or i==10 or i==21
         #     instance_name = instance_type + '-' + str(i) + '_transformed'  # instance 100-199
         #
-        #     mip_filename = f'{self.instance_directory}{instance_name}.cip'
+        #  primal_integral_scip_comparison   mip_filename = f'{self.instance_directory}{instance_name}.cip'
         #     mip = Model()
         #     MIP_model = Model()
         #     MIP_model.readProblem(mip_filename)
@@ -3312,7 +3312,7 @@ class ExecuteHeuristic:
         # ax.plot(t, primalgap_lns_random_ave_mul, '--', label='scip-lb-srm-multi', color='tab:orange')
         ax.plot(t, primalgap_lns_lblp_ave_mul, '--', label='scip-lb-regression-rl-freq1', color='tab:red')
         # # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
-        ax.plot(t, primalgap_lns_lblpmcts_ave_mul, '--', label='scip-lb-regression-rl-freq100', color='tab:green')
+        ax.plot(t, primalgap_lns_lblpmcts_ave_mul, '--', label='scip-lb-regression-rl-freq100', color='tab:orange')
         #
         # # ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         # #
@@ -3327,7 +3327,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalgap' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_multi_freq-0-1-100' + mean_option + '.png')
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq-0-1-100' + mean_option + '_202312.png')
         plt.show()
         plt.clf()
 
@@ -3365,7 +3365,7 @@ class ExecuteHeuristic:
         # fig.tight_layout()
         plt.savefig('./result/plots/seed' + str(seed_mcts) + '_primalintegral' + '_' + instance_type + '_' + str(
             instance_size) + '_' + incumbent_mode + '_scip' + '_ttotal' + str(total_time_limit) + '_tnode' + str(
-            node_time_limit) + '_disable_presolve_beforenode_multi_freq-0-1-100_' + mean_option + '_0.png')
+            node_time_limit) + '_disable_presolve_beforenode_multi_freq-0-1-100_' + mean_option + '_202312.png')
         plt.show()
         plt.clf()
 
