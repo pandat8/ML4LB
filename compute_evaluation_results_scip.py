@@ -46,7 +46,7 @@ print('node time limit:', node_time_limit)
 
 is_heuristic = True
 
-for i in range(4, 5):
+for i in range(5, 6):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'
