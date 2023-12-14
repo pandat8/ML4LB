@@ -111,7 +111,7 @@ for j in range(1, 2):
 
         run_localbranch = ExecuteHeuristic(instance_type, instance_directory, solution_directory, result_directory_1, seed=seed)
 
-        if not ((i == 3 and k == 1) or (i == 4 and k == 1)):
+        if not ((dataset_id == 3 and k == 1) or (dataset_id == 4 and k == 1)):
             run_localbranch.primal_integral_scip_comparison(
                 seed_mcts=seed,
                 instance_type=instance_type,
