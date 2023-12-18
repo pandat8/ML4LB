@@ -5169,13 +5169,20 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                               0]
         # solve the root node and get the LP solution, compute k_prime
         k_prime = self.compute_k_prime(MIP_model, incumbent)
+        print('k_prime: ', k_prime)
 
         k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
                                             graph.variable_features)
-        k_pred = k_model.item() * k_prime
-        print('GNN prediction: ', k_model.item())
+        print('GNN predicted ratio: ', k_model.item())
+        k_ratio_pred =  k_model.item()
+
+        # set an uppper bound of the ratio
+        if k_ratio_pred > 0.5:
+            k_ratio_pred = 0.5
+
+        k_pred = k_ratio_pred * k_prime
         k_pred = np.ceil(k_pred)
-        print('GNN k_0: ', k_pred)
+        print('GNN policy output LB-k-value: ', k_pred)
 
         if k_pred < 10:
             k_pred = 10
