@@ -5177,8 +5177,8 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         k_ratio_pred =  k_model.item()
 
         # set an uppper bound of the ratio
-        if k_ratio_pred > 0.5:
-            k_ratio_pred = 0.5
+        if k_ratio_pred > 0.3:
+            k_ratio_pred = 0.3
 
         k_pred = k_ratio_pred * k_prime
         k_pred = np.ceil(k_pred)
