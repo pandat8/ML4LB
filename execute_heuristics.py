@@ -244,6 +244,7 @@ class ExecuteHeuristic:
 
         MIP_model.setParam('limits/time', total_time_limit)
         MIP_model.setParam("display/verblevel", 0)
+        MIP_model.hideOutput()
         MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
         MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
         MIP_model.optimize()
@@ -4579,6 +4580,7 @@ class Execute_LB_Baseline(ExecuteHeuristic):
 
         MIP_model.setParam('limits/time', total_time_limit)
         MIP_model.setParam("display/verblevel", 0)
+        MIP_model.hideOutput()
         MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
         MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
         MIP_model.optimize()
@@ -5217,6 +5219,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
 
         MIP_model_copy2.setParam('limits/time', total_time_limit)
         MIP_model_copy2.setParam("display/verblevel", 0)
+        MIP_model_copy2.hideOutput()
         MIP_model_copy2.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
         MIP_model_copy2.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
         MIP_model_copy2.optimize()
