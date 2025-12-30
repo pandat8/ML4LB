@@ -25,6 +25,20 @@ parser.add_argument('--seed', type=int, default=0, help='Radom seed') ## 100 50 
 parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
 
+enable_gpu = args.enable_gpu
+device_str = 'cpu'
+if enable_gpu:
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+        device_str = 'cuda'
+    else:
+        device = torch.device('cpu')
+        device_str = 'cpu'
+else:
+    device = torch.device('cpu')
+    device_str= 'cpu'
+
+
 regression_model_path = args.regression_model_path
 # regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth'
 
@@ -64,30 +78,22 @@ rl_policy1.load_state_dict(checkpoint['model_state_dict'])
 # rl_policy.load_state_dict(torch.load(
 #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
 
+rl_policy1 = rl_policy1.to(device)
 rl_policy1.train()
 
 # criterion = nn.CrossEntropyLoss()
 
+# set up optimizer
 optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
-
-
+# Load the state dict
 optim1.load_state_dict(checkpoint['optimizer_state_dict'])
-
+# MANUALLY move optimizer state to GPU
+for state in optim1.state.values():
+    for k, v in state.items():
+        if torch.is_tensor(v):
+            state[k] = v.to(device)
 
 greedy = False
-enable_gpu = args.enable_gpu
-device_str = 'cpu'
-if enable_gpu:
-    if torch.cuda.is_available():
-        device = torch.device('cuda')
-        device_str = 'cuda'
-    else:
-        device = torch.device('cpu')
-        device_str = 'cpu'
-else:
-    device = torch.device('cpu')
-    device_str= 'cpu'
-rl_policy1 = rl_policy1.to(device)
 agent1 = AgentReinforce(rl_policy1, device, greedy, optim1, 0.0)
 
 
