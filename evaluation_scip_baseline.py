@@ -19,6 +19,7 @@ parser.add_argument('--rl_model_path', type = str, default='./result/saved_model
 parser.add_argument('--dataset_id', type=int, default=4)
 parser.add_argument('--t_total', type=int, default=600) #1200
 parser.add_argument('--seed', type=int, default=0, help='Radom seed') ## 100 50 101
+parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
@@ -43,6 +44,19 @@ is_heuristic = True
 no_improve_iteration_limit = 10 # 3
 enable_solve_master_problem = True
 
+enable_gpu = args.enable_gpu
+device_str = 'cpu'
+if enable_gpu:
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+        device_str = 'cuda'
+    else:
+        device = torch.device('cpu')
+        device_str = 'cpu'
+else:
+    device = torch.device('cpu')
+    device_str= 'cpu'
+
 
 instance_type = instancetypes[dataset_id]
 for j in range(0, 2):
@@ -65,7 +79,7 @@ for j in range(0, 2):
             evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
         result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
+            total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + device_str  + '/seed' + str(seed) + '/'
         pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
         print(result_directory)
