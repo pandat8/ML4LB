@@ -39,12 +39,14 @@ class Agent:
         self.greedy = greedy
 
     def select_action(self, state):
+        # Convert to tensor
         state = torch.from_numpy(state).float().view(1, -1)
 
         if self.device is not None:
-            state.to(self.device)
-        preds = self.policy(state)
+            # FIX: assign the result of .to() to the variable
+            state = state.to(self.device)
 
+        preds = self.policy(state)
         return preds
 
 
@@ -61,22 +63,20 @@ class AgentReinforce(Agent):
     def select_action(self, state):
         preds = super().select_action(state)
         if not self.greedy:
-            probs = F.log_softmax(preds)
+            probs = F.log_softmax(preds, dim=1) # Note: added dim=1 for safety
             m = Categorical(logits=probs)
 
             if torch.bernoulli(self.epsilon) == 1 or torch.isnan(probs.exp().sum()):
-
                 random_choice = torch.ones(m._num_events)
                 if self.device is not None:
-                    random_choice.to(self.device)
+                    # FIX: Assign the result to move it to GPU
+                    random_choice = random_choice.to(self.device)
 
-                # print('sum of probs: {}'.format(probs.exp().sum()))
                 m_rand = Categorical(random_choice)
                 action = m_rand.sample()
             else:
                 action = m.sample()
 
-            # action = m.sample()
             if self.opt is not None:
                 self.log_probs.append(m.log_prob(action))
             action = action.item()

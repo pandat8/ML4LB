@@ -76,10 +76,17 @@ optim1.load_state_dict(checkpoint['optimizer_state_dict'])
 
 greedy = False
 enable_gpu = args.enable_gpu
+device_str = 'cpu'
 if enable_gpu:
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+        device_str = 'cuda'
+    else:
+        device = torch.device('cpu')
+        device_str = 'cpu'
 else:
     device = torch.device('cpu')
+    device_str= 'cpu'
 rl_policy1 = rl_policy1.to(device)
 agent1 = AgentReinforce(rl_policy1, device, greedy, optim1, 0.0)
 
@@ -111,7 +118,7 @@ for j in range(1, 2):
             evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
         result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_' + str(freq) + '/seed' + str(seed) + '/'
+            total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_' + str(freq) + '-' + device_str  + '/seed' + str(seed) + '/'
         pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)  # beforenode_homo, freq_1000
 
         print(result_directory)
