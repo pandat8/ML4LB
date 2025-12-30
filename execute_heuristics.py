@@ -5006,7 +5006,8 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         self.initialize_ecole_env()
         self.env.seed(self.seed)  # environment (SCIP)
         self.regression_model_gnn = regression_model_gnn
-        self.regression_model_gnn.to(self.device)
+        self.regression_model_gnn.to(self.device) # move Model to GPU
+        self.regression_model_gnn.eval() # set to evaluation mode
         self.agent_k = agent_k
         self.optim_k = optim_k
 
@@ -5164,7 +5165,8 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         graph = BipartiteNodeData(observation.constraint_features,
                                   observation.edge_features.indices,
                                   observation.edge_features.values,
-                                  variable_features)
+                                  variable_features,
+                                  device=self.device)
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
@@ -5173,7 +5175,8 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         k_prime = self.compute_k_prime(MIP_model, incumbent)
         print('k_prime: ', k_prime)
 
-        k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
+        with torch.no_grad(): # disable gradient calculation for faster inference
+            k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
                                             graph.variable_features)
         print('GNN predicted ratio: ', k_model.item())
         k_ratio_pred =  k_model.item()

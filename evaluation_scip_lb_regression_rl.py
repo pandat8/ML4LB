@@ -22,6 +22,7 @@ parser.add_argument('--dataset_id', type=int, default=4)
 parser.add_argument('--t_total', type=int, default=3600)
 parser.add_argument('--freq', type=int, default=0, help='the frequency to call the primal heuristic in Branch-and-Bound tree')
 parser.add_argument('--seed', type=int, default=0, help='Radom seed') ## 100 50 101
+parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
 
 regression_model_path = args.regression_model_path
@@ -74,7 +75,7 @@ optim1.load_state_dict(checkpoint['optimizer_state_dict'])
 
 
 greedy = False
-enable_gpu = False
+enable_gpu = args.enable_gpu
 if enable_gpu:
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 else:
@@ -121,6 +122,7 @@ for j in range(1, 2):
                                                lbconstraint_mode=lbconstraint_mode,
                                                no_improve_iteration_limit=no_improve_iteration_limit,
                                                seed=seed,
+                                               enable_gpu=enable_gpu,
                                                freq=freq,
                                                is_heuristic=is_heuristic,
                                                incumbent_mode=incumbent_mode,

@@ -11,26 +11,20 @@ The GNN regression model for predicting k of the first LB iteration
 """
 
 class BipartiteNodeData(torch_geometric.data.Data):
-    """
-    This class encode a node bipartite graph observation as returned by the `ecole.observation.NodeBipartite`
-    observation function in a format understood by the pytorch geometric data handlers.
-    """
-    def __init__(self, constraint_features, edge_indices, edge_features, variable_features, k_init=0):
+    def __init__(self, constraint_features, edge_indices, edge_features, variable_features, k_init=0, device='cpu'):
         super().__init__()
-        self.constraint_features = torch.FloatTensor(constraint_features)
-        self.edge_index = torch.LongTensor(edge_indices.astype(np.int64))
-        self.edge_attr = torch.FloatTensor(edge_features).unsqueeze(1)
-        self.variable_features = torch.FloatTensor(variable_features)
+        # Move features to the specified device immediately
+        self.constraint_features = torch.tensor(constraint_features, dtype=torch.float32, device=device)
+        self.edge_index = torch.tensor(edge_indices.astype(np.int64), dtype=torch.long, device=device)
+        self.edge_attr = torch.tensor(edge_features, dtype=torch.float32, device=device).unsqueeze(1)
+        self.variable_features = torch.tensor(variable_features, dtype=torch.float32, device=device)
 
         self.k_init = k_init
 
     def __inc__(self, key, value):
-        """
-        We overload the pytorch geometric method that tells how to increment indices when concatenating graphs
-        for those entries (edge index) for which this is not obvious.
-        """
         if key == 'edge_index':
-            return torch.tensor([[self.constraint_features.size(0)], [self.variable_features.size(0)]])
+            # Ensure the increment tensor is on the same device as the data
+            return torch.tensor([[self.constraint_features.size(0)], [self.variable_features.size(0)]], device=self.edge_index.device)
         else:
             return super().__inc__(key, value)
 
@@ -41,9 +35,10 @@ class GraphDataset(torch_geometric.data.Dataset):
     It can be used in turn by the data loaders provided by pytorch geometric.
     """
 
-    def __init__(self, sample_files):
+    def __init__(self, sample_files, device='cpu'):
         super().__init__(root=None, transform=None, pre_transform=None)
         self.sample_files = sample_files
+        self.device = device
 
     def len(self):
         return len(self.sample_files)
@@ -63,7 +58,7 @@ class GraphDataset(torch_geometric.data.Dataset):
         variable_features = sample_observation.variable_features[:, -1:]
         graph = BipartiteNodeData(sample_observation.constraint_features, sample_observation.edge_features.indices,
                                   sample_observation.edge_features.values, variable_features,
-                                  sample_kinit)
+                                  sample_kinit, device=self.device)
 
         # graph = BipartiteNodeData(sample_observation.constraint_features, sample_observation.edge_features.indices,
         #                           sample_observation.edge_features.values, sample_observation.variable_features,
