@@ -68,9 +68,11 @@ enable_solve_master_problem = True
 
 lr = 0.01
 
+# Regression policy for k
 regression_model_gnn = GNNPolicy()
 regression_model_gnn.load_state_dict(torch.load(regression_model_path))
 
+# RL policy for k
 rl_policy1 = SimplePolicy(7, 4)
 checkpoint = torch.load(rl_model_path)
 rl_policy1.load_state_dict(checkpoint['model_state_dict'])
