@@ -96,6 +96,11 @@ for j in range(1, 2):
         result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_0' + '-' + device_str  + '/seed' + str(seed) + '/'
 
+        result_directory_2_gpu = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+            total_time_limit) + 's' + '-t_node' + str(
+            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_0' + '-' + 'cuda' + '/seed' + str(
+            seed) + '/'
+
         result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             total_time_limit) + 's' + '-t_node' + str(
             node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1' + '-' + device_str  + '/seed' + str(
@@ -136,7 +141,7 @@ for j in range(1, 2):
                 mean_option=mean_option,
                 result_directory_1=result_directory_1,
                 result_directory_2=result_directory_2,
-                result_directory_3=result_directory_3,
+                result_directory_3=result_directory_2_gpu,
                 result_directory_4=result_directory_4
                 )
 

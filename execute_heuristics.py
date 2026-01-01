@@ -3311,7 +3311,11 @@ class ExecuteHeuristic:
         #
         # ax.plot(t, primalgap_baseline_ave_mul, '--', label='scip-lb-multi', color='tab:blue')
         # ax.plot(t, primalgap_lns_random_ave_mul, '--', label='scip-lb-srm-multi', color='tab:orange')
-        ax.plot(t, primalgap_lns_lblp_ave_mul, '--', label='scip-lb-regression-rl-freq1', color='tab:red')
+
+        # ax.plot(t, primalgap_lns_lblp_ave_mul, '--', label='scip-lb-regression-rl-freq1', color='tab:red')
+        # adhoc: plot single with cuda
+        ax.plot(t, primalgap_lns_lblp_ave_mul, '--', label='scip-lb-regression-rl-single-cuda', color='tab:red')
+
         # # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
         ax.plot(t, primalgap_lns_lblpmcts_ave_mul, '--', label='scip-lb-regression-rl-freq100', color='tab:orange')
         #
@@ -3347,7 +3351,11 @@ class ExecuteHeuristic:
         ax.plot(t, pi_lns_lblpmcts_ave, label='scip-lb-regression-rl-single', color='tab:green')
 
         # ax.plot(t, pi_baseline_ave_mul, '--', label='scip-lb-regression-freq1', color='tab:blue')  # scip-lb-multi
-        ax.plot(t, pi_lns_lblp_ave_mul, label='scip-lb-regression-rl-freq1', color='tab:red')  # scip-lb-rl-multi
+
+        # ax.plot(t, pi_lns_lblp_ave_mul, label='scip-lb-regression-rl-freq1', color='tab:red')  # scip-lb-rl-multi
+        # adhoc: plot single with cuda
+        ax.plot(t, pi_lns_lblp_ave_mul, label='scip-lb-regression-rl-single-cuda', color='tab:red')  # scip-lb-rl-multi
+
         # ax.plot(t, pi_lns_random_ave_mul, '--', label='scip-lb-regression-freq100', '--',
         #         color='tab:orange')  # scip-lb-regression-multi
         # ax.plot(t, primalgap_lns_lblp_ave, label='lns_guided_by_lblp', color='tab:red')
