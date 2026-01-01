@@ -21,7 +21,21 @@ parser.add_argument('--mean', type = str, default='arithmetic')
 parser.add_argument('--dataset_id', type=int, default=4)
 parser.add_argument('--t_total', type = int, default=600)
 parser.add_argument('--t_node', type = int, default=2)
+parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
+
+enable_gpu = args.enable_gpu
+device_str = 'cpu'
+if enable_gpu:
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+        device_str = 'cuda'
+    else:
+        device = torch.device('cpu')
+        device_str = 'cpu'
+else:
+    device = torch.device('cpu')
+    device_str= 'cpu'
 
 # regression_model_path = args.regression_model_path
 # rl_model_path = args.rl_model_path
@@ -75,21 +89,21 @@ for j in range(1, 2):
             evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
         result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + instance_size + '_scip_baseline/seed' + str(seed) + '/'
+            total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + device_str  + '/seed' + str(seed) + '/'
 
 
 
         result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_0/seed' + str(seed) + '/'
+            total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_0' + '-' + device_str  + '/seed' + str(seed) + '/'
 
         result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             total_time_limit) + 's' + '-t_node' + str(
-            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1/seed' + str(
+            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1' + '-' + device_str  + '/seed' + str(
             seed) + '/'
 
         result_directory_4 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             total_time_limit) + 's' + '-t_node' + str(
-            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_100/seed' + str(
+            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_100' + '-' + device_str  + '/seed' + str(
             seed) + '/'
 
         # result_directory_5 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
