@@ -88,10 +88,10 @@ for j in range(1, 2):
         if is_heuristic:
             evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
-        result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + 'cpu'  + '/seed' + str(seed) + '/'
-        # result_directory_1_original_cpu = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-        #     total_time_limit) + 's' + instance_size + '_scip_baseline' + '/seed' + str(seed) + '/'
+        # result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+        #     total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + 'cpu'  + '/seed' + str(seed) + '/'
+        result_directory_1_original_cpu = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
+            total_time_limit) + 's' + instance_size + '_scip_baseline' + '/seed' + str(seed) + '/'
 
         result_directory_2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_0' + '-' + device_str  + '/seed' + str(seed) + '/'
@@ -133,14 +133,14 @@ for j in range(1, 2):
         instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
         solution_directory = source_directory + incumbent_mode + '/' + 'test/'
 
-        print(result_directory_1)
+        print(result_directory_1_original_cpu)
         print(result_directory_2)
         print(result_directory_2)
         print(result_directory_4)
 
 
 
-        run_localbranch = ExecuteHeuristic(instance_type, instance_directory, solution_directory, result_directory_1, seed=seed)
+        run_localbranch = ExecuteHeuristic(instance_type, instance_directory, solution_directory, result_directory_1_original_cpu, seed=seed)
 
         if not ((dataset_id == 3 and k == 1) or (dataset_id == 4 and k == 1)):
             run_localbranch.primal_integral_scip_comparison(
@@ -151,7 +151,7 @@ for j in range(1, 2):
                 total_time_limit=total_time_limit,
                 node_time_limit=node_time_limit,
                 mean_option=mean_option,
-                result_directory_1=result_directory_1,
+                result_directory_1=result_directory_1_original_cpu,
                 result_directory_2=result_directory_2,
                 result_directory_3=result_directory_2,
                 result_directory_4=result_directory_4
