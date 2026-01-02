@@ -89,7 +89,7 @@ for j in range(1, 2):
             evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
         result_directory_1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + device_str  + '/seed' + str(seed) + '/'
+            total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + 'cpu'  + '/seed' + str(seed) + '/'
         # result_directory_1_original_cpu = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
         #     total_time_limit) + 's' + instance_size + '_scip_baseline' + '/seed' + str(seed) + '/'
 
