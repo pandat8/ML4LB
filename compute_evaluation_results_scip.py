@@ -153,7 +153,7 @@ for j in range(1, 2):
                 mean_option=mean_option,
                 result_directory_1=result_directory_1,
                 result_directory_2=result_directory_2,
-                result_directory_3=result_directory_2,
+                result_directory_3=result_directory_3,
                 result_directory_4=result_directory_4
                 )
 
