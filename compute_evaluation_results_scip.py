@@ -107,7 +107,7 @@ for j in range(1, 2):
 
         result_directory_3 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
             total_time_limit) + 's' + '-t_node' + str(
-            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_10' + '-' + device_str  + '/seed' + str(
+            node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_1' + '-' + device_str  + '/seed' + str(
             seed) + '/'
         # result_directory_3_original_cpu = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
         #     total_time_limit) + 's' + '-t_node' + str(
