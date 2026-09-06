@@ -9,6 +9,8 @@
 2. install package ecole according to the following instructions:
     - go into the folder 'ecole'
     - install the package according to 'installation.rst'
+## Data Access
+The size of the datasets for the evaluated benchmarks (>31GB) in the paper are too large to upload to Github, please contact (defengliu91@gmail.com) for getting the whole dataset. We can either upload those files to your virtual machine server if gvien the access, or share the suppressed files to you through google drive.
 
 ## Running the experiments
 
@@ -84,7 +86,6 @@ python evaluation_scip_lb_regression_rl.py --t_total=3600 --dataset_id=5 --freq=
 
 # After completing all the runs above, run the following script to print the computed metrics for Table 11 and Table 12:
 python compute_evaluation_results_scip_seeds_averaged.py --t_total=3600 --mean=geometric  --dataset_id=5 --enable_gpu 
-
 
 
 ```
