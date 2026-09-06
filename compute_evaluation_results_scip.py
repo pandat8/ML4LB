@@ -17,7 +17,7 @@ This script is for printing and plotting the results in Section 6
 # Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50 101
-parser.add_argument('--mean', type = str, default='arithmetic')
+parser.add_argument('--mean', type = str, default='geometric') # arithmetic or geometric
 parser.add_argument('--dataset_id', type=int, default=4)
 parser.add_argument('--t_total', type = int, default=600)
 parser.add_argument('--t_node', type = int, default=2)

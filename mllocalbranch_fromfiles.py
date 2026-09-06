@@ -58,6 +58,9 @@ class MlLocalbranch:
             self.device = torch.device('cpu')
         print(self.device)
 
+        self.k_baseline = 20
+        self.k_prime_ratio_baseline = 0.0
+
     def initialize_ecole_env(self):
 
         if self.incumbent_mode == 'firstsol':
@@ -1768,12 +1771,14 @@ class RegressionInitialK:
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
 
-        instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                    observation.edge_features.indices,
                                    observation.edge_features.values,
-                                   observation.variable_features)
+                                   observation.variable_features,
+                                   device=device)
+        graph = graph.to(device)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
@@ -1962,10 +1967,13 @@ class RegressionInitialK:
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                    observation.edge_features.indices,
                                    observation.edge_features.values,
-                                   observation.variable_features)
+                                   observation.variable_features,
+                                   device=device)
+        graph = graph.to(device)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
@@ -2461,8 +2469,8 @@ class RegressionInitialK:
 
 class RegressionInitialK_KPrime(MlLocalbranch):
 
-    def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100):
-        super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed)
+    def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100, enable_gpu=False):
+        super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed, enable_gpu)
 
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
@@ -4059,10 +4067,19 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
+        # ensure the graph is created on the same device as the model
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                   observation.edge_features.indices,
                                   observation.edge_features.values,
-                                  variable_features)
+                                  variable_features,
+                                  device=device)
+        # We must tell pytorch geometric how many nodes there are, for indexing purposes
+        graph.num_nodes = observation.constraint_features.shape[0] + \
+                          observation.variable_features.shape[
+                              0]
+        
+        graph = graph.to(device)
 
         # variable features: all the variable features
         # graph = BipartiteNodeData(observation.constraint_features,
@@ -4070,10 +4087,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         #                           observation.edge_features.values,
         #                           observation.variable_features)
 
-        # We must tell pytorch geometric how many nodes there are, for indexing purposes
-        graph.num_nodes = observation.constraint_features.shape[0] + \
-                          observation.variable_features.shape[
-                              0]
 
         # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
         # MIP_model = instance
@@ -4124,9 +4137,10 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         if self.is_symmetric == False:
             k_pred = k_model.item() * k_prime
 
-        if k_pred < 10:
-            k_pred = 10
-
+        k_pred = max(k_pred, self.k_prime_ratio_baseline * k_prime)
+        k_pred = max(k_pred, 10)
+        k_pred = np.ceil(k_pred)
+        
         del k_model
         del graph
         del observation
@@ -4272,21 +4286,24 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                   observation.edge_features.indices,
                                   observation.edge_features.values,
-                                  variable_features)
+                                  variable_features,
+                                  device=device)
+        # We must tell pytorch geometric how many nodes there are, for indexing purposes
+        graph.num_nodes = observation.constraint_features.shape[0] + \
+                          observation.variable_features.shape[
+                              0]
+        
+        graph = graph.to(device)
 
         # variable features: all the variable features
         # graph = BipartiteNodeData(observation.constraint_features,
         #                           observation.edge_features.indices,
         #                           observation.edge_features.values,
         #                           observation.variable_features)
-
-        # We must tell pytorch geometric how many nodes there are, for indexing purposes
-        graph.num_nodes = observation.constraint_features.shape[0] + \
-                          observation.variable_features.shape[
-                              0]
 
         # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
         # MIP_model = instance
@@ -4336,8 +4353,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         if self.is_symmetric == False:
             k_pred = k_model.item() * k_prime
 
-        if k_pred < 10:
-            k_pred = 10
+        k_pred = max(k_pred, self.k_prime_ratio_baseline * k_prime)
+        k_pred = max(k_pred, 10)
+        k_pred = np.ceil(k_pred)
 
         del k_model
         del graph
@@ -4744,7 +4762,10 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         # solve the root node and get the LP solution, compute k_prime
         k_prime = self.compute_k_prime(MIP_model, incumbent)
-        k0_average =  self.k_baseline * k_prime
+        k0_average =  self.k_prime_ratio_baseline * k_prime
+
+        k0_average = max(k0_average, 10)
+        k0_average = np.ceil(k0_average)
 
         initial_obj = MIP_model.getSolObjVal(incumbent)
         print("Initial obj before LB: {}".format(initial_obj))
@@ -4779,7 +4800,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                                   total_time_limit=total_time_limit)
         status, obj_best, elapsed_time, lb_bits, times, objs, _, _ = lb_model.mdp_localbranch(
             is_symmetric=self.is_symmetric,
-            reset_k_at_2nditeration=False,
+            reset_k_at_2nditeration=reset_k_at_2nditeration,
             policy=None,
             optimizer=None,
             device=device
@@ -4876,6 +4897,10 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         self.k_baseline = 20
 
+        if self.instance_type in ['setcovering', 'independentset', 'combinatorialauction']:
+            k0_ratio_average = k_0_bank[self.instance_type+'-'+self.incumbent_mode]
+            self.k_prime_ratio_baseline = k0_ratio_average
+
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
             self.is_symmetric = False
@@ -4962,12 +4987,13 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         self.directory_transformedmodel = direc + 'transformedmodel' + '/test/'
         self.directory_sol = direc + self.incumbent_mode + '/test/'
 
+        self.k_baseline = 20
         if not merged:
-            k0_average = k_0_bank[self.instance_type+'-'+self.incumbent_mode]
+            k0_ratio_average = k_0_bank[self.instance_type+'-'+self.incumbent_mode]
         else:
-            k0_average = k_0_bank['merged']
+            k0_ratio_average = k_0_bank['merged']
 
-        self.k_baseline = k0_average
+        self.k_prime_ratio_baseline = k0_ratio_average
 
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
@@ -6204,8 +6230,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         plt.show()
 
 class RlLocalbranch(MlLocalbranch):
-    def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100):
-        super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed)
+    def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100, enable_gpu=False):
+        super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed, enable_gpu)
         self.alpha = 0.01
         self.gamma = 0.99
         self.eps = np.finfo(np.float32).eps.item()
@@ -6444,16 +6470,20 @@ class RlLocalbranch(MlLocalbranch):
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
-                                  observation.edge_features.indices,
-                                  observation.edge_features.values,
-                                  observation.variable_features)
+                                observation.edge_features.indices,
+                                observation.edge_features.values,
+                                observation.variable_features,
+                                device=device)
+        graph = graph.to(device)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
 
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
+        graph = graph.to(device)
 
         # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
         # MIP_model = instance
@@ -6563,6 +6593,7 @@ class RlLocalbranch(MlLocalbranch):
             R = r + self.gamma * R
             returns.insert(0,R)
         returns = torch.tensor(returns)
+        returns = returns.to(self.device)
         returns = (returns - returns.mean()) / (returns.std() + self.eps)
 
         # calculate loss
@@ -7164,15 +7195,18 @@ class RlLocalbranch(MlLocalbranch):
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                   observation.edge_features.indices,
                                   observation.edge_features.values,
-                                  observation.variable_features)
+                                  observation.variable_features,
+                                  device=device)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
+        graph = graph.to(device)
         # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
         # MIP_model = instance
 
@@ -7431,12 +7465,16 @@ class RlLocalbranch(MlLocalbranch):
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
         observation, _, _, done, _ = self.env.reset(instance)
 
+
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
-                                  observation.edge_features.indices,
-                                  observation.edge_features.values,
-                                  variable_features)
+                                    observation.edge_features.indices,
+                                    observation.edge_features.values,
+                                    variable_features,
+                                    device=device)
+        graph = graph.to(device)
 
         # graph = BipartiteNodeData(observation.constraint_features,
         #                           observation.edge_features.indices,
@@ -7476,10 +7514,10 @@ class RlLocalbranch(MlLocalbranch):
         if self.is_symmetric == False:
             k_pred = k_model.item() * k_prime
 
+        k_pred = max(k_pred, self.k_prime_ratio_baseline * k_prime)
+        k_pred = max(k_pred, 10)
+        
         k_pred = np.ceil(k_pred)
-
-        if k_pred < 10:
-            k_pred = 10
 
         del k_model
         del graph
@@ -7614,6 +7652,10 @@ class RlLocalbranch(MlLocalbranch):
 
         self.k_baseline = 20
 
+        if self.instance_type in ['setcovering', 'independentset', 'combinatorialauction']:
+            k0_ratio_average = k_0_bank[self.instance_type+'-'+self.incumbent_mode]
+            self.k_prime_ratio_baseline = k0_ratio_average
+
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
             self.is_symmetric = False
@@ -7667,6 +7709,16 @@ class RlLocalbranch(MlLocalbranch):
 
         optim1.load_state_dict(checkpoint['optimizer_state_dict'])
         optim2.load_state_dict(checkpoint['optimizer_state_dict'])
+
+        # Move optimizer state to device to prevent device mismatch during step()
+        for state in optim1.state.values():
+            for k, v in state.items():
+                if torch.is_tensor(v):
+                    state[k] = v.to(self.device)
+        for state in optim2.state.values():
+            for k, v in state.items():
+                if torch.is_tensor(v):
+                    state[k] = v.to(self.device)
 
         greedy = greedy
         rl_policy1 = rl_policy1.to(self.device)
@@ -7760,10 +7812,13 @@ class RlLocalbranch(MlLocalbranch):
 
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                   observation.edge_features.indices,
                                   observation.edge_features.values,
-                                  variable_features)
+                                  variable_features,
+                                  device=device)
+        graph = graph.to(device)
 
         # graph = BipartiteNodeData(observation.constraint_features,
         #                           observation.edge_features.indices,
@@ -8016,6 +8071,16 @@ class RlLocalbranch(MlLocalbranch):
         # optim_t_1.load_state_dict(checkpoint['optimizer_state_dict'])
         # optim_t_2.load_state_dict(checkpoint['optimizer_state_dict'])
 
+        # Move optimizer state to device to prevent device mismatch during step()
+        for state in optim1.state.values():
+            for k, v in state.items():
+                if torch.is_tensor(v):
+                    state[k] = v.to(self.device)
+        for state in optim2.state.values():
+            for k, v in state.items():
+                if torch.is_tensor(v):
+                    state[k] = v.to(self.device)
+
         greedy = greedy
         rl_policy1 = rl_policy1.to(self.device)
         rl_policy2 = rl_policy2.to(self.device)
@@ -8086,15 +8151,15 @@ class RlLocalbranch(MlLocalbranch):
         except:
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
-        instance = ecole.scip.Model.from_pyscipopt(MIP_model)
-        observation, _, _, done, _ = self.env.reset(instance)
-
         # variable features: only incumbent solution
         variable_features = observation.variable_features[:, -1:]
+        device = self.device
         graph = BipartiteNodeData(observation.constraint_features,
                                   observation.edge_features.indices,
                                   observation.edge_features.values,
-                                  variable_features)
+                                  variable_features,
+                                  device=device)
+        graph = graph.to(device)
 
         # graph = BipartiteNodeData(observation.constraint_features,
         #                           observation.edge_features.indices,
@@ -8332,7 +8397,7 @@ class RlLocalbranch(MlLocalbranch):
 
         directory_lb_test_baseline_k0_average = directory + 'k_prime/' + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(
-            total_time_limit) + 's' + test_instance_size + '_baseline_k0_average_merged/seed' + str(self.seed) + '/'
+            total_time_limit) + 's' + test_instance_size + '_baseline_k0_average/seed' + str(123) + '/'
 
         primal_int_baselines = []
         primal_int_regressions_merged = []
@@ -8451,7 +8516,7 @@ class RlLocalbranch(MlLocalbranch):
             objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
             # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
-            a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime.min(), objs_k_prime_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min(), objs_lb_baseline_k0_average.min()]
+            a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime.min(), objs_k_prime_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()] # objs_lb_baseline_k0_average.min()
             obj_opt = np.amin(a)
 
             # lb-baseline:

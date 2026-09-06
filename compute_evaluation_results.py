@@ -13,8 +13,8 @@ This script is for printing and plotting the results in Section 5
 """
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--seed', type=int, default=100, help='Radom seed') #50 101
-parser.add_argument('--mean', type = str, default='arithmetic')
+parser.add_argument('--seed', type=int, default=123, help='Radom seed') #100, 120, 122, 123
+parser.add_argument('--mean', type = str, default='geometric') # arithmetic or geometric
 parser.add_argument('--t_total', type = int, default=60)
 parser.add_argument('--t_node', type = int, default=10)
 args = parser.parse_args()
@@ -51,7 +51,7 @@ l = [3, 4, 1]
 # for lr in lr_list:
 #     print('learning rate = ', lr)
 #     print('epsilon = ', epsilon)
-for i in range(0, 3):
+for i in range(0, 5):
     instance_type = instancetypes[i]
     if instance_type == instancetypes[0]:
         lbconstraint_mode = 'asymmetric'

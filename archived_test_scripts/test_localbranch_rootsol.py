@@ -10,6 +10,9 @@ from localbranching import LocalBranching
 from models import *
 from utilities import copy_sol, binary_support, modes, instancetypes, generator_switcher
 from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts
+import torch
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # modes = ['tree-improve-supportbinvars', 'tree-improve-binvars']
 # instancetype = instancetypes[2]
 
@@ -87,7 +90,8 @@ while i < 200:
             # print(sample_observation)
 
             graph = BipartiteNodeData(sample_observation.constraint_features, sample_observation.edge_features.indices,
-                                      sample_observation.edge_features.values, sample_observation.variable_features)
+                                      sample_observation.edge_features.values, sample_observation.variable_features,
+                                      device=device)
 
             # We must tell pytorch geometric how many nodes there are, for indexing purposes
             graph.num_nodes = sample_observation.constraint_features.shape[0] + sample_observation.variable_features.shape[

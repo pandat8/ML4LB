@@ -23,7 +23,10 @@ parser.add_argument('--enable_adapt_t', dest='enable_adapt_t', action='store_tru
 parser.add_argument('--disable_adapt_t', dest='enable_adapt_t', action='store_false')
 parser.set_defaults(enable_adapt_t=False)
 parser.add_argument('--seed', type=int, default=0, help='Radom seed') #50  122
+parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
+
+enable_gpu = args.enable_gpu
 
 regression_model_path = args.regression_model_path
 rl_model_path = args.rl_model_path
@@ -62,7 +65,7 @@ l = [3, 4, 1]
 #     print('learning rate = ', lr)
 #     print('epsilon = ', epsilon)
 
-for k in range(0, 2):
+for k in range(0, 1):
     test_instance_size = instancesizes[k]
 
     instance_type = instancetypes[dataset_id]
@@ -79,7 +82,7 @@ for k in range(0, 2):
         print(lbconstraint_mode)
 
 
-        reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=seed)
+        reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=seed, enable_gpu=enable_gpu)
 
         # reinforce_localbranch.train_agent(train_instance_size='-small', total_time_limit=total_time_limit,
         #                                   node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration,

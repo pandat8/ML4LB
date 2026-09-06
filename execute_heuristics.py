@@ -8,6 +8,8 @@ import pathlib
 import gzip
 import pickle
 import json
+import os
+import csv
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
 from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol, mean_options, mean_shift
@@ -433,11 +435,36 @@ class ExecuteHeuristic:
                                                   total_time_limit=total_time_limit)
             i += 1
 
-    def compute_primal_integral(self, times, objs, obj_opt, total_time_limit=60):
+    def _solve_time(self, times_arr, objs_arr, threshold, total_time_limit):
+        """Return first time objective <= threshold.
 
-        # obj_opt = objs.min()
-        times = np.append(times, total_time_limit)
-        objs = np.append(objs, objs[-1])
+        The returned solve time is capped at ``total_time_limit``.  If the
+        trace contains a timestamp beyond that limit where the objective
+        crosses the threshold, the cap is enforced rather than reporting a
+        later value.  This protects callers that compute metrics at a shorter
+        cutoff (e.g. 600s) when the underlying history runs to 3600s.
+        """
+        for t, o in zip(times_arr, objs_arr):
+            if t > total_time_limit:
+                break
+            if o <= threshold:
+                return t
+        return total_time_limit
+
+    def compute_primal_integral(self, times, objs, obj_opt, total_time_limit=60):
+        # evaluate trajectory only up to the requested cutoff
+        times = np.asarray(times)
+        objs = np.asarray(objs)
+
+        valid = times <= total_time_limit
+        if np.any(valid):
+            times = times[valid]
+            objs = objs[valid]
+
+        # if there is no point exactly at the cutoff, extend with the last known objective
+        if times[-1] < total_time_limit:
+            times = np.append(times, total_time_limit)
+            objs = np.append(objs, objs[-1])
 
         primal_integral_array = np.zeros(len(objs))
         gamma_baseline = np.zeros(len(objs))
@@ -449,8 +476,8 @@ class ExecuteHeuristic:
             else:
                 gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))  #
 
-        # compute the primal gap of last objective
-        primal_gap_final = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt) * 100 # np.abs(obj_opt) * 100
+        # compute the primal gap at the cutoff horizon
+        primal_gap_final = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt) * 100
 
         # compute primal integral
         primal_integral_array[0] = 0
@@ -2577,13 +2604,26 @@ class ExecuteHeuristic:
     def primal_integral_scip_comparison(self, seed_mcts=100, instance_type='miplib_39binary', instance_size='-small',
                                           incumbent_mode='root', total_time_limit=60, node_time_limit=30,
                                           mean_option='arithmetic', result_directory_1=None, result_directory_2=None,
-                                          result_directory_3=None, result_directory_4=None):
+                                          result_directory_3=None, result_directory_4=None, csv_suffix=None,
+                                          cutoff_times=None):
 
         instance_type = instance_type
         incumbent_mode = incumbent_mode
         instance_size = instance_size
         # func_mean = mean_options[mean_option]
         print(mean_option)
+
+        if cutoff_times is None:
+            cutoff_times = [total_time_limit]
+        cutoff_times = [int(c) for c in cutoff_times if int(c) > 0 and int(c) <= int(total_time_limit)]
+        if total_time_limit not in cutoff_times:
+            cutoff_times = [int(total_time_limit)] + cutoff_times
+        else:
+            cutoff_times = [int(total_time_limit)] + [c for c in cutoff_times if c != int(total_time_limit)]
+
+        # detailed per-instance outcome records for each method
+        per_instance_results = []
+
 
         # direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
         # directory_transformedmodel = direc + 'transformedmodel' + '/'
@@ -2695,6 +2735,12 @@ class ExecuteHeuristic:
         pi_steplines_lns_random_list_mul = []
         pi_steplines_lns_lblpmcts_list_mul = []
 
+        # Track number of instances where each algorithm reached optimal objective
+        count_optimal_scip = 0
+        count_optimal_lns_lblpmcts = 0
+        count_optimal_lns_lblp_mul = 0
+        count_optimal_lns_lblpmcts_mul = 0
+
         # primal_int_regression_reinforces_talored = []
         # primal_int_reinforces_talored = []
         # primal_gap_final_regression_reinforces_talored = []
@@ -2734,9 +2780,21 @@ class ExecuteHeuristic:
         print("get the DataLoader")
         test_loader = DataLoader(test_dataset, shuffle=False, batch_size=1, collate_fn=custom_collate)
 
+        filename = f'./result/miplib2017/miplib2017_purebinary_solved_objective.pkl'
+        with gzip.open(filename, 'rb') as f:
+            dict_miplib2017_opt_data = pickle.load(f)
+        
+        filename = f'./result/miplib2017/miplib2017_binary39_objective.pkl'
+        with gzip.open(filename, 'rb') as f:
+            dict_miplib2017_binary39_opt_data = pickle.load(f)
+
+        filename = f'./result/miplib2017/miplib2017_transformed_opt_data.pkl.gz'
+        with gzip.open(filename, 'rb') as f:
+            dict_miplib2017_transformed_opt_data = pickle.load(f)
+
         i = 0
         for batch in (test_loader):
-            if not (self.instance_type == instancetypes[5] and (i == 48 or i == 95)):
+            if not (self.instance_type == instancetypes[5] and (i == 48 or i == 95 or i ==102)):
                 print("instance: ", i)
                 MIP_model = Model()
                 print("create a new SCIP model")
@@ -2865,8 +2923,29 @@ class ExecuteHeuristic:
                 # a = [objs_lb.min(), objs_lns_random.min(), objs_lns_lblp.min(), objs_scip.min(),
                 #      objs_lns_lblpmcts.min(), objs_lb_mul.min(), objs_lns_random_mul.min(), objs_lns_lblp_mul.min(),
                 #      objs_lns_lblpmcts_mul.min()]  #
-                a = [objs_scip.min(), objs_lns_lblpmcts.min(), objs_lns_lblp_mul.min(), objs_lns_lblpmcts_mul.min()]  #
-                obj_opt = np.amin(a)
+                
+                ## compute optimal objective value among all runs for a single instance
+                # a = [objs_scip.min(), objs_lns_lblpmcts.min(), objs_lns_lblp_mul.min(), objs_lns_lblpmcts_mul.min()]  #
+                # obj_opt = np.amin(a)
+                
+                ## load optimal objective value for miplib2017 instances
+                if instance_type == 'miplib2017_binary':  # miplib2017
+                    transformed_instance_key = os.path.splitext(os.path.basename(mip_file))[0]
+                    obj_opt = dict_miplib2017_transformed_opt_data[transformed_instance_key]["best_obj"]
+                    obj_opt = float(str(obj_opt).replace('*', '').strip())
+
+                if instance_type == 'miplib_39binary':  # miplib2017
+                    miplib_original_instance_name = instance_name.split("transformed_")[1]
+                    obj_opt = dict_miplib2017_binary39_opt_data[miplib_original_instance_name]
+                    obj_opt = float(str(obj_opt).replace('*', '').strip())
+
+
+                rel_tol = 1e-5   # 0.001% relative gap
+                epsilon = 1e-7   # SCIP's native zero-tolerance (numerics/epsilon)
+
+                # The max() function now correctly relies on rel_tol for small numbers,
+                # only falling back to epsilon when obj_opt is strictly 0.
+                allowable_threshold = obj_opt + max(epsilon, rel_tol * abs(obj_opt))
 
                 # # localbranch-baseline:
                 # # compute primal gap for baseline localbranching run
@@ -2902,6 +2981,9 @@ class ExecuteHeuristic:
                 steplines_lns_lblp_list_mul.append(stepline_lns_lblp_mul)
                 pi_steplines_lns_lblp_list_mul.append(pi_stepline_lns_lblp_mul)
                 primal_int_lns_lblp_list_mul.append(primal_int_lns_lblp_mul)
+                # Track optimal for lns_lblp_mul
+                if objs_lns_lblp_mul.min() <= allowable_threshold:
+                    count_optimal_lns_lblp_mul += 1
 
                 # lns-random heuristic
                 # if times_regression[-1] < total_time_limit:
@@ -2930,6 +3012,10 @@ class ExecuteHeuristic:
                 pi_steplines_scip_baseline_list.append(pi_stepline_scip)
                 primal_int_scip_baselines_list.append(primal_int_scip)
 
+                # use allowable_threshold instead of obj_opt to determine if scip's best solution is considered optimal, which accounts for numerical issues and small relative gaps
+                if objs_scip.min() <= allowable_threshold:
+                    count_optimal_scip += 1
+                
                 # lns-guided-by-localbranch-lp-mcts
                 primal_int_lns_lblpmcts, primal_gap_final_lns_lblpmcts, stepline_lns_lblpmcts, pi_stepline_lns_lblpmcts = self.compute_primal_integral(
                     times=times_lns_lblpmcts, objs=objs_lns_lblpmcts, obj_opt=obj_opt,
@@ -2938,6 +3024,9 @@ class ExecuteHeuristic:
                 steplines_lns_lblpmcts_list.append(stepline_lns_lblpmcts)
                 pi_steplines_lns_lblpmcts_list.append(pi_stepline_lns_lblpmcts)
                 primal_int_lns_lblpmcts_list.append(primal_int_lns_lblpmcts)
+                # Track optimal for lns_lblpmcts
+                if objs_lns_lblpmcts.min() <= allowable_threshold:
+                    count_optimal_lns_lblpmcts += 1
 
                 primal_int_lns_lblpmcts_mul, primal_gap_final_lns_lblpmcts_mul, stepline_lns_lblpmcts_mul, pi_stepline_lns_lblpmcts_mul = self.compute_primal_integral(
                     times=times_lns_lblpmcts_mul, objs=objs_lns_lblpmcts_mul, obj_opt=obj_opt,
@@ -2946,6 +3035,59 @@ class ExecuteHeuristic:
                 steplines_lns_lblpmcts_list_mul.append(stepline_lns_lblpmcts_mul)
                 pi_steplines_lns_lblpmcts_list_mul.append(pi_stepline_lns_lblpmcts_mul)
                 primal_int_lns_lblpmcts_list_mul.append(primal_int_lns_lblpmcts_mul)
+                # Track optimal for lns_lblpmcts_mul
+                if objs_lns_lblpmcts_mul.min() <= allowable_threshold:
+                    count_optimal_lns_lblpmcts_mul += 1
+
+                # ------------------- per-instance bottom-line metrics -------------------
+                is_scip_solved = objs_scip.min() <= allowable_threshold
+                is_freq0_solved = objs_lns_lblpmcts.min() <= allowable_threshold
+                is_freq1_solved = objs_lns_lblp_mul.min() <= allowable_threshold
+                is_freq100_solved = objs_lns_lblpmcts_mul.min() <= allowable_threshold
+
+                solve_time_scip = self._solve_time(times_scip, objs_scip, allowable_threshold, total_time_limit)
+                solve_time_freq0 = self._solve_time(times_lns_lblpmcts, objs_lns_lblpmcts, allowable_threshold, total_time_limit)
+                solve_time_freq1 = self._solve_time(times_lns_lblp_mul, objs_lns_lblp_mul, allowable_threshold, total_time_limit)
+                solve_time_freq100 = self._solve_time(times_lns_lblpmcts_mul, objs_lns_lblpmcts_mul, allowable_threshold, total_time_limit)
+
+                per_instance_record = {
+                    'instance': instance_name,
+                    'baseline_solved': is_scip_solved,
+                    'baseline_solve_time': solve_time_scip,
+                    'baseline_final_gap': primal_gap_final_scip,
+                    'freq0_solved': is_freq0_solved,
+                    'freq0_solve_time': solve_time_freq0,
+                    'freq0_final_gap': primal_gap_final_lns_lblpmcts,
+                    'freq1_solved': is_freq1_solved,
+                    'freq1_solve_time': solve_time_freq1,
+                    'freq1_final_gap': primal_gap_final_lns_lblp_mul,
+                    'freq100_solved': is_freq100_solved,
+                    'freq100_solve_time': solve_time_freq100,
+                    'freq100_final_gap': primal_gap_final_lns_lblpmcts_mul,
+                }
+
+                method_series = {
+                    'baseline': (times_scip, objs_scip),
+                    'freq0': (times_lns_lblpmcts, objs_lns_lblpmcts),
+                    'freq1': (times_lns_lblp_mul, objs_lns_lblp_mul),
+                    'freq100': (times_lns_lblpmcts_mul, objs_lns_lblpmcts_mul),
+                }
+                for cutoff in cutoff_times[1:]:
+                    suffix = f'_{cutoff}'
+                    for method_name, (times_arr, objs_arr) in method_series.items():
+                        solve_t = self._solve_time(times_arr, objs_arr, allowable_threshold, cutoff)
+                        solved = solve_t < cutoff
+                        p_int, p_gap, _, _ = self.compute_primal_integral(
+                            times=times_arr, objs=objs_arr, obj_opt=obj_opt, total_time_limit=cutoff)
+                        per_instance_record[f'{method_name}_solved{suffix}'] = solved
+                        per_instance_record[f'{method_name}_solve_time{suffix}'] = solve_t
+                        if method_name == 'baseline':
+                            per_instance_record[f'baseline_primal_int{suffix}'] = p_int
+                        else:
+                            per_instance_record[f'{method_name}_primal_int{suffix}'] = p_int
+                        per_instance_record[f'{method_name}_final_gap{suffix}'] = p_gap
+
+                per_instance_results.append(per_instance_record)
 
                 #
                 # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
@@ -3106,7 +3248,7 @@ class ExecuteHeuristic:
         # print('scip-lb-baseline primal integral: ', primal_int_base_ave)
         # print('scip-lb-regression primal integral: ', primal_int_lns_random_ave)
         # print('scip-lb-rl primal integral: ', primal_int_lns_lblp_ave)
-        print('scip-lb-regression-rl-single primal integral: ', primal_int_lns_lblpmcts_ave)
+        print('scip-lb-regression-rl-freq0 primal integral: ', primal_int_lns_lblpmcts_ave)
         # print('scip-lb-baseline-multi primal integral: ', primal_int_base_ave_mul)
         # print('scip-lb-regression-multi primal integral: ', primal_int_lns_random_ave_mul)
         # print('scip-lb-rl-multi primal integral: ', primal_int_lns_lblp_ave_mul)
@@ -3121,7 +3263,7 @@ class ExecuteHeuristic:
         # print('scip-lb-baseline primal gap: ', primal_gap_final_baseline_ave)
         # print('scip-lb-regression primal gap: ', primal_gap_final_lns_random_ave)
         # print('scip-lb-rl primal gap: ', primal_gap_final_lns_lblp_ave)
-        print('scip-lb-regression-rl-single primal gap: ', primal_gap_final_lns_lblpmcts_ave)
+        print('scip-lb-regression-rl-freq0 primal gap: ', primal_gap_final_lns_lblpmcts_ave)
         # print('scip-lb-baseline-multi primal gap: ', primal_gap_final_baseline_ave_mul)
         # print('scip-lb-regression-multi primal gap: ', primal_gap_final_lns_random_ave_mul)
         # print('scip-lb-rl-multi primal gap: ', primal_gap_final_lns_lblp_ave_mul)
@@ -3130,6 +3272,60 @@ class ExecuteHeuristic:
         print('scip-lb-regression-rl-freq100 primal gap: ', primal_gap_final_lns_lblpmcts_ave_mul)
 
         print('rl primal gap: ', primal_gap_final_reinforce_ave)
+
+        # === metrics addressing reviewer question ===
+        if per_instance_results:
+            import numpy as _np
+            def _summarize(method, suffix="", label_suffix=""):
+                solved = [r for r in per_instance_results if r[f'baseline_solved{suffix}'] and r[f'{method}_solved{suffix}']]
+                unsolved = [r for r in per_instance_results if (not r[f'baseline_solved{suffix}']) and (not r[f'{method}_solved{suffix}'])]
+                print(f"\n--- {method} vs baseline{label_suffix} ---")
+                print(f"affected_solved: {len(solved)}")
+                if solved:
+                    # compute arrays of times and filter out any non-positive method times
+                    base_times = _np.array([r[f'baseline_solve_time{suffix}'] for r in solved])
+                    method_times = _np.array([r[f'{method}_solve_time{suffix}'] for r in solved])
+                    positive = method_times > 0
+                    if not positive.all():
+                        n_bad = (_np.logical_not(positive)).sum()
+                        print(f"  warning: {n_bad} {method}_solve_time{suffix} <= 0 entries skipped when computing speedups")
+                    # avoid dividing by zero or negative values
+                    valid_base = base_times[positive]
+                    valid_method = method_times[positive]
+                    if valid_method.size > 0:
+                        speedups = valid_base / valid_method
+                        abs_red = valid_base - valid_method
+                        n_faster = (abs_red > 0).sum()
+                        n_slower = (abs_red < 0).sum()
+                        print(f"  speedup mean/med/geo: {speedups.mean():.2f}/{_np.median(speedups):.2f}/{gmean(speedups):.2f}")
+                        print(f"  time reduction mean/med: {abs_red.mean():.2f}/{_np.median(abs_red):.2f} s"
+                              f"  (faster: {n_faster}, slower: {n_slower})")
+                    else:
+                        print("  no valid solve times to compute speedups")
+                print(f"affected_unsolved: {len(unsolved)}")
+                if unsolved:
+                    gap_red = _np.array([r[f'baseline_final_gap{suffix}']-r[f'{method}_final_gap{suffix}'] for r in unsolved])
+                    rel_red = gap_red / _np.array([r[f'baseline_final_gap{suffix}'] if r[f'baseline_final_gap{suffix}']>0 else _np.nan for r in unsolved]) * 100
+                    print(f"  gap reduction mean/med: {gap_red.mean():.2f}/{_np.median(gap_red):.2f} pp")
+                    print(f"  rel gap red mean/med: {rel_red.mean():.2f}/{_np.nanmedian(rel_red):.2f} %")
+
+            for m in ['freq0','freq1','freq100']:
+                _summarize(m, label_suffix=f" ({total_time_limit}s)")
+                for cutoff in cutoff_times[1:]:
+                    _summarize(m, suffix=f"_{cutoff}", label_suffix=f" ({cutoff}s)")
+
+            csv_path = f"./result/plots/scip_comparison_details_{instance_type}_{instance_size}_{incumbent_mode}"
+            if csv_suffix:
+                csv_path += csv_suffix
+            csv_path += ".csv"
+            os.makedirs(os.path.dirname(csv_path), exist_ok=True)
+            fields = per_instance_results[0].keys()
+            with open(csv_path,'w',newline='') as csvf:
+                writer = csv.DictWriter(csvf, fieldnames=fields)
+                writer.writeheader()
+                for r in per_instance_results:
+                    writer.writerow(r)
+            print(f"Detailed per-instance results written to {csv_path}")
 
         t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
 
@@ -3378,7 +3574,64 @@ class ExecuteHeuristic:
         plt.show()
         plt.clf()
 
+        additional_metrics = {}
+        if per_instance_results:
+            for cutoff in cutoff_times[1:]:
+                suffix = f'_{cutoff}'
+                base_int = np.array([r[f'baseline_primal_int{suffix}'] for r in per_instance_results])
+                freq0_int = np.array([r[f'freq0_primal_int{suffix}'] for r in per_instance_results])
+                freq1_int = np.array([r[f'freq1_primal_int{suffix}'] for r in per_instance_results])
+                freq100_int = np.array([r[f'freq100_primal_int{suffix}'] for r in per_instance_results])
+                base_gap = np.array([r[f'baseline_final_gap{suffix}'] for r in per_instance_results])
+                freq0_gap = np.array([r[f'freq0_final_gap{suffix}'] for r in per_instance_results])
+                freq1_gap = np.array([r[f'freq1_final_gap{suffix}'] for r in per_instance_results])
+                freq100_gap = np.array([r[f'freq100_final_gap{suffix}'] for r in per_instance_results])
+
+                additional_metrics[f'primal_int_scip_baseline{suffix}_ave'] = mean_shift(base_int, mean_option=mean_option)
+                additional_metrics[f'primal_int_freq0{suffix}_ave'] = mean_shift(freq0_int, mean_option=mean_option)
+                additional_metrics[f'primal_int_freq1{suffix}_ave'] = mean_shift(freq1_int, mean_option=mean_option)
+                additional_metrics[f'primal_int_freq100{suffix}_ave'] = mean_shift(freq100_int, mean_option=mean_option)
+                additional_metrics[f'primal_gap_final_scip_baseline{suffix}_ave'] = mean_shift(base_gap, mean_option=mean_option)
+                additional_metrics[f'primal_gap_final_freq0{suffix}_ave'] = mean_shift(freq0_gap, mean_option=mean_option)
+                additional_metrics[f'primal_gap_final_freq1{suffix}_ave'] = mean_shift(freq1_gap, mean_option=mean_option)
+                additional_metrics[f'primal_gap_final_freq100{suffix}_ave'] = mean_shift(freq100_gap, mean_option=mean_option)
+                additional_metrics[f'count_optimal_scip{suffix}'] = sum(1 for r in per_instance_results if r[f'baseline_solved{suffix}'])
+                additional_metrics[f'count_optimal_freq0{suffix}'] = sum(1 for r in per_instance_results if r[f'freq0_solved{suffix}'])
+                additional_metrics[f'count_optimal_freq1{suffix}'] = sum(1 for r in per_instance_results if r[f'freq1_solved{suffix}'])
+                additional_metrics[f'count_optimal_freq100{suffix}'] = sum(1 for r in per_instance_results if r[f'freq100_solved{suffix}'])
+
+        # Print summary of instances reaching optimal objective
+        print("\n=== Instances Reaching Optimal Objective ===")
+        print(f"SCIP Baseline: {count_optimal_scip} instances reached optimal")
+        print(f"scip-lb-regression-rl-freq0: {count_optimal_lns_lblpmcts} instances reached optimal")
+        print(f"scip-lb-regression-rl-freq1: {count_optimal_lns_lblp_mul} instances reached optimal")
+        print(f"scip-lb-sregression-rl-freq100: {count_optimal_lns_lblpmcts_mul} instances reached optimal")
+        print("=" * 45)
+
         print("seed mcts: ", seed_mcts)
+
+        # compile returnable summary for potential external aggregation
+        results = {
+            'primal_int_scip_baseline_ave': primal_int_scip_baseline_ave,
+            'primal_int_freq0_ave': primal_int_lns_lblpmcts_ave,
+            'primal_int_freq1_ave': primal_int_lns_lblp_ave_mul,
+            'primal_int_freq100_ave': primal_int_lns_lblpmcts_ave_mul,
+            'primal_gap_final_scip_baseline_ave': primal_gap_final_scip_baseline_ave,
+            'primal_gap_final_freq0_ave': primal_gap_final_lns_lblpmcts_ave,
+            'primal_gap_final_freq1_ave': primal_gap_final_lns_lblp_ave_mul,
+            'primal_gap_final_freq100_ave': primal_gap_final_lns_lblpmcts_ave_mul,
+            'count_optimal_scip': count_optimal_scip,
+            'count_optimal_freq0': count_optimal_lns_lblpmcts,
+            'count_optimal_freq1': count_optimal_lns_lblp_mul,
+            'count_optimal_freq100': count_optimal_lns_lblpmcts_mul,
+            'per_instance_results': per_instance_results,
+            'seed_mcts': seed_mcts,
+            'instance_type': instance_type,
+            'instance_size': instance_size,
+            'incumbent_mode': incumbent_mode,
+        }
+        results.update(additional_metrics)
+        return results
 
     def primal_integral_adapt_t(self, seed_mcts=100, instance_type = 'miplib_39binary', instance_size = '-small', incumbent_mode = 'root', total_time_limit=60, node_time_limit=30, result_directory_1=None, result_directory_2=None, result_directory_3=None, result_directory_4=None, result_directory_5=None, result_directory_6=None):
 
@@ -5175,6 +5428,7 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
                                   observation.edge_features.values,
                                   variable_features,
                                   device=self.device)
+        graph = graph.to(self.device)
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
@@ -5270,6 +5524,3 @@ class Execute_LB_Regression_RL(ExecuteHeuristic):
         data = [objs, times]
 
         return data
-
-
-

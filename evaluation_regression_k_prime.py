@@ -16,7 +16,10 @@ parser.add_argument('--regression_model_path', type = str, default='./result/sav
 parser.add_argument('--t_total', type=int, default=60)
 parser.add_argument('--dataset_id', type=int, default=0)
 parser.add_argument('--seed', type=int, default=0, help='Radom seed') ## 100 50 101
+parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
+
+enable_gpu = args.enable_gpu
 
 regression_model_path = args.regression_model_path
 print(regression_model_path)
@@ -70,7 +73,7 @@ for k in range(0, 2):
             print('merged :,', merged)
             print('baseline :', baseline)
 
-            regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=seed)
+            regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=seed, enable_gpu=enable_gpu)
 
             # regression_init_k.generate_k_samples_k_prime(t_limit=samples_time_limit, instance_size=instance_size)
 
