@@ -71,19 +71,21 @@ python compute_evaluation_results.py --t_total=600 --mean='geometric'
 
 ### Produce results of Section 6
 #### Evaluating the provided pre-trained ML models on MIPLIB dataset on your own machine(>=128 GB RAM)
+### to get the results of all 5 seeds (e.g. 2021,...,2025), change run the algorithms for each seed accordingly.
 ```
 # to evaluate Algorithm scip, run:
-python evaluation_scip_baseline.py
+python evaluation_scip_baseline.py --t_total=3600 --dataset_id=5 --seed=2021 --enable_gpu
 # to evaluate Algorithm scip-lb-regression-rl-single, run:
-python evaluation_scip_lb_regression_rl.py --freq=0
+python evaluation_scip_lb_regression_rl.py --t_total=3600 --dataset_id=5 --freq=0 --seed=2021 --enable_gpu
 # to evaluate Algorithm scip-lb-regression-rl-freq1, run:
-python evaluation_scip_lb_regression_rl.py --freq=1
+python evaluation_scip_lb_regression_rl.py --t_total=3600 --dataset_id=5 --freq=1 --seed=2021 --enable_gpu
 # to evaluate Algorithm scip-lb-regression-rl-freq100, run:
-python evaluation_scip_lb_regression_rl.py --freq=100
+python evaluation_scip_lb_regression_rl.py --t_total=3600 --dataset_id=5 --freq=100 --seed=2021 --enable_gpu
 
-# After completing all the runs above, to plot Figure 5, run:
-# ( Figure 5 will be saved in "result/plots/seed100_primalintegral_miplib_39binary_-small_rootsol_scip_ttotal1200_tnode2_disable_presolve_beforenode_multi_freq-0-1-100_geometric_0.png" )
-python compute_evaluation_results_scip_multi_2.py --mean='geometric'
+# After completing all the runs above, run the following script to print the computed metrics for Table 11 and Table 12:
+python compute_evaluation_results_scip_seeds_averaged.py --t_total=3600 --mean=geometric  --dataset_id=5 --enable_gpu 
+
+
 
 ```
 
