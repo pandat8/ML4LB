@@ -103,7 +103,9 @@ python src/compute_evaluation_results_scip_seeds_averaged.py --t_total=3600 --me
 ```
 
 ### (Optional step, Not recommended) 
-#### Train your own regression ML model and RL models on your own machine, then repeat above (for Section 5.3.1, Section 5.3.2, Section 6) to evaluate the results on your machine.
+#### This step involves collecting training data collection through heavy optimization runs and training the models. Those heave data collection process can takes a few weeks, therefore it is not recommended to do it by yourself if the purpose is to only validate the models and claims in the paper.  
+
+However, if you have enough time budget to collect your own training data, train your own regression ML model and RL models on your own machine, you can run the following scripts and then repeat above (for Section 5.3.1, Section 5.3.2, Section 6) to evaluate the results on your machine.
 ```
 # train regression models
 python src/train_regression.py
