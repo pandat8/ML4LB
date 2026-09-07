@@ -24,16 +24,26 @@ from event import StopWhenFirstLPSolvedEventHandler
 
 import gc
 import sys
-from memory_profiler import profile
 
 from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
 from dataset import InstanceDataset, custom_collate, InstanceDataset_2
 
 '''
-This file implements the classes/methods for training and testing the ML models (both regression model and RL model) for local branching
+This file implements the classes/methods for training and testing the ML models (both the regression
+model for predicting the initial neighborhood size k and the RL models for adapting k and t) for
+local branching. Instances and incumbent solutions are loaded from files on disk.
 '''
 
+
 class MlLocalbranch:
+    """Base class shared by the ML-for-LB training and evaluation classes.
+
+    Holds the experiment configuration (dataset, instance size, LB constraint
+    mode, incumbent mode, seed, device), sets up the ecole environment for
+    computing incumbents/features, and provides dataset loading and
+    primal-integral helpers.
+    """
+
     def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode='firstsol', seed=100, enable_gpu=False):
         self.instance_type = instance_type
         self.instance_size = instance_size
@@ -42,10 +52,9 @@ class MlLocalbranch:
         self.seed = seed
         print('seed: {}'.format(str(seed)))
         self.directory = './result/generated_instances/' + self.instance_type + '/' + self.instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # self.generator = generator_switcher(self.instance_type + self.instance_size)
 
         self.initialize_ecole_env()
-        self.env.seed(self.seed)  # environment (SCIP)
+        self.env.seed(self.seed)
         torch.manual_seed(seed)
         torch.cuda.manual_seed(seed)
         np.random.seed(seed)
@@ -122,23 +131,6 @@ class MlLocalbranch:
                     }
                 )
             # elif self.instance_type == 'capacitedfacility':
-            #     self.env = SimpleConfiguringEnableheuristics(
-            #
-            #         # set up a few SCIP parameters
-            #         scip_params={
-            #             "presolving/maxrounds": 0,  # deactivate presolving
-            #             "presolving/maxrestarts": 0,
-            #         },
-            #
-            #         observation_function=ecole.observation.MilpBipartite(),
-            #
-            #         reward_function=None,
-            #
-            #         # collect additional metrics for information purposes
-            #         information_function={
-            #             'time': ecole.reward.SolvingTime().cumsum(),
-            #         }
-            #     )
 
     def compute_k_prime(self, MIP_model, incumbent):
 
@@ -152,25 +144,21 @@ class MlLocalbranch:
         MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
         MIP_model.setIntParam("lp/solvefreq", 0)
         MIP_model.setParam("limits/nodes", 1)
-        # MIP_model.setParam("limits/solutions", 1)
         MIP_model.setParam("display/verblevel", 0)
         MIP_model.setParam("lp/disablecutoff", 1)
 
-        # MIP_model.setParam("limits/solutions", 1)
         MIP_model.optimize()
         #
         status = MIP_model.getStatus()
         lp_status = MIP_model.getLPSolstat()
         stage = MIP_model.getStage()
         n_sols = MIP_model.getNSols()
-        # root_time = MIP_model.getSolvingTime()
         print("* Model status: %s" % status)
         print("* Solve stage: %s" % stage)
         print("* LP status: %s" % lp_status)
         print('* number of sol : ', n_sols)
 
         sol_lp = MIP_model.createLPSol()
-        # sol_relax = MIP_model.createRelaxSol()
 
         k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
         if not self.is_symmetric:
@@ -229,7 +217,6 @@ class MlLocalbranch:
 
     def load_results_file_list(self, instances_directory=None):
         instance_filename = f'{self.instance_type}-*_transformed.cip'
-        # sol_filename = f'{incumbent_mode}-{self.instance_type}-*_transformed.sol'
 
         test_instances_directory = instances_directory
         instance_test_files = [str(path) for path in
@@ -237,18 +224,11 @@ class MlLocalbranch:
                                       key=lambda path: int(
                                           path.stem.replace('-', '_').rsplit("_", 2)[1]))]
 
-        # test_sols_directory = sols_directory + 'test/'
-        # sol_test_files = [str(path) for path in sorted(pathlib.Path(test_sols_directory).glob(sol_filename),
-        #                                                key=lambda path: int(
-        #                                                    path.stem.replace('-', '_').rsplit("_", 2)[1]))]
-
-        # test_dataset = InstanceDataset(mip_files=instance_test_files, sol_files=sol_test_files)
 
         return instance_test_files
 
     def compute_primal_integral(self, times, objs, obj_opt, total_time_limit=60):
 
-        # obj_opt = objs.min()
         times = np.append(times, total_time_limit)
         objs = np.append(objs, objs[-1])
 
@@ -259,7 +239,7 @@ class MlLocalbranch:
             elif objs[j] * obj_opt < 0:
                 gamma_baseline[j] = 1
             else:
-                gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))  #
+                gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))
 
         # compute the primal gap of last objective
         primal_gap_final = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt) * 100
@@ -277,7 +257,6 @@ class MlLocalbranch:
 
     def compute_primal_integral_2(self, times, objs, obj_opt, total_time_limit=60):
 
-        # obj_opt = objs.min()
         times = np.append(times, total_time_limit)
         objs = np.append(objs, objs[-1])
 
@@ -289,10 +268,10 @@ class MlLocalbranch:
             elif objs[j] * obj_opt < 0:
                 gamma_baseline[j] = 1
             else:
-                gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))  #
+                gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))
 
         # compute the primal gap of last objective
-        primal_gap_final = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt) * 100 # np.abs(obj_opt) * 100
+        primal_gap_final = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt) * 100
 
         # compute primal integral
         primal_integral_array[0] = 0
@@ -310,6 +289,10 @@ class MlLocalbranch:
         # gamma_baseline
 
 class RegressionInitialK:
+    """Data collection, training and evaluation for the regression model that
+    predicts the initial neighborhood size k directly (absolute-k variant;
+    kept for reference, the paper results use RegressionInitialK_KPrime).
+    """
 
     def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100):
         self.instance_type = instance_type
@@ -321,18 +304,16 @@ class RegressionInitialK:
             self.is_symmetric = False
         self.seed = seed
         self.directory = './result/generated_instances/' + self.instance_type + '/' + self.instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # self.generator = generator_switcher(self.instance_type + self.instance_size)
 
         self.initialize_ecole_env()
 
-        self.env.seed(self.seed)  # environment (SCIP)
+        self.env.seed(self.seed)
         torch.manual_seed(seed)
         torch.cuda.manual_seed(seed)
         np.random.seed(seed)
         torch.manual_seed(seed)
         random.seed(seed)
 
-        # self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def initialize_ecole_env(self):
 
@@ -395,23 +376,6 @@ class RegressionInitialK:
                     }
                 )
             # elif self.instance_type == 'capacitedfacility':
-            #     self.env = SimpleConfiguringEnableheuristics(
-            #
-            #         # set up a few SCIP parameters
-            #         scip_params={
-            #             "presolving/maxrounds": 0,  # deactivate presolving
-            #             "presolving/maxrestarts": 0,
-            #         },
-            #
-            #         observation_function=ecole.observation.MilpBipartite(),
-            #
-            #         reward_function=None,
-            #
-            #         # collect additional metrics for information purposes
-            #         information_function={
-            #             'time': ecole.reward.SolvingTime().cumsum(),
-            #         }
-            #     )
 
     def set_and_optimize_MIP(self, MIP_model, incumbent_mode):
 
@@ -427,8 +391,6 @@ class RegressionInitialK:
                 heuristics_off = True
                 cuts_off = False
             # elif self.instance_type == 'capacitedfacility':
-            #     heuristics_off = False
-            #     cuts_off = True
 
         if preprocess_off:
             MIP_model.setParam('presolving/maxrounds', 0)
@@ -453,11 +415,6 @@ class RegressionInitialK:
         stage = MIP_model.getStage()
         n_sols = MIP_model.getNSols()
 
-        # print("* Model status: %s" % status)
-        # print("* LP status: %s" % lp_status)
-        # print("* Solve stage: %s" % stage)
-        # print("* Solving time: %s" % t)
-        # print('* number of sol : ', n_sols)
 
         incumbent_solution = MIP_model.getBestSol()
         feasible = MIP_model.checkSol(solution=incumbent_solution)
@@ -495,7 +452,6 @@ class RegressionInitialK:
     def solve_lp(self, MIP_model, lp_algo='s'):
 
         # solve the LP relaxation of root node
-        # MIP_model.freeTransform()
         status = MIP_model.getStatus()
         print("* Model status: %s" % status)
         MIP_model.resetParams()
@@ -504,21 +460,18 @@ class RegressionInitialK:
         MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
         MIP_model.setIntParam("lp/solvefreq", 0)
         MIP_model.setParam("limits/nodes", 1)
-        # MIP_model.setParam("limits/solutions", 1)
         MIP_model.setParam("display/verblevel", 0)
         MIP_model.setParam("lp/disablecutoff", 1)
 
         MIP_model.setParam("lp/initalgorithm", lp_algo)
         MIP_model.setParam("lp/resolvealgorithm", lp_algo)
 
-        # MIP_model.setParam("limits/solutions", 1)
         MIP_model.optimize()
         #
         status = MIP_model.getStatus()
         lp_status = MIP_model.getLPSolstat()
         stage = MIP_model.getStage()
         n_sols = MIP_model.getNSols()
-        # root_time = MIP_model.getSolvingTime()
         print("* Model status: %s" % status)
         print("* Solve stage: %s" % stage)
         print("* LP status: %s" % lp_status)
@@ -529,13 +482,11 @@ class RegressionInitialK:
     def compute_k_prime(self, MIP_model, incumbent):
 
         # solve the root node and get the LP solution
-        # MIP_model.freeTransform()
 
         # solve the LP relaxation of root node
         MIP_model, lp_status = self.solve_lp(MIP_model)
         if lp_status == 1:
             sol_lp = MIP_model.createLPSol()
-            # sol_relax = MIP_model.createRelaxSol()
 
             k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
             if not self.is_symmetric:
@@ -595,7 +546,7 @@ class RegressionInitialK:
         solving_times_test = []
 
 
-        nsample = 11 # 101
+        nsample = 11
         # create a copy of the MIP to be 'locally branched'
         MIP_copy, subMIP_model_vars, success = MIP_model.createCopy(problemName='MIPCopy',
                                                                       origcopy=False)
@@ -612,9 +563,7 @@ class RegressionInitialK:
         feasible = MIP_copy.checkSol(solution=sol_MIP_copy)
 
         if feasible:
-            # print("the trivial solution of subMIP is feasible ")
             MIP_copy.addSol(sol_MIP_copy, False)
-            # print("the feasible solution of subMIP_model is added to subMIP_model")
         else:
             print("Warn: the trivial solution of subMIP_model is not feasible!")
 
@@ -638,9 +587,6 @@ class RegressionInitialK:
         print('phi_prime :', phi_prime)
 
 
-        # MIP_model.freeProb()
-        # del MIP_model
-
         for i in range(nsample):
 
             # create a copy of the MIP to be 'locally branched', initialize it by 1. solving the LP 2. adding the incumbent
@@ -660,31 +606,18 @@ class RegressionInitialK:
             feasible = subMIP_model.checkSol(solution=sol_subMIP_model)
 
             if feasible:
-                # print("the trivial solution of subMIP is feasible ")
                 subMIP_model.addSol(sol_subMIP_model, False)
-                # print("the feasible solution of subMIP_model is added to subMIP_model")
             else:
                 print("Warning: the trivial solution of subMIP_model is not feasible!")
 
-            # subMIP_model = MIP_copy
-            # sol_subMIP_model =  sol_MIP_copy
 
             # add LB constraint to subMIP model
             alpha = 0.1 * (i)
-            # if nsample == 41:
-            #     if i<11:
-            #         alpha = 0.01*i
-            #     elif i<31:
-            #         alpha = 0.02*(i-5)
-            #     else:
-            #         alpha = 0.05*(i-20)
 
             neigh_size = np.ceil(alpha * k_prime)
             if self.lbconstraint_mode == 'asymmetric':
-                # neigh_size = np.ceil(alpha * n_supportbinvars)
                 subMIP_model, constraint_lb = addLBConstraintAsymmetric(subMIP_model, sol_subMIP_model, neigh_size)
             else:
-                # neigh_size = np.ceil(alpha * n_binvars)
                 subMIP_model, constraint_lb = addLBConstraint(subMIP_model, sol_subMIP_model, neigh_size)
 
             print('Neigh size:', alpha)
@@ -692,10 +625,7 @@ class RegressionInitialK:
             print("* Solve stage: %s" % stage)
 
             subMIP_model2 = subMIP_model
-            # subMIP_model2, MIP_copy_vars, success = subMIP_model.createCopy(
-            #     problemName='Baseline', origcopy=True)
 
-            # subMIP_model2 = subMIP_model
             subMIP_model2, lp_status = self.solve_lp(subMIP_model2, lp_algo='d')
             relax_grip = 2
 
@@ -711,8 +641,6 @@ class RegressionInitialK:
 
             subMIP_model.resetParams()
             subMIP_model.setParam('limits/time', t_limit)
-            # subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-            # subMIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
             subMIP_model.setParam("display/verblevel", 0)
             subMIP_model.optimize()
 
@@ -735,8 +663,6 @@ class RegressionInitialK:
                 if subMIP_model.isFeasEQ(val, 1.0):
                     n_supportbins_subMIP += 1
 
-            # subMIP_model2, MIP_copy_vars, success = subMIP_model.createCopy(
-            #     problemName='Baseline', origcopy=True)
 
             neigh_sizes.append(alpha)
             objs.append(best_obj)
@@ -789,8 +715,6 @@ class RegressionInitialK:
         t = mean_filter(t, 5)
         objs = mean_filter(objs, 5)
 
-        # t = mean_forward_filter(t,10)
-        # objs = mean_forward_filter(objs, 10)
 
         # compute the performance score
         alpha = 1 / 2
@@ -806,10 +730,9 @@ class RegressionInitialK:
         fig.subplots_adjust(top=0.5)
         ax[0].plot(neigh_sizes, objs)
         ax[0].set_title(instance_name, loc='right')
-        ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
+        ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)')
         ax[0].set_ylabel("Objective")
         ax[1].plot(neigh_sizes, t)
-        # ax[1].set_ylim([0,31])
         ax[1].set_ylabel("Solving time")
         ax[2].plot(neigh_sizes, perf_score)
         ax[2].set_ylabel("Performance score")
@@ -817,8 +740,6 @@ class RegressionInitialK:
         ax[3].set_ylabel("Relaxation grip")
         plt.show()
 
-        # f = self.k_samples_directory + instance_name
-        # np.savez(f, neigh_sizes=neigh_sizes, objs=objs, t=t)
 
         index_instance += 1
 
@@ -842,125 +763,9 @@ class RegressionInitialK:
 
         index_instance = 0
 
-        # while index_instance < 86:
-        #     instance = next(self.generator)
-        #     MIP_model = instance.as_pyscipopt()
-        #     MIP_model.setProbName(self.instance_type + '-' + str(index_instance))
-        #     instance_name = MIP_model.getProbName()
-        #     print(instance_name)
-        #     index_instance += 1
 
         while index_instance < 100:
             index_instance = self.sample_k_per_instance(t_limit, index_instance)
-            # instance = next(self.generator)
-            # MIP_model = instance.as_pyscipopt()
-            # MIP_model.setProbName(self.instance_type + '-' + str(index_instance))
-            # instance_name = MIP_model.getProbName()
-            # print(instance_name)
-            #
-            # n_vars = MIP_model.getNVars()
-            # n_binvars = MIP_model.getNBinVars()
-            # print("N of variables: {}".format(n_vars))
-            # print("N of binary vars: {}".format(n_binvars))
-            # print("N of constraints: {}".format(MIP_model.getNConss()))
-            #
-            # status, feasible, MIP_model, incumbent_solution = self.initialize_MIP(MIP_model)
-            # if (not status == 'optimal') and feasible:
-            #     initial_obj = MIP_model.getObjVal()
-            #     print("Initial obj before LB: {}".format(initial_obj))
-            #     print('Relative gap: ', MIP_model.getGap())
-            #
-            #     n_supportbinvars = binary_support(MIP_model, incumbent_solution)
-            #     print('binary support: ', n_supportbinvars)
-            #
-            #
-            #     MIP_model.resetParams()
-            #
-            #     neigh_sizes = []
-            #     objs = []
-            #     t = []
-            #     n_supportbins = []
-            #     statuss = []
-            #     MIP_model.resetParams()
-            #     nsample = 101
-            #     for i in range(nsample):
-            #
-            #         # create a copy of the MIP to be 'locally branched'
-            #         subMIP_model, subMIP_model_vars, success = MIP_model.createCopy(problemName='subMIPmodelCopy',
-            #                                                                       origcopy=False)
-            #         sol_subMIP_model = subMIP_model.createSol()
-            #
-            #         # create a primal solution for the copy MIP by copying the solution of original MIP
-            #         n_vars = MIP_model.getNVars()
-            #         subMIP_vars = MIP_model.getVars()
-            #
-            #         for j in range(n_vars):
-            #             val = MIP_model.getSolVal(incumbent_solution, subMIP_vars[j])
-            #             subMIP_model.setSolVal(sol_subMIP_model, subMIP_model_vars[j], val)
-            #         feasible = subMIP_model.checkSol(solution=sol_subMIP_model)
-            #
-            #         if feasible:
-            #             # print("the trivial solution of subMIP is feasible ")
-            #             subMIP_model.addSol(sol_subMIP_model, False)
-            #             # print("the feasible solution of subMIP_model is added to subMIP_model")
-            #         else:
-            #             print("Warn: the trivial solution of subMIP_model is not feasible!")
-            #
-            #         # add LB constraint to subMIP model
-            #         alpha = 0.01 * i
-            #         # if nsample == 41:
-            #         #     if i<11:
-            #         #         alpha = 0.01*i
-            #         #     elif i<31:
-            #         #         alpha = 0.02*(i-5)
-            #         #     else:
-            #         #         alpha = 0.05*(i-20)
-            #
-            #         if self.lbconstraint_mode == 'asymmetric':
-            #             neigh_size = alpha * n_supportbinvars
-            #             subMIP_model = addLBConstraintAsymmetric(subMIP_model, sol_subMIP_model, neigh_size)
-            #         else:
-            #             neigh_size = alpha * n_binvars
-            #             subMIP_model = addLBConstraint(subMIP_model, sol_subMIP_model, neigh_size)
-            #
-            #         subMIP_model.setParam('limits/time', t_limit)
-            #         subMIP_model.optimize()
-            #
-            #         status = subMIP_model.getStatus()
-            #         best_obj = subMIP_model.getSolObjVal(subMIP_model.getBestSol())
-            #         solving_time = subMIP_model.getSolvingTime()  # total time used for solving (including presolving) the current problem
-            #
-            #         best_sol = subMIP_model.getBestSol()
-            #
-            #         vars_subMIP = subMIP_model.getVars()
-            #         n_binvars_subMIP = subMIP_model.getNBinVars()
-            #         n_supportbins_subMIP = 0
-            #         for i in range(n_binvars_subMIP):
-            #             val = subMIP_model.getSolVal(best_sol, vars_subMIP[i])
-            #             assert subMIP_model.isFeasIntegral(val), "Error: Value of a binary varialbe is not integral!"
-            #             if subMIP_model.isFeasEQ(val, 1.0):
-            #                 n_supportbins_subMIP += 1
-            #
-            #         neigh_sizes.append(alpha)
-            #         objs.append(best_obj)
-            #         t.append(solving_time)
-            #         n_supportbins.append(n_supportbins_subMIP)
-            #         statuss.append(status)
-            #
-            #     for i in range(len(t)):
-            #         print('Neighsize: {:.4f}'.format(neigh_sizes[i]),
-            #               'Best obj: {:.4f}'.format(objs[i]),
-            #               'Binary supports:{}'.format(n_supportbins[i]),
-            #               'Solving time: {:.4f}'.format(t[i]),
-            #               'Status: {}'.format(statuss[i])
-            #               )
-            #
-            #     neigh_sizes = np.array(neigh_sizes).reshape(-1).astype('float64')
-            #     t = np.array(t).reshape(-1)
-            #     objs = np.array(objs).reshape(-1)
-            #     f = self.k_samples_directory + instance_name
-            #     np.savez(f, neigh_sizes=neigh_sizes, objs=objs, t=t)
-            #     index_instance += 1
 
     def generate_regression_samples(self, t_limit, instance_size='-small'):
 
@@ -1012,8 +817,6 @@ class RegressionInitialK:
             t = mean_filter(t, 5)
             objs = mean_filter(objs, 5)
 
-            # t = mean_forward_filter(t,10)
-            # objs = mean_forward_filter(objs, 10)
 
             # compute the performance score
             alpha = 1 / 2
@@ -1021,22 +824,7 @@ class RegressionInitialK:
             k_bests = k[np.where(perf_score == perf_score.min())]
             k_init = k_bests[0]
 
-            # plt.clf()
-            # fig, ax = plt.subplots(3, 1, figsize=(6.4, 6.4))
-            # fig.suptitle("Evaluation of size of lb neighborhood")
-            # fig.subplots_adjust(top=0.5)
-            # ax[0].plot(k, objs)
-            # ax[0].set_title(instance_name, loc='right')
-            # ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
-            # ax[0].set_ylabel("Objective")
-            # ax[1].plot(k, t)
-            # # ax[1].set_ylim([0,31])
-            # ax[1].set_ylabel("Solving time")
-            # ax[2].plot(k, perf_score)
-            # ax[2].set_ylabel("Performance score")
-            # plt.show()
 
-            # instance = ecole.scip.Model.from_pyscipopt(MIP_model)
             observation, _, _, done, _ = self.env.reset(instance)
 
             data_sample = [observation, k_init]
@@ -1062,8 +850,6 @@ class RegressionInitialK:
         list_phi_star = []
         count_phi_star_smaller = 0
         count_phi_lp_relax_diff = 0
-        # list_phi_prime_invalid = []
-        # list_phi_star_invalid = []
         while index_instance < 100:
 
             filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
@@ -1072,12 +858,9 @@ class RegressionInitialK:
             MIP_model = Model()
             MIP_model.readProblem(filename)
             instance_name = MIP_model.getProbName()
-            # print(instance_name)
             n_vars = MIP_model.getNVars()
             n_binvars = MIP_model.getNBinVars()
-            # print("N of variables: {}".format(n_vars))
             print("N of binary vars: {}".format(n_binvars))
-            # print("N of constraints: {}".format(MIP_model.getNConss()))
 
             incumbent = MIP_model.readSolFile(firstsol_filename)
 
@@ -1103,8 +886,6 @@ class RegressionInitialK:
             t = mean_filter(t, 5)
             objs = mean_filter(objs, 5)
 
-            # t = mean_forward_filter(t,10)
-            # objs = mean_forward_filter(objs, 10)
 
             # compute the performance score
             alpha = 1 / 2
@@ -1122,11 +903,9 @@ class RegressionInitialK:
             MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
             MIP_model.setIntParam("lp/solvefreq", 0)
             MIP_model.setParam("limits/nodes", 1)
-            # MIP_model.setParam("limits/solutions", 1)
             MIP_model.setParam("display/verblevel", 0)
             MIP_model.setParam("lp/disablecutoff", 1)
 
-            # MIP_model.setParam("limits/solutions", 1)
             MIP_model.optimize()
             #
             status = MIP_model.getStatus()
@@ -1140,10 +919,8 @@ class RegressionInitialK:
             print('* number of sol : ', n_sols)
 
             sol_lp = MIP_model.createLPSol()
-            # sol_relax = MIP_model.createRelaxSol()
 
             k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
-            # k_lp2relax = haming_distance_solutions(MIP_model, sol_relax, sol_lp)
 
             n_bins = MIP_model.getNBinVars()
             k_base = n_bins
@@ -1161,14 +938,10 @@ class RegressionInitialK:
                 k_base = binary_supports
 
             phi_prime = k_prime / k_base
-            # phi_lp2relax = k_lp2relax / k_base
-            # if phi_lp2relax > 0:
-            #     count_phi_lp_relax_diff += 1
 
             phi_star = k_init
             list_phi_prime.append(phi_prime)
             list_phi_star.append(phi_star)
-            # list_phi_lp2relax.append(phi_lp2relax)
 
             if phi_star <= phi_prime:
                 count_phi_star_smaller += 1
@@ -1179,54 +952,26 @@ class RegressionInitialK:
             print('instance : ', MIP_model.getProbName())
             print('phi_prime = ', phi_prime)
             print('phi_star = ', phi_star)
-            # print('phi_lp2relax = ', phi_lp2relax)
             print('valid count: ', count_phi_star_smaller)
-            # print('lp relax diff count:', count_phi_lp_relax_diff)
 
-            # plt.clf()
-            # fig, ax = plt.subplots(3, 1, figsize=(6.4, 6.4))
-            # fig.suptitle("Evaluation of size of lb neighborhood")
-            # fig.subplots_adjust(top=0.5)
-            # ax[0].plot(k, objs)
-            # ax[0].set_title(instance_name, loc='right')
-            # ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
-            # ax[0].set_ylabel("Objective")
-            # ax[1].plot(k, t)
-            # # ax[1].set_ylim([0,31])
-            # ax[1].set_ylabel("Solving time")
-            # ax[2].plot(k, perf_score)
-            # ax[2].set_ylabel("Performance score")
-            # plt.show()
-
-            # instance = ecole.scip.Model.from_pyscipopt(MIP_model)
-            # observation, _, _, done, _ = self.env.reset(instance)
-            #
-            # data_sample = [observation, k_init]
-            # filename = f'{self.regression_samples_directory}regression-{instance_name}.pkl'
-            # with gzip.open(filename, 'wb') as f:
-            #     pickle.dump(data_sample, f)
 
             index_instance += 1
 
         arr_phi_prime = np.array(list_phi_prime).reshape(-1)
         arr_phi_star = np.array(list_phi_star).reshape(-1)
-        # arr_phi_lp2relax = np.array(list_phi_lp2relax).reshape(-1)
         ave_phi_prime = arr_phi_prime.sum() / len(arr_phi_prime)
         ave_phi_star = arr_phi_star.sum() / len(arr_phi_star)
-        # ave_phi_lp2relax = arr_phi_lp2relax.sum() / len(arr_phi_lp2relax)
 
         print(self.instance_type + self.instance_size)
         print(self.incumbent_mode + 'Solution')
         print('number of valid phi data points: ', count_phi_star_smaller)
         print('average phi_star :', ave_phi_star )
         print('average phi_prime: ', ave_phi_prime)
-        # print('average phi_lp2relax: ', ave_phi_lp2relax)
 
     def load_dataset(self, dataset_directory=None):
 
         self.regression_samples_directory = dataset_directory
         filename = 'regression-' + self.instance_type + '-*.pkl'
-        # print(filename)
         sample_files = [str(path) for path in pathlib.Path(self.regression_samples_directory).glob(filename)]
         train_files = sample_files[:int(0.7 * len(sample_files))]
         valid_files = sample_files[int(0.7 * len(sample_files)):int(0.8 * len(sample_files))]
@@ -1324,19 +1069,11 @@ class RegressionInitialK:
         val_loaders[small_dataset] = valid_loader
         test_loaders[small_dataset] = test_loader
 
-        # large_dataset = self.instance_type + "-large"
-        # large_directory = './result/generated_instances/' + self.instance_type + '/' + '-large' + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # test_regression_samples_directory = large_directory + 'regression_samples' + '/'
-        # train_loader, valid_loader, test_loader = self.load_dataset(dataset_directory=test_regression_samples_directory)
-        # train_loaders[large_dataset] = train_loader
-        # val_loaders[large_dataset] = valid_loader
-        # test_loaders[large_dataset] = test_loader
 
         model_gnn = GNNPolicy()
         train_dataset = small_dataset
         valid_dataset = small_dataset
         test_dataset = small_dataset
-        # LEARNING_RATE = 0.0000001  # setcovering:0.0000005 cap-loc: 0.00000005 independentset: 0.0000001
 
         optimizer = torch.optim.Adam(model_gnn.parameters(), lr=lr)
         k_init = []
@@ -1355,8 +1092,6 @@ class RegressionInitialK:
             train_loss = self.train(model_gnn, train_loader, optim)
             print(f"Train loss: {train_loss:0.6f}")
 
-            # torch.save(model_gnn.state_dict(), 'trained_params_' + train_dataset + '.pth')
-            # model_gnn2.load_state_dict(torch.load('trained_params_' + train_dataset + '.pth'))
 
             valid_loader = val_loaders[valid_dataset]
             valid_loss = self.train(model_gnn, valid_loader, None)
@@ -1393,8 +1128,6 @@ class RegressionInitialK:
         ax[1].legend()
         plt.show()
 
-        # torch.save(model_gnn.state_dict(),
-        #            saved_gnn_directory + 'trained_params_mean_' + train_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth')
 
     def execute_regression_k_prime(self, lr=0.0000001, n_epochs=20):
 
@@ -1415,19 +1148,11 @@ class RegressionInitialK:
         val_loaders[small_dataset] = valid_loader
         test_loaders[small_dataset] = test_loader
 
-        # large_dataset = self.instance_type + "-large"
-        # large_directory = './result/generated_instances/' + self.instance_type + '/' + '-large' + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # test_regression_samples_directory = large_directory + 'regression_samples' + '/'
-        # train_loader, valid_loader, test_loader = self.load_dataset(dataset_directory=test_regression_samples_directory)
-        # train_loaders[large_dataset] = train_loader
-        # val_loaders[large_dataset] = valid_loader
-        # test_loaders[large_dataset] = test_loader
 
         model_gnn = GNNPolicy()
         train_dataset = small_dataset
         valid_dataset = small_dataset
         test_dataset = small_dataset
-        # LEARNING_RATE = 0.0000001  # setcovering:0.0000005 cap-loc: 0.00000005 independentset: 0.0000001
 
         optimizer = torch.optim.Adam(model_gnn.parameters(), lr=lr)
         k_init = []
@@ -1446,8 +1171,6 @@ class RegressionInitialK:
             train_loss = self.train(model_gnn, train_loader, optim)
             print(f"Train loss: {train_loss:0.6f}")
 
-            # torch.save(model_gnn.state_dict(), 'trained_params_' + train_dataset + '.pth')
-            # model_gnn2.load_state_dict(torch.load('trained_params_' + train_dataset + '.pth'))
 
             valid_loader = val_loaders[valid_dataset]
             valid_loss = self.train(model_gnn, valid_loader, None)
@@ -1487,255 +1210,6 @@ class RegressionInitialK:
         torch.save(model_gnn.state_dict(),
                    saved_gnn_directory + 'trained_params_mean_' + train_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '_k_prime.pth')
 
-    # def evaluate_lb_per_instance(self, node_time_limit, total_time_limit, index_instance, reset_k_at_2nditeration=False):
-    #     """
-    #     evaluate a single MIP instance by two algorithms: lb-baseline and lb-pred_k
-    #     :param node_time_limit:
-    #     :param total_time_limit:
-    #     :param index_instance:
-    #     :return:
-    #     """
-    #     instance = next(self.generator)
-    #     MIP_model = instance.as_pyscipopt()
-    #     MIP_model.setProbName(self.instance_type + '-' + str(index_instance))
-    #     instance_name = MIP_model.getProbName()
-    #     print('\n')
-    #     print(instance_name)
-    #
-    #     n_vars = MIP_model.getNVars()
-    #     n_binvars = MIP_model.getNBinVars()
-    #     print("N of variables: {}".format(n_vars))
-    #     print("N of binary vars: {}".format(n_binvars))
-    #     print("N of constraints: {}".format(MIP_model.getNConss()))
-    #
-    #     valid, MIP_model, incumbent_solution = self.initialize_MIP(MIP_model)
-    #     conti = -1
-    #     # if self.incumbent_mode == 'rootsol' and self.instance_type == 'independentset':
-    #     #     conti = 196
-    #
-    #     if valid:
-    #         if index_instance > -1 and index_instance > conti:
-    #             gc.collect()
-    #             observation, _, _, done, _ = self.env.reset(instance)
-    #             del observation
-    #             # print(observation)
-    #
-    #             if self.incumbent_mode == 'firstsol':
-    #                 action = {'limits/solutions': 1}
-    #             elif self.incumbent_mode == 'rootsol':
-    #                 action = {'limits/nodes': 1}  #
-    #             sample_observation, _, _, done, _ = self.env.step(action)
-    #
-    #
-    #             # print(sample_observation)
-    #             graph = BipartiteNodeData(sample_observation.constraint_features,
-    #                                       sample_observation.edge_features.indices,
-    #                                       sample_observation.edge_features.values,
-    #                                       sample_observation.variable_features)
-    #
-    #             # We must tell pytorch geometric how many nodes there are, for indexing purposes
-    #             graph.num_nodes = sample_observation.constraint_features.shape[0] + \
-    #                               sample_observation.variable_features.shape[
-    #                                   0]
-    #
-    #             filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
-    #             firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
-    #
-    #             model = Model()
-    #             model.readProblem(filename)
-    #             sol = model.readSolFile(firstsol_filename)
-    #
-    #             feas = model.checkSol(sol)
-    #             try:
-    #                 model.addSol(sol, False)
-    #             except:
-    #                 print('Error: the root solution of ' + model.getProbName() + ' is not feasible!')
-    #
-    #             instance2 = ecole.scip.Model.from_pyscipopt(model)
-    #             observation, _, _, done, _ = self.env.reset(instance2)
-    #             graph2 = BipartiteNodeData(observation.constraint_features,
-    #                                       observation.edge_features.indices,
-    #                                       observation.edge_features.values,
-    #                                       observation.variable_features)
-    #
-    #             # We must tell pytorch geometric how many nodes there are, for indexing purposes
-    #             graph2.num_nodes = observation.constraint_features.shape[0] + \
-    #                               observation.variable_features.shape[
-    #                                   0]
-    #
-    #             # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-    #             # MIP_model = instance
-    #
-    #             # MIP_model.optimize()
-    #             # print("Status:", MIP_model.getStatus())
-    #             # print("best obj: ", MIP_model.getObjVal())
-    #             # print("Solving time: ", MIP_model.getSolvingTime())
-    #
-    #             initial_obj = MIP_model.getSolObjVal(incumbent_solution)
-    #             print("Initial obj before LB: {}".format(initial_obj))
-    #
-    #             binary_supports = binary_support(MIP_model, incumbent_solution)
-    #             print('binary support: ', binary_supports)
-    #
-    #             model_gnn = GNNPolicy()
-    #
-    #             model_gnn.load_state_dict(torch.load(
-    #                 self.saved_gnn_directory + 'trained_params_mean_' + self.train_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth'))
-    #
-    #             # model_gnn.load_state_dict(torch.load(
-    #             #      'trained_params_' + self.instance_type + '.pth'))
-    #
-    #             k_model = model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
-    #                                 graph.variable_features)
-    #
-    #             k_pred = k_model.item() * n_binvars
-    #             print('GNN prediction: ', k_model.item())
-    #
-    #             k_model2 = model_gnn(graph2.constraint_features, graph2.edge_index, graph2.edge_attr,
-    #                                 graph2.variable_features)
-    #
-    #             print('GNN prediction of model2: ', k_model2.item())
-    #
-    #             if self.is_symmetric == False:
-    #                 k_pred = k_model.item() * binary_supports
-    #
-    #             del k_model
-    #             del graph
-    #             del sample_observation
-    #             del model_gnn
-    #
-    #             # create a copy of MIP
-    #             MIP_model.resetParams()
-    #             MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-    #                 problemName='Baseline', origcopy=False)
-    #             MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-    #                 problemName='GNN',
-    #                 origcopy=False)
-    #             MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
-    #                 problemName='GNN+reset',
-    #                 origcopy=False)
-    #
-    #             print('MIP copies are created')
-    #
-    #             MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-    #                                                     MIP_copy_vars)
-    #             MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
-    #                                                       MIP_copy_vars2)
-    #             MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
-    #                                                       MIP_copy_vars3)
-    #
-    #             print('incumbent solution is copied to MIP copies')
-    #             MIP_model.freeProb()
-    #             del MIP_model
-    #             del incumbent_solution
-    #
-    #             # sol = MIP_model_copy.getBestSol()
-    #             # initial_obj = MIP_model_copy.getSolObjVal(sol)
-    #             # print("Initial obj before LB: {}".format(initial_obj))
-    #
-    #             # execute local branching baseline heuristic by Fischetti and Lodi
-    #             lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-    #                                       node_time_limit=node_time_limit,
-    #                                       total_time_limit=total_time_limit)
-    #             status, obj_best, elapsed_time, lb_bits, times, objs = lb_model.search_localbranch(is_symmetric=self.is_symmetric,
-    #                                                                          reset_k_at_2nditeration=False)
-    #             print("Instance:", MIP_model_copy.getProbName())
-    #             print("Status of LB: ", status)
-    #             print("Best obj of LB: ", obj_best)
-    #             print("Solving time: ", elapsed_time)
-    #             print('\n')
-    #
-    #             MIP_model_copy.freeProb()
-    #             del sol_MIP_copy
-    #             del MIP_model_copy
-    #
-    #             # sol = MIP_model_copy2.getBestSol()
-    #             # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-    #             # print("Initial obj before LB: {}".format(initial_obj))
-    #
-    #             # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
-    #             lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
-    #                                        node_time_limit=node_time_limit,
-    #                                        total_time_limit=total_time_limit)
-    #             status, obj_best, elapsed_time, lb_bits_pred_reset, times_pred_rest, objs_pred_rest = lb_model3.search_localbranch(is_symmetric=self.is_symmetric,
-    #                                                                           reset_k_at_2nditeration=reset_k_at_2nditeration)
-    #
-    #             print("Instance:", MIP_model_copy3.getProbName())
-    #             print("Status of LB: ", status)
-    #             print("Best obj of LB: ", obj_best)
-    #             print("Solving time: ", elapsed_time)
-    #             print('\n')
-    #
-    #             MIP_model_copy3.freeProb()
-    #             del sol_MIP_copy3
-    #             del MIP_model_copy3
-    #
-    #             # execute local branching with 1. first k predicted by GNN; 2. from 2nd iteration of lb, continue lb algorithm with no further injection
-    #             lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=k_pred,
-    #                                        node_time_limit=node_time_limit,
-    #                                        total_time_limit=total_time_limit)
-    #             status, obj_best, elapsed_time, lb_bits_pred, times_pred, objs_pred = lb_model2.search_localbranch(is_symmetric=self.is_symmetric,
-    #                                                                           reset_k_at_2nditeration=False)
-    #
-    #             print("Instance:", MIP_model_copy2.getProbName())
-    #             print("Status of LB: ", status)
-    #             print("Best obj of LB: ", obj_best)
-    #             print("Solving time: ", elapsed_time)
-    #             print('\n')
-    #
-    #             MIP_model_copy2.freeProb()
-    #             del sol_MIP_copy2
-    #             del MIP_model_copy2
-    #
-    #             data = [objs, times, objs_pred, times_pred, objs_pred_rest, times_pred_rest]
-    #             filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
-    #             with gzip.open(filename, 'wb') as f:
-    #                 pickle.dump(data, f)
-    #             del data
-    #             del objs
-    #             del times
-    #             del objs_pred
-    #             del times_pred
-    #             del objs_pred_rest
-    #             del times_pred_rest
-    #             del lb_model
-    #             del lb_model2
-    #             del lb_model3
-    #
-    #         index_instance += 1
-    #     del instance
-    #     return index_instance
-    #
-    # def evaluate_localbranching(self, test_instance_size='-small', train_instance_size='-small', total_time_limit=60, node_time_limit=30, reset_k_at_2nditeration=False):
-    #
-    #     self.train_dataset = self.instance_type + train_instance_size
-    #     self.evaluation_dataset = self.instance_type + test_instance_size
-    #
-    #     self.generator = generator_switcher(self.evaluation_dataset)
-    #     self.generator.seed(self.seed)
-    #
-    #     direc = './data/generated_instances/' + self.instance_type + '/' + test_instance_size + '/'
-    #     self.directory_transformedmodel = direc + 'transformedmodel' + '/'
-    #     self.directory_sol = direc + self.incumbent_mode + '/'
-    #
-    #     self.k_baseline = 20
-    #
-    #     self.is_symmetric = True
-    #     if self.lbconstraint_mode == 'asymmetric':
-    #         self.is_symmetric = False
-    #         self.k_baseline = self.k_baseline / 2
-    #     total_time_limit = total_time_limit
-    #     node_time_limit = node_time_limit
-    #
-    #     self.saved_gnn_directory = './result/saved_models/'
-    #
-    #     directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-    #     self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-    #     pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
-    #
-    #     index_instance = 0
-    #     while index_instance < 200:
-    #         index_instance = self.evaluate_lb_per_instance(node_time_limit=node_time_limit, total_time_limit=total_time_limit, index_instance=index_instance, reset_k_at_2nditeration=reset_k_at_2nditeration)
 
     def evaluate_lb_per_instance(self, node_time_limit, total_time_limit, index_instance,
                                  reset_k_at_2nditeration=False):
@@ -1785,13 +1259,6 @@ class RegressionInitialK:
                            observation.variable_features.shape[
                                0]
 
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         initial_obj = MIP_model.getSolObjVal(incumbent)
         print("Initial obj before LB: {}".format(initial_obj))
@@ -1838,9 +1305,6 @@ class RegressionInitialK:
         del MIP_model
         del incumbent
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching baseline heuristic by Fischetti and Lodi
         lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
@@ -1863,9 +1327,6 @@ class RegressionInitialK:
         del sol_MIP_copy
         del MIP_model_copy
 
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
@@ -1980,21 +1441,11 @@ class RegressionInitialK:
                            observation.variable_features.shape[
                                0]
 
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # create a copy of MIP
         MIP_model.resetParams()
         MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
             problemName='Baseline', origcopy=False)
-        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-        #     problemName='GNN',
-        #     origcopy=False)
         MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
             problemName='GNN+reset',
             origcopy=False)
@@ -2003,8 +1454,6 @@ class RegressionInitialK:
 
         MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent,
                                                 MIP_copy_vars)
-        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-        #                                           MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent,
                                                   MIP_copy_vars3)
 
@@ -2036,9 +1485,6 @@ class RegressionInitialK:
         del MIP_model
         del incumbent
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching baseline heuristic by Fischetti and Lodi
         lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
@@ -2061,9 +1507,6 @@ class RegressionInitialK:
         del sol_MIP_copy
         del MIP_model_copy
 
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
@@ -2087,28 +1530,6 @@ class RegressionInitialK:
         del sol_MIP_copy3
         del MIP_model_copy3
 
-        # # execute local branching with 1. first k predicted by GNN; 2. from 2nd iteration of lb, continue lb algorithm with no further injection
-        #
-        # lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_noreset, times_regression_noreset, objs_regression_noreset, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy2.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy2.freeProb()
-        # del sol_MIP_copy2
-        # del MIP_model_copy2
 
         data = [objs, times, objs_regression_reset, times_regression_reset]
         filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
@@ -2265,14 +1686,8 @@ class RegressionInitialK:
                 data = pickle.load(f)
             objs, times, objs_pred, times_pred, objs_pred_reset, times_pred_reset = data  # objs contains objs of a single instance of a lb test
 
-            # filename_2 = f'{directory_lb_test_2}lb-test-{instance_name}.pkl'
-            #
-            # with gzip.open(filename_2, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs_2, times_2, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
 
-            a = [objs.min(), objs_pred.min(), objs_pred_reset.min()] # objs_2.min(), objs_pred_2.min(), objs_pred_reset_2.min()
-            # a = [objs.min(), objs_pred.min(), objs_pred_reset.min()]
+            a = [objs.min(), objs_pred.min(), objs_pred_reset.min()]
             obj_opt = np.amin(a)
 
             # compute primal gap for baseline localbranching run
@@ -2287,7 +1702,7 @@ class RegressionInitialK:
                 elif objs[j] * obj_opt < 0:
                     gamma_baseline[j] = 1
                 else:
-                    gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt)) #
+                    gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))
 
             # compute the primal gap of last objective
             primal_gap_final_baseline = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt)
@@ -2304,7 +1719,6 @@ class RegressionInitialK:
             primal_int_baselines.append(primal_int_baseline)
 
 
-
             # lb-gnn
             # if times_pred[-1] < total_time_limit:
             times_pred = np.append(times_pred, total_time_limit)
@@ -2317,7 +1731,7 @@ class RegressionInitialK:
                 elif objs_pred[j] * obj_opt < 0:
                     gamma_pred[j] = 1
                 else:
-                    gamma_pred[j] = np.abs(objs_pred[j] - obj_opt) / np.maximum(np.abs(objs_pred[j]), np.abs(obj_opt)) #
+                    gamma_pred[j] = np.abs(objs_pred[j] - obj_opt) / np.maximum(np.abs(objs_pred[j]), np.abs(obj_opt))
 
             primal_gap_final_pred = np.abs(objs_pred[-1] - obj_opt) / np.abs(obj_opt)
             primal_gap_final_preds.append(primal_gap_final_pred)
@@ -2325,20 +1739,6 @@ class RegressionInitialK:
             stepline_pred = interp1d(times_pred, gamma_pred, 'previous')
             steplines_pred.append(stepline_pred)
 
-            #
-            # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of primal gap")
-            # fig.subplots_adjust(top=0.5)
-            # # ax.set_title(instance_name, loc='right')
-            # ax.plot(t, stepline_baseline(t), label='lb baseline')
-            # ax.plot(t, stepline_pred(t), label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
 
             # compute primal interal
             primal_int_pred = 0
@@ -2357,7 +1757,7 @@ class RegressionInitialK:
                 elif objs_pred_reset[j] * obj_opt < 0:
                     gamma_pred_reset[j] = 1
                 else:
-                    gamma_pred_reset[j] = np.abs(objs_pred_reset[j] - obj_opt) / np.maximum(np.abs(objs_pred_reset[j]), np.abs(obj_opt)) #
+                    gamma_pred_reset[j] = np.abs(objs_pred_reset[j] - obj_opt) / np.maximum(np.abs(objs_pred_reset[j]), np.abs(obj_opt))
 
             primal_gap_final_pred_reset = np.abs(objs_pred_reset[-1] - obj_opt) / np.abs(obj_opt)
             primal_gap_final_preds_reset.append(primal_gap_final_pred_reset)
@@ -2371,32 +1771,6 @@ class RegressionInitialK:
                 primal_int_pred_reset += gamma_pred_reset[j] * (times_pred_reset[j + 1] - times_pred_reset[j])
             primal_int_preds_reset.append(primal_int_pred_reset)
 
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of objective")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, objs, label='lb baseline')
-            # ax.plot(times_pred, objs_pred, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
-            #
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of primal gap")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, gamma_baseline, label='lb baseline')
-            # ax.plot(times_pred, gamma_pred, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
-
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_preds = np.array(primal_int_preds).reshape(-1)
@@ -2406,7 +1780,7 @@ class RegressionInitialK:
         primal_gap_final_preds = np.array(primal_gap_final_preds).reshape(-1)
         primal_gap_final_preds_reset = np.array(primal_gap_final_preds_reset).reshape(-1)
 
-        # avarage primal integral over test dataset
+        # average primal integral over test dataset
         primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
         primal_int_pred_ave = primal_int_preds.sum() / len(primal_int_preds)
         primal_int_pred_ave_reset = primal_int_preds_reset.sum() / len(primal_int_preds_reset)
@@ -2457,7 +1831,6 @@ class RegressionInitialK:
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle("Normalized primal gap")
-        # fig.subplots_adjust(top=0.5)
         ax.set_title(self.instance_type + '-' + self.incumbent_mode, loc='right')
         ax.plot(t, primalgap_baseline_ave, label='lb-baseline')
         ax.plot(t, primalgap_pred_ave, label='lb-gnn')
@@ -2468,6 +1841,17 @@ class RegressionInitialK:
         plt.show()
 
 class RegressionInitialK_KPrime(MlLocalbranch):
+    """Data collection, training and evaluation of the regression model that
+    predicts the initial neighborhood size as a fraction of k' (the binary
+    support of the incumbent solution).
+
+    Provides sample generation (generate_k_samples_k_prime,
+    generate_regression_samples_k_prime), model training
+    (execute_regression_k_prime, execute_regression_mergedatasets) and the
+    evaluation of the LB heuristics lb-baseline, lb-sr and lb-srm of
+    Section 5 (evaluate_localbranching_k_prime), together with the
+    primal-integral post-processing of the stored results.
+    """
 
     def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100, enable_gpu=False):
         super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed, enable_gpu)
@@ -2475,7 +1859,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
             self.is_symmetric = False
-        # self.generator = generator_switcher(self.instance_type + self.instance_size)
 
     def sample_k_per_instance_k_prime(self, t_limit, index_instance):
 
@@ -2519,37 +1902,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         n_lps = []
         presolve_times = []
 
-        nsample = 101  # 101
+        nsample = 101
         if self.instance_type == instancetypes[2]:
             nsample = 60
         if self.instance_type == instancetypes[1] and self.incumbent_mode == incumbent_modes[1]:
             nsample = 60
 
-        # # create a copy of the MIP to be 'locally branched'
-        # MIP_copy, subMIP_model_vars, success = MIP_model.createCopy(problemName='MIPCopy',
-        #                                                            origcopy=False)
-        # MIP_copy.resetParams()
-        # sol_MIP_copy = MIP_copy.createSol()
-        # 
-        # # create a primal solution for the copy MIP by copying the solution of original MIP
-        # n_vars = MIP_model.getNVars()
-        # subMIP_vars = MIP_model.getVars()
-        # 
-        # for j in range(n_vars):
-        #     val = MIP_model.getSolVal(incumbent, subMIP_vars[j])
-        #     MIP_copy.setSolVal(sol_MIP_copy, subMIP_model_vars[j], val)
-        # feasible = MIP_copy.checkSol(solution=sol_MIP_copy)
-        # 
-        # if feasible:
-        #     # print("the trivial solution of subMIP is feasible ")
-        #     MIP_copy.addSol(sol_MIP_copy, False)
-        #     # print("the feasible solution of subMIP_model is added to subMIP_model")
-        # else:
-        #     print("Warn: the trivial solution of subMIP_model is not feasible!")
-        # 
-        # n_supportbinvars = binary_support(MIP_copy, sol_MIP_copy)
-        # print('binary support: ', n_supportbinvars)
-        # print('Number of solutions: ', MIP_copy.getNSols())
 
         k_base = n_binvars
         if self.is_symmetric == False:
@@ -2560,34 +1918,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print('phi_prime :', phi_prime)
 
         MIP_model.freeProb()
-        # del MIP_model
 
         for i in range(nsample):
 
-            # # create a copy of the MIP to be 'locally branched'
-            # subMIP_model, subMIP_model_vars, success = MIP_copy.createCopy(problemName='MIPCopy',
-            #                                                              origcopy=False)
-            # subMIP_model.resetParams()
-            # sol_subMIP_model = subMIP_model.createSol()
-            #
-            # # create a primal solution for the copy MIP by copying the solution of original MIP
-            # n_vars = MIP_copy.getNVars()
-            # MIP_copy_vars = MIP_copy.getVars()
-            #
-            # for j in range(n_vars):
-            #     val = MIP_copy.getSolVal(sol_MIP_copy, MIP_copy_vars[j])
-            #     subMIP_model.setSolVal(sol_subMIP_model, subMIP_model_vars[j], val)
-            # feasible = subMIP_model.checkSol(solution=sol_subMIP_model)
-            #
-            # if feasible:
-            #     # print("the trivial solution of subMIP is feasible ")
-            #     subMIP_model.addSol(sol_subMIP_model, False)
-            #     # print("the feasible solution of subMIP_model is added to subMIP_model")
-            # else:
-            #     print("Warn: the trivial solution of subMIP_model is not feasible!")
 
             subMIP_model = MIP_model
-            # sol_subMIP_model = sol_MIP_copy
 
 
             subMIP_model.readProblem(filename)
@@ -2600,15 +1935,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             # add LB constraint to subMIP model
             alpha = 0.01 * (i)
-            # if nsample == 41:
-            #     if i<11:
-            #         alpha = 0.01*i
-            #     elif i<31:
-            #         alpha = 0.02*(i-5)
-            #     else:
-            #         alpha = 0.05*(i-20)
 
-            # neigh_size = np.ceil(alpha * k_base)
             if self.lbconstraint_mode == 'asymmetric':
                 neigh_size = np.ceil(alpha * k_prime)
                 subMIP_model, constraint_lb = addLBConstraintAsymmetric(subMIP_model, sol_subMIP_model, neigh_size)
@@ -2617,8 +1944,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 subMIP_model, constraint_lb = addLBConstraint(subMIP_model, sol_subMIP_model, neigh_size)
 
             print('Neigh size:', alpha)
-            # stage = subMIP_model.getStage()
-            # print("* subMIP stage before solving: %s" % stage)
 
             subMIP_model.resetParams()
             subMIP_model.setParam('limits/time', t_limit)
@@ -2647,67 +1972,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 if subMIP_model.isFeasEQ(val, 1.0):
                     n_supportbins_subMIP += 1
 
-            # # subMIP_model2, MIP_copy_vars, success = subMIP_model.createCopy(
-            # #     problemName='Baseline', origcopy=True)
-            # subMIP_model.freeTransform()
-            # subMIP_model2 = subMIP_model
-            #
-            # subMIP_model2.resetParams()
-            # subMIP_model2.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
-            # subMIP_model2.setParam('presolving/maxrounds', 0)
-            # subMIP_model2.setParam('presolving/maxrestarts', 0)
-            #
-            # subMIP_model2.setHeuristics(pyscipopt.SCIP_PARAMSETTING.OFF)
-            # subMIP_model2.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
-            # subMIP_model2.setIntParam("lp/solvefreq", 0)
-            # subMIP_model2.setParam("limits/nodes", 1)
-            # subMIP_model2.setParam('limits/time', 30)
-            # # subMIP_model2.setParam("limits/solutions", 1)
-            # subMIP_model2.setParam("display/verblevel", 0)
-            #
-            # subMIP_model2.setParam("lp/disablecutoff", 1)
-            #
-            # stage = subMIP_model2.getStage()
-            # n_sols = subMIP_model2.getNSols()
-            # print('* number of sol : ', n_sols)
-            # print("* Solve stage: %s" % stage)
-            #
-            # # subMIP_model2.setParam("limits/solutions", 1)
-            # subMIP_model2.optimize()
-            #
-            # status = subMIP_model2.getStatus()
-            # lp_status = subMIP_model2.getLPSolstat()
-            # stage = subMIP_model2.getStage()
-            # n_sols = subMIP_model2.getNSols()
-            # time = subMIP_model2.getSolvingTime()
-            # n_lp_2 = subMIP_model2.getNLPs()
-            # print("* Model status: %s" % status)
-            # print("* Solve stage: %s" % stage)
-            # print("* LP status: %s" % lp_status)
-            # print('* number of sol : ', n_sols)
-            #
-            # n_bins = subMIP_model2.getNBinVars()
-            #
-            # lpcands, lpcandssol, lpcadsfrac, nlpcands, npriolpcands, nfracimplvars = subMIP_model2.getLPBranchCands()
-            # relax_grip = 1 - nlpcands / n_bins
-            #
-            #
-            # # print('binvars :', n_bins)
-            # # print('nbranchingcands :', nlpcands)
-            # # print('nfracimplintvars :', nfracimplvars)
-            # print('relaxation grip :', 1 - nlpcands / n_bins)
 
             neigh_sizes.append(alpha)
             objs.append(best_obj)
             t.append(solving_time)
             n_supportbins.append(n_supportbins_subMIP)
             statuss.append(status_subMIP)
-
-            # relax_grips.append(relax_grip)
-            # n_nodes.append(n_node)
-            # firstlp_times.append(firstlp_time)
-            # presolve_times.append(presolve_time)
-            # n_lps.append(n_lp_2)
 
 
             subMIP_model.freeTransform()
@@ -2717,8 +1987,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             del constraint_lb
             print('Number of solutions: ', subMIP_model.getNSols())
             subMIP_model.freeProb()
-            # print('Number of solutions: ', subMIP_model.getNSols())
-            # del subMIP_model
 
 
         for i in range(len(t)):
@@ -2726,18 +1994,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                   'Best obj: {:.4f}'.format(objs[i]),
                   'Binary supports:{}'.format(n_supportbins[i]),
                   'Solving time: {:.4f}'.format(t[i]),
-                  # 'Presolve_time: {:.4f}'.format(presolve_times[i]),
-                  # 'FirstLP time: {:.4f}'.format(firstlp_times[i]),
-                  # 'solved LPs: {:.4f}'.format(n_lps[i]),
-                  # 'B&B nodes: {:.4f}'.format(n_nodes[i]),
-                  # 'Relaxation grip: {:.4f}'.format(relax_grips[i]),
                   'Status: {}'.format(statuss[i])
                   )
 
         neigh_sizes = np.array(neigh_sizes).reshape(-1)
         t = np.array(t).reshape(-1)
         objs = np.array(objs).reshape(-1)
-        # relax_grips = np.array(relax_grips).reshape(-1)
 
         saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         f = self.k_samples_directory + saved_name
@@ -2752,8 +2014,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         t = mean_filter(t, 5)
         objs = mean_filter(objs, 5)
 
-        # t = mean_forward_filter(t,10)
-        # objs = mean_forward_filter(objs, 10)
 
         # compute the performance score
         alpha = 1 / 2
@@ -2765,22 +2025,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print('phi_0_star:', phi_init)
         print('phi_0_max:', self.phi_max)
 
-        # plt.clf()
-        # fig, ax = plt.subplots(3, 1, figsize=(6.4, 6.4))
-        # fig.suptitle("Evaluation of size of lb neighborhood")
-        # fig.subplots_adjust(top=0.5)
-        # ax[0].plot(neigh_sizes, objs)
-        # ax[0].set_title(instance_name, loc='right')
-        # ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
-        # ax[0].set_ylabel("Objective")
-        # ax[1].plot(neigh_sizes, t)
-        # # ax[1].set_ylim([0,31])
-        # ax[1].set_ylabel("Solving time")
-        # ax[2].plot(neigh_sizes, perf_score)
-        # ax[2].set_ylabel("Cost")
-        # # ax[3].plot(neigh_sizes, relax_grips)
-        # # ax[3].set_ylabel("Relaxation grip")
-        # plt.show()
 
         index_instance += 1
 
@@ -2830,37 +2074,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         n_lps = []
         presolve_times = []
 
-        nsample = 11  # 101
+        nsample = 11
         if self.instance_type == instancetypes[2]:
             nsample = 60
         if self.instance_type == instancetypes[1] and self.incumbent_mode == incumbent_modes[1]:
             nsample = 60
 
-        # # create a copy of the MIP to be 'locally branched'
-        # MIP_copy, subMIP_model_vars, success = MIP_model.createCopy(problemName='MIPCopy',
-        #                                                            origcopy=False)
-        # MIP_copy.resetParams()
-        # sol_MIP_copy = MIP_copy.createSol()
-        #
-        # # create a primal solution for the copy MIP by copying the solution of original MIP
-        # n_vars = MIP_model.getNVars()
-        # subMIP_vars = MIP_model.getVars()
-        #
-        # for j in range(n_vars):
-        #     val = MIP_model.getSolVal(incumbent, subMIP_vars[j])
-        #     MIP_copy.setSolVal(sol_MIP_copy, subMIP_model_vars[j], val)
-        # feasible = MIP_copy.checkSol(solution=sol_MIP_copy)
-        #
-        # if feasible:
-        #     # print("the trivial solution of subMIP is feasible ")
-        #     MIP_copy.addSol(sol_MIP_copy, False)
-        #     # print("the feasible solution of subMIP_model is added to subMIP_model")
-        # else:
-        #     print("Warn: the trivial solution of subMIP_model is not feasible!")
-        #
-        # n_supportbinvars = binary_support(MIP_copy, sol_MIP_copy)
-        # print('binary support: ', n_supportbinvars)
-        # print('Number of solutions: ', MIP_copy.getNSols())
 
         k_base = n_binvars
         if self.is_symmetric == False:
@@ -2871,35 +2090,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print('phi_prime :', phi_prime)
 
         MIP_model.freeProb()
-        # del MIP_model
         subMIP_model2 = Model()
 
         for i in range(nsample):
 
-            # # create a copy of the MIP to be 'locally branched'
-            # subMIP_model, subMIP_model_vars, success = MIP_copy.createCopy(problemName='MIPCopy',
-            #                                                              origcopy=False)
-            # subMIP_model.resetParams()
-            # sol_subMIP_model = subMIP_model.createSol()
-            #
-            # # create a primal solution for the copy MIP by copying the solution of original MIP
-            # n_vars = MIP_copy.getNVars()
-            # MIP_copy_vars = MIP_copy.getVars()
-            #
-            # for j in range(n_vars):
-            #     val = MIP_copy.getSolVal(sol_MIP_copy, MIP_copy_vars[j])
-            #     subMIP_model.setSolVal(sol_subMIP_model, subMIP_model_vars[j], val)
-            # feasible = subMIP_model.checkSol(solution=sol_subMIP_model)
-            #
-            # if feasible:
-            #     # print("the trivial solution of subMIP is feasible ")
-            #     subMIP_model.addSol(sol_subMIP_model, False)
-            #     # print("the feasible solution of subMIP_model is added to subMIP_model")
-            # else:
-            #     print("Warn: the trivial solution of subMIP_model is not feasible!")
 
             subMIP_model = MIP_model
-            # sol_subMIP_model = sol_MIP_copy
 
 
             subMIP_model.readProblem(filename)
@@ -2912,15 +2108,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             # add LB constraint to subMIP model
             alpha = 0.1 * (i)
-            # if nsample == 41:
-            #     if i<11:
-            #         alpha = 0.01*i
-            #     elif i<31:
-            #         alpha = 0.02*(i-5)
-            #     else:
-            #         alpha = 0.05*(i-20)
 
-            # neigh_size = np.ceil(alpha * k_base)
             if self.lbconstraint_mode == 'asymmetric':
                 neigh_size = np.ceil(alpha * k_prime)
                 subMIP_model, constraint_lb = addLBConstraintAsymmetric(subMIP_model, sol_subMIP_model, neigh_size)
@@ -2930,8 +2118,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             print('\n Neigh size:', alpha)
             print('solve LB subMIP')
-            # stage = subMIP_model.getStage()
-            # print("* subMIP stage before solving: %s" % stage)
 
 
             subMIP_model.resetParams()
@@ -2975,8 +2161,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             subMIP_model.freeTransform()
 
-            # subMIP_model2 = subMIP_model
-            # sol_subMIP2_init = sol_subMIP_model
 
             subMIP_model2, subMIP_model2_vars, success = subMIP_model.createCopy(problemName='SolveLPRelax', origcopy=True)
             subMIP_model2, sol_subMIP2_init = copy_sol(subMIP_model, subMIP_model2, sol_subMIP_model, subMIP_model2_vars)
@@ -3007,7 +2191,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             subMIP_model2.setIntParam("lp/solvefreq", 0)
             subMIP_model2.setParam("limits/nodes", 1)
             subMIP_model2.setParam('limits/time', 3600)
-            # subMIP_model2.setParam("limits/solutions", 1)
             subMIP_model2.setParam("display/verblevel", 0)
 
             subMIP_model2.setParam("lp/disablecutoff", 1)
@@ -3019,7 +2202,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('* number of sol : ', n_sols)
             print("* Solve stage: %s" % stage)
 
-            # subMIP_model2.setParam("limits/solutions", 1)
 
             if alpha == 0:
                 stopWhenFirstLPSolvedEventHandler = StopWhenFirstLPSolvedEventHandler()
@@ -3034,7 +2216,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             n_sols = subMIP_model2.getNSols()
             time = subMIP_model2.getSolvingTime()
             n_lp_2 = subMIP_model2.getNLPs()
-            # sol_lp_2 = subMIP_model2.createLPSol()
 
             print('after solving subMIP2:')
             print('* solving time: ', time)
@@ -3045,16 +2226,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('* number of LP sol : ', n_lp_2)
             print('* number of sol : ', n_sols)
 
-            # n_lp_2 = stopWhenFirstLPSolvedEventHandler.n_lps
-            # lp_status_2 = stopWhenFirstLPSolvedEventHandler.lp_status
             if n_lp_2 <= 1:
                 print('Optimal LP sol is found after solving the first LP.')
-                # sol_lp_2 = subMIP_model2.createLPSol()
                 n_lp_integral_vars = 0
                 n_rins_fixing = 0
                 for i in range(n_all_integer_vars):
                     # check the integrality of LP solution for all the integer variables
-                    # lp_val = subMIP_model2.getSolVal(sol_lp_2, vars_subMIP2[i])
                     lp_val = vars_subMIP2[i].getLPSol()
                     if subMIP_model2.isFeasIntegral(lp_val):
                         n_lp_integral_vars += 1
@@ -3064,7 +2241,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                     if subMIP_model2.isFeasEQ(lp_val, val_incumbent_init):
                         n_rins_fixing += 1
 
-                # lpcands, lpcandssol, lpcadsfrac, nlpcands, npriolpcands, nfracimplvars = subMIP_model2.getLPBranchCands()
                 relax_grip = n_lp_integral_vars / n_all_integer_vars
                 rins_fixing_ratio = n_rins_fixing / n_all_integer_vars
 
@@ -3072,8 +2248,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 print('num all integer vars: ', n_all_integer_vars)
                 print('num lp_integral: ', n_lp_integral_vars)
                 print('num RINS_fixing: ', n_rins_fixing)
-                # print('nbranchingcands :', nlpcands)
-                # print('nfracimplintvars :', nfracimplvars)
                 print('relaxation grip :', relax_grip)
                 print('RINS fixing ratio :', rins_fixing_ratio)
 
@@ -3112,7 +2286,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             del constraint_lb
             print('Number of solutions: ', subMIP_model.getNSols())
             subMIP_model.freeProb()
-            # print('Number of solutions: ', subMIP_model.getNSols())
             del subMIP_model
 
         for i in range(len(t)):
@@ -3134,9 +2307,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         relax_grips = np.array(relax_grips).reshape(-1)
         RINS_fixing_ratios = np.array(RINS_fixing_ratios).reshape(-1)
 
-        # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
-        # f = self.k_samples_directory + saved_name
-        # np.savez(f, neigh_sizes=neigh_sizes, objs=objs, t=t)
 
         # normalize the objective and solving time
         t = t / t_limit
@@ -3147,8 +2317,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         t = mean_filter(t, 5)
         objs = mean_filter(objs, 5)
 
-        # t = mean_forward_filter(t,10)
-        # objs = mean_forward_filter(objs, 10)
 
         # compute the performance score
         alpha = 1 / 2
@@ -3167,10 +2335,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         fig.subplots_adjust(top=0.5)
         ax[0].plot(neigh_sizes, objs)
         ax[0].set_title(instance_name, loc='right')
-        ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
+        ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)')
         ax[0].set_ylabel("Objective")
         ax[1].plot(neigh_sizes, t)
-        # ax[1].set_ylim([0,31])
         ax[1].set_ylabel("Solving time")
         ax[2].plot(neigh_sizes, perf_score)
         ax[2].set_ylabel("Cost")
@@ -3203,13 +2370,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         index_instance = 0
         self.phi_max = 0
 
-        # while index_instance < 86:
-        #     instance = next(self.generator)
-        #     MIP_model = instance.as_pyscipopt()
-        #     MIP_model.setProbName(self.instance_type + '-' + str(index_instance))
-        #     instance_name = MIP_model.getProbName()
-        #     print(instance_name)
-        #     index_instance += 1
 
         while index_instance < 200:
             if index_instance < 160:
@@ -3220,124 +2380,13 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 self.directory_sol = direc + self.incumbent_mode + '/' + 'test/'
 
             index_instance = self.sample_k_integrality_grip_per_instance_k_prime(t_limit, index_instance)
-            # instance = next(self.generator)
-            # MIP_model = instance.as_pyscipopt()
-            # MIP_model.setProbName(self.instance_type + '-' + str(index_instance))
-            # instance_name = MIP_model.getProbName()
-            # print(instance_name)
-            #
-            # n_vars = MIP_model.getNVars()
-            # n_binvars = MIP_model.getNBinVars()
-            # print("N of variables: {}".format(n_vars))
-            # print("N of binary vars: {}".format(n_binvars))
-            # print("N of constraints: {}".format(MIP_model.getNConss()))
-            #
-            # status, feasible, MIP_model, incumbent_solution = self.initialize_MIP(MIP_model)
-            # if (not status == 'optimal') and feasible:
-            #     initial_obj = MIP_model.getObjVal()
-            #     print("Initial obj before LB: {}".format(initial_obj))
-            #     print('Relative gap: ', MIP_model.getGap())
-            #
-            #     n_supportbinvars = binary_support(MIP_model, incumbent_solution)
-            #     print('binary support: ', n_supportbinvars)
-            #
-            #
-            #     MIP_model.resetParams()
-            #
-            #     neigh_sizes = []
-            #     objs = []
-            #     t = []
-            #     n_supportbins = []
-            #     statuss = []
-            #     MIP_model.resetParams()
-            #     nsample = 101
-            #     for i in range(nsample):
-            #
-            #         # create a copy of the MIP to be 'locally branched'
-            #         subMIP_model, subMIP_model_vars, success = MIP_model.createCopy(problemName='subMIPmodelCopy',
-            #                                                                       origcopy=False)
-            #         sol_subMIP_model = subMIP_model.createSol()
-            #
-            #         # create a primal solution for the copy MIP by copying the solution of original MIP
-            #         n_vars = MIP_model.getNVars()
-            #         subMIP_vars = MIP_model.getVars()
-            #
-            #         for j in range(n_vars):
-            #             val = MIP_model.getSolVal(incumbent_solution, subMIP_vars[j])
-            #             subMIP_model.setSolVal(sol_subMIP_model, subMIP_model_vars[j], val)
-            #         feasible = subMIP_model.checkSol(solution=sol_subMIP_model)
-            #
-            #         if feasible:
-            #             # print("the trivial solution of subMIP is feasible ")
-            #             subMIP_model.addSol(sol_subMIP_model, False)
-            #             # print("the feasible solution of subMIP_model is added to subMIP_model")
-            #         else:
-            #             print("Warn: the trivial solution of subMIP_model is not feasible!")
-            #
-            #         # add LB constraint to subMIP model
-            #         alpha = 0.01 * i
-            #         # if nsample == 41:
-            #         #     if i<11:
-            #         #         alpha = 0.01*i
-            #         #     elif i<31:
-            #         #         alpha = 0.02*(i-5)
-            #         #     else:
-            #         #         alpha = 0.05*(i-20)
-            #
-            #         if self.lbconstraint_mode == 'asymmetric':
-            #             neigh_size = alpha * n_supportbinvars
-            #             subMIP_model = addLBConstraintAsymmetric(subMIP_model, sol_subMIP_model, neigh_size)
-            #         else:
-            #             neigh_size = alpha * n_binvars
-            #             subMIP_model = addLBConstraint(subMIP_model, sol_subMIP_model, neigh_size)
-            #
-            #         subMIP_model.setParam('limits/time', t_limit)
-            #         subMIP_model.optimize()
-            #
-            #         status = subMIP_model.getStatus()
-            #         best_obj = subMIP_model.getSolObjVal(subMIP_model.getBestSol())
-            #         solving_time = subMIP_model.getSolvingTime()  # total time used for solving (including presolving) the current problem
-            #
-            #         best_sol = subMIP_model.getBestSol()
-            #
-            #         vars_subMIP = subMIP_model.getVars()
-            #         n_binvars_subMIP = subMIP_model.getNBinVars()
-            #         n_supportbins_subMIP = 0
-            #         for i in range(n_binvars_subMIP):
-            #             val = subMIP_model.getSolVal(best_sol, vars_subMIP[i])
-            #             assert subMIP_model.isFeasIntegral(val), "Error: Value of a binary varialbe is not integral!"
-            #             if subMIP_model.isFeasEQ(val, 1.0):
-            #                 n_supportbins_subMIP += 1
-            #
-            #         neigh_sizes.append(alpha)
-            #         objs.append(best_obj)
-            #         t.append(solving_time)
-            #         n_supportbins.append(n_supportbins_subMIP)
-            #         statuss.append(status)
-            #
-            #     for i in range(len(t)):
-            #         print('Neighsize: {:.4f}'.format(neigh_sizes[i]),
-            #               'Best obj: {:.4f}'.format(objs[i]),
-            #               'Binary supports:{}'.format(n_supportbins[i]),
-            #               'Solving time: {:.4f}'.format(t[i]),
-            #               'Status: {}'.format(statuss[i])
-            #               )
-            #
-            #     neigh_sizes = np.array(neigh_sizes).reshape(-1).astype('float64')
-            #     t = np.array(t).reshape(-1)
-            #     objs = np.array(objs).reshape(-1)
-            #     f = self.k_samples_directory + instance_name
-            #     np.savez(f, neigh_sizes=neigh_sizes, objs=objs, t=t)
-            #     index_instance += 1
 
     def two_examples(self):
 
         plt.clf()
         plt.rcParams.update({'font.size': 14})
         fig, ax = plt.subplots(2, 1, figsize=(6, 4))
-        # fig.suptitle("Evaluation of size of lb neighborhood")
-        # fig.subplots_adjust(top=0.5)
-        ax[0].set_xlabel(r'$\ r $')  #
+        ax[0].set_xlabel(r'$\ r $')
         ax[0].set_ylabel("Objective")
         ax[1].set_ylabel("Time")
         t_limit = 3
@@ -3362,8 +2411,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             t = mean_filter(t, 5)
             objs = mean_filter(objs, 5)
 
-            # t = mean_forward_filter(t,10)
-            # objs = mean_forward_filter(objs, 10)
 
             # compute the performance score
             alpha = 1 / 2
@@ -3380,9 +2427,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             ax[0].plot(k, objs, label=instance_name)
             ax[1].plot(k, t, label=instance_name)
-        # ax[1].set_ylim([0,31])
-        # ax[2].plot(k, perf_score)
-        # ax[2].set_ylabel("Performance score")
         ax[0].legend()
         ax[0].grid()
         ax[1].legend()
@@ -3428,7 +2472,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             instance = ecole.scip.Model.from_pyscipopt(MIP_model)
 
-            # instance_name = self.instance_type + '-' + str(index_instance)
             data = np.load(self.k_samples_directory + instance_name + '.npz')
             k = data['neigh_sizes']
             t = data['t']
@@ -3443,8 +2486,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             t = mean_filter(t, 5)
             objs = mean_filter(objs, 5)
 
-            # t = mean_forward_filter(t,10)
-            # objs = mean_forward_filter(objs, 10)
 
             # compute the performance score
             alpha = 1 / 2
@@ -3454,20 +2495,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('phi_0_star :', k_init)
             list_phi.append(k_init)
 
-            # plt.clf()
-            # fig, ax = plt.subplots(2, 1, figsize=(6.4, 6.4))
-            # fig.suptitle("Evaluation of size of lb neighborhood")
-            # fig.subplots_adjust(top=0.5)
-            # ax[0].plot(k, objs)
-            # ax[0].set_title(instance_name, loc='right')
-            # ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
-            # ax[0].set_ylabel("Objective")
-            # ax[1].plot(k, t)
-            # # ax[1].set_ylim([0,31])
-            # ax[1].set_ylabel("Solving time")
-            # # ax[2].plot(k, perf_score)
-            # # ax[2].set_ylabel("Performance score")
-            # plt.show()
 
             instance = ecole.scip.Model.from_pyscipopt(MIP_model)
 
@@ -3504,8 +2531,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         list_phi_star = []
         count_phi_star_smaller = 0
         count_phi_lp_relax_diff = 0
-        # list_phi_prime_invalid = []
-        # list_phi_star_invalid = []
         while index_instance < 100:
 
             filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
@@ -3514,12 +2539,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             MIP_model = Model()
             MIP_model.readProblem(filename)
             instance_name = MIP_model.getProbName()
-            # print(instance_name)
             n_vars = MIP_model.getNVars()
             n_binvars = MIP_model.getNBinVars()
-            # print("N of variables: {}".format(n_vars))
             print("N of binary vars: {}".format(n_binvars))
-            # print("N of constraints: {}".format(MIP_model.getNConss()))
 
             incumbent = MIP_model.readSolFile(firstsol_filename)
 
@@ -3545,8 +2567,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             t = mean_filter(t, 5)
             objs = mean_filter(objs, 5)
 
-            # t = mean_forward_filter(t,10)
-            # objs = mean_forward_filter(objs, 10)
 
             # compute the performance score
             alpha = 1 / 2
@@ -3564,11 +2584,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
             MIP_model.setIntParam("lp/solvefreq", 0)
             MIP_model.setParam("limits/nodes", 1)
-            # MIP_model.setParam("limits/solutions", 1)
             MIP_model.setParam("display/verblevel", 0)
             MIP_model.setParam("lp/disablecutoff", 1)
 
-            # MIP_model.setParam("limits/solutions", 1)
             MIP_model.optimize()
             #
             status = MIP_model.getStatus()
@@ -3582,10 +2600,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('* number of sol : ', n_sols)
 
             sol_lp = MIP_model.createLPSol()
-            # sol_relax = MIP_model.createRelaxSol()
 
             k_prime = haming_distance_solutions(MIP_model, incumbent, sol_lp)
-            # k_lp2relax = haming_distance_solutions(MIP_model, sol_relax, sol_lp)
 
             n_bins = MIP_model.getNBinVars()
             k_base = n_bins
@@ -3603,14 +2619,10 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 k_base = binary_supports
 
             phi_prime = k_prime / k_base
-            # phi_lp2relax = k_lp2relax / k_base
-            # if phi_lp2relax > 0:
-            #     count_phi_lp_relax_diff += 1
 
             phi_star = k_init
             list_phi_prime.append(phi_prime)
             list_phi_star.append(phi_star)
-            # list_phi_lp2relax.append(phi_lp2relax)
 
             if phi_star <= phi_prime:
                 count_phi_star_smaller += 1
@@ -3621,57 +2633,28 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('instance : ', MIP_model.getProbName())
             print('phi_prime = ', phi_prime)
             print('phi_star = ', phi_star)
-            # print('phi_lp2relax = ', phi_lp2relax)
             print('valid count: ', count_phi_star_smaller)
-            # print('lp relax diff count:', count_phi_lp_relax_diff)
 
-            # plt.clf()
-            # fig, ax = plt.subplots(3, 1, figsize=(6.4, 6.4))
-            # fig.suptitle("Evaluation of size of lb neighborhood")
-            # fig.subplots_adjust(top=0.5)
-            # ax[0].plot(k, objs)
-            # ax[0].set_title(instance_name, loc='right')
-            # ax[0].set_xlabel(r'$\ r $   ' + '(Neighborhood size: ' + r'$K = r \times N$)') #
-            # ax[0].set_ylabel("Objective")
-            # ax[1].plot(k, t)
-            # # ax[1].set_ylim([0,31])
-            # ax[1].set_ylabel("Solving time")
-            # ax[2].plot(k, perf_score)
-            # ax[2].set_ylabel("Performance score")
-            # plt.show()
-
-            # instance = ecole.scip.Model.from_pyscipopt(MIP_model)
-            # observation, _, _, done, _ = self.env.reset(instance)
-            #
-            # data_sample = [observation, k_init]
-            # filename = f'{self.regression_samples_directory}regression-{instance_name}.pkl'
-            # with gzip.open(filename, 'wb') as f:
-            #     pickle.dump(data_sample, f)
 
             index_instance += 1
 
         arr_phi_prime = np.array(list_phi_prime).reshape(-1)
         arr_phi_star = np.array(list_phi_star).reshape(-1)
-        # arr_phi_lp2relax = np.array(list_phi_lp2relax).reshape(-1)
         ave_phi_prime = arr_phi_prime.sum() / len(arr_phi_prime)
         ave_phi_star = arr_phi_star.sum() / len(arr_phi_star)
-        # ave_phi_lp2relax = arr_phi_lp2relax.sum() / len(arr_phi_lp2relax)
 
         print(self.instance_type + self.instance_size)
         print(self.incumbent_mode + 'Solution')
         print('number of valid phi data points: ', count_phi_star_smaller)
         print('average phi_star :', ave_phi_star)
         print('average phi_prime: ', ave_phi_prime)
-        # print('average phi_lp2relax: ', ave_phi_lp2relax)
 
     def generate_dataset(self, dataset_directory=None, filename=None):
         self.regression_samples_directory = dataset_directory
         train_directory = self.regression_samples_directory + 'train/'
         test_directory = self.regression_samples_directory + 'test/'
-        # print(filename)
         sample_files = [str(path) for path in pathlib.Path(train_directory).glob(filename)]
         train_files = sample_files[:int(7/8 * len(sample_files))]
-        # valid_files = sample_files[int(0.7 * len(sample_files)):int(0.8 * len(sample_files))]
         valid_files = sample_files[int(7/8 * len(sample_files)):]
 
         test_files = [str(path) for path in pathlib.Path(test_directory).glob(filename)]
@@ -3782,19 +2765,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         val_loaders[small_dataset] = valid_loader
         test_loaders[small_dataset] = test_loader
 
-        # large_dataset = self.instance_type + "-large"
-        # large_directory = './result/generated_instances/' + self.instance_type + '/' + '-large' + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # test_regression_samples_directory = large_directory + 'regression_samples' + '/'
-        # train_loader, valid_loader, test_loader = self.load_dataset(dataset_directory=test_regression_samples_directory)
-        # train_loaders[large_dataset] = train_loader
-        # val_loaders[large_dataset] = valid_loader
-        # test_loaders[large_dataset] = test_loader
 
         model_gnn = GNNPolicy()
         train_dataset = small_dataset
         valid_dataset = small_dataset
         test_dataset = small_dataset
-        # LEARNING_RATE = 0.0000001  # setcovering:0.0000005 cap-loc: 0.00000005 independentset: 0.0000001
 
         optimizer = torch.optim.Adam(model_gnn.parameters(), lr=lr)
         k_init = []
@@ -3813,8 +2788,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             train_loss = self.train(model_gnn, train_loader, optim)
             print(f"Train loss: {train_loss:0.6f}")
 
-            # torch.save(model_gnn.state_dict(), 'trained_params_' + train_dataset + '.pth')
-            # model_gnn2.load_state_dict(torch.load('trained_params_' + train_dataset + '.pth'))
 
             valid_loader = val_loaders[valid_dataset]
             valid_loss = self.train(model_gnn, valid_loader, None)
@@ -3865,7 +2838,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         # load the small dataset
         small_dataset =  "setcover-independentset-combinatorialauction"
-        # small_dataset_setcover = "setcovering" + "-small"
         small_directory_setcover = './result/generated_instances/' + 'setcovering' + '/' + '-small' + '/' + 'asymmetric' + '/' + 'firstsol' + '/'
         small_regression_samples_directory = small_directory_setcover + 'regression_samples_k_prime' + '/'
         filename = 'regression-' + 'setcovering' + '-*.pkl'
@@ -3878,7 +2850,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         train_dataset_1, valid_dataset_1, test_dataset_1 = self.generate_dataset(
             dataset_directory=small_regression_samples_directory, filename=filename)
 
-        # small_dataset_independentset = "independentset" + "-small"
         small_directory_independentset = './result/generated_instances/' + 'independentset' + '/' + '-small' + '/' + 'symmetric' + '/' + 'firstsol' + '/'
         small_regression_samples_directory = small_directory_independentset + 'regression_samples_k_prime' + '/'
         filename = 'regression-' + 'independentset' + '-*.pkl'
@@ -3891,7 +2862,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         train_dataset_3, valid_dataset_3, test_dataset_3 = self.generate_dataset(
             dataset_directory=small_regression_samples_directory, filename=filename)
 
-        # small_dataset = "combinatorialauction-root-first"
         small_directory_combina = './result/generated_instances/' + 'combinatorialauction' + '/' + '-small' + '/' + 'symmetric' + '/' + 'firstsol' + '/'
         small_regression_samples_directory = small_directory_combina + 'regression_samples_k_prime' + '/'
         filename = 'regression-' + 'combinatorialauction' + '-*.pkl'
@@ -3904,18 +2874,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         train_dataset_5, valid_dataset_5, test_dataset_5 = self.generate_dataset(
             dataset_directory=small_regression_samples_directory, filename=filename)
 
-        # # small_dataset
-        # small_directory = './result/generated_instances/' + 'generalized_independentset' + '/' + '-small' + '/' + 'symmetric' + '/' + 'firstsol' + '/'
-        # small_regression_samples_directory = small_directory + 'regression_samples_k_prime' + '/'
-        # filename = 'regression-' + 'generalized_independentset' + '-*.pkl'
-        # train_dataset_6, valid_dataset_6, test_dataset_6 = self.generate_dataset(
-        #     dataset_directory=small_regression_samples_directory, filename=filename)
-        #
-        # small_directory = './result/generated_instances/' + 'generalized_independentset' + '/' + '-small' + '/' + 'symmetric' + '/' + 'rootsol' + '/'
-        # small_regression_samples_directory = small_directory + 'regression_samples_k_prime' + '/'
-        # filename = 'regression-' + 'generalized_independentset' + '-*.pkl'
-        # train_dataset_7, valid_dataset_7, test_dataset_7 = self.generate_dataset(
-        #     dataset_directory=small_regression_samples_directory, filename=filename)
 
         train_data = torch.utils.data.ConcatDataset([train_dataset_0, train_dataset_1, train_dataset_2, train_dataset_3, train_dataset_4, train_dataset_5]) #train_dataset_3, train_dataset_6, train_dataset_7
         valid_data = torch.utils.data.ConcatDataset([valid_dataset_0, valid_dataset_1, valid_dataset_2, valid_dataset_3, valid_dataset_4, valid_dataset_5]) #  valid_dataset_6, valid_dataset_7
@@ -3926,23 +2884,12 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         val_loaders[small_dataset] = valid_loader
         test_loaders[small_dataset] = test_loader
 
-        # large_dataset = self.instance_type + "-large"
-        # large_directory = './result/generated_instances/' + self.instance_type + '/' + '-large' + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # test_regression_samples_directory = large_directory + 'regression_samples' + '/'
-        # train_loader, valid_loader, test_loader = self.load_dataset(dataset_directory=test_regression_samples_directory)
-        # train_loaders[large_dataset] = train_loader
-        # val_loaders[large_dataset] = valid_loader
-        # test_loaders[large_dataset] = test_loader
 
         model_gnn = GNNPolicy()
         train_dataset = small_dataset
         valid_dataset = small_dataset
         test_dataset = small_dataset
 
-        # model_gnn.load_state_dict(torch.load(
-        #     saved_gnn_directory + 'trained_params_mean_' + train_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '_k_prime_lr0.0001_epoch300.pth'))
-
-        # LEARNING_RATE = 0.0000001  # setcovering:0.0000005 cap-loc: 0.00000005 independentset: 0.0000001
 
         optimizer = torch.optim.Adam(model_gnn.parameters(), lr=lr)
         k_init = []
@@ -3961,8 +2908,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             train_loss = self.train(model_gnn, train_loader, optim)
             print(f"Train loss: {train_loss:0.6f}")
 
-            # torch.save(model_gnn.state_dict(), 'trained_params_' + train_dataset + '.pth')
-            # model_gnn2.load_state_dict(torch.load('trained_params_' + train_dataset + '.pth'))
 
             valid_loader = val_loaders[valid_dataset]
             valid_loss = self.train(model_gnn, valid_loader, None)
@@ -4078,41 +3023,20 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
-        
+
         graph = graph.to(device)
 
         # variable features: all the variable features
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
-
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # create a copy of MIP
         MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
-        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-        #     problemName='GNN',
-        #     origcopy=False)
         MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
             problemName='GNN+reset',
             origcopy=False)
 
         print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent,
-        #                                         MIP_copy_vars)
-        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-        #                                           MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent,
                                                   MIP_copy_vars3)
 
@@ -4140,7 +3064,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         k_pred = max(k_pred, self.k_prime_ratio_baseline * k_prime)
         k_pred = max(k_pred, 10)
         k_pred = np.ceil(k_pred)
-        
+
         del k_model
         del graph
         del observation
@@ -4149,34 +3073,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         del MIP_model
         del incumbent
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-        #
-        # # execute local branching baseline heuristic by Fischetti and Lodi
-        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-        #                           node_time_limit=node_time_limit,
-        #                           total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits, times, objs, _, _ = lb_model.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        # print("Instance:", MIP_model_copy.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy.freeProb()
-        # del sol_MIP_copy
-        # del MIP_model_copy
-        #
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
@@ -4203,40 +3099,14 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         del sol_MIP_copy3
         del MIP_model_copy3
 
-        # # execute local branching with 1. first k predicted by GNN; 2. from 2nd iteration of lb, continue lb algorithm with no further injection
-        #
-        # lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_noreset, times_regression_noreset, objs_regression_noreset, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy2.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy2.freeProb()
-        # del sol_MIP_copy2
-        # del MIP_model_copy2
 
         data = [objs_regression_reset, times_regression_reset] # objs, times,
         saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{saved_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
-        # del data
-        # del objs
-        # del times
         del objs_regression_reset
         del times_regression_reset
-        # del lb_model
         del lb_model3
 
         index_instance += 1
@@ -4296,40 +3166,19 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
-        
+
         graph = graph.to(device)
 
         # variable features: all the variable features
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # create a copy of MIP
-        # MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
-        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-        #     problemName='GNN',
-        #     origcopy=False)
         MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
             problemName='GNN+reset',
             origcopy=False)
 
         print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent,
-        #                                         MIP_copy_vars)
-        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-        #                                           MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent,
                                                   MIP_copy_vars3)
 
@@ -4365,34 +3214,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         del MIP_model
         del incumbent
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-        #
-        # # execute local branching baseline heuristic by Fischetti and Lodi
-        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-        #                           node_time_limit=node_time_limit,
-        #                           total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits, times, objs, _, _ = lb_model.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        # print("Instance:", MIP_model_copy.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy.freeProb()
-        # del sol_MIP_copy
-        # del MIP_model_copy
-        #
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
@@ -4419,40 +3240,14 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         del sol_MIP_copy3
         del MIP_model_copy3
 
-        # # execute local branching with 1. first k predicted by GNN; 2. from 2nd iteration of lb, continue lb algorithm with no further injection
-        #
-        # lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_noreset, times_regression_noreset, objs_regression_noreset, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy2.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy2.freeProb()
-        # del sol_MIP_copy2
-        # del MIP_model_copy2
 
         data = [objs_regression_reset, times_regression_reset]
         saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{saved_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
-        # del data
-        # del objs
-        # del times
         del objs_regression_reset
         del times_regression_reset
-        # del lb_model
         del lb_model3
 
         index_instance += 1
@@ -4471,8 +3266,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         device = self.device
         gc.collect()
 
-        # if index_instance == 18:
-        #     index_instance = 19
 
         filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
         firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
@@ -4497,33 +3290,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
-        # observation, _, _, done, _ = self.env.reset(instance)
-        #
-        # # variable features: only incumbent solution
-        # variable_features = observation.variable_features[:, -1:]
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           variable_features)
 
         # variable features: all the variable features
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
-        # graph.num_nodes = observation.constraint_features.shape[0] + \
-        #                   observation.variable_features.shape[
-        #                       0]
 
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # create a copy of MIP
         MIP_model.resetParams()
@@ -4531,45 +3302,18 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
             problemName='Baseline', origcopy=False)
-        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-        #     problemName='GNN',
-        #     origcopy=False)
-        # MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
-        #     problemName='GNN+reset',
-        #     origcopy=False)
 
         print('MIP copies are created')
 
         MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent,
                                                 MIP_copy_vars)
-        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-        #                                           MIP_copy_vars2)
-        # MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent,
-        #                                           MIP_copy_vars3)
 
         print('incumbent solution is copied to MIP copies')
 
-        # # solve the root node and get the LP solution, compute k_prime
-        # k_prime = self.compute_k_prime(MIP_model, incumbent)
 
         initial_obj = MIP_model.getSolObjVal(incumbent)
         print("Initial obj before LB: {}".format(initial_obj))
 
-        # binary_supports = binary_support(MIP_model, incumbent)
-        # print('binary support: ', binary_supports)
-        #
-        # k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
-        #                                     graph.variable_features)
-        #
-        # k_pred = k_model.item() * k_prime
-        # print('GNN prediction: ', k_model.item())
-        #
-        # if self.is_symmetric == False:
-        #     k_pred = k_model.item() * k_prime
-
-        # del k_model
-        # del graph
-        # del observation
 
         MIP_model.freeProb()
         del MIP_model
@@ -4604,67 +3348,15 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         del sol_MIP_copy
         del MIP_model_copy
 
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-
-        # # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
-        # lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_reset, times_regression_reset, objs_regression_reset, _, _ = lb_model3.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=reset_k_at_2nditeration,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy3.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy3.freeProb()
-        # del sol_MIP_copy3
-        # del MIP_model_copy3
-
-        # # execute local branching with 1. first k predicted by GNN; 2. from 2nd iteration of lb, continue lb algorithm with no further injection
-        #
-        # lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_noreset, times_regression_noreset, objs_regression_noreset, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy2.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy2.freeProb()
-        # del sol_MIP_copy2
-        # del MIP_model_copy2
 
         data = [objs, times]
         saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{saved_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
-        # del data
         del objs
         del times
-        # del objs_regression_reset
-        # del times_regression_reset
         del lb_model
-        # del lb_model3
 
         index_instance += 1
         del instance
@@ -4682,8 +3374,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         device = self.device
         gc.collect()
 
-        # if index_instance == 18:
-        #     index_instance = 19
 
         filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
         firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
@@ -4708,33 +3398,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
         instance = ecole.scip.Model.from_pyscipopt(MIP_model)
-        # observation, _, _, done, _ = self.env.reset(instance)
-        #
-        # # variable features: only incumbent solution
-        # variable_features = observation.variable_features[:, -1:]
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           variable_features)
 
         # variable features: all the variable features
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
-        # graph.num_nodes = observation.constraint_features.shape[0] + \
-        #                   observation.variable_features.shape[
-        #                       0]
 
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # create a copy of MIP
         MIP_model.resetParams()
@@ -4742,21 +3410,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
             problemName='Baseline', origcopy=False)
-        # MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
-        #     problemName='GNN',
-        #     origcopy=False)
-        # MIP_model_copy3, MIP_copy_vars3, success3 = MIP_model.createCopy(
-        #     problemName='GNN+reset',
-        #     origcopy=False)
 
         print('MIP copies are created')
 
         MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent,
                                                 MIP_copy_vars)
-        # MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent,
-        #                                           MIP_copy_vars2)
-        # MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent,
-        #                                           MIP_copy_vars3)
 
         print('incumbent solution is copied to MIP copies')
 
@@ -4770,21 +3428,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         initial_obj = MIP_model.getSolObjVal(incumbent)
         print("Initial obj before LB: {}".format(initial_obj))
 
-        # binary_supports = binary_support(MIP_model, incumbent)
-        # print('binary support: ', binary_supports)
-        #
-        # k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
-        #                                     graph.variable_features)
-        #
-        # k_pred = k_model.item() * k_prime
-        # print('GNN prediction: ', k_model.item())
-        #
-        # if self.is_symmetric == False:
-        #     k_pred = k_model.item() * k_prime
-
-        # del k_model
-        # del graph
-        # del observation
 
         MIP_model.freeProb()
         del MIP_model
@@ -4819,67 +3462,15 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         del sol_MIP_copy
         del MIP_model_copy
 
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-
-        # # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
-        # lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_reset, times_regression_reset, objs_regression_reset, _, _ = lb_model3.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=reset_k_at_2nditeration,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy3.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy3.freeProb()
-        # del sol_MIP_copy3
-        # del MIP_model_copy3
-
-        # # execute local branching with 1. first k predicted by GNN; 2. from 2nd iteration of lb, continue lb algorithm with no further injection
-        #
-        # lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=k_pred,
-        #                            node_time_limit=node_time_limit,
-        #                            total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_regression_noreset, times_regression_noreset, objs_regression_noreset, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=None,
-        #     optimizer=None,
-        #     device=device
-        # )
-        #
-        # print("Instance:", MIP_model_copy2.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy2.freeProb()
-        # del sol_MIP_copy2
-        # del MIP_model_copy2
 
         data = [objs, times]
         saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{saved_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
-        # del data
         del objs
         del times
-        # del objs_regression_reset
-        # del times_regression_reset
         del lb_model
-        # del lb_model3
 
         index_instance += 1
         del instance
@@ -4915,8 +3506,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 self.regression_model_gnn.load_state_dict(torch.load(
                     self.saved_gnn_directory + 'trained_params_mean_' + self.train_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '_k_prime.pth'))
             else:
-                # self.regression_model_gnn.load_state_dict(torch.load(
-                #     self.saved_gnn_directory + 'trained_params_mean_setcover-independentset-combinatorialauction-generalizedis_asymmetric_firstsol_k_prime_epoch183_used.pth'))
                 self.regression_model_gnn.load_state_dict(torch.load(
                     regression_model_path))
 
@@ -4936,8 +3525,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/seed'+ str(self.seed) + '/'
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
-        index_instance = 160 # 160, 0
-        index_max =200 # 200, 30
+        index_instance = 160
+        index_max =200
 
         if self.instance_type == instancetypes[3]:
             index_instance = 80
@@ -4949,7 +3538,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         if self.instance_type == 'combinatorialauction' and test_instance_size == '-large':
             index_instance = 0
             index_max = 40
-
 
 
         while index_instance < index_max:
@@ -4998,7 +3586,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         self.is_symmetric = True
         if self.lbconstraint_mode == 'asymmetric':
             self.is_symmetric = False
-            # self.k_baseline = self.k_baseline / 2
         total_time_limit = total_time_limit
         node_time_limit = node_time_limit
 
@@ -5015,8 +3602,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 total_time_limit) + 's' + test_instance_size + '_baseline_k0_average_merged/seed' + str(self.seed) + '/'
         pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
-        index_instance = 160 # 160, 0
-        index_max =200 # 200, 30
+        index_instance = 160
+        index_max =200
 
         if self.instance_type == instancetypes[3]:
             index_instance = 80
@@ -5028,7 +3615,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         if self.instance_type == 'combinatorialauction' and test_instance_size == '-large':
             index_instance = 0
             index_max = 40
-
 
 
         while index_instance < index_max:
@@ -5115,17 +3701,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         # input:
         # k_prime: gnn_prime without merged
-        # baseline: baseline
-        # k_prime_merged: gnn_prime_merged
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
@@ -5135,8 +3715,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -5182,17 +3760,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
 
-            # filename = f'{directory_lb_test}lb-test-{instance_name}.pkl'
-            #
-            # with gzip.open(filename, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs, times, objs_pred, times_pred, objs_pred_reset, times_pred_reset = data  # objs contains objs of a single instance of a lb test
-            #
-            # filename_2 = f'{directory_lb_test_2}lb-test-{instance_name}.pkl'
-            #
-            # with gzip.open(filename_2, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs_2, times_2, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
 
             # test from k_prime
             filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
@@ -5227,19 +3794,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 data = pickle.load(f)
             objs_2, times_k_2 = data  # objs contains objs of a single instance of a lb test
 
-            # print('baseline: ')
-            # print('objs :', objs)
-            # print('times :', times)
-            #
-            # print('homo: ')
-            # print('objs :', objs_k_prime)
-            # print('times :', times_k_prime)
-            #
-            # print('merged: ')
-            # print('objs :', objs_k_prime_merged)
-            # print('times :', times_k_prime_merged)
-
-
 
             objs = np.array(objs).reshape(-1)
             times = np.array(times).reshape(-1)
@@ -5256,90 +3810,10 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-            a = [objs.min(), objs_2.min(), objs_k_prime.min(), objs_k_prime_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]  # objs_2.min(), objs_pred_2.min(), objs_pred_reset_2.min(),
-            # a = [objs.min(), objs_pred.min(), objs_pred_reset.min()]
+            a = [objs.min(), objs_2.min(), objs_k_prime.min(), objs_k_prime_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]
             obj_opt = np.amin(a)
 
-            # # compute primal gap for baseline localbranching run
-            # # if times[-1] < total_time_limit:
-            # times = np.append(times, total_time_limit)
-            # objs = np.append(objs, objs[-1])
-            #
-            # gamma_baseline = np.zeros(len(objs))
-            # for j in range(len(objs)):
-            #     if objs[j] == 0 and obj_opt == 0:
-            #         gamma_baseline[j] = 0
-            #     elif objs[j] * obj_opt < 0:
-            #         gamma_baseline[j] = 1
-            #     else:
-            #         gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))  #
-            #
-            # # compute the primal gap of last objective
-            # primal_gap_final_baseline = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt)
-            # primal_gap_final_baselines.append(primal_gap_final_baseline)
-            #
-            # # create step line
-            # stepline_baseline = interp1d(times, gamma_baseline, 'previous')
-            # steplines_baseline.append(stepline_baseline)
-            #
-            # # compute primal integral
-            # primal_int_baseline = 0
-            # for j in range(len(objs) - 1):
-            #     primal_int_baseline += gamma_baseline[j] * (times[j + 1] - times[j])
-            # primal_int_baselines.append(primal_int_baseline)primal_int_baseline
 
-            # # lb-gnn
-            # # if times_pred[-1] < total_time_limit:
-            # times_pred = np.append(times_pred, total_time_limit)
-            # objs_pred = np.append(objs_pred, objs_pred[-1])
-            #
-            # gamma_pred = np.zeros(len(objs_pred))
-            # for j in range(len(objs_pred)):
-            #     if objs_pred[j] == 0 and obj_opt == 0:
-            #         gamma_pred[j] = 0
-            #     elif objs_pred[j] * obj_opt < 0:
-            #         gamma_pred[j] = 1
-            #     else:
-            #         gamma_pred[j] = np.abs(objs_pred[j] - obj_opt) / np.maximum(np.abs(objs_pred[j]),
-            #                                                                     np.abs(obj_opt))  #
-            #
-            # primal_gap_final_pred = np.abs(objs_pred[-1] - obj_opt) / np.abs(obj_opt)
-            # primal_gap_final_preds.append(primal_gap_final_pred)
-            #
-            # stepline_pred = interp1d(times_pred, gamma_pred, 'previous')
-            # steplines_pred.append(stepline_pred)
-            #
-            # # compute primal interal
-            # primal_int_pred = 0
-            # for j in range(len(objs_pred) - 1):
-            #     primal_int_pred += gamma_pred[j] * (times_pred[j + 1] - times_pred[j])
-            # primal_int_preds.append(primal_int_pred)
-            #
-            # # lb-gnn-reset
-            # times_pred_reset = np.append(times_pred_reset, total_time_limit)
-            # objs_pred_reset = np.append(objs_pred_reset, objs_pred_reset[-1])
-            #
-            # gamma_pred_reset = np.zeros(len(objs_pred_reset))
-            # for j in range(len(objs_pred_reset)):
-            #     if objs_pred_reset[j] == 0 and obj_opt == 0:
-            #         gamma_pred_reset[j] = 0
-            #     elif objs_pred_reset[j] * obj_opt < 0:
-            #         gamma_pred_reset[j] = 1
-            #     else:
-            #         gamma_pred_reset[j] = np.abs(objs_pred_reset[j] - obj_opt) / np.maximum(np.abs(objs_pred_reset[j]),
-            #                                                                                 np.abs(obj_opt))  #
-            #
-            # primal_gap_final_pred_reset = np.abs(objs_pred_reset[-1] - obj_opt) / np.abs(obj_opt)
-            # primal_gap_final_preds_reset.append(primal_gap_final_pred_reset)
-            #
-            # stepline_pred_reset = interp1d(times_pred_reset, gamma_pred_reset, 'previous')
-            # steplines_pred_reset.append(stepline_pred_reset)
-            #
-            # # compute primal interal
-            # primal_int_pred_reset = 0
-            # for j in range(len(objs_pred_reset) - 1):
-            #     primal_int_pred_reset += gamma_pred_reset[j] * (times_pred_reset[j + 1] - times_pred_reset[j])
-            # primal_int_preds_reset.append(primal_int_pred_reset)
 
             # lb-regression-k-prime
             # if times_regression[-1] < total_time_limit:
@@ -5370,31 +3844,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             steplines_regression_k_primes_merged.append(stepline_regression_k_prime_merged)
             primal_int_regression_k_primes_merged.append(primal_int_regression_k_prime_merged)
 
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of objective")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, objs, label='lb baseline')
-            # ax.plot(times_pred, objs_pred, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
-            #
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of primal gap")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, gamma_baseline, label='lb baseline')
-            # ax.plot(times_pred, gamma_pred, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_preds = np.array(primal_int_preds).reshape(-1)
@@ -5408,7 +3857,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         primal_gap_final_regression_k_primes = np.array(primal_gap_final_regression_k_primes).reshape(-1)
         primal_gap_final_regression_k_primes_merged = np.array(primal_gap_final_regression_k_primes_merged).reshape(-1)
 
-        # avarage primal integral over test dataset
+        # average primal integral over test dataset
         primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
         primal_int_pred_ave = primal_int_preds.sum() / len(primal_int_preds)
         primal_int_pred_ave_reset = primal_int_preds_reset.sum() / len(primal_int_preds_reset)
@@ -5425,14 +3874,10 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print(self.instance_type + test_instance_size)
         print(self.incumbent_mode + 'Solution')
         print('baseline primal integral: ', primal_int_base_ave)
-        # print('k_pred primal integral: ', primal_int_pred_ave)
-        # print('k_pred_reset primal integral: ', primal_int_pred_ave_reset)
         print('k_regre_prime primal integral: ', primal_int_regression_k_prime_ave)
         print('k_regre_prime_merged primal integral: ', primal_int_regression_k_prime_merged_ave)
         print('\n')
         print('baseline primal gap: ', primal_gap_final_baselines_ave)
-        # print('k_pred primal gap: ', primal_gap_final_preds)
-        # print('k_pred_reset primal gap: ', primal_gap_final_preds_reset)
         print('k_regre_prime primal gap: ', primal_gap_final_regression_k_primes_ave)
         print('k_regre_prime_merged primal gap: ', primal_gap_final_regression_k_primes_merged_ave)
 
@@ -5446,23 +3891,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
 
-        # primalgaps_pred = None
-        # for n, stepline_pred in enumerate(steplines_pred):
-        #     primal_gap = stepline_pred(t)
-        #     if n == 0:
-        #         primalgaps_pred = primal_gap
-        #     else:
-        #         primalgaps_pred = np.vstack((primalgaps_pred, primal_gap))
-        # primalgap_pred_ave = np.average(primalgaps_pred, axis=0)
-        #
-        # primalgaps_pred_reset = None
-        # for n, stepline_pred_reset in enumerate(steplines_pred_reset):
-        #     primal_gap = stepline_pred_reset(t)
-        #     if n == 0:
-        #         primalgaps_pred_reset = primal_gap
-        #     else:
-        #         primalgaps_pred_reset = np.vstack((primalgaps_pred_reset, primal_gap))
-        # primalgap_pred_ave_reset = np.average(primalgaps_pred_reset, axis=0)
 
         primalgaps_regression_k_prime = None
         for n, stepline in enumerate(steplines_regression_k_primes):
@@ -5486,11 +3914,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle("Normalized primal gap")
-        # fig.subplots_adjust(top=0.5)
         ax.set_title(self.instance_type + '-' + test_instance_size + '-' + self.incumbent_mode, loc='right')
         ax.plot(t, primalgap_baseline_ave, label='lb-baseline')
-        # ax.plot(t, primalgap_pred_ave, label='lb-regression-noreset')
-        # ax.plot(t, primalgap_pred_ave_reset, '--', label='lb-regression')
         ax.plot(t, primalgap_regression_k_prime_ave, label='lb-regression-k-prime-homo')
         ax.plot(t, primalgap_regression_k_prime_merged_ave, label='lb-regression-k-prime-merged')
         ax.set_xlabel('time /s')
@@ -5502,17 +3927,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         # input:
         # k_prime: gnn_prime without merged
-        # baseline: baseline
-        # k_prime_merged: gnn_prime_merged
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
@@ -5522,8 +3941,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -5563,23 +3980,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
 
-            # filename = f'{directory_lb_test}lb-test-{instance_name}.pkl'
-            #
-            # with gzip.open(filename, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs, times, objs_pred, times_pred, objs_pred_reset, times_pred_reset = data  # objs contains objs of a single instance of a lb test
-            #
-            # filename_2 = f'{directory_lb_test_2}lb-test-{instance_name}.pkl'
-            #
-            # with gzip.open(filename_2, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs_2, times_2, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
-
-            # # test from k_prime
-            # filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
-            # with gzip.open(filename, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
 
             # test from k_prime_merged
             filename = f'{directory_lb_test_k_prime_merged}lb-test-{instance_name}.pkl'
@@ -5593,10 +3993,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 data = pickle.load(f)
             objs, times = data  # objs contains objs of a single instance of a lb test
 
-            # filename = f'{directory_lb_test_k_prime_2}lb-test-{instance_name}.pkl'
-            # with gzip.open(filename, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs_k_prime_2, times_k_prime_2 = data  # objs contains objs of a single instance of a lb test
 
             filename = f'{directory_lb_test_k_prime_merged_2}lb-test-{instance_name}.pkl'
             with gzip.open(filename, 'rb') as f:
@@ -5613,100 +4009,16 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
             objs_2 = np.array(objs_2).reshape(-1)
 
-            # objs_k_prime = np.array(objs_k_prime).reshape(-1)
-            # times_k_prime = np.array(times_k_prime).reshape(-1)
-            #
-            # objs_k_prime_2 = np.array(objs_k_prime_2).reshape(-1)
 
             objs_k_prime_merged = np.array(objs_k_prime_merged).reshape(-1)
             times_k_prime_merged = np.array(times_k_prime_merged).reshape(-1)
 
             objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-            a = [objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]  # objs_2.min(), objs_pred_2.min(), objs_pred_reset_2.min(), objs_k_prime.min(), objs_k_prime_2.min(),
-            # a = [objs.min(), objs_pred.min(), objs_pred_reset.min()]
+            a = [objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]
             obj_opt = np.amin(a)
 
-            # # compute primal gap for baseline localbranching run
-            # # if times[-1] < total_time_limit:
-            # times = np.append(times, total_time_limit)
-            # objs = np.append(objs, objs[-1])
-            #
-            # gamma_baseline = np.zeros(len(objs))
-            # for j in range(len(objs)):
-            #     if objs[j] == 0 and obj_opt == 0:
-            #         gamma_baseline[j] = 0
-            #     elif objs[j] * obj_opt < 0:
-            #         gamma_baseline[j] = 1
-            #     else:
-            #         gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))  #
-            #
-            # # compute the primal gap of last objective
-            # primal_gap_final_baseline = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt)
-            # primal_gap_final_baselines.append(primal_gap_final_baseline)
-            #
-            # # create step line
-            # stepline_baseline = interp1d(times, gamma_baseline, 'previous')
-            # steplines_baseline.append(stepline_baseline)
-            #
-            # # compute primal integral
-            # primal_int_baseline = 0
-            # for j in range(len(objs) - 1):
-            #     primal_int_baseline += gamma_baseline[j] * (times[j + 1] - times[j])
-            # primal_int_baselines.append(primal_int_baseline)primal_int_baseline
 
-            # # lb-gnn
-            # # if times_pred[-1] < total_time_limit:
-            # times_pred = np.append(times_pred, total_time_limit)
-            # objs_pred = np.append(objs_pred, objs_pred[-1])
-            #
-            # gamma_pred = np.zeros(len(objs_pred))
-            # for j in range(len(objs_pred)):
-            #     if objs_pred[j] == 0 and obj_opt == 0:
-            #         gamma_pred[j] = 0
-            #     elif objs_pred[j] * obj_opt < 0:
-            #         gamma_pred[j] = 1
-            #     else:
-            #         gamma_pred[j] = np.abs(objs_pred[j] - obj_opt) / np.maximum(np.abs(objs_pred[j]),
-            #                                                                     np.abs(obj_opt))  #
-            #
-            # primal_gap_final_pred = np.abs(objs_pred[-1] - obj_opt) / np.abs(obj_opt)
-            # primal_gap_final_preds.append(primal_gap_final_pred)
-            #
-            # stepline_pred = interp1d(times_pred, gamma_pred, 'previous')
-            # steplines_pred.append(stepline_pred)
-            #
-            # # compute primal interal
-            # primal_int_pred = 0
-            # for j in range(len(objs_pred) - 1):
-            #     primal_int_pred += gamma_pred[j] * (times_pred[j + 1] - times_pred[j])
-            # primal_int_preds.append(primal_int_pred)
-            #
-            # # lb-gnn-reset
-            # times_pred_reset = np.append(times_pred_reset, total_time_limit)
-            # objs_pred_reset = np.append(objs_pred_reset, objs_pred_reset[-1])
-            #
-            # gamma_pred_reset = np.zeros(len(objs_pred_reset))
-            # for j in range(len(objs_pred_reset)):
-            #     if objs_pred_reset[j] == 0 and obj_opt == 0:
-            #         gamma_pred_reset[j] = 0
-            #     elif objs_pred_reset[j] * obj_opt < 0:
-            #         gamma_pred_reset[j] = 1
-            #     else:
-            #         gamma_pred_reset[j] = np.abs(objs_pred_reset[j] - obj_opt) / np.maximum(np.abs(objs_pred_reset[j]),
-            #                                                                                 np.abs(obj_opt))  #
-            #
-            # primal_gap_final_pred_reset = np.abs(objs_pred_reset[-1] - obj_opt) / np.abs(obj_opt)
-            # primal_gap_final_preds_reset.append(primal_gap_final_pred_reset)
-            #
-            # stepline_pred_reset = interp1d(times_pred_reset, gamma_pred_reset, 'previous')
-            # steplines_pred_reset.append(stepline_pred_reset)
-            #
-            # # compute primal interal
-            # primal_int_pred_reset = 0
-            # for j in range(len(objs_pred_reset) - 1):
-            #     primal_int_pred_reset += gamma_pred_reset[j] * (times_pred_reset[j + 1] - times_pred_reset[j])
-            # primal_int_preds_reset.append(primal_int_pred_reset)
 
             # lb-regression-k-prime
             # if times_regression[-1] < total_time_limit:
@@ -5721,13 +4033,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             steplines_baseline.append(stepline_baseline)
             primal_int_baselines.append(primal_int_baseline)
 
-            # # regression_k_prime
-            # primal_int_regression_k_prime, primal_gap_final_regression_k_prime, stepline_regression_k_prime = self.compute_primal_integral(
-            #     times=times_k_prime, objs=objs_k_prime, obj_opt=obj_opt, total_time_limit=total_time_limit)
-            #
-            # primal_gap_final_regression_k_primes.append(primal_gap_final_regression_k_prime)
-            # steplines_regression_k_primes.append(stepline_regression_k_prime)
-            # primal_int_regression_k_primes.append(primal_int_regression_k_prime)
 
             # regression_k_prime_merged
             primal_int_regression_k_prime_merged, primal_gap_final_regression_k_prime_merged, stepline_regression_k_prime_merged = self.compute_primal_integral(
@@ -5737,31 +4042,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
             steplines_regression_k_primes_merged.append(stepline_regression_k_prime_merged)
             primal_int_regression_k_primes_merged.append(primal_int_regression_k_prime_merged)
 
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of objective")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, objs, label='lb baseline')
-            # ax.plot(times_pred, objs_pred, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
-            #
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of primal gap")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, gamma_baseline, label='lb baseline')
-            # ax.plot(times_pred, gamma_pred, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_preds = np.array(primal_int_preds).reshape(-1)
@@ -5775,7 +4055,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         primal_gap_final_regression_k_primes = np.array(primal_gap_final_regression_k_primes).reshape(-1)
         primal_gap_final_regression_k_primes_merged = np.array(primal_gap_final_regression_k_primes_merged).reshape(-1)
 
-        # avarage primal integral over test dataset
+        # average primal integral over test dataset
         primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
         primal_int_pred_ave = primal_int_preds.sum() / len(primal_int_preds)
         primal_int_pred_ave_reset = primal_int_preds_reset.sum() / len(primal_int_preds_reset)
@@ -5792,15 +4072,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print(self.instance_type + self.instance_size)
         print(self.incumbent_mode + 'Solution')
         print('baseline primal integral: ', primal_int_base_ave)
-        # print('k_pred primal integral: ', primal_int_pred_ave)
-        # print('k_pred_reset primal integral: ', primal_int_pred_ave_reset)
-        # print('k_regre_prime primal integral: ', primal_int_regression_k_prime_ave)
         print('k_regre_prime_merged primal integral: ', primal_int_regression_k_prime_merged_ave)
         print('\n')
         print('baseline primal gap: ', primal_gap_final_baselines_ave)
-        # print('k_pred primal gap: ', primal_gap_final_preds)
-        # print('k_pred_reset primal gap: ', primal_gap_final_preds_reset)
-        # print('k_regre_prime primal gap: ', primal_gap_final_regression_k_primes_ave)
         print('k_regre_prime_merged primal gap: ', primal_gap_final_regression_k_primes_merged_ave)
 
         t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
@@ -5813,32 +4087,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
 
-        # primalgaps_pred = None
-        # for n, stepline_pred in enumerate(steplines_pred):
-        #     primal_gap = stepline_pred(t)
-        #     if n == 0:
-        #         primalgaps_pred = primal_gap
-        #     else:
-        #         primalgaps_pred = np.vstack((primalgaps_pred, primal_gap))
-        # primalgap_pred_ave = np.average(primalgaps_pred, axis=0)
-        #
-        # primalgaps_pred_reset = None
-        # for n, stepline_pred_reset in enumerate(steplines_pred_reset):
-        #     primal_gap = stepline_pred_reset(t)
-        #     if n == 0:
-        #         primalgaps_pred_reset = primal_gap
-        #     else:
-        #         primalgaps_pred_reset = np.vstack((primalgaps_pred_reset, primal_gap))
-        # primalgap_pred_ave_reset = np.average(primalgaps_pred_reset, axis=0)
-
-        # primalgaps_regression_k_prime = None
-        # for n, stepline in enumerate(steplines_regression_k_primes):
-        #     primal_gap = stepline(t)
-        #     if n == 0:
-        #         primalgaps_regression_k_prime = primal_gap
-        #     else:
-        #         primalgaps_regression_k_prime = np.vstack((primalgaps_regression_k_prime, primal_gap))
-        # primalgap_regression_k_prime_ave = np.average(primalgaps_regression_k_prime, axis=0)
 
         primalgaps_regression_k_prime_merged = None
         for n, stepline in enumerate(steplines_regression_k_primes_merged):
@@ -5853,12 +4101,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle("Normalized primal gap")
-        # fig.subplots_adjust(top=0.5)
         ax.set_title(self.instance_type + '-' + test_instance_size + '-' + self.incumbent_mode, loc='right')
         ax.plot(t, primalgap_baseline_ave, label='lb-baseline')
-        # ax.plot(t, primalgap_pred_ave, label='lb-regression-noreset')
-        # ax.plot(t, primalgap_pred_ave_reset, '--', label='lb-regression')
-        # ax.plot(t, primalgap_regression_k_prime_ave, label='lb-regression-k-prime-homo')
         ax.plot(t, primalgap_regression_k_prime_merged_ave, label='lb-regression-k-prime-merged')
         ax.set_xlabel('time /s')
         ax.set_ylabel("normalized primal gap")
@@ -5868,17 +4112,11 @@ class RegressionInitialK_KPrime(MlLocalbranch):
     def primal_integral_k_prime_miplib_bianry39(self, test_instance_size, total_time_limit=60, node_time_limit=30):
 
         # input:
-        # baseline
-        # k_prime_merged: gnn_merged
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '_merged/'
@@ -5888,8 +4126,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -5929,23 +4165,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
                 instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
 
-                # filename = f'{directory_lb_test}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs, times, objs_pred, times_pred, objs_pred_reset, times_pred_reset = data  # objs contains objs of a single instance of a lb test
-                #
-                # filename_2 = f'{directory_lb_test_2}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename_2, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_2, times_2, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
-
-                # # test from k_prime
-                # filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
 
                 # test from k_prime_merged
                 filename = f'{directory_lb_test_k_prime_merged}lb-test-{instance_name}.pkl'
@@ -5959,10 +4178,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                     data = pickle.load(f)
                 objs, times = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_k_prime_2}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime_2, times_k_prime_2 = data  # objs contains objs of a single instance of a lb test
 
                 filename = f'{directory_lb_test_k_prime_merged_2}lb-test-{instance_name}.pkl'
                 with gzip.open(filename, 'rb') as f:
@@ -5979,100 +4194,16 @@ class RegressionInitialK_KPrime(MlLocalbranch):
 
                 objs_2 = np.array(objs_2).reshape(-1)
 
-                # objs_k_prime = np.array(objs_k_prime).reshape(-1)
-                # times_k_prime = np.array(times_k_prime).reshape(-1)
-                #
-                # objs_k_prime_2 = np.array(objs_k_prime_2).reshape(-1)
 
                 objs_k_prime_merged = np.array(objs_k_prime_merged).reshape(-1)
                 times_k_prime_merged = np.array(times_k_prime_merged).reshape(-1)
 
                 objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-                a = [objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]  # objs_2.min(), objs_pred_2.min(), objs_pred_reset_2.min(), objs_k_prime.min(),  objs_k_prime_2.min(),
-                # a = [objs.min(), objs_pred.min(), objs_pred_reset.min()]
+                a = [objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]
                 obj_opt = np.amin(a)
 
-                # # compute primal gap for baseline localbranching run
-                # # if times[-1] < total_time_limit:
-                # times = np.append(times, total_time_limit)
-                # objs = np.append(objs, objs[-1])
-                #
-                # gamma_baseline = np.zeros(len(objs))
-                # for j in range(len(objs)):
-                #     if objs[j] == 0 and obj_opt == 0:
-                #         gamma_baseline[j] = 0
-                #     elif objs[j] * obj_opt < 0:
-                #         gamma_baseline[j] = 1
-                #     else:
-                #         gamma_baseline[j] = np.abs(objs[j] - obj_opt) / np.maximum(np.abs(objs[j]), np.abs(obj_opt))  #
-                #
-                # # compute the primal gap of last objective
-                # primal_gap_final_baseline = np.abs(objs[-1] - obj_opt) / np.abs(obj_opt)
-                # primal_gap_final_baselines.append(primal_gap_final_baseline)
-                #
-                # # create step line
-                # stepline_baseline = interp1d(times, gamma_baseline, 'previous')
-                # steplines_baseline.append(stepline_baseline)
-                #
-                # # compute primal integral
-                # primal_int_baseline = 0
-                # for j in range(len(objs) - 1):
-                #     primal_int_baseline += gamma_baseline[j] * (times[j + 1] - times[j])
-                # primal_int_baselines.append(primal_int_baseline)primal_int_baseline
 
-                # # lb-gnn
-                # # if times_pred[-1] < total_time_limit:
-                # times_pred = np.append(times_pred, total_time_limit)
-                # objs_pred = np.append(objs_pred, objs_pred[-1])
-                #
-                # gamma_pred = np.zeros(len(objs_pred))
-                # for j in range(len(objs_pred)):
-                #     if objs_pred[j] == 0 and obj_opt == 0:
-                #         gamma_pred[j] = 0
-                #     elif objs_pred[j] * obj_opt < 0:
-                #         gamma_pred[j] = 1
-                #     else:
-                #         gamma_pred[j] = np.abs(objs_pred[j] - obj_opt) / np.maximum(np.abs(objs_pred[j]),
-                #                                                                     np.abs(obj_opt))  #
-                #
-                # primal_gap_final_pred = np.abs(objs_pred[-1] - obj_opt) / np.abs(obj_opt)
-                # primal_gap_final_preds.append(primal_gap_final_pred)
-                #
-                # stepline_pred = interp1d(times_pred, gamma_pred, 'previous')
-                # steplines_pred.append(stepline_pred)
-                #
-                # # compute primal interal
-                # primal_int_pred = 0
-                # for j in range(len(objs_pred) - 1):
-                #     primal_int_pred += gamma_pred[j] * (times_pred[j + 1] - times_pred[j])
-                # primal_int_preds.append(primal_int_pred)
-                #
-                # # lb-gnn-reset
-                # times_pred_reset = np.append(times_pred_reset, total_time_limit)
-                # objs_pred_reset = np.append(objs_pred_reset, objs_pred_reset[-1])
-                #
-                # gamma_pred_reset = np.zeros(len(objs_pred_reset))
-                # for j in range(len(objs_pred_reset)):
-                #     if objs_pred_reset[j] == 0 and obj_opt == 0:
-                #         gamma_pred_reset[j] = 0
-                #     elif objs_pred_reset[j] * obj_opt < 0:
-                #         gamma_pred_reset[j] = 1
-                #     else:
-                #         gamma_pred_reset[j] = np.abs(objs_pred_reset[j] - obj_opt) / np.maximum(np.abs(objs_pred_reset[j]),
-                #                                                                                 np.abs(obj_opt))  #
-                #
-                # primal_gap_final_pred_reset = np.abs(objs_pred_reset[-1] - obj_opt) / np.abs(obj_opt)
-                # primal_gap_final_preds_reset.append(primal_gap_final_pred_reset)
-                #
-                # stepline_pred_reset = interp1d(times_pred_reset, gamma_pred_reset, 'previous')
-                # steplines_pred_reset.append(stepline_pred_reset)
-                #
-                # # compute primal interal
-                # primal_int_pred_reset = 0
-                # for j in range(len(objs_pred_reset) - 1):
-                #     primal_int_pred_reset += gamma_pred_reset[j] * (times_pred_reset[j + 1] - times_pred_reset[j])
-                # primal_int_preds_reset.append(primal_int_pred_reset)
 
                 # lb-regression-k-prime
                 # if times_regression[-1] < total_time_limit:
@@ -6085,13 +4216,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 steplines_baseline.append(stepline_baseline)
                 primal_int_baselines.append(primal_int_baseline)
 
-                # # regression_k_prime
-                # primal_int_regression_k_prime, primal_gap_final_regression_k_prime, stepline_regression_k_prime = self.compute_primal_integral(
-                #     times=times_k_prime, objs=objs_k_prime, obj_opt=obj_opt, total_time_limit=total_time_limit)
-                #
-                # primal_gap_final_regression_k_primes.append(primal_gap_final_regression_k_prime)
-                # steplines_regression_k_primes.append(stepline_regression_k_prime)
-                # primal_int_regression_k_primes.append(primal_int_regression_k_prime)
 
                 # regression_k_prime_merged
                 primal_int_regression_k_prime_merged, primal_gap_final_regression_k_prime_merged, stepline_regression_k_prime_merged = self.compute_primal_integral(
@@ -6101,31 +4225,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 steplines_regression_k_primes_merged.append(stepline_regression_k_prime_merged)
                 primal_int_regression_k_primes_merged.append(primal_int_regression_k_prime_merged)
 
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of objective")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, objs, label='lb baseline')
-                # ax.plot(times_pred, objs_pred, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
-                #
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, gamma_baseline, label='lb baseline')
-                # ax.plot(times_pred, gamma_pred, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_preds = np.array(primal_int_preds).reshape(-1)
@@ -6139,7 +4238,7 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         primal_gap_final_regression_k_primes = np.array(primal_gap_final_regression_k_primes).reshape(-1)
         primal_gap_final_regression_k_primes_merged = np.array(primal_gap_final_regression_k_primes_merged).reshape(-1)
 
-        # avarage primal integral over test dataset
+        # average primal integral over test dataset
         primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
         primal_int_pred_ave = primal_int_preds.sum() / len(primal_int_preds)
         primal_int_pred_ave_reset = primal_int_preds_reset.sum() / len(primal_int_preds_reset)
@@ -6156,15 +4255,9 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         print(self.instance_type + self.instance_size)
         print(self.incumbent_mode + 'Solution')
         print('baseline primal integral: ', primal_int_base_ave)
-        # print('k_pred primal integral: ', primal_int_pred_ave)
-        # print('k_pred_reset primal integral: ', primal_int_pred_ave_reset)
-        # print('k_regre_prime primal integral: ', primal_int_regression_k_prime_ave)
         print('k_regre_prime_merged primal integral: ', primal_int_regression_k_prime_merged_ave)
         print('\n')
         print('baseline primal gap: ', primal_gap_final_baselines_ave)
-        # print('k_pred primal gap: ', primal_gap_final_preds)
-        # print('k_pred_reset primal gap: ', primal_gap_final_preds_reset)
-        # print('k_regre_prime primal gap: ', primal_gap_final_regression_k_primes_ave)
         print('k_regre_prime primal gap: ', primal_gap_final_regression_k_primes_merged_ave)
 
         t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
@@ -6177,32 +4270,6 @@ class RegressionInitialK_KPrime(MlLocalbranch):
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
 
-        # primalgaps_pred = None
-        # for n, stepline_pred in enumerate(steplines_pred):
-        #     primal_gap = stepline_pred(t)
-        #     if n == 0:
-        #         primalgaps_pred = primal_gap
-        #     else:
-        #         primalgaps_pred = np.vstack((primalgaps_pred, primal_gap))
-        # primalgap_pred_ave = np.average(primalgaps_pred, axis=0)
-        #
-        # primalgaps_pred_reset = None
-        # for n, stepline_pred_reset in enumerate(steplines_pred_reset):
-        #     primal_gap = stepline_pred_reset(t)
-        #     if n == 0:
-        #         primalgaps_pred_reset = primal_gap
-        #     else:
-        #         primalgaps_pred_reset = np.vstack((primalgaps_pred_reset, primal_gap))
-        # primalgap_pred_ave_reset = np.average(primalgaps_pred_reset, axis=0)
-
-        # primalgaps_regression_k_prime = None
-        # for n, stepline in enumerate(steplines_regression_k_primes):
-        #     primal_gap = stepline(t)
-        #     if n == 0:
-        #         primalgaps_regression_k_prime = primal_gap
-        #     else:
-        #         primalgaps_regression_k_prime = np.vstack((primalgaps_regression_k_prime, primal_gap))
-        # primalgap_regression_k_prime_ave = np.average(primalgaps_regression_k_prime, axis=0)
 
         primalgaps_regression_k_prime_merged = None
         for n, stepline in enumerate(steplines_regression_k_primes_merged):
@@ -6217,12 +4284,8 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle("Normalized primal gap")
-        # fig.subplots_adjust(top=0.5)
         ax.set_title(self.instance_type + '-' + test_instance_size + '-' + self.incumbent_mode, loc='right')
         ax.plot(t, primalgap_baseline_ave, label='lb-baseline')
-        # ax.plot(t, primalgap_pred_ave, label='lb-regression-noreset')
-        # ax.plot(t, primalgap_pred_ave_reset, '--', label='lb-regression')
-        # ax.plot(t, primalgap_regression_k_prime_ave, label='lb-regression-k-prime-homo')
         ax.plot(t, primalgap_regression_k_prime_merged_ave, label='lb-regression-k-prime-merged')
         ax.set_xlabel('time /s')
         ax.set_ylabel("normalized primal gap")
@@ -6230,6 +4293,16 @@ class RegressionInitialK_KPrime(MlLocalbranch):
         plt.show()
 
 class RlLocalbranch(MlLocalbranch):
+    """Training and evaluation of the RL (REINFORCE) policies for local branching.
+
+    Provides the training loops for the k-policy (train_agent_policy_k) and
+    the t-policy (train_agent_policy_t), the evaluation of the RL-guided LB
+    heuristics lb-rl, lb-srmrl and lb-srmrl-adapt-t of Section 5
+    (evaluate_localbranching_rlactive, evaluate_localbranching_rlactive_policy_kt),
+    and the primal-integral post-processing that prints and plots the
+    results (primal_integral, primal_integral_03, primal_gap_integral_hybrid_03).
+    """
+
     def __init__(self, instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100, enable_gpu=False):
         super().__init__(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed, enable_gpu)
         self.alpha = 0.01
@@ -6279,7 +4352,6 @@ class RlLocalbranch(MlLocalbranch):
 
     def mdp_localbranch(self, localbranch=None, is_symmetric=True, reset_k_at_2nditeration=False, agent_k=None, optimizer_k=None, agent_t=None, optimizer_t=None, device=None, enable_adapt_t=False, t_reward_type=t_reward_types[0]):
 
-        # self.total_time_limit = total_time_limit
         localbranch.total_time_available = localbranch.total_time_limit
         localbranch.first = False
         localbranch.diversify = False
@@ -6334,12 +4406,6 @@ class RlLocalbranch(MlLocalbranch):
 
             k_vanilla, t_action = localbranch.policy_vanilla(state)
 
-            # data_sample = [state, k_vanilla]
-            #
-            # filename = f'{samples_dir}imitation_{localbranch.MIP_model.getProbName()}_{lb_bits}.pkl'
-            #
-            # with gzip.open(filename, 'wb') as f:
-            #     pickle.dump(data_sample, f)
 
             k_action = k_vanilla
             if agent_k is not None:
@@ -6348,11 +4414,6 @@ class RlLocalbranch(MlLocalbranch):
             if agent_t is not None:
                 t_action = agent_t.select_action(state)
 
-                # # for online learning, update policy
-                # if optimizer is not None:
-                #     optimizer.zero_grad()
-                #     loss.backward()
-                #     optimizer.step()
 
             # execute one iteration of LB, get the state and rewards
 
@@ -6388,8 +4449,6 @@ class RlLocalbranch(MlLocalbranch):
         k_list.append(localbranch.k)
 
         status = localbranch.MIP_model.getStatus()
-        # if status == "optimal" or status == "bestsollimit":
-        #     localbranch.MIP_obj_best = localbranch.MIP_model.getObjVal()
 
         elapsed_time = localbranch.total_time_limit - localbranch.total_time_available
 
@@ -6398,28 +4457,6 @@ class RlLocalbranch(MlLocalbranch):
         objs_list = np.array(obj_list).reshape(-1)
         k_list = np.array(k_list).reshape(-1)
 
-        # plt.clf()
-        # fig, ax = plt.subplots(2, 1, figsize=(8, 6.4))
-        # fig.suptitle(self.instance_type + 'large' + '-' + self.incumbent_mode, fontsize=13)
-        # # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
-        #
-        # ax[0].plot(times_list, objs_list, label='lb-rl', color='tab:red')
-        # ax[0].set_xlabel('time /s', fontsize=12)
-        # ax[0].set_ylabel("objective", fontsize=12)
-        # ax[0].legend()
-        # ax[0].grid()
-        #
-        # ax[1].plot(times_list, k_list, label='lb-rl', color='tab:red')
-        # ax[1].set_xlabel('time /s', fontsize=12)
-        # ax[1].set_ylabel("k", fontsize=12)
-        # ax[1].legend()
-        # ax[1].grid()
-        # # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # # fig.tight_layout()
-        # # plt.savefig(
-        # #     './result/plots/' + self.instance_type + '_' + self.instance_size + '_' + self.incumbent_mode + '.png')
-        # plt.show()
-        # plt.clf()
 
         del localbranch.subMIP_sol_best
         del localbranch.MIP_sol_bar
@@ -6440,26 +4477,6 @@ class RlLocalbranch(MlLocalbranch):
         """
         gc.collect()
 
-        # filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
-        # firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
-        #
-        # MIP_model = Model()
-        # MIP_model.readProblem(filename)
-        # instance_name = MIP_model.getProbName()
-        # print(instance_name)
-        # n_vars = MIP_model.getNVars()
-        # n_binvars = MIP_model.getNBinVars()
-        # print("N of variables: {}".format(n_vars))
-        # print("N of binary vars: {}".format(n_binvars))
-        # print("N of constraints: {}".format(MIP_model.getNConss()))
-        #
-        # incumbent_solution = MIP_model.readSolFile(firstsol_filename)
-        #
-        # feas = MIP_model.checkSol(incumbent_solution)
-        # try:
-        #     MIP_model.addSol(incumbent_solution, False)
-        # except:
-        #     print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
         n_vars = MIP_model.getNVars()
         n_binvars = MIP_model.getNBinVars()
@@ -6485,13 +4502,6 @@ class RlLocalbranch(MlLocalbranch):
                               0]
         graph = graph.to(device)
 
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
-
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         initial_obj = MIP_model.getSolObjVal(incumbent_solution)
         print("Initial obj before LB: {}".format(initial_obj))
@@ -6499,16 +4509,6 @@ class RlLocalbranch(MlLocalbranch):
         binary_supports = binary_support(MIP_model, incumbent_solution)
         print('binary support: ', binary_supports)
 
-        # k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
-        #                     graph.variable_features)
-        #
-        # k_pred = k_model.item() * n_binvars
-        # print('GNN prediction: ', k_model.item())
-        #
-        # if self.is_symmetric == False:
-        #     k_pred = k_model.item() * binary_supports
-        #
-        # del k_model
         del graph
         del observation
 
@@ -6563,10 +4563,6 @@ class RlLocalbranch(MlLocalbranch):
         data = [objs_pred_reset, times_pred_reset]
         primal_integral, primal_gap_final, stepline = self.compute_primal_integral(times_pred_reset, objs_pred_reset, total_time_limit)
 
-        # print('is')
-        # print('try to free MIP_model')
-        # MIP_model_copy3.freeProb()
-        # print('MIP_model freed')
         del sol_MIP_copy3
         del MIP_model_copy3
 
@@ -6577,10 +4573,7 @@ class RlLocalbranch(MlLocalbranch):
         del stepline
 
         index_instance += 1
-        # print('try to delete instance')
         del instance
-        # print('instance deleted')
-        # print('done')
         return index_instance, agent_k, agent_t, primal_integral, primal_gap_final
 
     def update_agent(self, agent, optimizer):
@@ -6642,11 +4635,7 @@ class RlLocalbranch(MlLocalbranch):
 
         device = self.device
         self.regression_dataset = train_instance_type + '-small'
-        # self.evaluation_dataset = self.instance_type + train_instance_size
 
-        # direc = './data/generated_instances/' + self.instance_type + '/' + train_instance_size + '/'
-        # self.directory_transformedmodel = direc + 'transformedmodel' + '/'
-        # self.directory_sol = direc + self.incumbent_mode + '/'
 
         self.k_baseline = 20
 
@@ -6658,10 +4647,6 @@ class RlLocalbranch(MlLocalbranch):
         node_time_limit = node_time_limit
 
         self.saved_model_directory = './result/saved_models/'
-        # self.regression_model_gnn = GNNPolicy()
-        # self.regression_model_gnn.load_state_dict(torch.load(
-        #     self.saved_model_directory + 'trained_params_' + self.regression_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth'))
-        # self.regression_model_gnn.to(device)
 
         self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/k_policy/' + train_instance_type + '/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/' + 'seed' + str(self.seed) + '/'
         pathlib.Path(self.saved_rlmodels_k_policy_directory).mkdir(parents=True, exist_ok=True)
@@ -6669,15 +4654,8 @@ class RlLocalbranch(MlLocalbranch):
         train_directory = './result/generated_instances/' + self.instance_type + '/' + train_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
         self.reinforce_train_directory = train_directory + 'rl/' + 'reinforce/train/k_policy/data/'
         pathlib.Path(self.reinforce_train_directory).mkdir(parents=True, exist_ok=True)
-        # self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-        # pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
         rl_policy_k = SimplePolicy(7, 4)
-        # rl_policy.load_state_dict(torch.load(
-        #     # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'
-        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_imitation.pth'
-        # ))
         rl_policy_k.train()
 
 
@@ -6697,17 +4675,13 @@ class RlLocalbranch(MlLocalbranch):
         primal_integrals_np = None
         primal_gaps_np = None
         epoch_init = 0
-        epoch_start = epoch_init  # 50
+        epoch_start = epoch_init
         epoch_end = epoch_start+n_epochs+1
 
         if use_checkpoint:
             checkpoint = torch.load(
-                # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-                # self.saved_rlmodels_directory + 'good_models/' + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(
-                #     lr) + '_epsilon' + str(epsilon) + '_epoch210.pth'
 
                 self.saved_rlmodels_k_policy_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr) + '_epochs' + str(45) + '.pth'
-                # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(3) + '.pth'
 
             )
             rl_policy_k.load_state_dict(checkpoint['model_state_dict'])
@@ -6729,7 +4703,6 @@ class RlLocalbranch(MlLocalbranch):
                 optimizer_k = optim_k
 
             index_instance = 0
-            # size_trainset = 5
             return_epoch = 0
             primal_integral_epoch = 0
             primal_gap_epoch = 0
@@ -6738,8 +4711,6 @@ class RlLocalbranch(MlLocalbranch):
 
             # while index_instance < size_trainset:
             for batch in (train_loader):
-                # MIP_model = batch['mip_model'][0]
-                # incumbent_solution = batch['incumbent_solution'][0]
 
                 print("instance: ", i)
                 MIP_model = Model()
@@ -6798,9 +4769,7 @@ class RlLocalbranch(MlLocalbranch):
 
             if epoch > 0:
                 filename = f'{self.reinforce_train_directory}lb-rl-checkpoint-reward3-simplepolicy-0.1trainset-lr{str(lr)}-epochs{str(epoch)}.pkl'  # instance 10% of testset
-                # filename = f'{self.reinforce_train_directory}lb-rl-checkpoint-reward3-simplepolicy-lr{str(lr)}-epochs{str(epoch)}.pkl'
 
-                # filename = f'{self.reinforce_train_directory}lb-rl-noregression-noimitation-reward3-train-lr{str(lr)}-epsilon{str(epsilon)}_60s_talored.pkl'  # instance 100-199
                 with gzip.open(filename, 'wb') as f:
                     pickle.dump(data, f)
 
@@ -6811,17 +4780,10 @@ class RlLocalbranch(MlLocalbranch):
                             'optimizer_state_dict': optimizer_k.state_dict(),
                             'loss_data':data,
                             },
-                           # self.saved_rlmodels_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '_60s_talored4independentset-small-firstsol.pth'
 
                     self.saved_rlmodels_k_policy_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
-                            # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
 
-                           # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
                            )
-                # torch.save(rl_policy.state_dict(),
-                #            # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce-checkpoint50_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-                #            self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr' + str(lr) +'_epsilon' + str(epsilon) + '.pth'
-                #            )
 
                 epochs_np = np.array(epochs).reshape(-1)
                 returns_np = np.array(returns_k).reshape(-1)
@@ -6842,7 +4804,6 @@ class RlLocalbranch(MlLocalbranch):
                 ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
                 ax[1].set_xlabel('epoch')
                 ax[1].set_ylabel("primal integral")
-                # ax[1].set_ylim([0, 1.1])
                 ax[1].legend()
 
                 ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
@@ -6857,32 +4818,6 @@ class RlLocalbranch(MlLocalbranch):
 
                 plt.show()
 
-        # epochs_np = np.array(epochs).reshape(-1)
-        # returns_np = np.array(returns_k).reshape(-1)
-        # primal_integrals_np = np.array(primal_integrals).reshape(-1)
-        # primal_gaps_np = np.array(primal_gaps).reshape(-1)
-        #
-        # plt.close('all')
-        # plt.clf()
-        # fig, ax = plt.subplots(3, 1, figsize=(8, 6.4))
-        # fig.suptitle(self.regression_dataset)
-        # fig.subplots_adjust(top=0.5)
-        # ax[0].set_title('lr= ' + str(lr) + ', epsilon=' + str(epsilon), loc='right')
-        # ax[0].plot(epochs_np, returns_np, label='loss')
-        # ax[0].set_xlabel('epoch')
-        # ax[0].set_ylabel("return")
-        #
-        # ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
-        # ax[1].set_xlabel('epoch')
-        # ax[1].set_ylabel("primal integral")
-        # # ax[1].set_ylim([0, 1.1])
-        # ax[1].legend()
-        #
-        # ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
-        # ax[2].set_xlabel('epoch')
-        # ax[2].set_ylabel("primal gap")
-        # ax[2].legend()
-        # plt.show()
 
     def train_agent_policy_t(self, train_instance_size='-small', train_incumbent_mode=incumbent_modes[0], total_time_limit=60, node_time_limit=10,
                              reset_k_at_2nditeration=False, lr_k=0.01, lr_t=0.01, n_epochs=20, epsilon=0, use_checkpoint=False, rl_k_policy_path ='', t_reward_type = t_reward_types[0], enable_adapt_t=False):
@@ -6912,12 +4847,7 @@ class RlLocalbranch(MlLocalbranch):
         print(size_trainset)
 
         device = self.device
-        # self.regression_dataset = train_instance_type + '-small'
-        # self.evaluation_dataset = self.instance_type + train_instance_size
 
-        # direc = './data/generated_instances/' + self.instance_type + '/' + train_instance_size + '/'
-        # self.directory_transformedmodel = direc + 'transformedmodel' + '/'
-        # self.directory_sol = direc + self.incumbent_mode + '/'
 
         self.k_baseline = 20
 
@@ -6929,10 +4859,6 @@ class RlLocalbranch(MlLocalbranch):
         node_time_limit = node_time_limit
 
         self.saved_model_directory = './result/saved_models/'
-        # self.regression_model_gnn = GNNPolicy()
-        # self.regression_model_gnn.load_state_dict(torch.load(
-        #     self.saved_model_directory + 'trained_params_' + self.regression_dataset + '_' + self.lbconstraint_mode + '_' + self.incumbent_mode + '.pth'))
-        # self.regression_model_gnn.to(device)
 
         self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/k_policy/' + train_instance_type + '/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/'
         pathlib.Path( self.saved_rlmodels_k_policy_directory).mkdir(parents=True, exist_ok=True)
@@ -6943,20 +4869,11 @@ class RlLocalbranch(MlLocalbranch):
         train_directory = './result/generated_instances/' + train_instance_type + '/' + train_instance_size + '/' + self.lbconstraint_mode + '/' + train_incumbent_mode + '/'
         self.reinforce_train_t_policy_directory = train_directory + 'rl/' + 'reinforce/train/t_policy/data/' + 't_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's/'
         pathlib.Path(self.reinforce_train_t_policy_directory).mkdir(parents=True, exist_ok=True)
-        # self.directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-        # pathlib.Path(self.directory_lb_test).mkdir(parents=True, exist_ok=True)
 
         rl_policy_k = SimplePolicy(7, 4)
         checkpoint = torch.load(
-            # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-            # self.saved_model_directory + '/rl_noimitation/good_models/checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_epoch210.pth'
             rl_k_policy_path)
         rl_policy_k.load_state_dict(checkpoint['model_state_dict'])
-        # rl_policy.load_state_dict(torch.load(
-        #     # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'
-        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_imitation.pth'
-        # ))
         rl_policy_k.eval()
 
         rl_policy_t = SimplePolicy(7, 4)
@@ -6983,17 +4900,13 @@ class RlLocalbranch(MlLocalbranch):
         primal_integrals_np = None
         primal_gaps_np = None
         epoch_init = 0
-        epoch_start = epoch_init  # 50
+        epoch_start = epoch_init
         epoch_end = epoch_start+n_epochs+1
 
         if use_checkpoint:
             checkpoint = torch.load(
-                # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-                # self.saved_rlmodels_directory + 'good_models/' + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(
-                #     lr) + '_epsilon' + str(epsilon) + '_epoch210.pth'
 
                 self.saved_rlmodels_t_policy_directory + 'checkpoint_trained_reward_t_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_0.1trainset_lr' + str(lr_t) + '_epochs' + str(45) + '.pth'
-                # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(3) + '.pth'
 
             )
             rl_policy_t.load_state_dict(checkpoint['model_state_dict'])
@@ -7017,7 +4930,6 @@ class RlLocalbranch(MlLocalbranch):
                 optimizer_t = optim_t
 
             index_instance = 0
-            # size_trainset = 5
             return_epoch_k = 0
             return_epoch_t = 0
             primal_integral_epoch = 0
@@ -7026,9 +4938,6 @@ class RlLocalbranch(MlLocalbranch):
             # while index_instance < size_trainset:
             i = 0
             for batch in (train_loader):
-                # # option 1: MIP model and initial incumbent loaded in the dataloader
-                # MIP_model = batch['mip_model'][0]
-                # incumbent_solution = batch['incumbent_solution'][0]
 
                 # option 2: only have the directory of MIP model and incumbent in the dataloader, load the MIP model here below:
                 print("instance: ", i)
@@ -7103,9 +5012,7 @@ class RlLocalbranch(MlLocalbranch):
                     filename = f'{self.reinforce_train_t_policy_directory}lb-rl-checkpoint-enable_vanilla_t_policy-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr_t)}.pkl'
                 else:
                     filename = f'{self.reinforce_train_t_policy_directory}lb-rl-checkpoint-t_policy-simplepolicy-{t_reward_type}-0.1trainset-lr{str(lr_t)}.pkl'  # instance 10% of testset
-                # filename = f'{self.reinforce_train_directory}lb-rl-checkpoint-reward3-simplepolicy-lr{str(lr)}-epochs{str(epoch)}.pkl'
 
-                # filename = f'{self.reinforce_train_directory}lb-rl-noregression-noimitation-reward3-train-lr{str(lr)}-epsilon{str(epsilon)}_60s_talored.pkl'  # instance 100-199
                 with gzip.open(filename, 'wb') as f:
                     pickle.dump(data, f)
 
@@ -7116,17 +5023,10 @@ class RlLocalbranch(MlLocalbranch):
                             'optimizer_state_dict': optimizer_t.state_dict(),
                             'loss_data':data,
                             },
-                           # self.saved_rlmodels_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '_60s_talored4independentset-small-firstsol.pth'
 
                     self.saved_rlmodels_t_policy_directory + 'checkpoint_rl4lb_trained_-t_policy-simplepolicy-' + t_reward_type + '_reinforce_0.1trainset_' + train_instance_type + train_instance_size + '_' + train_incumbent_mode + '_total_timelimit' + str(total_time_limit) + 's' + '_lr' + str(lr_t) +  '.pth' # + '_epochs' + str(epoch) +
-                            # self.saved_rlmodels_directory + 'checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epochs' + str(epoch) + '.pth'
 
-                           # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_trainset_' + train_instance_type + train_instance_size + '_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
                            )
-                # torch.save(rl_policy.state_dict(),
-                #            # self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce-checkpoint50_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-                #            self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr' + str(lr) +'_epsilon' + str(epsilon) + '.pth'
-                #            )
 
             if epoch % 5 ==0:
                 epochs_np = np.array(epochs).reshape(-1)
@@ -7147,7 +5047,6 @@ class RlLocalbranch(MlLocalbranch):
                 ax[1].plot(epochs_np, primal_integrals_np, label='primal ingegral')
                 ax[1].set_xlabel('epoch')
                 ax[1].set_ylabel("primal integral")
-                # ax[1].set_ylim([0, 1.1])
                 ax[1].legend()
 
                 ax[2].plot(epochs_np, primal_gaps_np, label='primal gap')
@@ -7207,13 +5106,7 @@ class RlLocalbranch(MlLocalbranch):
                           observation.variable_features.shape[
                               0]
         graph = graph.to(device)
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
 
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         initial_obj = MIP_model.getSolObjVal(incumbent_solution)
         print("Initial obj before LB: {}".format(initial_obj))
@@ -7221,8 +5114,6 @@ class RlLocalbranch(MlLocalbranch):
         binary_supports = binary_support(MIP_model, incumbent_solution)
         print('binary support: ', binary_supports)
 
-        # model_gnn.load_state_dict(torch.load(
-        #      'trained_params_' + self.instance_type + '.pth'))
 
         k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
                             graph.variable_features)
@@ -7241,8 +5132,6 @@ class RlLocalbranch(MlLocalbranch):
 
         # create a copy of MIP
         MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
             problemName='noregression-rl',
             origcopy=False)
@@ -7252,8 +5141,6 @@ class RlLocalbranch(MlLocalbranch):
 
         print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-        #                                         MIP_copy_vars)
         MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
                                                   MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
@@ -7264,29 +5151,6 @@ class RlLocalbranch(MlLocalbranch):
         del MIP_model
         del incumbent_solution
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-
-        # # execute local branching baseline heuristic by Fischetti and Lodi
-        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-        #                           node_time_limit=node_time_limit,
-        #                           total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits, times, objs = lb_model.search_localbranch(is_symmeric=self.is_symmetric,
-        #                                                              reset_k_at_2nditeration=False)
-        # print("Instance:", MIP_model_copy.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy.freeProb()
-        # del sol_MIP_copy
-        # del MIP_model_copy
-
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
@@ -7346,7 +5210,6 @@ class RlLocalbranch(MlLocalbranch):
     def evaluate_localbranching(self, evaluation_instance_size='-small', total_time_limit=60, node_time_limit=30, reset_k_at_2nditeration=False, greedy=False):
 
         self.regression_dataset = self.instance_type + '-small'
-        # self.evaluation_dataset = self.instance_type + evaluation_instance_size
 
         direc = './data/generated_instances/' + self.instance_type + '/' + evaluation_instance_size + '/'
         self.directory_transformedmodel = direc + 'transformedmodel' + '/'
@@ -7374,20 +5237,13 @@ class RlLocalbranch(MlLocalbranch):
         rl_policy = SimplePolicy(7, 4)
 
         self.saved_rlmodels_k_policy_directory = self.saved_gnn_directory + 'rl_noimitation/'
-        # checkpoint = torch.load(
-        #     self.saved_rlmodels_directory + 'checkpoint_noimitation_reward2_simplepolicy_rl4lb_reinforce_lr0.05_epsilon0.0.pth')
-        # rl_policy.load_state_dict(checkpoint['model_state_dict'])
         checkpoint = torch.load(
-            # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
             self.saved_rlmodels_k_policy_directory + 'checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_60s_talored4independentset-small-firstsol.pth'
         )
         rl_policy.load_state_dict(checkpoint['model_state_dict'])
 
-        # rl_policy.load_state_dict(torch.load(
-        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
 
         rl_policy.eval()
-        # criterion = nn.CrossEntropyLoss()
 
         greedy = greedy
         rl_policy = rl_policy.to(self.device)
@@ -7414,12 +5270,6 @@ class RlLocalbranch(MlLocalbranch):
         device = self.device
         gc.collect()
 
-        # filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
-        # firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
-
-        # MIP_model = Model()
-        # MIP_model.readProblem(filename)
-        # incumbent_solution = MIP_model.readSolFile(firstsol_filename)
 
         instance_name = MIP_model.getProbName()
         print(instance_name)
@@ -7440,10 +5290,6 @@ class RlLocalbranch(MlLocalbranch):
         except:
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
-        # # create MIP copies for LB search
-        # MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
             problemName='noregression-rl',
             origcopy=False)
@@ -7453,8 +5299,6 @@ class RlLocalbranch(MlLocalbranch):
 
         print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-        #                                         MIP_copy_vars)
         MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
                                                   MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
@@ -7476,22 +5320,12 @@ class RlLocalbranch(MlLocalbranch):
                                     device=device)
         graph = graph.to(device)
 
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
 
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # solve the root node and get the LP solution, compute k_prime
         k_prime = self.compute_k_prime(MIP_model, incumbent)
@@ -7502,8 +5336,6 @@ class RlLocalbranch(MlLocalbranch):
         binary_supports = binary_support(MIP_model, incumbent_solution)
         print('binary support: ', binary_supports)
 
-        # model_gnn.load_state_dict(torch.load(
-        #      'trained_params_' + self.instance_type + '.pth'))
 
         k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
                                             graph.variable_features)
@@ -7516,7 +5348,7 @@ class RlLocalbranch(MlLocalbranch):
 
         k_pred = max(k_pred, self.k_prime_ratio_baseline * k_prime)
         k_pred = max(k_pred, 10)
-        
+
         k_pred = np.ceil(k_pred)
 
         del k_model
@@ -7528,41 +5360,11 @@ class RlLocalbranch(MlLocalbranch):
         del MIP_model
         del incumbent_solution
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-
-        # # execute local branching baseline heuristic by Fischetti and Lodi
-        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-        #                           node_time_limit=node_time_limit,
-        #                           total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits, times, objs = lb_model.search_localbranch(is_symmeric=self.is_symmetric,
-        #                                                              reset_k_at_2nditeration=False)
-        # print("Instance:", MIP_model_copy.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy.freeProb()
-        # del sol_MIP_copy
-        # del MIP_model_copy
-
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce, objs_regression_reinforce, loss_instance, accu_instance = lb_model3.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=reset_k_at_2nditeration,
-        #     policy=agent1,
-        #     optimizer=None,
-        #     device=device
-        # )
 
         status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, _ = self.mdp_localbranch(
             localbranch=lb_model3,
@@ -7589,13 +5391,6 @@ class RlLocalbranch(MlLocalbranch):
         lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=self.k_baseline,
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce, objs_noregression_reinforce, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=agent2,
-        #     optimizer=None,
-        #     device=device
-        # )
 
         status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, _ = self.mdp_localbranch(
             localbranch=lb_model2,
@@ -7622,7 +5417,6 @@ class RlLocalbranch(MlLocalbranch):
         del MIP_model_copy2
 
         data = [objs_noregression_reinforce, times_noregression_reinforce, objs_regression_reinforce, times_regression_reinforce]
-        # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
@@ -7631,7 +5425,6 @@ class RlLocalbranch(MlLocalbranch):
         del lb_model2
         del lb_model3
 
-        # index_instance += 1
         return agent1, agent2
 
     def evaluate_localbranching_rlactive(self, evaluation_instance_size='-small', total_time_limit=60, node_time_limit=30,
@@ -7639,7 +5432,6 @@ class RlLocalbranch(MlLocalbranch):
                     rl_model_path='', enable_adapt_t=False):
 
         self.regression_dataset = self.instance_type + '-small'
-        # self.evaluation_dataset = self.instance_type + evaluation_instance_size
 
         direc = './data/generated_instances/' + self.instance_type + '/' + evaluation_instance_size + '/'
         directory_transformedmodel = direc + 'transformedmodel' + '/'
@@ -7683,26 +5475,16 @@ class RlLocalbranch(MlLocalbranch):
         rl_policy1 = SimplePolicy(7, 4)
         rl_policy2 = SimplePolicy(7, 4)
 
-        # self.saved_rlmodels_directory = self.saved_gnn_directory + 'rl_noimitation/good_models/'
-        # self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/' + 'setcovering' + '/'
 
-        # checkpoint = torch.load(
-        #     self.saved_rlmodels_directory + 'checkpoint_noimitation_reward2_simplepolicy_rl4lb_reinforce_lr0.05_epsilon0.0.pth')
-        # rl_policy.load_state_dict(checkpoint['model_state_dict'])
         checkpoint = torch.load(
-            # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-            # self.saved_model_directory + '/rl_noimitation/good_models/checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_epoch210.pth'
             rl_model_path
         )
         rl_policy1.load_state_dict(checkpoint['model_state_dict'])
         rl_policy2.load_state_dict(checkpoint['model_state_dict'])
 
-        # rl_policy.load_state_dict(torch.load(
-        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
 
         rl_policy1.train()
         rl_policy2.train()
-        # criterion = nn.CrossEntropyLoss()
 
         optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
         optim2 = torch.optim.Adam(rl_policy2.parameters(), lr=lr)
@@ -7758,12 +5540,6 @@ class RlLocalbranch(MlLocalbranch):
         device = self.device
         gc.collect()
 
-        # filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
-        # firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
-
-        # MIP_model = Model()
-        # MIP_model.readProblem(filename)
-        # incumbent_solution = MIP_model.readSolFile(firstsol_filename)
 
         instance_name = MIP_model.getProbName()
         print(instance_name)
@@ -7786,9 +5562,6 @@ class RlLocalbranch(MlLocalbranch):
             print('Error: the root solution of ' + instance_name + ' is not feasible!')
 
         # create a copy of MIP
-        # MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
             problemName='noregression-rl',
             origcopy=False)
@@ -7798,8 +5571,6 @@ class RlLocalbranch(MlLocalbranch):
 
         print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-        #                                         MIP_copy_vars)
         MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
                                                   MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
@@ -7820,22 +5591,12 @@ class RlLocalbranch(MlLocalbranch):
                                   device=device)
         graph = graph.to(device)
 
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
 
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # solve the root node and get the LP solution, compute k_prime
         k_prime = self.compute_k_prime(MIP_model, incumbent)
@@ -7846,8 +5607,6 @@ class RlLocalbranch(MlLocalbranch):
         binary_supports = binary_support(MIP_model, incumbent_solution)
         print('binary support: ', binary_supports)
 
-        # model_gnn.load_state_dict(torch.load(
-        #      'trained_params_' + self.instance_type + '.pth'))
 
         k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
                                             graph.variable_features)
@@ -7868,46 +5627,15 @@ class RlLocalbranch(MlLocalbranch):
         del observation
 
 
-
         MIP_model.freeProb()
         del MIP_model
         del incumbent_solution
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-
-        # # execute local branching baseline heuristic by Fischetti and Lodi
-        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-        #                           node_time_limit=node_time_limit,
-        #                           total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits, times, objs = lb_model.search_localbranch(is_symmeric=self.is_symmetric,
-        #                                                              reset_k_at_2nditeration=False)
-        # print("Instance:", MIP_model_copy.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy.freeProb()
-        # del sol_MIP_copy
-        # del MIP_model_copy
-
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce, objs_regression_reinforce, loss_instance, accu_instance = lb_model3.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=reset_k_at_2nditeration,
-        #     policy=agent1,
-        #     optimizer=None,
-        #     device=device
-        # )
 
         status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, agent_t_1 = self.mdp_localbranch(
             localbranch=lb_model3,
@@ -7936,13 +5664,6 @@ class RlLocalbranch(MlLocalbranch):
         lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=self.k_baseline,
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce, objs_noregression_reinforce, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=agent2,
-        #     optimizer=None,
-        #     device=device
-        # )
 
         status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, agent_t_2= self.mdp_localbranch(
             localbranch=lb_model2,
@@ -7971,7 +5692,6 @@ class RlLocalbranch(MlLocalbranch):
         del MIP_model_copy2
 
         data = [objs_noregression_reinforce, times_noregression_reinforce, objs_regression_reinforce, times_regression_reinforce]
-        # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
@@ -7980,14 +5700,12 @@ class RlLocalbranch(MlLocalbranch):
         del lb_model2
         del lb_model3
 
-        # index_instance += 1
         return agent1, agent2, agent_t_1, agent_t_2
 
     def evaluate_localbranching_rlactive_policy_kt(self, evaluation_instance_size='-small', total_time_limit=60, node_time_limit=30,
                                 reset_k_at_2nditeration=False, greedy=False, lr=None, lr_t=None, regression_model_path='', rl_k_model_path='', rl_t_model_path='',  t_reward_type = t_reward_types[2], enable_adapt_t=False):
 
         self.regression_dataset = self.instance_type + '-small'
-        # self.evaluation_dataset = self.instance_type + evaluation_instance_size
 
         direc = './data/generated_instances/' + self.instance_type + '/' + evaluation_instance_size + '/'
         directory_transformedmodel = direc + 'transformedmodel' + '/'
@@ -8033,15 +5751,8 @@ class RlLocalbranch(MlLocalbranch):
         rl_policy_t_1 = SimplePolicy(7, 4)
         rl_policy_t_2 = SimplePolicy(7, 4)
 
-        # self.saved_rlmodels_directory = self.saved_gnn_directory + 'rl_noimitation/good_models/'
-        # self.saved_rlmodels_k_policy_directory = self.saved_model_directory + 'rl/reinforce/' + 'setcovering' + '/'
 
-        # checkpoint = torch.load(
-        #     self.saved_rlmodels_directory + 'checkpoint_noimitation_reward2_simplepolicy_rl4lb_reinforce_lr0.05_epsilon0.0.pth')
-        # rl_policy.load_state_dict(checkpoint['model_state_dict'])
         checkpoint = torch.load(
-            # self.saved_gnn_directory + 'checkpoint_simplepolicy_rl4lb_reinforce_lr' + str(lr) + '_epsilon' + str(epsilon) + '.pth'
-            # self.saved_model_directory + '/rl_noimitation/good_models/checkpoint_noregression_noimitation_reward3_simplepolicy_rl4lb_reinforce_lr0.01_epsilon0.0_epoch210.pth'
             rl_k_model_path
         )
         rl_policy1.load_state_dict(checkpoint['model_state_dict'])
@@ -8052,24 +5763,18 @@ class RlLocalbranch(MlLocalbranch):
         rl_policy_t_2.load_state_dict(checkpoint_t['model_state_dict'])
 
 
-        # rl_policy.load_state_dict(torch.load(
-        #     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
-
         rl_policy1.train()
         rl_policy2.train()
         rl_policy_t_1.eval() # .train()
         rl_policy_t_2.eval() # .train()
-        # criterion = nn.CrossEntropyLoss()
 
         optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
         optim2 = torch.optim.Adam(rl_policy2.parameters(), lr=lr)
-        optim_t_1 = None # torch.optim.Adam(rl_policy_t_1.parameters(), lr=lr_t)
-        optim_t_2 = None # torch.optim.Adam(rl_policy_t_2.parameters(), lr=lr_t)
+        optim_t_1 = None
+        optim_t_2 = None
 
         optim1.load_state_dict(checkpoint['optimizer_state_dict'])
         optim2.load_state_dict(checkpoint['optimizer_state_dict'])
-        # optim_t_1.load_state_dict(checkpoint['optimizer_state_dict'])
-        # optim_t_2.load_state_dict(checkpoint['optimizer_state_dict'])
 
         # Move optimizer state to device to prevent device mismatch during step()
         for state in optim1.state.values():
@@ -8130,12 +5835,6 @@ class RlLocalbranch(MlLocalbranch):
         device = self.device
         gc.collect()
 
-        # filename = f'{self.directory_transformedmodel}{self.instance_type}-{str(index_instance)}_transformed.cip'
-        # firstsol_filename = f'{self.directory_sol}{self.incumbent_mode}-{self.instance_type}-{str(index_instance)}_transformed.sol'
-
-        # MIP_model = Model()
-        # MIP_model.readProblem(filename)
-        # incumbent_solution = MIP_model.readSolFile(firstsol_filename)
 
         instance_name = MIP_model.getProbName()
         print(instance_name)
@@ -8161,22 +5860,12 @@ class RlLocalbranch(MlLocalbranch):
                                   device=device)
         graph = graph.to(device)
 
-        # graph = BipartiteNodeData(observation.constraint_features,
-        #                           observation.edge_features.indices,
-        #                           observation.edge_features.values,
-        #                           observation.variable_features)
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = observation.constraint_features.shape[0] + \
                           observation.variable_features.shape[
                               0]
-        # instance = Loader().load_instance('b1c1s1' + '.mps.gz')
-        # MIP_model = instance
 
-        # MIP_model.optimize()
-        # print("Status:", MIP_model.getStatus())
-        # print("best obj: ", MIP_model.getObjVal())
-        # print("Solving time: ", MIP_model.getSolvingTime())
 
         # solve the root node and get the LP solution, compute k_prime
         k_prime = self.compute_k_prime(MIP_model, incumbent)
@@ -8187,8 +5876,6 @@ class RlLocalbranch(MlLocalbranch):
         binary_supports = binary_support(MIP_model, incumbent_solution)
         print('binary support: ', binary_supports)
 
-        # model_gnn.load_state_dict(torch.load(
-        #      'trained_params_' + self.instance_type + '.pth'))
 
         k_model = self.regression_model_gnn(graph.constraint_features, graph.edge_index, graph.edge_attr,
                                             graph.variable_features)
@@ -8210,8 +5897,6 @@ class RlLocalbranch(MlLocalbranch):
 
         # create a copy of MIP
         MIP_model.resetParams()
-        # MIP_model_copy, MIP_copy_vars, success = MIP_model.createCopy(
-        #     problemName='Baseline', origcopy=False)
         MIP_model_copy2, MIP_copy_vars2, success2 = MIP_model.createCopy(
             problemName='noregression-rl',
             origcopy=False)
@@ -8221,8 +5906,6 @@ class RlLocalbranch(MlLocalbranch):
 
         print('MIP copies are created')
 
-        # MIP_model_copy, sol_MIP_copy = copy_sol(MIP_model, MIP_model_copy, incumbent_solution,
-        #                                         MIP_copy_vars)
         MIP_model_copy2, sol_MIP_copy2 = copy_sol(MIP_model, MIP_model_copy2, incumbent_solution,
                                                   MIP_copy_vars2)
         MIP_model_copy3, sol_MIP_copy3 = copy_sol(MIP_model, MIP_model_copy3, incumbent_solution,
@@ -8233,41 +5916,11 @@ class RlLocalbranch(MlLocalbranch):
         del MIP_model
         del incumbent_solution
 
-        # sol = MIP_model_copy.getBestSol()
-        # initial_obj = MIP_model_copy.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
-
-        # # execute local branching baseline heuristic by Fischetti and Lodi
-        # lb_model = LocalBranching(MIP_model=MIP_model_copy, MIP_sol_bar=sol_MIP_copy, k=self.k_baseline,
-        #                           node_time_limit=node_time_limit,
-        #                           total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits, times, objs = lb_model.search_localbranch(is_symmeric=self.is_symmetric,
-        #                                                              reset_k_at_2nditeration=False)
-        # print("Instance:", MIP_model_copy.getProbName())
-        # print("Status of LB: ", status)
-        # print("Best obj of LB: ", obj_best)
-        # print("Solving time: ", elapsed_time)
-        # print('\n')
-        #
-        # MIP_model_copy.freeProb()
-        # del sol_MIP_copy
-        # del MIP_model_copy
-
-        # sol = MIP_model_copy2.getBestSol()
-        # initial_obj = MIP_model_copy2.getSolObjVal(sol)
-        # print("Initial obj before LB: {}".format(initial_obj))
 
         # execute local branching with 1. first k predicted by GNN, 2. for 2nd iteration of lb, reset k to default value of baseline
         lb_model3 = LocalBranching(MIP_model=MIP_model_copy3, MIP_sol_bar=sol_MIP_copy3, k=k_pred,
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce, objs_regression_reinforce, loss_instance, accu_instance = lb_model3.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=reset_k_at_2nditeration,
-        #     policy=agent1,
-        #     optimizer=None,
-        #     device=device
-        # )
 
         status, obj_best, elapsed_time, lb_bits_pred_reset, times_regression_reinforce_, objs_regression_reinforce_, agent1, _ = self.mdp_localbranch(
             localbranch=lb_model3,
@@ -8294,13 +5947,6 @@ class RlLocalbranch(MlLocalbranch):
         lb_model2 = LocalBranching(MIP_model=MIP_model_copy2, MIP_sol_bar=sol_MIP_copy2, k=self.k_baseline,
                                    node_time_limit=node_time_limit,
                                    total_time_limit=total_time_limit)
-        # status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce, objs_noregression_reinforce, _, _ = lb_model2.mdp_localbranch(
-        #     is_symmetric=self.is_symmetric,
-        #     reset_k_at_2nditeration=False,
-        #     policy=agent2,
-        #     optimizer=None,
-        #     device=device
-        # )
 
         status, obj_best, elapsed_time, lb_bits_pred, times_noregression_reinforce_, objs_noregression_reinforce_, agent2, _ = self.mdp_localbranch(
             localbranch=lb_model2,
@@ -8325,7 +5971,6 @@ class RlLocalbranch(MlLocalbranch):
         del MIP_model_copy2
 
         data = [objs_noregression_reinforce, times_noregression_reinforce, objs_regression_reinforce, times_regression_reinforce]
-        # saved_name = f'{self.instance_type}-{str(index_instance)}_transformed'
         filename = f'{self.directory_lb_test}lb-test-{instance_name}.pkl'  # instance 100-199
         with gzip.open(filename, 'wb') as f:
             pickle.dump(data, f)
@@ -8334,7 +5979,6 @@ class RlLocalbranch(MlLocalbranch):
         del lb_model2
         del lb_model3
 
-        # index_instance += 1
         return agent1, agent2
 
 
@@ -8346,7 +5990,6 @@ class RlLocalbranch(MlLocalbranch):
         directory_lb_test = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
-        # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
@@ -8354,19 +5997,11 @@ class RlLocalbranch(MlLocalbranch):
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
-        # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
@@ -8377,8 +6012,6 @@ class RlLocalbranch(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -8415,11 +6048,8 @@ class RlLocalbranch(MlLocalbranch):
         steplines_regression_reinforce = []
         steplines_reinforce = []
 
-        # primal_int_regression_reinforces_talored = []
         primal_int_reinforces_talored = []
-        # primal_gap_final_regression_reinforces_talored = []
         primal_gap_final_reinforces_talored = []
-        # steplines_regression_reinforce_talored = []
         steplines_reinforce_talored = []
 
         index_mix = 160
@@ -8444,14 +6074,6 @@ class RlLocalbranch(MlLocalbranch):
                 data = pickle.load(f)
             objs_reinforce_2, times_reinforce_2, objs_regresison_reinforce_2, times_regression_reinforce_2 = data  # objs contains objs of a single instance of a lb test
 
-            # filename_3 = f'{directory_lb_test_3}lb-test-{instance_name}.pkl'
-            #
-            # with gzip.open(filename_3, 'rb') as f:
-            #     data = pickle.load(f)
-            # objs, times, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
-            #
-            # objs_regression = objs_pred_reset_2
-            # times_regression = times_pred_reset_2
 
             # test from k_prime
             filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
@@ -8515,8 +6137,7 @@ class RlLocalbranch(MlLocalbranch):
 
             objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-            # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
-            a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime.min(), objs_k_prime_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()] # objs_lb_baseline_k0_average.min()
+            a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime.min(), objs_k_prime_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]
             obj_opt = np.amin(a)
 
             # lb-baseline:
@@ -8545,20 +6166,6 @@ class RlLocalbranch(MlLocalbranch):
             steplines_regression_merged.append(stepline_regression_merged)
             primal_int_regressions_merged.append(primal_int_regression_merged)
 
-            #
-            # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of primal gap")
-            # fig.subplots_adjust(top=0.5)
-            # # ax.set_title(instance_name, loc='right')
-            # ax.plot(t, stepline_baseline(t), label='lb baseline')
-            # ax.plot(t, stepline_reset_vanilla(t), label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
 
             # lb-regression-reinforce
 
@@ -8577,14 +6184,6 @@ class RlLocalbranch(MlLocalbranch):
             steplines_reinforce.append(stepline_reinforce)
             primal_int_reinforces.append(primal_int_reinforce)
 
-            # # lb-regression-reinforce-talored
-            # primal_int_regression_reinforce_talored, primal_gap_final_regression_reinforce_talored, stepline_regression_reinforce_talored = self.compute_primal_integral(
-            #     times=times_regression_reinforce_talored, objs=objs_regresison_reinforce_talored, obj_opt=obj_opt,
-            #     total_time_limit=total_time_limit)
-            # primal_gap_final_regression_reinforces_talored.append(primal_gap_final_regression_reinforce_talored)
-            # steplines_regression_reinforce_talored.append(stepline_regression_reinforce_talored)
-            # primal_int_regression_reinforces_talored.append(primal_int_regression_reinforce_talored)
-            #
 
             # lb-reinforce-talored, or lb-baseline_k0_average
             primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored = self.compute_primal_integral(
@@ -8594,32 +6193,6 @@ class RlLocalbranch(MlLocalbranch):
             steplines_reinforce_talored.append(stepline_reinforce_talored)
             primal_int_reinforces_talored.append(primal_int_reinforce_talored)
 
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of objective")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, objs, label='lb baseline')
-            # ax.plot(times_regression, objs_regression, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
-            #
-            # plt.close('all')
-            # plt.clf()
-            # fig, ax = plt.subplots(figsize=(8, 6.4))
-            # fig.suptitle("Test Result: comparison of primal gap")
-            # fig.subplots_adjust(top=0.5)
-            # ax.set_title(instance_name, loc='right')
-            # ax.plot(times, gamma_baseline, label='lb baseline')
-            # ax.plot(times_regression, gamma_reset_vanilla, label='lb with k predicted')
-            # ax.set_xlabel('time /s')
-            # ax.set_ylabel("objective")
-            # ax.legend()
-            # plt.show()
-
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_regressions = np.array(primal_int_regressions).reshape(-1)
@@ -8627,7 +6200,6 @@ class RlLocalbranch(MlLocalbranch):
         primal_int_regression_reinforces = np.array(primal_int_regression_reinforces).reshape(-1)
         primal_int_reinforces = np.array(primal_int_reinforces).reshape(-1)
 
-        # primal_int_regression_reinforces_talored = np.array(primal_int_regression_reinforces_talored).reshape(-1)
         primal_int_reinforces_talored = np.array(primal_int_reinforces_talored).reshape(-1)
 
         primal_gap_final_baselines = np.array(primal_gap_final_baselines).reshape(-1)
@@ -8638,62 +6210,34 @@ class RlLocalbranch(MlLocalbranch):
 
         # # primal_gap_final_regression_reinforces_talored = np.array(primal_gap_final_regression_reinforces_talored).reshape(-1)
         primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
-        #
-        # # avarage primal integral over test dataset
-        # primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
-        # primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-        # primal_int_regression_merged_ave = primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
-        # primal_int_regression_reinforce_ave = primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
-        # primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
-        #     primal_int_reinforces)
-        #
-        # # primal_int_regression_reinforce_talored_ave = primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
-        # # primal_int_reinforce_talored_ave = primal_int_reinforces_talored.sum() / len(
-        # #     primal_int_reinforces_talored)
-        #
-        # primal_gap_final_baseline_ave = primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
-        # primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
-        # primal_gap_final_regression_merged_ave = primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
-        # primal_gap_final_regression_reinforce_ave = primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
-        # primal_gap_final_reinforce_ave = primal_gap_final_reinforces.sum() / len(
-        #     primal_gap_final_reinforces)
-        #
-        # # primal_gap_final_regression_reinforce_talored_ave = primal_gap_final_regression_reinforces_talored.sum() / len(
-        # #     primal_gap_final_regression_reinforces_talored)
-        # # primal_gap_final_reinforce_talored_ave = primal_gap_final_reinforces_talored.sum() / len(
-        # #     primal_gap_final_reinforces_talored)
 
         primal_int_base_ave = mean_shift(primal_int_baselines,
-                                         mean_option=mean_option)  # primal_int_baselines.sum() / len(primal_int_baselines)
+                                         mean_option=mean_option)
         primal_int_regression_ave = mean_shift(primal_int_regressions,
-                                               mean_option=mean_option)  # primal_int_regressions.sum() / len(primal_int_regressions)
+                                               mean_option=mean_option)
         primal_int_regression_merged_ave = mean_shift(primal_int_regressions_merged,
-                                                      mean_option=mean_option)  # primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
+                                                      mean_option=mean_option)
         primal_int_regression_reinforce_ave = mean_shift(primal_int_regression_reinforces,
-                                                         mean_option=mean_option)  # primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
+                                                         mean_option=mean_option)
         primal_int_reinforce_ave = mean_shift(primal_int_reinforces,
-                                              mean_option=mean_option)  # primal_int_reinforces.sum() / len(primal_int_reinforces)
+                                              mean_option=mean_option)
 
-        # primal_int_regression_reinforce_talored_ave = mean_shift(primal_int_regression_reinforces_talored,
-        #                                                          mean_option=mean_option)  # primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
         primal_int_reinforce_talored_ave = mean_shift(primal_int_reinforces_talored,
-                                                      mean_option=mean_option)  # primal_int_reinforces_talored.sum() / len(primal_int_reinforces_talored)
+                                                      mean_option=mean_option)
 
         primal_gap_final_baseline_ave = mean_shift(primal_gap_final_baselines,
-                                                   mean_option=mean_option)  # primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
+                                                   mean_option=mean_option)
         primal_gap_final_regression_ave = mean_shift(primal_gap_final_regressions,
-                                                     mean_option=mean_option)  # primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
+                                                     mean_option=mean_option)
         primal_gap_final_regression_merged_ave = mean_shift(primal_gap_final_regressions_merged,
-                                                            mean_option=mean_option)  # primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
+                                                            mean_option=mean_option)
         primal_gap_final_regression_reinforce_ave = mean_shift(primal_gap_final_regression_reinforces,
-                                                               mean_option=mean_option)  # primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
+                                                               mean_option=mean_option)
         primal_gap_final_reinforce_ave = mean_shift(primal_gap_final_reinforces,
-                                                    mean_option=mean_option)  # primal_gap_final_reinforces.sum() / len(primal_gap_final_reinforces)
+                                                    mean_option=mean_option)
 
-        # primal_gap_final_regression_reinforce_talored_ave = mean_shift(primal_gap_final_regression_reinforces_talored,
-        #                                                                mean_option=mean_option)  # primal_gap_final_regression_reinforces_talored.sum() / len(primal_gap_final_regression_reinforces_talored)
         primal_gap_final_reinforce_talored_ave = mean_shift(primal_gap_final_reinforces_talored,
-                                                            mean_option=mean_option)  # primal_gap_final_reinforces_talored.sum() / len(primal_gap_final_reinforces_talored)
+                                                            mean_option=mean_option)
 
         print(self.instance_type + test_instance_size)
         print(self.incumbent_mode + 'Solution')
@@ -8722,7 +6266,7 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = mean_shift(primalgaps_baseline, axis=0,
-                                            mean_option=mean_option)  # np.average(primalgaps_baseline, axis=0)
+                                            mean_option=mean_option)
 
         primalgaps_regression = None
         for n, stepline_regression in enumerate(steplines_regression):
@@ -8731,7 +6275,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression = primal_gap
             else:
                 primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
-        primalgap_regression_ave = mean_shift(primalgaps_regression, axis=0, mean_option=mean_option) # np.average(primalgaps_regression, axis=0)
+        primalgap_regression_ave = mean_shift(primalgaps_regression, axis=0, mean_option=mean_option)
 
         primalgaps_regression_merged = None
         for n, stepline_regression in enumerate(steplines_regression_merged):
@@ -8741,7 +6285,7 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_regression_merged = np.vstack((primalgaps_regression_merged, primal_gap))
         primalgap_regression_merged_ave = mean_shift(primalgaps_regression_merged, axis=0,
-                                                     mean_option=mean_option)  # np.average(primalgaps_regression_merged, axis=0)
+                                                     mean_option=mean_option)
 
         primalgaps_regression_reinforce = None
         for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce):
@@ -8751,7 +6295,7 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_regression_reinforce = np.vstack((primalgaps_regression_reinforce, primal_gap))
         primalgap_regression_reinforce_ave = mean_shift(primalgaps_regression_reinforce, axis=0,
-                                                        mean_option=mean_option)  # np.average(primalgaps_regression_reinforce, axis=0)
+                                                        mean_option=mean_option)
 
         primalgaps_reinforce = None
         for n, stepline_reinforce in enumerate(steplines_reinforce):
@@ -8761,17 +6305,8 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_reinforce = np.vstack((primalgaps_reinforce, primal_gap))
         primalgap_reinforce_ave = mean_shift(primalgaps_reinforce, axis=0,
-                                             mean_option=mean_option)  # np.average(primalgaps_reinforce, axis=0)
+                                             mean_option=mean_option)
 
-        # primalgaps_regression_reinforce_talored = None
-        # for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce_talored):
-        #     primal_gap = stepline_regression_reinforce(t)
-        #     if n == 0:
-        #         primalgaps_regression_reinforce_talored = primal_gap
-        #     else:
-        #         primalgaps_regression_reinforce_talored = np.vstack((primalgaps_regression_reinforce_talored, primal_gap))
-        # primalgap_regression_reinforce_talored_ave = np.average(primalgaps_regression_reinforce_talored, axis=0)
-        #
         primalgaps_reinforce_talored = None
         for n, stepline_reinforce in enumerate(steplines_reinforce_talored):
             primal_gap = stepline_reinforce(t)
@@ -8785,7 +6320,6 @@ class RlLocalbranch(MlLocalbranch):
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(self.instance_type + test_instance_size + '-' + self.incumbent_mode, fontsize=13)
-        # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, primalgap_baseline_ave, label='lb-base', color='tab:blue')
         if test_instance_size == '-small':
             ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:grey')
@@ -8794,15 +6328,11 @@ class RlLocalbranch(MlLocalbranch):
         ax.plot(t, primalgap_regression_reinforce_ave,'--', label='lb-srmrl', color='tab:red')
         #
         ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-base-k0-average', color='tab:green')
-        # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
-        # ax.plot(t, primalgap_regression_reinforce_talored_ave, ':', label='lb-regression-rl-active', color='tab:red')
 
         ax.set_xlabel('time /s', fontsize=12)
         ax.set_ylabel("scaled primal gap", fontsize=12)
         ax.legend()
         ax.grid()
-        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # fig.tight_layout()
         plt.savefig('./result/plots/' + self.instance_type + '_' + test_instance_size + '_' + self.incumbent_mode + '_tnode' + str(node_time_limit) + 's' + '_ttotal' + str(total_time_limit) + 's_' + 'server' + '_oldlb_seed' + str(self.seed) + '_' + mean_option + '20240418_k0base_merged.png')
         plt.show()
         plt.clf()
@@ -8819,7 +6349,6 @@ class RlLocalbranch(MlLocalbranch):
         directory_lb_test = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
-        # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
@@ -8827,19 +6356,11 @@ class RlLocalbranch(MlLocalbranch):
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
-        # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
@@ -8850,8 +6371,6 @@ class RlLocalbranch(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/seed'+ str(self.seed) + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -8884,12 +6403,6 @@ class RlLocalbranch(MlLocalbranch):
         steplines_regression_reinforce = []
         steplines_reinforce = []
 
-        # primal_int_regression_reinforces_talored = []
-        # primal_int_reinforces_talored = []
-        # primal_gap_final_regression_reinforces_talored = []
-        # primal_gap_final_reinforces_talored = []
-        # steplines_regression_reinforce_talored = []
-        # steplines_reinforce_talored = []
 
         if self.instance_type == instancetypes[3]:
             index_mix = 80
@@ -8922,20 +6435,6 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs_reinforce_2, times_reinforce_2, objs_regresison_reinforce_2, times_regression_reinforce_2 = data  # objs contains objs of a single instance of a lb test
 
-                # filename_3 = f'{directory_lb_test_3}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename_3, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs, times, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
-                #
-                # objs_regression = objs_pred_reset_2
-                # times_regression = times_pred_reset_2
-
-                # # test from k_prime
-                # filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
 
                 instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
 
@@ -8951,10 +6450,6 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs, times = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_k_prime_2}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime_2, times_k_prime_2 = data  # objs contains objs of a single instance of a lb test
 
                 filename = f'{directory_lb_test_k_prime_merged_2}lb-test-{instance_name}.pkl'
                 with gzip.open(filename, 'rb') as f:
@@ -8979,17 +6474,12 @@ class RlLocalbranch(MlLocalbranch):
 
                 objs_2 = np.array(objs_2).reshape(-1)
 
-                # objs_k_prime = np.array(objs_k_prime).reshape(-1)
-                # times_k_prime = np.array(times_k_prime).reshape(-1)
-                #
-                # objs_k_prime_2 = np.array(objs_k_prime_2).reshape(-1)
 
                 objs_k_prime_merged = np.array(objs_k_prime_merged).reshape(-1)
                 times_k_prime_merged = np.array(times_k_prime_merged).reshape(-1)
 
                 objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-                # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
                 a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min()]
                 obj_opt = np.amin(a)
 
@@ -9001,14 +6491,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_baseline.append(stepline_baseline)
                 primal_int_baselines.append(primal_int_baseline)
 
-                # # lb-regression
-                # # if times_regression[-1] < total_time_limit:
-                #
-                # primal_int_regression, primal_gap_final_regression, stepline_regression = self.compute_primal_integral(
-                #     times=times_k_prime, objs=objs_k_prime, obj_opt=obj_opt, total_time_limit=total_time_limit)
-                # primal_gap_final_regressions.append(primal_gap_final_regression)
-                # steplines_regression.append(stepline_regression)
-                # primal_int_regressions.append(primal_int_regression)
 
                 # lb-regression-merged
                 # if times_regression[-1] < total_time_limit:
@@ -9019,20 +6501,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_regression_merged.append(stepline_regression_merged)
                 primal_int_regressions_merged.append(primal_int_regression_merged)
 
-                #
-                # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # # ax.set_title(instance_name, loc='right')
-                # ax.plot(t, stepline_baseline(t), label='lb baseline')
-                # ax.plot(t, stepline_reset_vanilla(t), label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
 
                 # lb-regression-reinforce
 
@@ -9051,49 +6519,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_reinforce.append(stepline_reinforce)
                 primal_int_reinforces.append(primal_int_reinforce)
 
-                # # lb-regression-reinforce-talored
-                # primal_int_regression_reinforce_talored, primal_gap_final_regression_reinforce_talored, stepline_regression_reinforce_talored = self.compute_primal_integral(
-                #     times=times_regression_reinforce_talored, objs=objs_regresison_reinforce_talored, obj_opt=obj_opt,
-                #     total_time_limit=total_time_limit)
-                # primal_gap_final_regression_reinforces_talored.append(primal_gap_final_regression_reinforce_talored)
-                # steplines_regression_reinforce_talored.append(stepline_regression_reinforce_talored)
-                # primal_int_regression_reinforces_talored.append(primal_int_regression_reinforce_talored)
-                #
-                # # lb-reinforce
-                #
-                # primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored = self.compute_primal_integral(
-                #     times=times_reinforce_talored, objs=objs_reinforce_talored, obj_opt=obj_opt,
-                #     total_time_limit=total_time_limit)
-                # primal_gap_final_reinforces_talored.append(primal_gap_final_reinforce_talored)
-                # steplines_reinforce_talored.append(stepline_reinforce_talored)
-                # primal_int_reinforces_talored.append(primal_int_reinforce_talored)
-
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of objective")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, objs, label='lb baseline')
-                # ax.plot(times_regression, objs_regression, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
-                #
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, gamma_baseline, label='lb baseline')
-                # ax.plot(times_regression, gamma_reset_vanilla, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
-
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_regressions = np.array(primal_int_regressions).reshape(-1)
@@ -9101,8 +6526,6 @@ class RlLocalbranch(MlLocalbranch):
         primal_int_regression_reinforces = np.array(primal_int_regression_reinforces).reshape(-1)
         primal_int_reinforces = np.array(primal_int_reinforces).reshape(-1)
 
-        # primal_int_regression_reinforces_talored = np.array(primal_int_regression_reinforces_talored).reshape(-1)
-        # primal_int_reinforces_talored = np.array(primal_int_reinforces_talored).reshape(-1)
 
         primal_gap_final_baselines = np.array(primal_gap_final_baselines).reshape(-1)
         primal_gap_final_regressions = np.array(primal_gap_final_regressions).reshape(-1)
@@ -9110,64 +6533,32 @@ class RlLocalbranch(MlLocalbranch):
         primal_gap_final_regression_reinforces = np.array(primal_gap_final_regression_reinforces).reshape(-1)
         primal_gap_final_reinforces = np.array(primal_gap_final_reinforces).reshape(-1)
 
-        # primal_gap_final_regression_reinforces_talored = np.array(primal_gap_final_regression_reinforces_talored).reshape(-1)
-        # primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
 
-        # avarage primal integral over test dataset
-        # primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
-        # primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
-        # primal_int_regression_merged_ave = primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
-        # primal_int_regression_reinforce_ave = primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
-        # primal_int_reinforce_ave = primal_int_reinforces.sum() / len(
-        #     primal_int_reinforces)
-        #
-        # # primal_int_regression_reinforce_talored_ave = primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
-        # # primal_int_reinforce_talored_ave = primal_int_reinforces_talored.sum() / len(
-        # #     primal_int_reinforces_talored)
-        #
-        # primal_gap_final_baseline_ave = primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
-        # primal_gap_final_regression_ave = primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
-        # primal_gap_final_regression_merged_ave = primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
-        # primal_gap_final_regression_reinforce_ave = primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
-        # primal_gap_final_reinforce_ave = primal_gap_final_reinforces.sum() / len(
-        #     primal_gap_final_reinforces)
+        # average primal integral over test dataset
 
         primal_int_base_ave = mean_shift(primal_int_baselines,
-                                         mean_option=mean_option)  # primal_int_baselines.sum() / len(primal_int_baselines)
+                                         mean_option=mean_option)
         primal_int_regression_ave = mean_shift(primal_int_regressions,
-                                               mean_option=mean_option)  # primal_int_regressions.sum() / len(primal_int_regressions)
+                                               mean_option=mean_option)
         primal_int_regression_merged_ave = mean_shift(primal_int_regressions_merged,
-                                                      mean_option=mean_option)  # primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
+                                                      mean_option=mean_option)
         primal_int_regression_reinforce_ave = mean_shift(primal_int_regression_reinforces,
-                                                         mean_option=mean_option)  # primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
+                                                         mean_option=mean_option)
         primal_int_reinforce_ave = mean_shift(primal_int_reinforces,
-                                              mean_option=mean_option)  # primal_int_reinforces.sum() / len(primal_int_reinforces)
+                                              mean_option=mean_option)
 
-        # primal_int_regression_reinforce_talored_ave = mean_shift(primal_int_regression_reinforces_talored,
-        #                                                          mean_option=mean_option)  # primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
-        # primal_int_reinforce_talored_ave = mean_shift(primal_int_reinforces_talored,
-        #                                               mean_option=mean_option)  # primal_int_reinforces_talored.sum() / len(primal_int_reinforces_talored)
 
         primal_gap_final_baseline_ave = mean_shift(primal_gap_final_baselines,
-                                                   mean_option=mean_option)  # primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
+                                                   mean_option=mean_option)
         primal_gap_final_regression_ave = mean_shift(primal_gap_final_regressions,
-                                                     mean_option=mean_option)  # primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
+                                                     mean_option=mean_option)
         primal_gap_final_regression_merged_ave = mean_shift(primal_gap_final_regressions_merged,
-                                                            mean_option=mean_option)  # primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
+                                                            mean_option=mean_option)
         primal_gap_final_regression_reinforce_ave = mean_shift(primal_gap_final_regression_reinforces,
-                                                               mean_option=mean_option)  # primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
+                                                               mean_option=mean_option)
         primal_gap_final_reinforce_ave = mean_shift(primal_gap_final_reinforces,
-                                                    mean_option=mean_option)  # primal_gap_final_reinforces.sum() / len(primal_gap_final_reinforces)
+                                                    mean_option=mean_option)
 
-        # primal_gap_final_regression_reinforce_talored_ave = mean_shift(primal_gap_final_regression_reinforces_talored,
-        #                                                                mean_option=mean_option)  # primal_gap_final_regression_reinforces_talored.sum() / len(primal_gap_final_regression_reinforces_talored)
-        # primal_gap_final_reinforce_talored_ave = mean_shift(primal_gap_final_reinforces_talored,
-        #                                                     mean_option=mean_option)  # primal_gap_final_reinforces_talored.sum() / len(primal_gap_final_reinforces_talored)
-
-        # primal_gap_final_regression_reinforce_talored_ave = primal_gap_final_regression_reinforces_talored.sum() / len(
-        #     primal_gap_final_regression_reinforces_talored)
-        # primal_gap_final_reinforce_talored_ave = primal_gap_final_reinforces_talored.sum() / len(
-        #     primal_gap_final_reinforces_talored)
 
         print(self.instance_type + test_instance_size)
         print(self.incumbent_mode + 'Solution')
@@ -9195,16 +6586,8 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = mean_shift(primalgaps_baseline, axis=0,
-                                            mean_option=mean_option)  # np.average(primalgaps_baseline, axis=0)
+                                            mean_option=mean_option)
 
-        # primalgaps_regression = None
-        # for n, stepline_regression in enumerate(steplines_regression):
-        #     primal_gap = stepline_regression(t)
-        #     if n == 0:
-        #         primalgaps_regression = primal_gap
-        #     else:
-        #         primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
-        # primalgap_regression_ave = mean_shift(primalgaps_regression, axis=0, mean_option=mean_option) # np.average(primalgaps_regression, axis=0)
 
         primalgaps_regression_merged = None
         for n, stepline_regression in enumerate(steplines_regression_merged):
@@ -9214,7 +6597,7 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_regression_merged = np.vstack((primalgaps_regression_merged, primal_gap))
         primalgap_regression_merged_ave = mean_shift(primalgaps_regression_merged, axis=0,
-                                                     mean_option=mean_option)  # np.average(primalgaps_regression_merged, axis=0)
+                                                     mean_option=mean_option)
 
         primalgaps_regression_reinforce = None
         for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce):
@@ -9224,7 +6607,7 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_regression_reinforce = np.vstack((primalgaps_regression_reinforce, primal_gap))
         primalgap_regression_reinforce_ave = mean_shift(primalgaps_regression_reinforce, axis=0,
-                                                        mean_option=mean_option)  # np.average(primalgaps_regression_reinforce, axis=0)
+                                                        mean_option=mean_option)
 
         primalgaps_reinforce = None
         for n, stepline_reinforce in enumerate(steplines_reinforce):
@@ -9234,46 +6617,22 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 primalgaps_reinforce = np.vstack((primalgaps_reinforce, primal_gap))
         primalgap_reinforce_ave = mean_shift(primalgaps_reinforce, axis=0,
-                                             mean_option=mean_option)  # np.average(primalgaps_reinforce, axis=0)
+                                             mean_option=mean_option)
 
-        # primalgaps_regression_reinforce_talored = None
-        # for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce_talored):
-        #     primal_gap = stepline_regression_reinforce(t)
-        #     if n == 0:
-        #         primalgaps_regression_reinforce_talored = primal_gap
-        #     else:
-        #         primalgaps_regression_reinforce_talored = np.vstack((primalgaps_regression_reinforce_talored, primal_gap))
-        # primalgap_regression_reinforce_talored_ave = np.average(primalgaps_regression_reinforce_talored, axis=0)
-        #
-        # primalgaps_reinforce_talored = None
-        # for n, stepline_reinforce in enumerate(steplines_reinforce_talored):
-        #     primal_gap = stepline_reinforce(t)
-        #     if n == 0:
-        #         primalgaps_reinforce_talored = primal_gap
-        #     else:
-        #         primalgaps_reinforce_talored = np.vstack((primalgaps_reinforce_talored, primal_gap))
-        # primalgap_reinforce_talored_ave = np.average(primalgaps_reinforce_talored, axis=0)
 
         plt.close('all')
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
-        # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, primalgap_baseline_ave, label='lb-base', color='tab:blue')
-        # ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:orange')
         ax.plot(t, primalgap_regression_merged_ave, label='lb-srm', color='tab:orange')
         ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         ax.plot(t, primalgap_regression_reinforce_ave,'--', label='lb-srmrl', color='tab:red')
-        #
-        # ax.plot(t, primalgap_reinforce_talored_ave, ':', label='lb-rl-active', color='tab:green')
-        # ax.plot(t, primalgap_regression_reinforce_talored_ave, ':', label='lb-regression-rl-active', color='tab:red')
 
         ax.set_xlabel('time /s', fontsize=12)
         ax.set_ylabel("scaled primal gap", fontsize=12)
         ax.legend()
         ax.grid()
-        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # fig.tight_layout()
         plt.savefig('./result/plots/' + self.instance_type + '_' + test_instance_size + '_' + self.incumbent_mode + '_tnode' + str(node_time_limit) + 's' + '_ttotal' + str(total_time_limit) + 's' + '_server'+ '_oldlb_seed' + str(self.seed) + '_' + mean_option + '.png')
         plt.show()
         plt.clf()
@@ -9288,7 +6647,6 @@ class RlLocalbranch(MlLocalbranch):
         directory_lb_test = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
 
-        # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/'
@@ -9301,7 +6659,6 @@ class RlLocalbranch(MlLocalbranch):
         directory_lb_test_hybrid = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline/'
 
-        # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_hybrid_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'rootsol' + '-t_node' + str(
@@ -9313,19 +6670,11 @@ class RlLocalbranch(MlLocalbranch):
                 node_time_limit) + 's' + '-t_total' + str(
                 total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline/'
 
-        # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
@@ -9336,8 +6685,6 @@ class RlLocalbranch(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -9415,28 +6762,6 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs_reinforce_hybrid, times_reinforce_hybrid, objs_regresison_reinforce_hybrid, times_regression_reinforce_hybrid = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_hybrid_2}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_reinforce_hybrid_2, times_reinforce_hybrid_2, objs_regresison_reinforce_hybrid_2, times_regression_reinforce_hybrid_2 = data  # objs contains objs of a single instance of a lb test
-
-
-
-                # filename_3 = f'{directory_lb_test_3}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename_3, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs, times, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
-                #
-                # objs_regression = objs_pred_reset_2
-                # times_regression = times_pred_reset_2
-
-                # # test from k_prime
-                # filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
 
                 instance_name = self.instance_type + '-' + str(i) + '_transformed'  # instance 100-199
                 # test from k_prime_merged
@@ -9451,10 +6776,6 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs, times = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_k_prime_2}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime_2, times_k_prime_2 = data  # objs contains objs of a single instance of a lb test
 
                 filename = f'{directory_lb_test_k_prime_merged_2}lb-test-{instance_name}.pkl'
                 with gzip.open(filename, 'rb') as f:
@@ -9479,25 +6800,18 @@ class RlLocalbranch(MlLocalbranch):
                 objs_regresison_reinforce_hybrid = np.array(objs_regresison_reinforce_hybrid).reshape(-1)
                 times_regression_reinforce_hybrid = np.array(times_regression_reinforce_hybrid).reshape(-1)
 
-                # objs_reinforce_hybrid_2 = np.array(objs_reinforce_hybrid_2).reshape(-1)
-                # objs_regresison_reinforce_hybird_2 = np.array(objs_regresison_reinforce_hybrid_2).reshape(-1)
 
                 objs = np.array(objs).reshape(-1)
                 times = np.array(times).reshape(-1)
 
                 objs_2 = np.array(objs_2).reshape(-1)
 
-                # objs_k_prime = np.array(objs_k_prime).reshape(-1)
-                # times_k_prime = np.array(times_k_prime).reshape(-1)
-                #
-                # objs_k_prime_2 = np.array(objs_k_prime_2).reshape(-1)
 
                 objs_k_prime_merged = np.array(objs_k_prime_merged).reshape(-1)
                 times_k_prime_merged = np.array(times_k_prime_merged).reshape(-1)
 
                 objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-                # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
                 a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min(), objs_reinforce_hybrid.min(), objs_regresison_reinforce_hybrid.min()] # , objs_reinforce_hybrid_2.min(), objs_regresison_reinforce_hybrid_2.min(),
                 obj_opt = np.amin(a)
 
@@ -9509,14 +6823,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_baseline.append(stepline_baseline)
                 primal_int_baselines.append(primal_int_baseline)
 
-                # # lb-regression
-                # # if times_regression[-1] < total_time_limit:
-                #
-                # primal_int_regression, primal_gap_final_regression, stepline_regression = self.compute_primal_integral(
-                #     times=times_k_prime, objs=objs_k_prime, obj_opt=obj_opt, total_time_limit=total_time_limit)
-                # primal_gap_final_regressions.append(primal_gap_final_regression)
-                # steplines_regression.append(stepline_regression)
-                # primal_int_regressions.append(primal_int_regression)
 
                 # lb-regression-merged
                 # if times_regression[-1] < total_time_limit:
@@ -9527,20 +6833,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_regression_merged.append(stepline_regression_merged)
                 primal_int_regressions_merged.append(primal_int_regression_merged)
 
-                #
-                # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # # ax.set_title(instance_name, loc='right')
-                # ax.plot(t, stepline_baseline(t), label='lb baseline')
-                # ax.plot(t, stepline_reset_vanilla(t), label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
 
                 # lb-regression-reinforce
 
@@ -9576,32 +6868,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_reinforce_talored.append(stepline_reinforce_talored)
                 primal_int_reinforces_talored.append(primal_int_reinforce_talored)
 
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of objective")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, objs, label='lb baseline')
-                # ax.plot(times_regression, objs_regression, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
-                #
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, gamma_baseline, label='lb baseline')
-                # ax.plot(times_regression, gamma_reset_vanilla, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
-
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
         primal_int_regressions = np.array(primal_int_regressions).reshape(-1)
@@ -9621,7 +6887,7 @@ class RlLocalbranch(MlLocalbranch):
         primal_gap_final_regression_reinforces_talored = np.array(primal_gap_final_regression_reinforces_talored).reshape(-1)
         primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
 
-        # avarage primal integral over test dataset
+        # average primal integral over test dataset
         primal_int_base_ave = primal_int_baselines.sum() / len(primal_int_baselines)
         primal_int_regression_ave = primal_int_regressions.sum() / len(primal_int_regressions)
         primal_int_regression_merged_ave = primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
@@ -9677,14 +6943,6 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
         primalgap_baseline_ave = np.average(primalgaps_baseline, axis=0)
 
-        # primalgaps_regression = None
-        # for n, stepline_regression in enumerate(steplines_regression):
-        #     primal_gap = stepline_regression(t)
-        #     if n == 0:
-        #         primalgaps_regression = primal_gap
-        #     else:
-        #         primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
-        # primalgap_regression_ave = np.average(primalgaps_regression, axis=0)
 
         primalgaps_regression_merged = None
         for n, stepline_regression in enumerate(steplines_regression_merged):
@@ -9735,9 +6993,7 @@ class RlLocalbranch(MlLocalbranch):
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
-        # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, primalgap_baseline_ave, label='lb-base', color='tab:blue')
-        # ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:orange')
         ax.plot(t, primalgap_regression_merged_ave, label='lb-regression', color='tab:orange')
         ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         ax.plot(t, primalgap_regression_reinforce_ave,'--', label='lb-regression-rl', color='tab:red')
@@ -9749,8 +7005,6 @@ class RlLocalbranch(MlLocalbranch):
         ax.set_ylabel("scaled primal gap", fontsize=12)
         ax.legend()
         ax.grid()
-        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # fig.tight_layout()
         plt.savefig('./result/plots/' + self.instance_type + '_' + self.incumbent_mode + '_hybrid' +  '.png')
         plt.show()
         plt.clf()
@@ -9767,7 +7021,6 @@ class RlLocalbranch(MlLocalbranch):
         directory_lb_test = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
             node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
 
-        # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_2 = directory_2 + 'evaluation-reinforce4lb-from-' +  'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive/seed'+ str(self.seed) + '/'
@@ -9778,10 +7031,9 @@ class RlLocalbranch(MlLocalbranch):
         # set directory for the test result of RL-policy1-t_node_baseline
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/' + 'rl/reinforce/test/old_models/'
         directory_lb_test_hybrid = directory + 'evaluation-reinforce4lb-from-' + self.incumbent_mode + '-t_node' + str(
-            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed' + str(self.seed) + '/' # 120
+            node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed' + str(self.seed) + '/'
         # rlactive_t_node_baseline, -rlpolicy/seed' + str(self.seed) + '/',  '/rlactive_t_node_baseline/seed'+ str(self.seed) + '/', '/rlactive_t_node_baseline-rlpolicy/seed' + str(self.seed) + '/'
 
-        # directory_rl_talored = directory_lb_test + 'rlactive/'
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/' + 'rl/reinforce/test/old_models/'
             directory_lb_test_hybrid_2 = directory_2 + 'evaluation-reinforce4lb-from-' + 'rootsol' + '-t_node' + str(
@@ -9793,19 +7045,11 @@ class RlLocalbranch(MlLocalbranch):
                 node_time_limit) + 's' + '-t_total' + str(
                 total_time_limit) + 's' + test_instance_size + '/rlactive_t_node_baseline-rlpolicy-treward1/seed' + str(self.seed) + '/' # , /rlactive_t_node_baseline/seed'+ str(self.seed) + '/'  #  120
 
-        # directory_3 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test_3 = directory_3 + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
-
 
         directory = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + self.incumbent_mode + '/'
-        # directory_lb_test = directory + 'lb-from-' + self.incumbent_mode + '-t_node' + str(
-        #     node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
 
         if self.incumbent_mode == 'firstsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'rootsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'rootsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'rootsol' + '-t_node' + str(
@@ -9816,8 +7060,6 @@ class RlLocalbranch(MlLocalbranch):
 
         elif self.incumbent_mode == 'rootsol':
             directory_2 = './result/generated_instances/' + self.instance_type + '/' + test_instance_size + '/' + self.lbconstraint_mode + '/' + 'firstsol' + '/'
-            # directory_lb_test_2 = directory_2 + 'lb-from-' + 'firstsol' + '-t_node' + str(node_time_limit) + 's' + '-t_total' + str(
-            #     total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
                 node_time_limit) + 's' + '-t_total' + str(total_time_limit) + 's' + test_instance_size + '/'
             directory_lb_test_k_prime_merged_2 = directory_2 + 'k_prime/' + 'lb-from-' + 'firstsol' + '-t_node' + str(
@@ -9909,26 +7151,9 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs_reinforce_hybrid, times_reinforce_hybrid, objs_regresison_reinforce_hybrid, times_regression_reinforce_hybrid = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_hybrid_2}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_reinforce_hybrid_2, times_reinforce_hybrid_2, objs_regresison_reinforce_hybrid_2, times_regression_reinforce_hybrid_2 = data  # objs contains objs of a single instance of a lb test
-
-
-
-                # filename_3 = f'{directory_lb_test_3}lb-test-{instance_name}.pkl'
-                #
-                # with gzip.open(filename_3, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs, times, objs_pred_2, times_pred_2, objs_pred_reset_2, times_pred_reset_2 = data  # objs contains objs of a single instance of a lb test
-                #
-                # objs_regression = objs_pred_reset_2
-                # times_regression = times_pred_reset_2
 
                 # test from k_prime, SCIP_baseline
                 filename = f'{result_directory_scip}lb-test-{instance_name}.pkl'
-                # filename = f'{directory_lb_test_k_prime}lb-test-{instance_name}.pkl'
                 with gzip.open(filename, 'rb') as f:
                     data = pickle.load(f)
                 objs_k_prime, times_k_prime = data  # objs contains objs of a single instance of a lb test
@@ -9946,10 +7171,6 @@ class RlLocalbranch(MlLocalbranch):
                     data = pickle.load(f)
                 objs, times = data  # objs contains objs of a single instance of a lb test
 
-                # filename = f'{directory_lb_test_k_prime_2}lb-test-{instance_name}.pkl'
-                # with gzip.open(filename, 'rb') as f:
-                #     data = pickle.load(f)
-                # objs_k_prime_2, times_k_prime_2 = data  # objs contains objs of a single instance of a lb test
 
                 filename = f'{directory_lb_test_k_prime_merged_2}lb-test-{instance_name}.pkl'
                 with gzip.open(filename, 'rb') as f:
@@ -9974,8 +7195,6 @@ class RlLocalbranch(MlLocalbranch):
                 objs_regresison_reinforce_hybrid = np.array(objs_regresison_reinforce_hybrid).reshape(-1)
                 times_regression_reinforce_hybrid = np.array(times_regression_reinforce_hybrid).reshape(-1)
 
-                # objs_reinforce_hybrid_2 = np.array(objs_reinforce_hybrid_2).reshape(-1)
-                # objs_regresison_reinforce_hybird_2 = np.array(objs_regresison_reinforce_hybrid_2).reshape(-1)
 
                 objs = np.array(objs).reshape(-1)
                 times = np.array(times).reshape(-1)
@@ -9984,15 +7203,12 @@ class RlLocalbranch(MlLocalbranch):
 
                 objs_k_prime = np.array(objs_k_prime).reshape(-1)
                 times_k_prime = np.array(times_k_prime).reshape(-1)
-                #
-                # objs_k_prime_2 = np.array(objs_k_prime_2).reshape(-1)
 
                 objs_k_prime_merged = np.array(objs_k_prime_merged).reshape(-1)
                 times_k_prime_merged = np.array(times_k_prime_merged).reshape(-1)
 
                 objs_k_prime_merged_2 = np.array(objs_k_prime_merged_2).reshape(-1)
 
-                # a = [objs_regression.min(), objs_regresison_reinforce.min(), objs_reset_vanilla_2.min(), objs_reset_imitation_2.min()]
                 a = [objs_reinforce.min(), objs_regresison_reinforce.min(), objs_reinforce_2.min(), objs_regresison_reinforce_2.min(), objs.min(), objs_2.min(), objs_k_prime_merged.min(), objs_k_prime_merged_2.min(), objs_reinforce_hybrid.min(), objs_regresison_reinforce_hybrid.min(), objs_k_prime.min()] # , objs_reinforce_hybrid_2.min(), objs_regresison_reinforce_hybrid_2.min(),
                 obj_opt = np.amin(a)
 
@@ -10000,10 +7216,6 @@ class RlLocalbranch(MlLocalbranch):
                 # compute primal gap for baseline localbranching run
                 # if times[-1] < total_time_limit:
 
-                # primal_int_baseline, primal_gap_final_baseline, stepline_baseline = self.compute_primal_integral(times=times, objs=objs, obj_opt=obj_opt, total_time_limit=total_time_limit)
-                # primal_gap_final_baselines.append(primal_gap_final_baseline)
-                # steplines_baseline.append(stepline_baseline)
-                # primal_int_baselines.append(primal_int_baseline)
 
                 primal_int_baseline, primal_gap_final_baseline, stepline_baseline, pi_stepline_baseline = self.compute_primal_integral_2(
                     times=times, objs=objs, obj_opt=obj_opt, total_time_limit=total_time_limit)
@@ -10026,11 +7238,6 @@ class RlLocalbranch(MlLocalbranch):
                 # lb-regression-merged
                 # if times_regression[-1] < total_time_limit:
 
-                # primal_int_regression_merged, primal_gap_final_regression_merged, stepline_regression_merged = self.compute_primal_integral(
-                #     times=times_k_prime_merged, objs=objs_k_prime_merged, obj_opt=obj_opt, total_time_limit=total_time_limit)
-                # primal_gap_final_regressions_merged.append(primal_gap_final_regression_merged)
-                # steplines_regression_merged.append(stepline_regression_merged)
-                # primal_int_regressions_merged.append(primal_int_regression_merged)
 
                 primal_int_regression_merged, primal_gap_final_regression_merged, stepline_regression_merged, pi_stepline_regression_merged = self.compute_primal_integral_2(
                     times=times_k_prime_merged, objs=objs_k_prime_merged, obj_opt=obj_opt, total_time_limit=total_time_limit)
@@ -10039,28 +7246,9 @@ class RlLocalbranch(MlLocalbranch):
                 primal_int_regressions_merged.append(primal_int_regression_merged)
                 pi_steplines_regression_merged.append(pi_stepline_regression_merged)
 
-                #
-                # t = np.linspace(start=0.0, stop=total_time_limit, num=1001)
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # # ax.set_title(instance_name, loc='right')
-                # ax.plot(t, stepline_baseline(t), label='lb baseline')
-                # ax.plot(t, stepline_reset_vanilla(t), label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
 
                 # lb-regression-reinforce
 
-                # primal_int_regression_reinforce, primal_gap_final_regression_reinforce, stepline_regression_reinforce = self.compute_primal_integral(
-                #     times=times_regression_reinforce, objs=objs_regresison_reinforce, obj_opt=obj_opt, total_time_limit=total_time_limit)
-                # primal_gap_final_regression_reinforces.append(primal_gap_final_regression_reinforce)
-                # steplines_regression_reinforce.append(stepline_regression_reinforce)
-                # primal_int_regression_reinforces.append(primal_int_regression_reinforce)
 
                 primal_int_regression_reinforce, primal_gap_final_regression_reinforce, stepline_regression_reinforce, pi_stepline_regression_reinforce = self.compute_primal_integral_2(
                     times=times_regression_reinforce, objs=objs_regresison_reinforce, obj_opt=obj_opt, total_time_limit=total_time_limit)
@@ -10071,12 +7259,6 @@ class RlLocalbranch(MlLocalbranch):
 
                 # lb-reinforce
 
-                # primal_int_reinforce, primal_gap_final_reinforce, stepline_reinforce = self.compute_primal_integral(
-                #     times=times_reinforce, objs=objs_reinforce, obj_opt=obj_opt,
-                #     total_time_limit=total_time_limit)
-                # primal_gap_final_reinforces.append(primal_gap_final_reinforce)
-                # steplines_reinforce.append(stepline_reinforce)
-                # primal_int_reinforces.append(primal_int_reinforce)
 
                 primal_int_reinforce, primal_gap_final_reinforce, stepline_reinforce, pi_stepline_reinforce = self.compute_primal_integral_2(
                     times=times_reinforce, objs=objs_reinforce, obj_opt=obj_opt, total_time_limit=total_time_limit)
@@ -10085,13 +7267,6 @@ class RlLocalbranch(MlLocalbranch):
                 primal_int_reinforces.append(primal_int_reinforce)
                 pi_steplines_reinforce.append(pi_stepline_reinforce)
 
-                # lb-regression-reinforce-talored
-                # primal_int_regression_reinforce_talored, primal_gap_final_regression_reinforce_talored, stepline_regression_reinforce_talored = self.compute_primal_integral(
-                #     times=times_regression_reinforce_hybrid, objs=objs_regresison_reinforce_hybrid, obj_opt=obj_opt,
-                #     total_time_limit=total_time_limit)
-                # primal_gap_final_regression_reinforces_talored.append(primal_gap_final_regression_reinforce_talored)
-                # steplines_regression_reinforce_talored.append(stepline_regression_reinforce_talored)
-                # primal_int_regression_reinforces_talored.append(primal_int_regression_reinforce_talored)
 
                 primal_int_regression_reinforce_talored, primal_gap_final_regression_reinforce_talored, stepline_regression_reinforce_talored, pi_stepline_regression_reinforce_talored = self.compute_primal_integral_2(
                     times=times_regression_reinforce_hybrid, objs=objs_regresison_reinforce_hybrid, obj_opt=obj_opt, total_time_limit=total_time_limit)
@@ -10102,12 +7277,6 @@ class RlLocalbranch(MlLocalbranch):
 
                 # lb-reinforce-tailored
 
-                # primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored = self.compute_primal_integral(
-                #     times=times_reinforce_hybrid, objs=objs_reinforce_hybrid, obj_opt=obj_opt,
-                #     total_time_limit=total_time_limit)
-                # primal_gap_final_reinforces_talored.append(primal_gap_final_reinforce_talored)
-                # steplines_reinforce_talored.append(stepline_reinforce_talored)
-                # primal_int_reinforces_talored.append(primal_int_reinforce_talored)
 
                 primal_int_reinforce_talored, primal_gap_final_reinforce_talored, stepline_reinforce_talored, pi_stepline_reinforce_talored = self.compute_primal_integral_2(
                     times=times_reinforce_hybrid, objs=objs_reinforce_hybrid, obj_opt=obj_opt, total_time_limit=total_time_limit)
@@ -10115,32 +7284,6 @@ class RlLocalbranch(MlLocalbranch):
                 steplines_reinforce_talored.append(stepline_reinforce_talored)
                 primal_int_reinforces_talored.append(primal_int_reinforce_talored)
                 pi_steplines_reinforce_talored.append(pi_stepline_reinforce_talored)
-
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of objective")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, objs, label='lb baseline')
-                # ax.plot(times_regression, objs_regression, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
-                #
-                # plt.close('all')
-                # plt.clf()
-                # fig, ax = plt.subplots(figsize=(8, 6.4))
-                # fig.suptitle("Test Result: comparison of primal gap")
-                # fig.subplots_adjust(top=0.5)
-                # ax.set_title(instance_name, loc='right')
-                # ax.plot(times, gamma_baseline, label='lb baseline')
-                # ax.plot(times_regression, gamma_reset_vanilla, label='lb with k predicted')
-                # ax.set_xlabel('time /s')
-                # ax.set_ylabel("objective")
-                # ax.legend()
-                # plt.show()
 
 
         primal_int_baselines = np.array(primal_int_baselines).reshape(-1)
@@ -10161,44 +7304,43 @@ class RlLocalbranch(MlLocalbranch):
         primal_gap_final_regression_reinforces_talored = np.array(primal_gap_final_regression_reinforces_talored).reshape(-1)
         primal_gap_final_reinforces_talored = np.array(primal_gap_final_reinforces_talored).reshape(-1)
 
-        # avarage primal integral over test dataset
+        # average primal integral over test dataset
         primal_int_base_ave = mean_shift(primal_int_baselines,
-                                         mean_option=mean_option) # primal_int_baselines.sum() / len(primal_int_baselines)
+                                         mean_option=mean_option)
         primal_int_regression_ave = mean_shift(primal_int_regressions,
-                                         mean_option=mean_option) # primal_int_regressions.sum() / len(primal_int_regressions)
+                                         mean_option=mean_option)
         primal_int_regression_merged_ave = mean_shift(primal_int_regressions_merged,
-                                         mean_option=mean_option) # primal_int_regressions_merged.sum() / len(primal_int_regressions_merged)
+                                         mean_option=mean_option)
         primal_int_regression_reinforce_ave = mean_shift(primal_int_regression_reinforces,
-                                         mean_option=mean_option) # primal_int_regression_reinforces.sum() / len(primal_int_regression_reinforces)
+                                         mean_option=mean_option)
         primal_int_reinforce_ave = mean_shift(primal_int_reinforces,
-                                         mean_option=mean_option) # primal_int_reinforces.sum() / len(primal_int_reinforces)
+                                         mean_option=mean_option)
 
         primal_int_regression_reinforce_talored_ave = mean_shift(primal_int_regression_reinforces_talored,
-                                         mean_option=mean_option) # primal_int_regression_reinforces_talored.sum() / len(primal_int_regression_reinforces_talored)
+                                         mean_option=mean_option)
         primal_int_reinforce_talored_ave = mean_shift(primal_int_reinforces_talored,
-                                         mean_option=mean_option) # primal_int_reinforces_talored.sum() / len(primal_int_reinforces_talored)
+                                         mean_option=mean_option)
 
         primal_gap_final_baseline_ave = mean_shift(primal_gap_final_baselines,
-                                         mean_option=mean_option) # primal_gap_final_baselines.sum() / len(primal_gap_final_baselines)
+                                         mean_option=mean_option)
         primal_gap_final_regression_ave = mean_shift(primal_gap_final_regressions,
-                                         mean_option=mean_option) # primal_gap_final_regressions.sum() / len(primal_gap_final_regressions)
+                                         mean_option=mean_option)
         primal_gap_final_regression_merged_ave = mean_shift(primal_gap_final_regressions_merged,
-                                         mean_option=mean_option) # primal_gap_final_regressions_merged.sum() / len(primal_gap_final_regressions_merged)
+                                         mean_option=mean_option)
         primal_gap_final_regression_reinforce_ave = mean_shift(primal_gap_final_regression_reinforces,
-                                         mean_option=mean_option) # primal_gap_final_regression_reinforces.sum() / len(primal_gap_final_regression_reinforces)
+                                         mean_option=mean_option)
         primal_gap_final_reinforce_ave = mean_shift(primal_gap_final_reinforces,
-                                         mean_option=mean_option) # primal_gap_final_reinforces.sum() / len(primal_gap_final_reinforces)
+                                         mean_option=mean_option)
 
         primal_gap_final_regression_reinforce_talored_ave = mean_shift(primal_gap_final_regression_reinforces_talored,
-                                         mean_option=mean_option) # primal_gap_final_regression_reinforces_talored.sum() / len(primal_gap_final_regression_reinforces_talored)
+                                         mean_option=mean_option)
         primal_gap_final_reinforce_talored_ave = mean_shift(primal_gap_final_reinforces_talored,
-                                         mean_option=mean_option) # primal_gap_final_reinforces_talored.sum() / len(primal_gap_final_reinforces_talored)
+                                         mean_option=mean_option)
 
         print(self.instance_type + test_instance_size)
         print(self.incumbent_mode + 'Solution')
         print('baseline primal integral: ', primal_int_base_ave)
         print('scip primal integral: ', primal_int_regression_ave)
-        # print('regression primal integral: ', primal_int_regression_ave)
         print('regression merged primal integral: ', primal_int_regression_merged_ave)
         print('rl primal integral: ', primal_int_reinforce_ave)
         print('regression-rl primal integral: ', primal_int_regression_reinforce_ave)
@@ -10209,7 +7351,6 @@ class RlLocalbranch(MlLocalbranch):
         print('\n')
         print('baseline primal gap: ', primal_gap_final_baseline_ave)
         print('scip primal gap: ', primal_gap_final_regression_ave)
-        # print('regression primal gap: ', primal_gap_final_regression_ave)
         print('regression primal merged gap: ', primal_gap_final_regression_merged_ave)
         print('rl primal gap: ', primal_gap_final_reinforce_ave)
         print('regression-rl-hybrid primal gap: ', primal_gap_final_regression_reinforce_ave)
@@ -10226,7 +7367,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_baseline = primal_gap
             else:
                 primalgaps_baseline = np.vstack((primalgaps_baseline, primal_gap))
-        primalgap_baseline_ave = mean_shift(primalgaps_baseline, axis=0, mean_option=mean_option) # np.average(primalgaps_baseline, axis=0)
+        primalgap_baseline_ave = mean_shift(primalgaps_baseline, axis=0, mean_option=mean_option)
 
         primalgaps_regression = None
         for n, stepline_regression in enumerate(steplines_regression):
@@ -10235,7 +7376,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression = primal_gap
             else:
                 primalgaps_regression = np.vstack((primalgaps_regression, primal_gap))
-        primalgap_regression_ave = mean_shift(primalgaps_regression, axis=0, mean_option=mean_option) # np.average(primalgaps_regression, axis=0)
+        primalgap_regression_ave = mean_shift(primalgaps_regression, axis=0, mean_option=mean_option)
 
         primalgaps_regression_merged = None
         for n, stepline_regression in enumerate(steplines_regression_merged):
@@ -10244,7 +7385,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression_merged = primal_gap
             else:
                 primalgaps_regression_merged = np.vstack((primalgaps_regression_merged, primal_gap))
-        primalgap_regression_merged_ave = mean_shift(primalgaps_regression_merged, axis=0, mean_option=mean_option) # np.average(primalgaps_regression_merged, axis=0)
+        primalgap_regression_merged_ave = mean_shift(primalgaps_regression_merged, axis=0, mean_option=mean_option)
 
         primalgaps_regression_reinforce = None
         for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce):
@@ -10253,7 +7394,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression_reinforce = primal_gap
             else:
                 primalgaps_regression_reinforce = np.vstack((primalgaps_regression_reinforce, primal_gap))
-        primalgap_regression_reinforce_ave = mean_shift(primalgaps_regression_reinforce, axis=0, mean_option=mean_option) # np.average(primalgaps_regression_reinforce, axis=0)
+        primalgap_regression_reinforce_ave = mean_shift(primalgaps_regression_reinforce, axis=0, mean_option=mean_option)
 
         primalgaps_reinforce = None
         for n, stepline_reinforce in enumerate(steplines_reinforce):
@@ -10262,7 +7403,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_reinforce = primal_gap
             else:
                 primalgaps_reinforce = np.vstack((primalgaps_reinforce, primal_gap))
-        primalgap_reinforce_ave = mean_shift(primalgaps_reinforce, axis=0, mean_option=mean_option) # np.average(primalgaps_reinforce, axis=0)
+        primalgap_reinforce_ave = mean_shift(primalgaps_reinforce, axis=0, mean_option=mean_option)
 
         primalgaps_regression_reinforce_talored = None
         for n, stepline_regression_reinforce in enumerate(steplines_regression_reinforce_talored):
@@ -10271,7 +7412,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_regression_reinforce_talored = primal_gap
             else:
                 primalgaps_regression_reinforce_talored = np.vstack((primalgaps_regression_reinforce_talored, primal_gap))
-        primalgap_regression_reinforce_talored_ave = mean_shift(primalgaps_regression_reinforce_talored, axis=0, mean_option=mean_option) # np.average(primalgaps_regression_reinforce_talored, axis=0)
+        primalgap_regression_reinforce_talored_ave = mean_shift(primalgaps_regression_reinforce_talored, axis=0, mean_option=mean_option)
 
         primalgaps_reinforce_talored = None
         for n, stepline_reinforce in enumerate(steplines_reinforce_talored):
@@ -10280,8 +7421,7 @@ class RlLocalbranch(MlLocalbranch):
                 primalgaps_reinforce_talored = primal_gap
             else:
                 primalgaps_reinforce_talored = np.vstack((primalgaps_reinforce_talored, primal_gap))
-        primalgap_reinforce_talored_ave = mean_shift(primalgaps_regression_reinforce_talored, axis=0, mean_option=mean_option) # np.average(primalgaps_reinforce_talored, axis=0)
-
+        primalgap_reinforce_talored_ave = mean_shift(primalgaps_regression_reinforce_talored, axis=0, mean_option=mean_option)
 
 
         pi_baseline = None
@@ -10291,7 +7431,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_baseline = pi
             else:
                 pi_baseline = np.vstack((pi_baseline, pi))
-        pi_baseline_ave = mean_shift(pi_baseline, axis=0, mean_option=mean_option) # np.average(pi_baseline, axis=0)
+        pi_baseline_ave = mean_shift(pi_baseline, axis=0, mean_option=mean_option)
 
         pi_regression = None
         for n, pi_stepline_regression in enumerate(pi_steplines_regression):
@@ -10301,7 +7441,7 @@ class RlLocalbranch(MlLocalbranch):
             else:
                 pi_regression = np.vstack((pi_regression, pi))
         pi_regression_ave = mean_shift(pi_regression, axis=0,
-                                              mean_option=mean_option)  # np.average(pi_regression_merged, axis=0)
+                                              mean_option=mean_option)
 
         pi_regression_merged = None
         for n, pi_stepline_regression_merged in enumerate(pi_steplines_regression_merged):
@@ -10310,7 +7450,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_regression_merged = pi
             else:
                 pi_regression_merged = np.vstack((pi_regression_merged, pi))
-        pi_regression_merged_ave = mean_shift(pi_regression_merged, axis=0, mean_option=mean_option) # np.average(pi_regression_merged, axis=0)
+        pi_regression_merged_ave = mean_shift(pi_regression_merged, axis=0, mean_option=mean_option)
 
         pi_regression_reinforce = None
         for n, pi_stepline_regression_reinforce in enumerate(pi_steplines_regression_reinforce):
@@ -10319,7 +7459,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_regression_reinforce = pi
             else:
                 pi_regression_reinforce = np.vstack((pi_regression_reinforce, pi))
-        pi_regression_reinforce_ave = mean_shift(pi_regression_reinforce, axis=0, mean_option=mean_option) # np.average(pi_regression_reinforce, axis=0)
+        pi_regression_reinforce_ave = mean_shift(pi_regression_reinforce, axis=0, mean_option=mean_option)
 
         pi_reinforce = None
         for n, pi_stepline_reinforce in enumerate(pi_steplines_reinforce):
@@ -10328,7 +7468,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_reinforce = pi
             else:
                 pi_reinforce = np.vstack((pi_reinforce, pi))
-        pi_reinforce_ave = mean_shift(pi_reinforce, axis=0, mean_option=mean_option) # np.average(pi_reinforce, axis=0)
+        pi_reinforce_ave = mean_shift(pi_reinforce, axis=0, mean_option=mean_option)
 
         pi_regression_reinforce_talored = None
         for n, pi_stepline_regression_reinforce_talored in enumerate(pi_steplines_regression_reinforce_talored):
@@ -10337,7 +7477,7 @@ class RlLocalbranch(MlLocalbranch):
                 pi_regression_reinforce_talored = pi
             else:
                 pi_regression_reinforce_talored = np.vstack((pi_regression_reinforce_talored, pi))
-        pi_regression_reinforce_talored_ave = mean_shift(pi_regression_reinforce_talored, axis=0, mean_option=mean_option) # np.average(pi_regression_reinforce_talored, axis=0)
+        pi_regression_reinforce_talored_ave = mean_shift(pi_regression_reinforce_talored, axis=0, mean_option=mean_option)
 
         pi_reinforce_talored = None
         for n, pi_stepline_reinforce_talored in enumerate(pi_steplines_reinforce_talored):
@@ -10346,16 +7486,14 @@ class RlLocalbranch(MlLocalbranch):
                 pi_reinforce_talored = pi
             else:
                 pi_reinforce_talored = np.vstack((pi_reinforce_talored, pi))
-        pi_reinforce_talored_ave = mean_shift(pi_reinforce_talored, axis=0, mean_option=mean_option) # np.average(pi_reinforce_talored, axis=0)
+        pi_reinforce_talored_ave = mean_shift(pi_reinforce_talored, axis=0, mean_option=mean_option)
 
         plt.close('all')
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
-        # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, primalgap_baseline_ave, label='lb-base', color='tab:blue')
         ax.plot(t, primalgap_regression_ave, label='scip', color ='tab:purple')
-        # ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:orange')
         ax.plot(t, primalgap_regression_merged_ave, label='lb-srm', color='tab:orange')
         ax.plot(t, primalgap_reinforce_ave, '--', label='lb-rl', color='tab:green')
         ax.plot(t, primalgap_regression_reinforce_ave,'--', label='lb-srm-rl', color='tab:red')
@@ -10367,9 +7505,7 @@ class RlLocalbranch(MlLocalbranch):
         ax.set_ylabel("scaled primal gap", fontsize=12)
         ax.legend()
         ax.grid()
-        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # fig.tight_layout()
-        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_'+ 'seed' + str(self.seed) + '_' + mean_option + '_20240418.png') # _hybrid.png, _hybrid_t_node_baseline.png
+        plt.savefig('./result/plots/'  + 'plot_primalgap_' + self.instance_type  + '_' + str(test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1_'+ 'seed' + str(self.seed) + '_' + mean_option + '_20240418.png')
         plt.show()
         plt.clf()
 
@@ -10377,39 +7513,22 @@ class RlLocalbranch(MlLocalbranch):
         plt.clf()
         fig, ax = plt.subplots(figsize=(6.4, 4.8))
         fig.suptitle(self.instance_type + '-' + self.incumbent_mode, fontsize=13)
-        # ax.set_title(self.insancte_type + test_instance_size + '-' + self.incumbent_mode, fontsize=14)
         ax.plot(t, pi_baseline_ave, label='lb-base', color='tab:blue')
-        # ax.plot(t, primalgap_regression_ave, label='lb-sr', color ='tab:orange')
         ax.plot(t, pi_regression_ave, label='scip', color='tab:purple')
         ax.plot(t, pi_regression_merged_ave, label='lb-srm', color='tab:orange')
         ax.plot(t, pi_reinforce_ave, '--', label='lb-rl', color='tab:green')
-        ax.plot(t, pi_regression_reinforce_ave, '--', label='lb-srm-rl', color='tab:red') # ax.plot(t, pi_regression_reinforce_ave, label='lb-srm-rl', color='tab:green')
+        ax.plot(t, pi_regression_reinforce_ave, '--', label='lb-srm-rl', color='tab:red')
         #
         ax.plot(t, pi_reinforce_talored_ave, ':', label='lb-rl-adapt-t', color='tab:green')
-        ax.plot(t, pi_regression_reinforce_talored_ave, ':', label='lb-srm-rl-adapt-t', color='tab:red') # ax.plot(t, pi_regression_reinforce_talored_ave, label='lb-srm-rl-adapt-t', color='tab:red')
+        ax.plot(t, pi_regression_reinforce_talored_ave, ':', label='lb-srm-rl-adapt-t', color='tab:red')
 
         ax.set_xlabel('time /s', fontsize=12)
         ax.set_ylabel("primal integral", fontsize=12)
         ax.legend()
         ax.grid()
-        # fig.suptitle("Scaled primal gap", y=0.97, fontsize=13)
-        # fig.tight_layout()
         plt.savefig('./result/plots/' + 'plot_primalintegral_' + self.instance_type + '_' + str(
             test_instance_size) + '_' + self.incumbent_mode + '_hybrid_rlpolicy-tk_enable-tbaseline_t1' + 'seed' + str(self.seed) + '_' + mean_option + '_20240418.png') # _rlpolicy-tk_enable-tbaseline' + ', _hybrid_t_node_baseline.png
         plt.show()
         plt.clf()
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

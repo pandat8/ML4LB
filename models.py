@@ -1,16 +1,26 @@
+"""The GNN regression model for predicting k of the first LB iteration.
+
+The MIP is encoded as a bipartite constraint-variable graph. A graph
+convolutional network embeds the graph and outputs a single scalar in (0, 1):
+the predicted (normalized) neighborhood size k for the first local branching
+iteration.
+"""
+
 import torch
-import torch.nn.functional as F
 import torch_geometric
 import numpy as np
-import pathlib
 import gzip
 import pickle
 
-"""
-The GNN regression model for predicting k of the first LB iteration
-"""
 
 class BipartiteNodeData(torch_geometric.data.Data):
+    """Bipartite constraint-variable graph observation of a MIP instance.
+
+    Stores the constraint features, variable features and the sparse
+    constraint-variable incidence structure in the format expected by
+    pytorch geometric, together with the regression label k_init.
+    """
+
     def __init__(self, constraint_features, edge_indices, edge_features, variable_features, k_init=0, device=None):
         super().__init__()
         # if caller doesn't specify a device, prefer GPU when available
@@ -55,24 +65,18 @@ class GraphDataset(torch_geometric.data.Dataset):
 
         sample_observation, sample_kinit = sample
 
-        # We note on which variables we were allowed to branch, the scores as well as the choice
-        # taken by strong branching (relative to the candidates)
-
+        # Keep only the last variable-feature column: the value of the
+        # variable in the incumbent solution.
         variable_features = sample_observation.variable_features[:, -1:]
         graph = BipartiteNodeData(sample_observation.constraint_features, sample_observation.edge_features.indices,
                                   sample_observation.edge_features.values, variable_features,
                                   sample_kinit, device=self.device)
-
-        # graph = BipartiteNodeData(sample_observation.constraint_features, sample_observation.edge_features.indices,
-        #                           sample_observation.edge_features.values, sample_observation.variable_features,
-        #                           sample_kinit)
 
 
         # We must tell pytorch geometric how many nodes there are, for indexing purposes
         graph.num_nodes = sample_observation.constraint_features.shape[0] + sample_observation.variable_features.shape[0]
 
         return graph
-
 
 
 class BipartiteGraphConvolution(torch_geometric.nn.MessagePassing):
@@ -83,7 +87,7 @@ class BipartiteGraphConvolution(torch_geometric.nn.MessagePassing):
 
     def __init__(self):
         super().__init__('add') # mean
-        emb_size = 64 # 64
+        emb_size = 64
 
         self.feature_module_left = torch.nn.Sequential(
             torch.nn.Linear(emb_size, emb_size)
@@ -100,8 +104,9 @@ class BipartiteGraphConvolution(torch_geometric.nn.MessagePassing):
             torch.nn.Linear(emb_size, emb_size, bias=False)
         )
 
+        # Identity placeholder; kept so that the module structure (and thus
+        # the parameter state dict) matches the pre-trained checkpoints.
         self.post_conv_module = torch.nn.Sequential(
-            # torch.nn.LayerNorm(emb_size)
         )
 
         # output_layers
@@ -125,34 +130,39 @@ class BipartiteGraphConvolution(torch_geometric.nn.MessagePassing):
 
     def message(self, node_features_i, node_features_j, edge_features):
         output = self.feature_module_final(self.feature_module_left(node_features_j) + self.feature_module_edge(edge_features)
-                                          ) # + self.feature_module_edge(edge_features) + self.feature_module_right(node_features_i)
+                                          )
         return output
 
 class GNNPolicy(torch.nn.Module):
+    """GNN regression model mapping a bipartite MIP graph to a scalar in (0, 1).
+
+    Architecture: constraint/variable embeddings, one variable-to-constraint
+    and one constraint-to-variable half convolution, a per-variable output
+    MLP, mean pooling over variables, and a final sigmoid activation.
+    """
+
     def __init__(self):
         super().__init__()
-        emb_size = 64 # 64
+        emb_size = 64
         cons_nfeats = 1
         edge_nfeats = 1
-        var_nfeats = 1 # 10
+        var_nfeats = 1
 
         # CONSTRAINT EMBEDDING
         self.cons_embedding = torch.nn.Sequential(
-            # torch.nn.LayerNorm(cons_nfeats),
             torch.nn.Linear(cons_nfeats, emb_size, bias=False),
             torch.nn.ReLU(),
             torch.nn.Linear(emb_size, emb_size, bias=False),
             torch.nn.ReLU(),
         )
 
-        # EDGE EMBEDDING
+        # EDGE EMBEDDING (identity placeholder; kept for checkpoint
+        # compatibility, edge features are used as-is)
         self.edge_embedding = torch.nn.Sequential(
-            # torch.nn.LayerNorm(edge_nfeats),
         )
 
         # VARIABLE EMBEDDING
         self.var_embedding = torch.nn.Sequential(
-            # torch.nn.LayerNorm(var_nfeats),
             torch.nn.Linear(var_nfeats, emb_size, bias=False),
             torch.nn.ReLU(),
             torch.nn.Linear(emb_size, emb_size, bias=False),
@@ -196,9 +206,10 @@ class GNNPolicy(torch.nn.Module):
 
         variable_features = self.conv_c_to_v(constraint_features, edge_indices, edge_features, variable_features)
 
-        # A final MLP on the variable features
-        output = self.output_module(variable_features)  #.squeeze(-1)
-        output = torch.mean(output, dim=0)  # sum
+        # A final MLP on the variable features, then mean pooling over the
+        # variables and a sigmoid to map the prediction into (0, 1)
+        output = self.output_module(variable_features)
+        output = torch.mean(output, dim=0)
         output = self.pool_activation(output)
 
         return output

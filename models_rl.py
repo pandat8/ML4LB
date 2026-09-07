@@ -1,18 +1,22 @@
+"""The RL policy models and agents for adapting k and t during LB search."""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import Dataset
 from torch.distributions import Categorical
 import gzip
 import pickle
 
 
-"""
-The RL model for adapting k and t
-"""
 class SimplePolicy(nn.Module):
+    """Linear policy network mapping the LB state to action logits.
+
+    Used for both the k-policy and the t-policy: the input is the
+    7-dimensional LB state and the output is one logit per action.
+    """
 
     def __init__(self, input_dim, output_dim):
         super().__init__()
@@ -32,6 +36,7 @@ class SimplePolicy(nn.Module):
 
 
 class Agent:
+    """Base agent that evaluates the policy network on a state."""
 
     def __init__(self, policy, device, greedy=True):
         self.policy = policy
@@ -39,11 +44,10 @@ class Agent:
         self.greedy = greedy
 
     def select_action(self, state):
-        # Convert to tensor
+        """Return the action logits of the policy for a numpy state vector."""
         state = torch.from_numpy(state).float().view(1, -1)
 
         if self.device is not None:
-            # FIX: assign the result of .to() to the variable
             state = state.to(self.device)
 
         preds = self.policy(state)
@@ -51,6 +55,13 @@ class Agent:
 
 
 class AgentReinforce(Agent):
+    """REINFORCE agent with epsilon-greedy exploration.
+
+    In non-greedy mode the action is sampled from the categorical
+    distribution given by the policy logits (or uniformly at random with
+    probability epsilon); log-probabilities and rewards are recorded for
+    the policy-gradient update. In greedy mode the argmax action is chosen.
+    """
 
     def __init__(self, policy, device, greedy, opt=None, epsilon=0):
         super().__init__(policy, device, greedy)
@@ -63,13 +74,14 @@ class AgentReinforce(Agent):
     def select_action(self, state):
         preds = super().select_action(state)
         if not self.greedy:
-            probs = F.log_softmax(preds, dim=1) # Note: added dim=1 for safety
+            probs = F.log_softmax(preds, dim=1)
             m = Categorical(logits=probs)
 
+            # Explore with probability epsilon (or when the policy output
+            # degenerates to NaN): sample an action uniformly at random.
             if torch.bernoulli(self.epsilon) == 1 or torch.isnan(probs.exp().sum()):
                 random_choice = torch.ones(m._num_events)
                 if self.device is not None:
-                    # FIX: Assign the result to move it to GPU
                     random_choice = random_choice.to(self.device)
 
                 m_rand = Categorical(random_choice)
@@ -84,7 +96,9 @@ class AgentReinforce(Agent):
             action = preds.argmax(1, keepdim=False).item()
         return action
 
+
 class ImitationLbDataset(Dataset):
+    """Dataset of (LB state, expert action) samples for imitation learning."""
 
     def __init__(self, sample_files, transform=None):
         self.sample_files = sample_files

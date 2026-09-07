@@ -1,7 +1,17 @@
+"""Generate the LaTeX code of the per-instance appendix table (MIPLIB 2017, 3600s).
+
+Reads the seed-averaged per-instance CSV written by
+compute_evaluation_results_scip_seeds_averaged.py and prints a LaTeX
+longtable comparing the SCIP baseline with the lb-freq0 and lb-freq100
+variants (solving time and final gap per instance).
+"""
+
 import pandas as pd
 import re
 
+
 def generate_latex_table(csv_path):
+    """Return the LaTeX longtable code for the given per-instance CSV file."""
     # Load the CSV
     df = pd.read_csv(csv_path)
 
@@ -89,6 +99,6 @@ def generate_latex_table(csv_path):
 if __name__ == "__main__":
     csv_filename = "./result/plots/scip_comparison_details_miplib2017_binary_-small_rootsol_seeds_averaged_v2_202607.csv"
     latex_code = generate_latex_table(csv_filename)
-    
+
     # Print to console (or you could write to a file: open('appendix_table.tex', 'w').write(latex_code))
     print(latex_code)

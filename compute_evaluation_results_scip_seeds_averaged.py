@@ -1,9 +1,23 @@
+"""Print the seed-averaged Section 6 results (Tables 11 and 12).
+
+Variant of compute_evaluation_results_scip.py that averages results across
+multiple random seeds. It assumes that each seed run produced comparison
+files in the usual result directories; the script calls the same comparison
+helper with a per-seed suffix and then aggregates the returned statistics
+(per-instance averages, solved counts, speedups and gap reductions, also at
+intermediate cutoff times).
+
+Usage example:
+    python compute_evaluation_results_scip_seeds_averaged.py \
+        --seeds 2021 2022 2023 2024 2025 --dataset_id 5 --t_total 3600 --mean geometric --enable_gpu
+"""
+
 import ecole
 import numpy as np
 import pyscipopt
 import argparse
 from execute_heuristics import ExecuteHeuristic
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, lbconstraint_mode_for
 import torch
 import random
 import pathlib
@@ -11,26 +25,19 @@ import os
 import csv
 from scipy.stats import gmean
 
-"""Variant of compute_evaluation_results_scip.py that averages results across multiple
-random seeds. It assumes that each seed run produced comparison files in the usual
-result directories; the script simply calls the same comparison helper with a
-per-seed suffix and then aggregates the returned statistics.
-
-Usage example:
-    python compute_evaluation_results_scip_seeds_averaged.py \
-        --seeds 2021 2022 2023 2024 2025 --dataset_id 5 --t_total 3600 --mean geometric --enable_gpu
-
-"""
-
-# Argument setting
 parser = argparse.ArgumentParser()
 parser.add_argument('--seeds', type=int, nargs='+',
                     default=[2021, 2022, 2023, 2024, 2025],
                     help='List of random seeds to average over')
-parser.add_argument('--mean', type=str, default='geometric')
-parser.add_argument('--dataset_id', type=int, default=4)
-parser.add_argument('--t_total', type=int, default=3600)
-parser.add_argument('--t_node', type=int, default=2)
+parser.add_argument('--mean', type=str, default='geometric',
+                    help="averaging mode for the metrics: 'arithmetic' or 'geometric'")
+parser.add_argument('--dataset_id', type=int, default=4,
+                    help='dataset to aggregate, index into utilities.instancetypes '
+                         "(4: 'miplib_39binary', 5: 'miplib2017_binary')")
+parser.add_argument('--t_total', type=int, default=3600,
+                    help='total time limit (s) of the evaluation runs to aggregate')
+parser.add_argument('--t_node', type=int, default=2,
+                    help='node time limit (s) of the evaluation runs to aggregate')
 parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 parser.add_argument('--cutoffs', type=int, nargs='+', default=[3600, 1800, 1200, 600, 60],
                     help='List of cutoff times (seconds) for evaluation')
@@ -39,17 +46,11 @@ args = parser.parse_args()
 cutoff_times = args.cutoffs
 print('Cutoff times:', cutoff_times)
 
+# Device tag used in the result directory names of the LB runs.
 enable_gpu = args.enable_gpu
-device_str = 'cpu'
-if enable_gpu:
-    if torch.cuda.is_available():
-        device = torch.device('cuda')
-        device_str = 'cuda'
-    else:
-        device = torch.device('cpu')
-        device_str = 'cpu'
+if enable_gpu and torch.cuda.is_available():
+    device_str = 'cuda'
 else:
-    device = torch.device('cpu')
     device_str = 'cpu'
 
 mean_option = args.mean
@@ -68,16 +69,11 @@ for cutoff in cutoff_times:
 
 # figure out dataset configuration
 instance_type = instancetypes[args.dataset_id]
-if instance_type == instancetypes[0]:
-    lbconstraint_mode = 'asymmetric'
-else:
-    lbconstraint_mode = 'symmetric'
+lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
-# we only loop j=1 and k=0 as in original script
-for j in range(1, 2):
-    incumbent_mode = incumbent_modes[j]
-    for k in range(0, 1):
-        instance_size = instancesizes[k]
+# Section 6 aggregates the small-size runs started from the root solution.
+for incumbent_mode in ['rootsol']:
+    for instance_size in [instancesizes[0]]:
 
         print(instance_type + instance_size)
         print(incumbent_mode)
@@ -98,7 +94,6 @@ for j in range(1, 2):
             torch.manual_seed(seed)
             torch.cuda.manual_seed(seed)
             np.random.seed(seed)
-            torch.manual_seed(seed)
             random.seed(seed)
 
             # directories for this seed
@@ -231,7 +226,7 @@ for j in range(1, 2):
                     b_solved = [r for r in records if r[f'baseline_solved{suffix}'] > 0]
                     b_unsolved = [r for r in records if r[f'baseline_solved{suffix}'] == 0]
                     print(f"\n--- {method} vs baseline ({label}) [FAIR METHOD - Fixed Baseline] ---")
-                    
+
                     print(f"b_solved (baseline solved): {len(b_solved)}")
                     if b_solved:
                         base = np.array([r[f'baseline_solve_time{suffix}'] for r in b_solved])
@@ -239,14 +234,14 @@ for j in range(1, 2):
                         positive = meth > 0
                         regressed_count = sum(1 for r in b_solved if r[f'{method}_solved{suffix}'] == 0)
                         print(f"  regressed to timeout: {regressed_count}")
-                        
+
                         if not positive.all():
                             n_bad = (np.logical_not(positive)).sum()
                             print(f"  warning: {n_bad} {method}_solve_time{suffix} <= 0 entries skipped when computing speedups")
-                        
+
                         valid_base = base[positive]
                         valid_meth = meth[positive]
-                        
+
                         if valid_meth.size > 0:
                             speedups = valid_base / valid_meth
                             abs_red = valid_base - valid_meth
@@ -262,7 +257,7 @@ for j in range(1, 2):
                     if b_unsolved:
                         newly_solved_count = sum(1 for r in b_unsolved if r[f'{method}_solved{suffix}'] > 0)
                         print(f"  newly solved: {newly_solved_count}")
-                        
+
                         gap_red = np.array([r[f'baseline_final_gap{suffix}'] - r[f'{method}_final_gap{suffix}'] for r in b_unsolved])
                         rel_red = gap_red / np.array([r[f'baseline_final_gap{suffix}'] if r[f'baseline_final_gap{suffix}'] > 0 else np.nan for r in b_unsolved]) * 100
                         print(f"  gap reduction mean/med: {gap_red.mean():.2f}/{np.median(gap_red):.2f} pp")

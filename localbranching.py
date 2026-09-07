@@ -1,24 +1,27 @@
-import pyscipopt
-from pyscipopt import Model
-import numpy as np
-import sys
-from memory_profiler import profile
+"""The local branching (LB) heuristic algorithm implemented in Python.
 
-from models_rl import SimplePolicy
-import torch
-from utilities import imitation_accuracy, getBestFeasiSol
-import pathlib
-import gzip
-import pickle
+This file implements the basic local branching heuristic algorithm of
+Fischetti and Lodi. It calls SCIP as the off-the-shelf MIP solver for solving
+the local branching sub-problems. It also includes the necessary methods for
+extending the LB algorithm with ML (states, actions and rewards of the LB
+Markov decision process used by the RL policies).
+"""
+
+import pyscipopt
+import numpy as np
+
 from event import PrimalBoundChangeEventHandler
 
-"""
-This file implements the basic localbranching heuristic algorithm in Python.
-It calls SCIP as the off-the-shelf MIP solver for solving local branching sub-problems.
-It also includes the necessary methods/functions for extending the LB algorithm with ML
-"""
 
 class LocalBranching:
+    """One local branching search over a MIP instance.
+
+    The search state consists of the current incumbent (MIP_sol_bar), the
+    best solution found so far (MIP_sol_best), the neighborhood size k and
+    the node time limit t_node. Each call of step_localbranch() executes one
+    LB iteration (solving the left branch sub-MIP) and updates k and t_node
+    according to the given actions.
+    """
 
     def __init__(self, MIP_model, MIP_sol_bar, MIP_vars=None, k=20,  node_time_limit=10, total_time_limit=3600, is_symmetric=True, is_heuristic=False):
         self.MIP_model = MIP_model
@@ -32,39 +35,38 @@ class LocalBranching:
         self.n_vars = self.MIP_model.getNVars()
         self.n_binvars = self.MIP_model.getNBinVars()
 
-        feasible = self.MIP_model.checkSol(solution=self.MIP_sol_bar)
-        # assert feasible, "Error: the initial incumbent solution for LB heuristic is not feasible!"
-
+        # time management of the LB search
         self.default_node_time_limit = node_time_limit
         self.default_initial_node_time_limit = node_time_limit
         self.primal_no_improvement_account = 0
         self.total_time_limit = total_time_limit
         self.total_time_available = self.total_time_limit
         self.total_time_expired = 0
-        self.div_max = 2 #3
+
+        # neighborhood size k and node time limit t_node, with their bounds
+        self.div_max = 2               # max number of strong diversifications
         self.default_k = k
-        self.eps = eps = .0000001
+        self.eps = .0000001            # objective-limit tolerance
         self.t_node = self.default_node_time_limit
         self.t_node_lowerbound = 0.1
         self.t_node_upperbound = 20
         self.k = k
         self.k_lowerbound = 10
-        self.first = False
-        self.diversify = False
-        self.div = 0
+        self.first = False             # strong diversification flag
+        self.diversify = False         # (weak) diversification flag
+        self.div = 0                   # number of diversifications performed
         self.is_symmetric = is_symmetric
-        # if not self.is_symmetric:
-        #     self.default_k = self.default_k / 2
         self.reset_k_at_2nditeration = False
 
         self.rightbranch_index = 0
 
-        self.actions = {'reset': 0, 'unchange':1, 'increase': 2, 'decrease':3, 'free':4}
+        # actions of the k- and t-policies
+        self.actions = {'reset': 0, 'unchange': 1, 'increase': 2, 'decrease': 3, 'free': 4}
 
-        self.k_stepsize = 1/2
-        self.t_stepsize = 2
-        self.t_default_stepsize = 3
-        self.alpha = 0.01
+        self.k_stepsize = 1/2          # multiplicative step for k updates
+        self.t_stepsize = 2            # multiplicative step for t updates
+        self.t_default_stepsize = 3    # step for the hand-crafted t adaptation
+        self.alpha = 0.01              # weight of the time reward
 
         self.primal_objs = []
         self.primal_times = []
@@ -78,43 +80,29 @@ class LocalBranching:
         self.is_heuristic = is_heuristic
 
     def create_subMIP(self):
+        """Prepare the LB sub-MIP: reset parameters and set the objective limit.
 
-        # self.subMIP_model, subMIP_vars, success = self.MIP_model.createCopy(problemName='subMIPmodel', origcopy=False)
-        #
-        # # create a primal solution for the copy MIP by copying the solution of original MIP
-        # self.subMIP_sol_bar = self.subMIP_model.createSol()
-        # self.n_vars = self.MIP_model.getNVars()
-        # MIP_vars = self.MIP_model.getVars()
-        #
-        # for j in range(self.n_vars):
-        #     val = self.MIP_model.getSolVal(self.MIP_sol_bar, MIP_vars[j])
-        #     self.subMIP_model.setSolVal(self.subMIP_sol_bar, subMIP_vars[j], val)
-
+        The sub-MIP shares the model with the original MIP; an objective
+        limit slightly better than the current incumbent objective enforces
+        that only improving solutions are accepted (unless a strong
+        diversification is performed, in which case no limit is set).
+        """
         self.subMIP_model = self.MIP_model
         self.subMIP_model.resetParams()
         self.subMIP_sol_bar = self.MIP_sol_bar
 
-        # feasible = self.subMIP_model.checkSol(solution=self.subMIP_sol_bar)
-        # if feasible:
-        #     self.subMIP_model.addSol(subMIP_sol_bar, False)
-        #     print("the incumbent solution of subMIP for local branching is added to subMIP")
-        # else:
-        #     print("Error: the incumbent solution of subMIP for local branching is not feasible!")
-
-        if not self.first == True:
+        if not self.first:
             self.subMIP_ub = self.subMIP_model.getSolObjVal(self.subMIP_sol_bar)
         else:
             self.subMIP_ub = self.subMIP_model.infinity()
 
-        if self.subMIP_ub >=0:
+        if self.subMIP_ub >= 0:
             self.subMIP_model.setObjlimit(0.999 * self.subMIP_ub)
         else:
             self.subMIP_model.setObjlimit(1.001 * self.subMIP_ub)
 
         self.primalbound_handler.primal_times = []
         self.primalbound_handler.primal_bounds = []
-
-        # print("Initial obj before LB: {}".format(self.subMIP_obj_bar))
 
     def copy_solution(self, model, solution):
         """create a copy of solution for MIP_model"""
@@ -136,6 +124,11 @@ class LocalBranching:
             self.MIP_model.setSolVal(MIP_sol, MIP_vars[j], val)
 
     def left_branch(self, t_node, is_symmetric=True):
+        """Solve the left-branch sub-MIP (incumbent neighborhood of size k).
+
+        :param t_node: time limit for solving the sub-MIP.
+        :param is_symmetric: use the symmetric or asymmetric LB constraint.
+        """
         self.create_subMIP()
 
         if is_symmetric:
@@ -148,23 +141,33 @@ class LocalBranching:
         if self.first:
             self.subMIP_model.setParam('limits/solutions', 1)
 
-        # option1: old
         self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
         self.subMIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
-        # # option 2: new
-        # self.subMIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.OFF)
-        # self.subMIP_model.setPresolve (pyscipopt.SCIP_PARAMSETTING.OFF)
 
         self.subMIP_model.optimize()
 
     def step_localbranch(self, k_action, t_action, lb_bits, enable_adapt_t=False):
+        """Execute one iteration (MDP step) of the local branching search.
 
+        Applies the k and t actions, solves the left-branch sub-MIP, updates
+        the incumbent and diversification flags according to the sub-MIP
+        status, and computes the state and reward signals for the RL policies.
+
+        :param k_action: action for the neighborhood size k (see self.actions).
+        :param t_action: action for the node time limit t_node.
+        :param lb_bits: index of the current LB iteration (1-based).
+        :param enable_adapt_t: enable the hand-crafted t adaptation rule.
+        :return: (state, reward_k, reward_t, done, success), where state is
+            the 7-dimensional LB state (4 status bits, strong-diversification
+            bit, normalized time and objective improvement), done flags the
+            end of the search, and success flags an improved best solution.
+        """
         success = False
 
         self.k = self.update_k(k_action, self.k_stepsize)
         self.t_node = self.update_t(t_action, self.t_stepsize)
 
-        # reset k_stand and k at the 2nd iteration if reset option is enable
+        # reset default_k and k at the 2nd iteration if the reset option is enabled
         if (lb_bits == 2) and self.reset_k_at_2nditeration:
             self.default_k = 20
             if not self.is_symmetric:
@@ -183,10 +186,8 @@ class LocalBranching:
             self.t_node = self.t_node_upperbound
 
         t_node = np.minimum(self.t_node, self.total_time_available)
-        self.left_branch(t_node, is_symmetric=self.is_symmetric)  # execute 1 iteration of lb
-        n_nodes_subMIP = self.subMIP_model.getNNodes
-
-        # node_time_limit = self.node_time_limit
+        self.left_branch(t_node, is_symmetric=self.is_symmetric)  # solve the LB sub-MIP
+        n_nodes_subMIP = self.subMIP_model.getNNodes()
 
         self.primal_no_improvement_account += 1
 
@@ -194,11 +195,7 @@ class LocalBranching:
         self.total_time_available -= t_leftbranch
         subMIP_status = self.subMIP_model.getStatus()
 
-        # update best obj of original MIP before printing
-        # subMIP_obj_best = self.subMIP_model.getObjVal()
-        # if subMIP_obj_best < self.MIP_obj_best:
-        #     self.MIP_obj_best = subMIP_obj_best
-
+        # snapshot of the search state before processing this iteration
         div_pre = self.div
         k_pre = self.k
         t_pre = self.t_node
@@ -209,39 +206,12 @@ class LocalBranching:
         n_sols_subMIP = self.subMIP_model.getNSols()
         subMIP_obj_best = None
 
-        # if n_sols_subMIP > 0:
-        #     # option 1: old: without checking the feasibility of best solution
-        #     subMIP_sol_best = self.subMIP_model.getBestSol()
-        #     subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
-        #     feasible = True
-        #
-        #     # # option 2: new: check the feasibility of best solution
-        #     # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
-        #     # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
-        #     # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
-        #
-        #     if feasible and subMIP_obj_best < self.MIP_obj_best:
-        #         self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-        #         self.MIP_obj_best = subMIP_obj_best # self.MIP_model.getSolObjVal(self.MIP_sol_best)
-        #         success = True
-        #
-        #         primal_bounds = self.primalbound_handler.primal_bounds
-        #         primal_times = self.primalbound_handler.primal_times
-        #         self.primal_no_improvement_account = 0
-        #
-        #         for i in range(len(primal_times)):
-        #             primal_times[i] += self.total_time_expired
-        #
-        #         self.primal_objs.extend(primal_bounds)
-        #         self.primal_times.extend(primal_times)
-
-        # case 1
+        # case 1: sub-MIP solved to optimality -> improved incumbent found
         if subMIP_status == "optimal" or subMIP_status == "bestsollimit":
 
             subMIP_sol_best = self.subMIP_model.getBestSol()
             self.copy_solution_subMIP_to_MIP(subMIP_sol_best, self.subMIP_sol_best)
             subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
-            # assert subMIP_obj_best < self.subMIP_ub, "SubMIP is optimal and improved solution of subMIP is expected! But no improved solution found!"
 
             self.subMIP_model.freeTransform()
 
@@ -256,19 +226,14 @@ class LocalBranching:
             self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_bar)
 
             self.MIP_obj_bar = subMIP_obj_best
-            # # update MIP_sol_best and best obj of original MIP
-            # if subMIP_obj_best < self.MIP_obj_best:
-            #     self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-            #     self.MIP_obj_best = subMIP_obj_best
-            #     success = True
 
             self.diversify = False
             self.first = False
 
             state[0:5] = [1, 0, 0, 0, 0]
-            # self.k = self.k_standard
 
-        # case 2
+        # case 2: sub-MIP proven infeasible -> no improving solution in the
+        # neighborhood; diversify
         elif subMIP_status == "infeasible" or subMIP_status == "inforunbd":
 
             self.subMIP_model.freeTransform()
@@ -283,10 +248,8 @@ class LocalBranching:
 
             if self.diversify:
                 self.div += 1
-                # node_time_limit = self.subMIP_model.infinity()
                 self.first = True
                 state[4] = 1 # set state[first]=1 when sol not improved for successive 2 iterations
-            # self.k += np.ceil(self.k_standard / 2)
             self.diversify = True
 
         elif subMIP_status == "timelimit" or subMIP_status == "sollimit":
@@ -295,7 +258,7 @@ class LocalBranching:
             self.copy_solution_subMIP_to_MIP(subMIP_sol_best, self.subMIP_sol_best)
             subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
 
-            # case 3
+            # case 3: time/solution limit reached with an improved solution
             if n_sols > 0 and subMIP_obj_best < self.subMIP_ub:
 
                 self.subMIP_model.freeTransform()
@@ -307,25 +270,15 @@ class LocalBranching:
                         else:
                             self.rightbranch_reverse_asym(k=0.0)
 
-                # to do: refine best solution
-
-                # assert subMIP_obj_best < self.subMIP_ub, "SubMIP has feasible solutions and an improved solution of subMIP is expected! But no improved solution found!"
-
                 self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_bar)
                 self.MIP_obj_bar = subMIP_obj_best
-                # # update best obj of original MIP
-                # if subMIP_obj_best < self.MIP_obj_best:
-                #     self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-                #     self.MIP_obj_best = subMIP_obj_best
-                #     success = True
 
                 self.diversify = False
                 self.first = False
-                # self.k = self.k_standard
 
                 state[0:5] = [0, 0, 1, 0, 0]
 
-            # case 4
+            # case 4: time/solution limit reached without improvement -> diversify
             else:
 
                 self.subMIP_model.freeTransform()
@@ -333,7 +286,7 @@ class LocalBranching:
                 state[0:5] = [0, 0, 0, 1, 0]
 
                 if self.diversify:
-                    # to do: add the reversed right branch constraint to exclude MIP_sol_bar
+                    # add the reversed right branch constraint to exclude MIP_sol_bar
                     if not self.is_heuristic:
                         if self.is_symmetric == True:
                             self.rightbranch_reverse(k=0.0)
@@ -341,28 +294,19 @@ class LocalBranching:
                             self.rightbranch_reverse_asym(k=0.0)
 
                     self.div += 1
-                    # node_time_limit = self.subMIP_model.infinity()
-                    # self.k += np.ceil(self.k_standard / 2)
                     self.first = True
                     state[4] = 1
-                # else:
-                #     self.k -= np.ceil(self.k_standard / 2)
                 self.diversify = True
 
+        # update the best solution/objective and record the primal bound trajectory
         if n_sols_subMIP > 0:
-            # option 1: old: without checking the feasibility of best solution
             subMIP_sol_best = self.subMIP_model.getBestSol()
             subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
             feasible = True
 
-            # # option 2: new: check the feasibility of best solution
-            # feasible, subMIP_sol_best, subMIP_obj_best = getBestFeasiSol(self.subMIP_model)
-            # feasible = self.subMIP_model.checkSol(solution=subMIP_sol_best)
-            # assert feasible, "Error: the best solution from current SCIP subMIP solving is not feasible!"
-
             if feasible and subMIP_obj_best < self.MIP_obj_best:
-                self.MIP_sol_best = subMIP_sol_best # self.copy_solution_subMIP_to_MIP(self.subMIP_sol_best, self.MIP_sol_best)
-                self.MIP_obj_best = subMIP_obj_best # self.MIP_model.getSolObjVal(self.MIP_sol_best)
+                self.MIP_sol_best = subMIP_sol_best
+                self.MIP_obj_best = subMIP_obj_best
                 success = True
 
                 primal_bounds = self.primalbound_handler.primal_bounds
@@ -380,7 +324,9 @@ class LocalBranching:
         self.subMIP_model.releasePyCons(self.constraint_LB)
         del self.constraint_LB
 
-        # simple t-adpatation algorithm
+        # hand-crafted t adaptation: enlarge the default node time limit after
+        # every 5 consecutive non-improving iterations, shrink it back after
+        # an improving one
         if enable_adapt_t:
             if self.primal_no_improvement_account > 0 and self.primal_no_improvement_account % 5 == 0:
                 self.default_node_time_limit *= self.t_default_stepsize
@@ -392,7 +338,6 @@ class LocalBranching:
         print('LB round: {:.0f}'.format(lb_bits),
               'Solving time: {:.4f}'.format(self.total_time_limit - self.total_time_available),
               'Best Obj: {:.4f}'.format(self.MIP_obj_best),
-              # 'Obj_subMIP: {:.4f}'.format(str(subMIP_obj_best)),
               'n_sols_subMIP: {:.0f}'.format(n_sols_subMIP),
               'K: {:.0f}'.format(k_pre),
               't_node: {:.1f}'.format(t_pre),
@@ -406,76 +351,43 @@ class LocalBranching:
         if t_leftbranch > t_node:
             t_leftbranch = t_node
 
-        # calculate rewards reward = alpha * reward_t + (1-alpha * reward_obj)
+        # last two state entries: normalized remaining node time and
+        # normalized objective improvement of this iteration
         obj_norm = np.abs(MIP_obj_best_pre - self.MIP_obj_best)/ np.maximum(np.abs(MIP_obj_best_pre), np.abs(self.MIP_obj_best))
         t_norm = 1 - t_leftbranch / t_node
         state[5:7] = [t_norm, obj_norm]
 
-        # # calculate rewards reward = alpha * reward_t + (1-alpha * reward_obj)
-        # reward_obj = obj_norm
-        # if obj_norm > 0:
-        #     if t_leftbranch >= t_node:
-        #         reward_t = -1
-        #     else:
-        #         reward_t = t_norm
-        # else:
-        #     reward_t = 0
-        # reward = self.alpha * reward_t + (1-self.alpha)*reward_obj
-
-        # calculate reward: reward = obj_improve_bit * t_leftbranch_bit
-
-        # # reward 1
-        # obj_best_local = self.MIP_obj_best # reward option 1: use the best obj after running that lb iteration
-        # obj_improve = np.abs(self.MIP_obj_init - obj_best_local) / np.abs(self.MIP_obj_init)
-        # reward = obj_improve * t_leftbranch
-
-        # # reward 2
-        # obj_best_local = MIP_obj_best_pre # reward option 2: use the best obj before running that lb iteration
-        # obj_improve = np.abs(self.MIP_obj_init - obj_best_local) / np.abs(self.MIP_obj_init)
-        # reward = obj_improve * t_leftbranch
-
-        # reward 3
+        # reward for the k-policy: objective improvement of this iteration
+        # (normalized by the initial objective) times the time still available
         obj_improve_local = np.abs(MIP_obj_best_pre - self.MIP_obj_best) / np.abs(self.MIP_obj_init)
         reward_k = obj_improve_local * self.total_time_available
 
-        # reward_t = + t_leftbranch / t_node
+        # reward for the t-policy: -1 when the sub-MIP hit the time limit
+        # without improvement
         reward_t = 0
         if state[3] == 1:
             reward_t = -1
 
         done = (self.total_time_available <= 0) or (self.k >= self.n_binvars)
-        # info = None
 
         self.total_time_expired += t_leftbranch
-        # print("LB step is done")
-        return state, reward_k, reward_t, done, success# info
+        return state, reward_k, reward_t, done, success
 
     def solve_rightbranch(self):
-        """
-        solve the MIP of right branch with the time available.
-        :return:
-        """
-        # print('try to add the current best solution to the MIP model')
-        #
-        # feasible = self.MIP_model.checkSol(self.MIP_sol_best)
-        # if feasible:
-        #     self.MIP_model.addSol(self.MIP_sol_best, free=False)
-        # print('current best solution added')
+        """Solve the right-branch MIP with the remaining time budget.
 
+        After the LB iterations are finished, the original MIP (with all
+        reversed right-branch constraints added so far) is solved for the
+        remaining time, looking only for solutions better than the incumbent.
+        """
         self.primalbound_handler.primal_bounds = []
         self.primalbound_handler.primal_times = []
         if self.total_time_available > 0.1:
             self.MIP_model.setObjlimit(self.MIP_obj_best - self.eps)
             self.MIP_model.setParam('limits/time', self.total_time_available)
 
-            # option 1: old
             self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
             self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.FAST)
-
-            # # option 2: new
-            # self.MIP_model.setSeparating(pyscipopt.SCIP_PARAMSETTING.FAST)
-            # self.MIP_model.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF)
-
 
             print('try to run optimize()')
             self.MIP_model.optimize()
@@ -484,7 +396,6 @@ class LocalBranching:
             if self.MIP_model.getNSols() > 0:
                 best_obj = self.MIP_model.getObjVal()
                 if best_obj < self.MIP_obj_best:
-                    # option 1: old
                     self.MIP_obj_best = best_obj
                     if self.MIP_model.getNSols() > 0:
                         primal_bounds = self.primalbound_handler.primal_bounds
@@ -496,29 +407,20 @@ class LocalBranching:
                         self.primal_objs.extend(primal_bounds)
                         self.primal_times.extend(primal_times)
 
-                    # # option 2: new
-                    # if self.MIP_model.getNSols() > 0:
-                    #     feasible, MIP_sol_best, MIP_obj_best = getBestFeasiSol(self.MIP_model)
-                    #     if feasible and MIP_obj_best < self.MIP_obj_best:
-                    #         self.MIP_obj_best = best_obj
-                    #         self.MIP_sol_best = MIP_sol_best
-                    #
-                    #         primal_bounds = self.primalbound_handler.primal_bounds
-                    #         primal_times = self.primalbound_handler.primal_times
-                    #
-                    #         for i in range(len(primal_times)):
-                    #             primal_times[i] += self.total_time_expired
-                    #
-                    #         self.primal_objs.extend(primal_bounds)
-                    #         self.primal_times.extend(primal_times)
 
             self.total_time_available -= self.MIP_model.getSolvingTime()
             self.total_time_expired += self.MIP_model.getSolvingTime()
 
     def policy_vanilla(self, state):
+        """Hand-crafted baseline policy mapping the LB state to (k, t) actions.
 
+        Implements the classic LB update rules of Fischetti and Lodi: reset k
+        after an improving iteration, enlarge the neighborhood when it is
+        proven to contain no improving solution, and shrink it when the time
+        limit is hit without improvement.
+        """
         lb_status = state[0:4].argmax()
-        if lb_status == 0: #[1, 0, 0, 0]
+        if lb_status == 0:  # state[0:4] == [1, 0, 0, 0]
             k_action = self.actions['reset']
             t_action = self.actions['reset']
         elif lb_status == 1: # state[0:4] == [0, 1, 0, 0]:
@@ -542,15 +444,17 @@ class LocalBranching:
         return k_action, t_action
 
     def update_k(self, action, k_stepsize):
+        """Return the new neighborhood size k resulting from the given action."""
         switcher = {
             self.actions['reset']: self.default_k,
             self.actions['unchange']: self.k,
             self.actions['decrease']: np.ceil(self.k - k_stepsize * self.k),
             self.actions['increase']: np.ceil(self.k + k_stepsize * self.k)
         }
-        return switcher.get(action, 'Error: Invilid k action!')
+        return switcher.get(action, 'Error: Invalid k action!')
 
     def update_t(self, action, t_stepsize):
+        """Return the new node time limit t_node resulting from the given action."""
         switcher = {
             self.actions['reset']: self.default_node_time_limit,
             self.actions['unchange']: self.t_node,
@@ -558,11 +462,20 @@ class LocalBranching:
             self.actions['increase']: self.t_node * t_stepsize,
             self.actions['free']: self.MIP_model.infinity()
         }
-        return switcher.get(action, 'Error: Invilid k action!')
+        return switcher.get(action, 'Error: Invalid t action!')
 
     def mdp_localbranch(self, is_symmetric=True, reset_k_at_2nditeration=False, policy=None, optimizer=None, criterion=None, device=None, samples_dir=None):
+        """Run the full LB search as an MDP, selecting k actions by a policy.
 
-        # self.total_time_limit = total_time_limit
+        The k action of each iteration is chosen by the given policy (an
+        Agent from models_rl) or, if no policy is given, by the hand-crafted
+        vanilla policy. Afterwards the right branch is solved with the
+        remaining time.
+
+        :return: (status, best objective, elapsed time, iteration indices,
+            time stamps, objective values, loss, accuracy); the last two are
+            kept for interface compatibility and remain zero.
+        """
         self.total_time_available = self.total_time_limit
         self.first = False
         self.diversify = False
@@ -585,50 +498,19 @@ class LocalBranching:
         t_action = self.actions['unchange']
         done = (self.total_time_available <= 0) or (self.k >= self.n_binvars)
 
-        while not done:  # and self.div < self.div_max
+        while not done:
             lb_bits += 1
 
             # execute one iteration of LB and get the state and rewards
             state, reward_k, reward_t, done, _ = self.step_localbranch(k_action=k_action, t_action=t_action, lb_bits=lb_bits)
 
-            # k_vanilla, t_action = self.policy_vanilla(state)
-            # k_action = k_vanilla
-
+            # select the next k action: by the given policy (t stays
+            # unchanged), or by the vanilla policy (which also sets t)
             if policy is not None:
-                # state_torch = torch.FloatTensor(state).view(1, -1)
-                # k_vanilla_torch = torch.LongTensor(np.array(k_vanilla).reshape(-1))
-                # if device is not None:
-                #     state_torch.to(device)
-                #     k_vanilla_torch.to(device)
-
-
-                # k_pred = policy(state_torch)
-
-                # loss = criterion(k_pred, k_vanilla_torch)
-                # accu = imitation_accuracy(k_pred, k_vanilla_torch)
-
-                # # for online learning, update policy
-                # if optimizer is not None:
-                #     optimizer.zero_grad()
-                #     loss.backward()
-                #     optimizer.step()
-
-                # loss_instance += loss.item()
-                # accu_instance += accu.item()
-
-                # k_action = k_pred.argmax(1, keepdim=False).item()
-
                 k_action = policy.select_action(state)
             else:
                 k_vanilla, t_action = self.policy_vanilla(state)
                 k_action = k_vanilla
-
-                # data_sample = [state, k_vanilla]
-                #
-                # filename = f'{samples_dir}imitation_{self.MIP_model.getProbName()}_{lb_bits}.pkl'
-                #
-                # with gzip.open(filename, 'wb') as f:
-                #     pickle.dump(data_sample, f)
 
             lb_bits_list.append(lb_bits)
             t_list.append(self.total_time_limit - self.total_time_available)
@@ -644,8 +526,6 @@ class LocalBranching:
         obj_list.append(self.MIP_obj_best)
 
         status = self.MIP_model.getStatus()
-        # if status == "optimal" or status == "bestsollimit":
-        #     self.MIP_obj_best = self.MIP_model.getObjVal()
 
         elapsed_time = self.total_time_limit - self.total_time_available
 
@@ -663,7 +543,15 @@ class LocalBranching:
         return status, self.MIP_obj_best, elapsed_time, lb_bits_list, times_list, objs_list, loss_instance, accu_instance
 
     def search_localbranch(self, is_symmetric=True, reset_k_at_2nditeration=False):
-        # self.total_time_limit = total_time_limit
+        """Run the classic (self-contained) LB search with the vanilla rules.
+
+        This is the plain LB baseline: the k and t updates of Fischetti and
+        Lodi are applied inline, without the MDP interface. Afterwards the
+        original MIP is solved with the remaining time.
+
+        :return: (status, best objective, elapsed time, iteration indices,
+            time stamps, objective values).
+        """
         self.total_time_available = self.total_time_limit
         self.first = False
         self.diversify = False
@@ -679,10 +567,10 @@ class LocalBranching:
         t_list.append(self.total_time_limit - self.total_time_available)
         obj_list.append(self.MIP_obj_best)
 
-        while self.total_time_available > 0 and self.k < self.n_binvars: # and self.div < self.div_max
+        while self.total_time_available > 0 and self.k < self.n_binvars:
             lb_bits += 1
 
-            # reset k_stand and k at the 2nd iteration if reset option is enable
+            # reset default_k and k at the 2nd iteration if the reset option is enabled
             if lb_bits == 2 and reset_k_at_2nditeration == True:
                 self.default_k = 20
                 if not self.is_symmetric:
@@ -692,22 +580,17 @@ class LocalBranching:
                 self.diversify = False
                 self.first = False
 
-            node_time_limit = np.minimum(node_time_limit ,self.total_time_available)
-            self.left_branch(node_time_limit, is_symmetric=self.is_symmetric) # execute 1 iteration of lb
+            node_time_limit = np.minimum(node_time_limit, self.total_time_available)
+            self.left_branch(node_time_limit, is_symmetric=self.is_symmetric)  # solve the LB sub-MIP
 
             node_time_limit = self.default_node_time_limit
             self.total_time_available -= self.subMIP_model.getSolvingTime()
             subMIP_status = self.subMIP_model.getStatus()
 
-            # update best obj of original MIP before printing
-            # subMIP_obj_best = self.subMIP_model.getObjVal()
-            # if subMIP_obj_best < self.MIP_obj_best:
-            #     self.MIP_obj_best = subMIP_obj_best
-
             div_pre = self.div
             k_pre = self.k
 
-            # case 1
+            # case 1: sub-MIP solved to optimality -> improved incumbent found
             if subMIP_status == "optimal" or subMIP_status == "bestsollimit":
 
                 subMIP_sol_best = self.subMIP_model.getBestSol()
@@ -740,7 +623,7 @@ class LocalBranching:
                 self.first = False
                 self.k = self.default_k
 
-            # case 2
+            # case 2: sub-MIP proven infeasible -> enlarge the neighborhood
             elif subMIP_status == "infeasible" or subMIP_status == "inforunbd":
 
                 self.subMIP_model.freeTransform()
@@ -753,7 +636,7 @@ class LocalBranching:
                 if self.diversify:
                     self.div += 1
                     node_time_limit = self.subMIP_model.infinity()
-                    self.first =True
+                    self.first = True
                 self.k += np.ceil(self.default_k / 2)
                 self.diversify = True
 
@@ -763,8 +646,8 @@ class LocalBranching:
                 self.copy_solution_subMIP_to_MIP(subMIP_sol_best, self.subMIP_sol_best)
                 subMIP_obj_best = self.subMIP_model.getSolObjVal(subMIP_sol_best)
 
-                # case 3
-                if n_sols >0 and subMIP_obj_best < self.subMIP_ub:
+                # case 3: time/solution limit reached with an improved solution
+                if n_sols > 0 and subMIP_obj_best < self.subMIP_ub:
 
                     self.subMIP_model.freeTransform()
                     if not self.first:
@@ -773,10 +656,6 @@ class LocalBranching:
                             self.rightbranch_reverse(k=0.0)
                         else:
                             self.rightbranch_reverse_asym(k=0.0)
-
-                    # to do: refine best solution
-
-                    # assert subMIP_obj_best < self.subMIP_ub, "SubMIP has feasible solutions and an improved solution of subMIP is expected! But no improved solution found!"
 
                     # update best obj of original MIP
                     if subMIP_obj_best < self.MIP_obj_best:
@@ -793,12 +672,12 @@ class LocalBranching:
                     self.first = False
                     self.k = self.default_k
 
-                # case 4
+                # case 4: time/solution limit reached without improvement
                 else:
 
                     self.subMIP_model.freeTransform()
                     if self.diversify:
-                        # to do: add the reversed right branch constraint to exclude MIP_sol_bar
+                        # add the reversed right branch constraint to exclude MIP_sol_bar
                         if self.is_symmetric == True:
                             self.rightbranch_reverse(k=0.0)
                         else:
@@ -816,7 +695,6 @@ class LocalBranching:
             print('LB round: {:.0f}'.format(lb_bits),
                   'Solving time: {:.4f}'.format(self.total_time_limit - self.total_time_available),
                   'Best Obj: {:.4f}'.format(self.MIP_obj_best),
-                  # 'Best Obj subMIP: {:.4f}'.format(self.subMIP_model.getObjVal()),
                   'K: {:.0f}'.format(k_pre),
                   'self.div: {:.0f}'.format(div_pre),
                   'LB Status: {}'.format(subMIP_status)
@@ -831,10 +709,6 @@ class LocalBranching:
             self.subMIP_model.releasePyCons(self.constraint_LB)
             del self.constraint_LB
 
-            # self.subMIP_model.freeSol(self.subMIP_sol_bar)
-            # self.subMIP_model.freeProb()
-            # del self.subMIP_sol_bar
-            # del self.subMIP_model
 
         print(
               'K_final: {:.0f}'.format(self.k),
@@ -872,10 +746,12 @@ class LocalBranching:
         return status, self.MIP_obj_best, elapsed_time, lb_bits, times, objs
 
     def rightbranch_reverse(self, k):
-        """
-        add the reversed right branch constraint to MIP_model
-        :param k:
-        :return:
+        """Add the reversed (symmetric) right-branch constraint to MIP_model.
+
+        The constraint excludes the neighborhood of MIP_sol_bar of size k
+        from the feasible region: Delta(x, MIP_sol_bar) >= k + 1.
+
+        :param k: neighborhood size to exclude.
         """
         vars = self.MIP_model.getVars()
         n_binvars = self.MIP_model.getNBinVars()
@@ -893,8 +769,8 @@ class LocalBranching:
 
             if self.MIP_model.isFeasEQ(val, 1.0):
                 cons_vals[i] = -1.0
-                lhs -=1.0
-                rhs -=1.0
+                lhs -= 1.0
+                rhs -= 1.0
             else:
                 cons_vals[i] = 1.0
             cons_vars[i] = vars[i]
@@ -912,10 +788,12 @@ class LocalBranching:
         del cons_vals
 
     def rightbranch_reverse_asym(self, k):
-        """
-        add the reversed right branch constraint to MIP_model
-        :param k:
-        :return:
+        """Add the reversed asymmetric right-branch constraint to MIP_model.
+
+        Asymmetric variant of rightbranch_reverse: the Hamming distance is
+        measured only over the support of MIP_sol_bar.
+
+        :param k: neighborhood size to exclude.
         """
         vars = self.MIP_model.getVars()
         n_binvars = self.MIP_model.getNBinVars()
@@ -933,8 +811,8 @@ class LocalBranching:
 
             if self.MIP_model.isFeasEQ(val, 1.0):
                 cons_vals[i] = -1.0
-                lhs -=1.0
-                rhs -=1.0
+                lhs -= 1.0
+                rhs -= 1.0
             else:
                 cons_vals[i] = 0.0
             cons_vars[i] = vars[i]
@@ -952,7 +830,7 @@ class LocalBranching:
         del cons_vals
 
     def add_LBconstraint(self):
-        """symmetric local branching constraint over all binary variables"""
+        """Add the symmetric LB constraint (over all binary variables) to the sub-MIP."""
 
         vars = self.subMIP_model.getVars()
         n_binvars = self.subMIP_model.getNBinVars()
@@ -980,17 +858,14 @@ class LocalBranching:
         self.constraint_LB = self.subMIP_model.createConsBasicLinear(self.subMIP_model.getProbName() + "_localbranching", n_binvars,
                                                                 cons_vars, cons_vals, lhs, rhs)
         self.subMIP_model.addPyCons(self.constraint_LB)
-        # self.subMIP_model.releasePyCons(self.constraint_LB)
 
         del vars
         del cons_vars
         del cons_vals
 
-        # for j in range(0, n_binvars):  # release cons_vars variables after creating a constraint
-        #     self.subMIP_model.releaseVar(cons_vars[j])
 
     def add_LBconstraintAsym(self):
-        """symmetric local branching constraint over all binary variables"""
+        """Add the asymmetric LB constraint (over the incumbent support) to the sub-MIP."""
 
         vars = self.subMIP_model.getVars()
         n_binvars = self.subMIP_model.getNBinVars()
@@ -1018,17 +893,20 @@ class LocalBranching:
         self.constraint_LB = self.subMIP_model.createConsBasicLinear(self.subMIP_model.getProbName() + "_localbranching", n_binvars,
                                                                 cons_vars, cons_vals, lhs, rhs)
         self.subMIP_model.addPyCons(self.constraint_LB)
-        # self.subMIP_model.releasePyCons(self.constraint_LB)
 
         del vars
         del cons_vars
         del cons_vals
-        # for j in range(0, n_binvars):  # release cons_vars variables after creating a constraint
-        #     self.subMIP_model.releaseVar(cons_vars[j])
 
 
 def addLBConstraint(mip_model, mip_sol, neighborhoodsize):
-    """symmetric local branching constraint over all binary variables"""
+    """Add a symmetric LB constraint over all binary variables to the model.
+
+    Restricts the search to solutions within Hamming distance
+    `neighborhoodsize` of `mip_sol`.
+
+    :return: (mip_model, the created constraint).
+    """
     vars = mip_model.getVars()
     n_binvars = mip_model.getNBinVars()
 
@@ -1054,9 +932,6 @@ def addLBConstraint(mip_model, mip_sol, neighborhoodsize):
     # create and add LB constraint to mip_model
     constraint_LB = mip_model.createConsBasicLinear(mip_model.getProbName()+"_localbranching", n_binvars, cons_vars, cons_vals, lhs, rhs)
     mip_model.addPyCons(constraint_LB)
-    # mip_model.releasePyCons(constraint_LB)
-    # for j in range(0, n_binvars):  # release cons_vars variables after creating a constraint
-    #     mip_model.releaseVar(cons_vars[j])
     del vars
     del cons_vars
     del cons_vals
@@ -1065,7 +940,12 @@ def addLBConstraint(mip_model, mip_sol, neighborhoodsize):
 
 
 def addLBConstraintAsymmetric(mip_model, mip_sol, neighborhoodsize):
-    """asymmetric local branching variables over the support of binary variables"""
+    """Add an asymmetric LB constraint over the support of `mip_sol` to the model.
+
+    Only variables at value 1 in `mip_sol` contribute to the distance.
+
+    :return: (mip_model, the created constraint).
+    """
     vars = mip_model.getVars()
     n_binvars = mip_model.getNBinVars()
 
@@ -1091,9 +971,6 @@ def addLBConstraintAsymmetric(mip_model, mip_sol, neighborhoodsize):
     # create and add LB constraint to mip_model
     constraint_LB = mip_model.createConsBasicLinear(mip_model.getProbName()+"_localbranching", n_binvars, cons_vars, cons_vals, lhs, rhs)
     mip_model.addPyCons(constraint_LB)
-    # mip_model.releasePyCons(constraint_LB)
-    # for j in range(0, n_binvars):  # release cons_vars variables after creating a constraint
-    #     mip_model.releaseVar(cons_vars[j])
 
     del vars
     del cons_vars
@@ -1103,7 +980,12 @@ def addLBConstraintAsymmetric(mip_model, mip_sol, neighborhoodsize):
 
 
 def addLBConstraintAsymJustslackvars(mip_model, mip_sol, neighborhoodsize, indexlist_slackvars):
-    """asymmetric local branching constraints over the support of slack variables"""
+    """Add an asymmetric LB constraint over the given slack variables only.
+
+    :param indexlist_slackvars: indices of the (binary) slack variables that
+        contribute to the LB distance.
+    :return: mip_model.
+    """
 
     vars = mip_model.getVars()
     n_slackvars = len(indexlist_slackvars)
@@ -1130,8 +1012,6 @@ def addLBConstraintAsymJustslackvars(mip_model, mip_sol, neighborhoodsize, index
     # create and add LB constraint to mip_model
     constraint_LB = mip_model.createConsBasicLinear(mip_model.getProbName()+"_localbranching", n_slackvars, cons_vars, cons_vals, lhs, rhs)
     mip_model.addPyCons(constraint_LB)
-    # for j in range(0, n_binvars):  # release cons_vars variables after creating a constraint
-    #     mip_model.releaseVar(cons_vars[j])
     del constraint_LB
     del vars
     del cons_vars

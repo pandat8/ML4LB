@@ -1,14 +1,16 @@
-<<<<<<< HEAD
 # Code and data for learning to search in local branching
 
+## Hardware requirement
+Your computer should have at least 2 CPU cores with at least 64 GB memory and 1 GPU (recommended GPU model: Tesla V100) with at least 16 GB memory.
 
-## Installation
+## Prerequisites & Installation
 
-1. Please install Python 3.8, PyscipOPt 3.1.1, and SCIP 7.01 on your computer
+1. Install SCIP 7.03 and Python 3.8.17 with the following libraries (Pytorch 1.7.1, Pytorch Geometric 2.0.2, PySCIPOpt3.1.1, GeCO 1.0.7, numpy 1.21.2, pickleshare 0.7.5, pathlib 1.0.1, scipy 1.10.1, matplotlib 3.4.3, memory-profiler) on your computer. 
 
-2. install package ecole according to the following instructions:
+2. Install internal library `ecole` according to the following instructions:
     - go into the folder 'ecole'
     - install the package according to 'installation.rst'
+
 ## Data Access
 The size of the datasets for the evaluated benchmarks (>31GB) in the paper are too large to upload to Github, please contact (defengliu91@gmail.com) for getting the whole dataset. We can either upload those files to your virtual machine server if gvien the access, or share the suppressed files to you through google drive.
 
@@ -94,10 +96,11 @@ python compute_evaluation_results_scip_seeds_averaged.py --t_total=3600 --mean=g
 #### Train your own regression ML model and RL models on your own machine, then repeat above (for Section 5.3.1, Section 5.3.2, Section 6) to evaluate the results on your machine.
 ```
 # train regression models
-train_regression.py
+python train_regression.py
 
-# train RL models
-train_reinforce4lb.py
+# train RL models (first the policy for k, then the policy for t)
+python train_reinforce4lb_k_policy.py
+python train_reinforce4lb_t_policy.py
 
 # repeat the experiments for Section 5.3.1, Section 5.3.2, Section 6
 
@@ -115,5 +118,3 @@ evaluation_reinforce4lb.py --t_total=60 --dataset_id=0 --regression_model_path='
 evaluation_reinforce4lb_kt.py --t_total=60 --dataset_id=0 --regression_model_path='path to your saved regression model' --rl_k_model_path='path to your saved RL model for adapting k' --rl_t_model_path='path to your saved RL model for adapting t' 
 
 ```
-=======
-boost the search of local branching algorithm with ML.

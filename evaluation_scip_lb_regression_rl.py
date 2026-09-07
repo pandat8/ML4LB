@@ -1,47 +1,59 @@
+"""Evaluate SCIP integrated with the ML-based local branching heuristic (Section 6).
+
+For the selected dataset (--dataset_id, default 'miplib_39binary'), SCIP
+solves every test instance with the ML-based LB primal heuristic included:
+the initial neighborhood size k_0 is predicted by the pre-trained regression
+model and the k updates are selected by the pre-trained RL policy. The
+heuristic is called in the branch-and-bound tree with frequency --freq:
+
+- --freq=0   : scip-lb-regression-rl-single (root node only);
+- --freq=1   : scip-lb-regression-rl-freq1;
+- --freq=100 : scip-lb-regression-rl-freq100.
+
+The primal bound trajectories are stored under ./result/ and are aggregated
+afterwards by compute_evaluation_results_scip_seeds_averaged.py. See the
+README for the exact commands reproducing Section 6.
+"""
+
 import ecole
 import numpy as np
 import pyscipopt
 import argparse
 from execute_heuristics import Execute_LB_Regression_RL
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from utilities import instancetypes, instancesizes, TRANSFER_DATASETS, lbconstraint_mode_for
 import torch
 import random
 import pathlib
 from models import GNNPolicy
-from models_rl import SimplePolicy, ImitationLbDataset, AgentReinforce
+from models_rl import SimplePolicy, AgentReinforce
 
-"""
-Run this script for evaluating the SCIP solver integrated with ML-based local branching algorithm
-"""
-
-# Argument setting
 parser = argparse.ArgumentParser()
-parser.add_argument('--regression_model_path', type=str, default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth')
-parser.add_argument('--rl_model_path', type=str, default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth')
-parser.add_argument('--dataset_id', type=int, default=4)
-parser.add_argument('--t_total', type=int, default=3600)
-parser.add_argument('--freq', type=int, default=0, help='the frequency to call the primal heuristic in Branch-and-Bound tree')
-parser.add_argument('--seed', type=int, default=0, help='Radom seed') ## 100 50 101
+parser.add_argument('--regression_model_path', type=str,
+                    default='./result/saved_models/regression/trained_params_mean_setcover-independentset-combinatorialauction_asymmetric_firstsol_k_prime_epoch163.pth',
+                    help='path of the pre-trained regression model for predicting k_0')
+parser.add_argument('--rl_model_path', type=str,
+                    default='./result/saved_models/rl/reinforce/setcovering/checkpoint_trained_reward3_simplepolicy_rl4lb_reinforce_trainset_setcovering-small_lr0.01_epochs7.pth',
+                    help='path of the pre-trained RL policy for adapting k')
+parser.add_argument('--dataset_id', type=int, default=4,
+                    help='dataset to evaluate, index into utilities.instancetypes '
+                         "(4: 'miplib_39binary', 5: 'miplib2017_binary')")
+parser.add_argument('--t_total', type=int, default=3600, help='total time limit (s) per instance')
+parser.add_argument('--t_node', type=int, default=2, help='node time limit (s) per LB sub-MIP')
+parser.add_argument('--freq', type=int, default=0,
+                    help='frequency of calling the LB primal heuristic in the branch-and-bound tree')
+parser.add_argument('--seed', type=int, default=0, help='Random seed')
 parser.add_argument('--enable_gpu', action='store_true', help='Enable CUDA GPU acceleration')
 args = parser.parse_args()
 
 enable_gpu = args.enable_gpu
-device_str = 'cpu'
-if enable_gpu:
-    if torch.cuda.is_available():
-        device = torch.device('cuda')
-        device_str = 'cuda'
-    else:
-        device = torch.device('cpu')
-        device_str = 'cpu'
+if enable_gpu and torch.cuda.is_available():
+    device = torch.device('cuda')
+    device_str = 'cuda'
 else:
     device = torch.device('cpu')
-    device_str= 'cpu'
-
+    device_str = 'cpu'
 
 regression_model_path = args.regression_model_path
-# regression_model_path = './result/saved_models/trained_params_mean_generalized_independentset-small_symmetric_rootsol_k_prime.pth'
-
 rl_model_path = args.rl_model_path
 print(regression_model_path)
 print(rl_model_path)
@@ -49,72 +61,59 @@ print(rl_model_path)
 freq = args.freq
 print('The frequency of calling LB primal heuristic within SCIP BB tree is : ', freq)
 
-seed =args.seed # 100 # 1
+seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
-torch.manual_seed(seed)
 random.seed(seed)
 
 dataset_id = args.dataset_id
 
-samples_time_limit = 3
+total_time_limit = args.t_total
+node_time_limit = args.t_node
 
-total_time_limit = args.t_total # 60 # 1200 # 60 # 600# 60
-node_time_limit = 2 # 2 #10 # 60 # 5
+# Run the LB algorithm as a primal heuristic inside SCIP.
 is_heuristic = True
-no_improve_iteration_limit = 2 # 10 # 3
-enable_solve_master_problem = True
 
+# The LB search stops after this many consecutive non-improving iterations.
+no_improve_iteration_limit = 2
+
+# Learning rate of the (loaded) RL policy optimizer.
 lr = 0.01
 
-# Regression policy for k
+# Regression model (GNN) predicting the initial neighborhood size k_0
 regression_model_gnn = GNNPolicy()
 regression_model_gnn.load_state_dict(torch.load(regression_model_path))
 
-# RL policy for k
-rl_policy1 = SimplePolicy(7, 4)
+# RL policy for adapting k during the LB search
+rl_policy = SimplePolicy(7, 4)
 checkpoint = torch.load(rl_model_path)
-rl_policy1.load_state_dict(checkpoint['model_state_dict'])
+rl_policy.load_state_dict(checkpoint['model_state_dict'])
 
-# rl_policy.load_state_dict(torch.load(
-#     self.saved_gnn_directory + 'trained_params_simplepolicy_rl4lb_reinforce_lr0.1_epsilon0.0_pre.pth'))
+rl_policy = rl_policy.to(device)
+rl_policy.train()
 
-rl_policy1 = rl_policy1.to(device)
-rl_policy1.train()
-
-# criterion = nn.CrossEntropyLoss()
-
-# set up optimizer
-optim1 = torch.optim.Adam(rl_policy1.parameters(), lr=lr)
-# Load the state dict
-optim1.load_state_dict(checkpoint['optimizer_state_dict'])
-# MANUALLY move optimizer state to GPU
-for state in optim1.state.values():
-    for k, v in state.items():
-        if torch.is_tensor(v):
-            state[k] = v.to(device)
+optim_k = torch.optim.Adam(rl_policy.parameters(), lr=lr)
+optim_k.load_state_dict(checkpoint['optimizer_state_dict'])
+# move the loaded optimizer state to the selected device
+for state in optim_k.state.values():
+    for state_key, state_value in state.items():
+        if torch.is_tensor(state_value):
+            state[state_key] = state_value.to(device)
 
 greedy = False
-agent1 = AgentReinforce(rl_policy1, device, greedy, optim1, 0.0)
-
-
+agent_k = AgentReinforce(rl_policy, device, greedy, optim_k, 0.0)
 
 instance_type = instancetypes[dataset_id]
-if instance_type == instancetypes[0]:
-    lbconstraint_mode = 'asymmetric'
-else:
-    lbconstraint_mode = 'symmetric'
+lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
-for j in range(1, 2):
-    incumbent_mode = incumbent_modes[j]
+# Section 6 evaluates the runs started from the root solution.
+for incumbent_mode in ['rootsol']:
 
-    for k in range(0, 2):
-        instance_size = instancesizes[k]
+    for instance_size in instancesizes:
 
         print(instance_type + instance_size)
         print(incumbent_mode)
-
 
         source_directory = './data/generated_instances/' + instance_type + '/' + instance_size + '/'
         instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
@@ -126,33 +125,32 @@ for j in range(1, 2):
             evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
         result_directory = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
-            total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_' + str(freq) + '-' + device_str  + '/seed' + str(seed) + '/'
-        pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)  # beforenode_homo, freq_1000
+            total_time_limit) + 's' + '-t_node' + str(node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_' + str(freq) + '-' + device_str + '/seed' + str(seed) + '/'
+        pathlib.Path(result_directory).mkdir(parents=True, exist_ok=True)
 
         print(result_directory)
-        scip_as_baseline = Execute_LB_Regression_RL(instance_type,
-                                               instance_directory,
-                                               solution_directory,
-                                               result_directory,
-                                               lbconstraint_mode=lbconstraint_mode,
-                                               no_improve_iteration_limit=no_improve_iteration_limit,
-                                               seed=seed,
-                                               enable_gpu=enable_gpu,
-                                               freq=freq,
-                                               is_heuristic=is_heuristic,
-                                               incumbent_mode=incumbent_mode,
-                                               regression_model_gnn=regression_model_gnn,
-                                               agent_k=agent1,
-                                               optim_k=optim1,
-                                               )
+        scip_with_lb_heuristic = Execute_LB_Regression_RL(instance_type,
+                                                          instance_directory,
+                                                          solution_directory,
+                                                          result_directory,
+                                                          lbconstraint_mode=lbconstraint_mode,
+                                                          no_improve_iteration_limit=no_improve_iteration_limit,
+                                                          seed=seed,
+                                                          enable_gpu=enable_gpu,
+                                                          freq=freq,
+                                                          is_heuristic=is_heuristic,
+                                                          incumbent_mode=incumbent_mode,
+                                                          regression_model_gnn=regression_model_gnn,
+                                                          agent_k=agent_k,
+                                                          optim_k=optim_k,
+                                                          )
 
-        if not ((dataset_id == 3 and k == 1) or (dataset_id == 4 and k == 1)):
-            scip_as_baseline.execute_heuristic_baseline(
+        # The large sizes of the transfer datasets are not part of the evaluation.
+        skip_evaluation = (instance_type in TRANSFER_DATASETS
+                           and instance_size == instancesizes[1])
+
+        if not skip_evaluation:
+            scip_with_lb_heuristic.execute_heuristic_baseline(
                 total_time_limit=total_time_limit,
                 node_time_limit=node_time_limit,
-                                                               )
-
-        # reinforce_localbranch.primal_integral(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-        # reinforce_localbranch.primal_integral_03(test_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit)
-
-        # regression_init_k.solve2opt_evaluation(test_instance_size='-small')
+                )

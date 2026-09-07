@@ -1,100 +1,83 @@
+"""Print and plot the evaluation results of Section 5.
+
+Reads the result files produced by evaluation_regression_k_prime.py,
+evaluation_reinforce4lb.py and evaluation_reinforce4lb_kt.py, and computes
+the primal integral / primal gap statistics reported in the paper:
+
+- with --t_total=60  : the results of Section 5.3.1 (Tables 3-8);
+- with --t_total=600 : the results of Section 5.3.2 (Tables 9-10, Figure 4;
+  the figure is saved under ./result/plots/).
+
+Run this script after all evaluation runs listed in the README have finished.
+"""
+
 import ecole
 import numpy as np
 import pyscipopt
-from mllocalbranch_fromfiles import RlLocalbranch
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
+from localbranching_ml import RlLocalbranch
+from utilities import instancesizes, SYNTHETIC_DATASETS, TRANSFER_DATASETS, lbconstraint_mode_for
 import torch
 import random
 import argparse
 
-"""
-This script is for printing and plotting the results in Section 5
-
-"""
-
 parser = argparse.ArgumentParser()
-parser.add_argument('--seed', type=int, default=123, help='Radom seed') #100, 120, 122, 123
-parser.add_argument('--mean', type = str, default='geometric') # arithmetic or geometric
-parser.add_argument('--t_total', type = int, default=60)
-parser.add_argument('--t_node', type = int, default=10)
+parser.add_argument('--seed', type=int, default=123, help='Random seed')
+parser.add_argument('--mean', type=str, default='geometric',
+                    help="averaging mode for the metrics: 'arithmetic' or 'geometric'")
+parser.add_argument('--t_total', type=int, default=60,
+                    help='total time limit (s) of the evaluation runs to aggregate')
+parser.add_argument('--t_node', type=int, default=10,
+                    help='node time limit (s) of the evaluation runs to aggregate')
 args = parser.parse_args()
 
 seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
-torch.manual_seed(seed)
 random.seed(seed)
 
 mean_option = args.mean
 print(str(mean_option))
 
-# instance_type = instancetypes[0]
+# The models were trained on the small instance size; only the small size is
+# aggregated here (the transfer to large instances is reported separately).
 instance_size = instancesizes[0]
-# incumbent_mode = 'firstsol'
-lbconstraint_mode = 'symmetric'
-samples_time_limit = 3
+test_instance_size = instancesizes[0]
 
 total_time_limit = args.t_total
 node_time_limit = args.t_node
 print('total time limit:', total_time_limit)
 print('node time limit:', node_time_limit)
 
-reset_k_at_2nditeration = True
-use_checkpoint = True
-# lr_list = [0.01] # 0.1, 0.05, 0.01, 0.001,0.0001,1e-5, 1e-6,1e-8
-# eps_list = [0, 0.02]
-epsilon = 0.0
-lr = 0.01
+for instance_type in SYNTHETIC_DATASETS + TRANSFER_DATASETS:
+    lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
-l = [3, 4, 1]
-# for lr in lr_list:
-#     print('learning rate = ', lr)
-#     print('epsilon = ', epsilon)
-for i in range(0, 5):
-    instance_type = instancetypes[i]
-    if instance_type == instancetypes[0]:
-        lbconstraint_mode = 'asymmetric'
-    else:
-        lbconstraint_mode = 'symmetric'
+    for incumbent_mode in ['firstsol', 'rootsol']:
 
-    for j in range(0, 2):
-        incumbent_mode = incumbent_modes[j]
+        print(instance_type + test_instance_size)
+        print(incumbent_mode)
+        print(lbconstraint_mode)
 
-        for k in range(0, 1):
-            test_instance_size = instancesizes[k]
+        reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode,
+                                              incumbent_mode, seed=seed)
 
-            print(instance_type + test_instance_size)
-            print(incumbent_mode)
-            print(lbconstraint_mode)
-
-
-            reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=seed)
-
-            # reinforce_localbranch.train_agent(train_instance_size='-small', total_time_limit=total_time_limit,
-            #                                   node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration,
-            #                                   lr=lr, n_epochs=100, epsilon=epsilon, use_checkpoint=use_checkpoint)
-
-            # reinforce_localbranch.evaluate_localbranching(evaluation_instance_size=instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit, reset_k_at_2nditeration=reset_k_at_2nditeration)
-
-            # reinforce_localbranch.evaluate_localbranching_rlactive(
-            #     evaluation_instance_size=instance_size,
-            #     total_time_limit=total_time_limit,
-            #     node_time_limit=node_time_limit,
-            #     reset_k_at_2nditeration=reset_k_at_2nditeration,
-            #     lr=lr
-            #                                                    )
-
-            if i< 3:
-                if total_time_limit == 60:
-                    reinforce_localbranch.primal_integral(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit, mean_option=mean_option)
-            elif (i == 3 and k == 0) or (i == 4 and k == 0):
-                if total_time_limit == 60:
-                    reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size, total_time_limit=total_time_limit, node_time_limit=node_time_limit, mean_option=mean_option)
-                else:
-                    reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
+        if instance_type in SYNTHETIC_DATASETS:
+            # Section 5.3.1, Tables 3-8 (synthetic datasets, 60s runs)
+            if total_time_limit == 60:
+                reinforce_localbranch.primal_integral(test_instance_size=test_instance_size,
+                                                      total_time_limit=total_time_limit,
+                                                      node_time_limit=node_time_limit,
+                                                      mean_option=mean_option)
+        else:
+            if total_time_limit == 60:
+                # Section 5.3.1, Tables 3-8 (GISP and MIPLIB datasets, 60s runs)
+                reinforce_localbranch.primal_integral_03(test_instance_size=test_instance_size,
+                                                         total_time_limit=total_time_limit,
+                                                         node_time_limit=node_time_limit,
+                                                         mean_option=mean_option)
+            else:
+                # Section 5.3.2, Tables 9-10 and Figure 4 (600s runs)
+                reinforce_localbranch.primal_gap_integral_hybrid_03(test_instance_size=instance_size,
                                                                     total_time_limit=total_time_limit,
                                                                     node_time_limit=node_time_limit,
                                                                     mean_option=mean_option)
-
-            # regression_init_k.solve2opt_evaluation(test_instance_size='-small')

@@ -1,43 +1,44 @@
+"""Generate the training data for the regression model predicting k of the first LB iteration.
+
+For each synthetic training dataset ('setcovering', 'independentset',
+'combinatorialauction') and each incumbent mode ('firstsol', 'rootsol'),
+this script collects the (instance, best k) samples on the small training
+instances by running LB with different candidate values of k.
+
+The subsequent training stages are provided by RegressionInitialK_KPrime
+(see localbranching_ml.py):
+
+1. generate_k_samples_k_prime()        - label collection (this script);
+2. generate_regression_samples_k_prime() - build the regression samples
+   (bipartite graph features plus the collected labels);
+3. execute_regression_k_prime()        - train the dataset-specific model;
+4. execute_regression_mergedatasets()  - train the model on the merged
+   SC+MIS+CA dataset (used by lb-srm/lb-srmrl).
+"""
+
 import ecole
 import numpy as np
 import pyscipopt
-from mllocalbranch_fromfiles import RegressionInitialK_KPrime
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes, regression_modes
+from localbranching_ml import RegressionInitialK_KPrime
+from utilities import instancesizes, SYNTHETIC_DATASETS, lbconstraint_mode_for
 
-"""
-Run this script for training the regression model for predicting the value of k for the first LB iteration
-"""
+# Random seed of the data-collection runs.
+seed = 200
 
+# Time limit (s) of each LB probing run used to label an instance with its best k.
+samples_time_limit = 3
+
+# Samples are collected on the small training instances.
 instance_size = instancesizes[0]
-instance_type = instancetypes[0]
-incumbent_mode = incumbent_modes[0]
-lbconstraint_mode = 'asymmetric'
-samples_time_limit = 3 # 10
-node_time_limit = 10
 
-total_time_limit = 60
-reset_k_at_2nditeration = True
+for instance_type in SYNTHETIC_DATASETS:
+    lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
-lr = 0.0001
-print('learning rate:', lr)
-
-for i in range(0, 3):
-    instance_type = instancetypes[i]
-    if instance_type == instancetypes[0]:
-        lbconstraint_mode = 'asymmetric'
-    else:
-        lbconstraint_mode = 'symmetric'
-    for j in range(0, 2):
-        incumbent_mode = incumbent_modes[j]
+    for incumbent_mode in ['firstsol', 'rootsol']:
         print(incumbent_mode)
         print(lbconstraint_mode)
 
-        regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=200)
+        regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode,
+                                                      incumbent_mode, seed=seed)
 
         regression_init_k.generate_k_samples_k_prime(t_limit=samples_time_limit, instance_size=instance_size)
-        # regression_init_k.two_examples()
-        # regression_init_k.generate_regression_samples_k_prime(t_limit=samples_time_limit, instance_size=instance_size)
-        # regression_init_k.execute_regression_k_prime(lr=0.00001, n_epochs=21) # setcovering small: lr=0.00002; capa-small: samne; independentset-small: first: lr=0.00002, root: lr=0.00003
-
-# regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode, incumbent_mode, seed=100)
-# regression_init_k.execute_regression_mergedatasets(lr=lr, n_epochs=301)  # setcovering small: lr=0.00002; capa-small: samne; independentset-small: first: lr=0.00002, root: lr=0.00003

@@ -1,7 +1,7 @@
 import ecole
 import numpy as np
 import pyscipopt
-from mllocalbranch_fromfiles import RegressionInitialK
+from localbranching_ml import RegressionInitialK
 from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_modes
 
 # instance_type = instancetypes[1]

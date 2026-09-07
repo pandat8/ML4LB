@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+"""Solve the transformed MIPLIB 2017 binary instances to optimality with Gurobi.
+
+The best known objective values obtained here serve as the reference for
+computing the primal gap and primal integral metrics of Section 6. For each
+instance the script stores the solving statistics in a gzip-pickled
+dictionary (--output-pkl) and the best solution as a .sol file
+(--solution-dir); existing results can be skipped or resumed via
+--skip-existing / --resume-unsolved.
+"""
+
 import argparse
 import glob
 import gzip
