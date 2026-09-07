@@ -13,18 +13,19 @@ import ecole
 import numpy as np
 import pyscipopt
 import argparse
-from execute_heuristics import ExecuteHeuristic
-from utilities import instancetypes, instancesizes, lbconstraint_mode_for
+from ml4lb.execute_heuristics import ExecuteHeuristic
+from ml4lb.utilities import instancetypes, instancesizes, lbconstraint_mode_for
 import torch
 import random
 import pathlib
 
+# Command-line arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=100, help='Random seed')
 parser.add_argument('--mean', type=str, default='geometric',
                     help="averaging mode for the metrics: 'arithmetic' or 'geometric'")
 parser.add_argument('--dataset_id', type=int, default=4,
-                    help='dataset to aggregate, index into utilities.instancetypes '
+                    help='dataset to aggregate, index into ml4lb.utilities.instancetypes '
                          "(4: 'miplib_39binary', 5: 'miplib2017_binary')")
 parser.add_argument('--t_total', type=int, default=600,
                     help='total time limit (s) of the evaluation runs to aggregate')
@@ -40,6 +41,7 @@ if enable_gpu and torch.cuda.is_available():
 else:
     device_str = 'cpu'
 
+# Fix all random seeds for reproducibility.
 seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
@@ -59,6 +61,7 @@ print('node time limit:', node_time_limit)
 # The evaluation runs were executed in heuristic mode.
 is_heuristic = True
 
+# Select the dataset and the LB constraint mode used for it in the paper.
 instance_type = instancetypes[dataset_id]
 lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
@@ -66,13 +69,17 @@ lbconstraint_mode = lbconstraint_mode_for(instance_type)
 incumbent_mode = 'rootsol'
 instance_size = instancesizes[0]
 
+# Log the configuration being aggregated.
 print(instance_type + instance_size)
 print(incumbent_mode)
 print(lbconstraint_mode)
 
+# Output directory for the generated plots and comparison tables.
 plots_directory = './result/plots/'
 pathlib.Path(plots_directory).mkdir(parents=True, exist_ok=True)
 
+# Rebuild the result directories written by the evaluation scripts (they
+# must match evaluation_scip_baseline.py / evaluation_scip_lb_regression_rl.py).
 evaluation_directory = './result/generated_instances/' + instance_type + '/' + instance_size + '/' + incumbent_mode + '/' + 'scip/'
 if is_heuristic:
     evaluation_directory = evaluation_directory + 'heuristic_mode/'
@@ -95,6 +102,7 @@ result_directory_4 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_to
     node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_100' + '-' + device_str + '/seed' + str(
     seed) + '/'
 
+# Input directories: test instances and their stored incumbents.
 source_directory = './data/generated_instances/' + instance_type + '/' + instance_size + '/'
 instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
 solution_directory = source_directory + incumbent_mode + '/' + 'test/'
@@ -104,6 +112,9 @@ print(result_directory_2)
 print(result_directory_3)
 print(result_directory_4)
 
+# Compare the SCIP baseline against the three scip-lb-regression-rl variants:
+# per-instance solving times, primal integrals and final gaps are printed,
+# and the comparison plots/tables are written to ./result/plots/.
 run_localbranch = ExecuteHeuristic(instance_type, instance_directory, solution_directory,
                                    result_directory_1, seed=seed)
 

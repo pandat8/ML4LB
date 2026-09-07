@@ -14,12 +14,13 @@ Run this script after all evaluation runs listed in the README have finished.
 import ecole
 import numpy as np
 import pyscipopt
-from localbranching_ml import RlLocalbranch
-from utilities import instancesizes, SYNTHETIC_DATASETS, TRANSFER_DATASETS, lbconstraint_mode_for
+from ml4lb.localbranching_ml import RlLocalbranch
+from ml4lb.utilities import instancesizes, SYNTHETIC_DATASETS, TRANSFER_DATASETS, lbconstraint_mode_for
 import torch
 import random
 import argparse
 
+# Command-line arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=123, help='Random seed')
 parser.add_argument('--mean', type=str, default='geometric',
@@ -30,12 +31,14 @@ parser.add_argument('--t_node', type=int, default=10,
                     help='node time limit (s) of the evaluation runs to aggregate')
 args = parser.parse_args()
 
+# Fix all random seeds for reproducibility.
 seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 
+# Averaging mode used for all reported metrics.
 mean_option = args.mean
 print(str(mean_option))
 
@@ -49,15 +52,18 @@ node_time_limit = args.t_node
 print('total time limit:', total_time_limit)
 print('node time limit:', node_time_limit)
 
+# Main loop: aggregate the stored results of every dataset and incumbent mode.
 for instance_type in SYNTHETIC_DATASETS + TRANSFER_DATASETS:
     lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
     for incumbent_mode in ['firstsol', 'rootsol']:
 
+        # Log the configuration being aggregated.
         print(instance_type + test_instance_size)
         print(incumbent_mode)
         print(lbconstraint_mode)
 
+        # Construct the aggregation helper for this configuration.
         reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode,
                                               incumbent_mode, seed=seed)
 

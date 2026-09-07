@@ -10,7 +10,7 @@ Markov decision process used by the RL policies).
 import pyscipopt
 import numpy as np
 
-from event import PrimalBoundChangeEventHandler
+from ml4lb.event import PrimalBoundChangeEventHandler
 
 
 class LocalBranching:

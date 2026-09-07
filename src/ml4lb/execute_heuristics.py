@@ -12,7 +12,7 @@ import os
 import csv
 import matplotlib.pyplot as plt
 from geco.mips.loading.miplib import Loader
-from utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol, mean_options, mean_shift
+from ml4lb.utilities import lbconstraint_modes, instancetypes, incumbent_modes, instancesizes, generator_switcher, binary_support, copy_sol, mean_filter,mean_forward_filter, imitation_accuracy, haming_distance_solutions, haming_distance_solutions_asym, getBestFeasiSol, mean_options, mean_shift
 
 import torch.nn.functional as F
 import torch_geometric
@@ -24,11 +24,11 @@ from scipy.interpolate import interp1d
 import gc
 import sys
 
-from dataset import InstanceDataset, custom_collate, InstanceDataset_2
-from event import PrimalBoundChangeEventHandler
-from primal_heur_localbranch import HeurLocalbranch, HeurLocalbranchMulticall
-from ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
-from models import GraphDataset, GNNPolicy, BipartiteNodeData
+from ml4lb.dataset import InstanceDataset, custom_collate, InstanceDataset_2
+from ml4lb.event import PrimalBoundChangeEventHandler
+from ml4lb.primal_heur_localbranch import HeurLocalbranch, HeurLocalbranchMulticall
+from ml4lb.ecole_extend.environment_extend import SimpleConfiguring, SimpleConfiguringEnablecuts, SimpleConfiguringEnableheuristics
+from ml4lb.models import GraphDataset, GNNPolicy, BipartiteNodeData
 
 """
 This file implements the wrapper classes for calling SCIP integrated with customized primal heuristics
@@ -47,7 +47,7 @@ class ExecuteHeuristic:
     the primal_integral_* methods aggregate, print and plot the metrics
     (primal integral, primal gap, solving times) from the stored results.
 
-    :param instance_type: dataset name, see utilities.instancetypes.
+    :param instance_type: dataset name, see ml4lb.utilities.instancetypes.
     :param instance_directory: directory of the transformed test instances.
     :param solution_directory: directory of the initial incumbent solutions.
     :param result_directory: directory where result files are written.

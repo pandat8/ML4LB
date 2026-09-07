@@ -2,7 +2,7 @@
 
 Ablation variant of the LB baseline: instead of predicting k_0 with the
 regression model, the first LB iteration uses the average of the best k_0
-values observed on the training set (see utilities.k_0_bank). With
+values observed on the training set (see ml4lb.utilities.k_0_bank). With
 --enable_merged the average over the merged SC+MIS+CA training set is used
 instead of the dataset-specific average.
 
@@ -15,14 +15,15 @@ import numpy as np
 import pyscipopt
 import argparse
 import gc
-from localbranching_ml import RegressionInitialK_KPrime
-from utilities import instancetypes, instancesizes, TRANSFER_DATASETS, lbconstraint_mode_for
+from ml4lb.localbranching_ml import RegressionInitialK_KPrime
+from ml4lb.utilities import instancetypes, instancesizes, TRANSFER_DATASETS, lbconstraint_mode_for
 
+# Command-line arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument('--t_total', type=int, default=60, help='total time limit (s) per instance')
 parser.add_argument('--t_node', type=int, default=10, help='node time limit (s) per LB sub-MIP')
 parser.add_argument('--dataset_id', type=int, default=0,
-                    help='dataset to evaluate, index into utilities.instancetypes '
+                    help='dataset to evaluate, index into ml4lb.utilities.instancetypes '
                          "(0: 'setcovering', 1: 'independentset', 2: 'combinatorialauction')")
 parser.add_argument('--enable_merged', dest='merged', action='store_true',
                     help='use the average best k_0 of the merged training set')
@@ -31,6 +32,7 @@ parser.set_defaults(merged=False)
 parser.add_argument('--seed', type=int, default=100, help='Random seed')
 args = parser.parse_args()
 
+# Experiment configuration from the command line.
 total_time_limit = args.t_total
 node_time_limit = args.t_node
 dataset_id = args.dataset_id
@@ -44,13 +46,17 @@ reset_k_at_2nditeration = True
 # train/test sizes are passed to evaluate_localbranching_baseline_k0_average below.
 instance_size = instancesizes[1]
 
+# Select the dataset and the LB constraint mode used for it in the paper.
 instance_type = instancetypes[dataset_id]
 lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
+# Main loop: evaluate every combination of test instance size ('-small',
+# '-large') and incumbent mode ('firstsol', 'rootsol').
 for test_instance_size in instancesizes:
 
     for incumbent_mode in ['firstsol', 'rootsol']:
 
+        # Log the configuration of this run.
         print(instance_type + test_instance_size)
         print(incumbent_mode)
         print(lbconstraint_mode)
@@ -58,12 +64,15 @@ for test_instance_size in instancesizes:
         print('lb_baseline_k0_average started!')
         print('merged :,', merged)
 
+        # Construct the evaluation runner for this configuration.
         regression_init_k = RegressionInitialK_KPrime(instance_type, instance_size, lbconstraint_mode,
                                                       incumbent_mode, seed=seed)
 
         # This ablation is only defined for the synthetic datasets.
         skip_evaluation = instance_type in TRANSFER_DATASETS
 
+        # Run LB with k_0 set to the average best k_0 of the training set;
+        # the primal bound trajectories are written under ./result/.
         if not skip_evaluation:
             gc.collect()
             regression_init_k.evaluate_localbranching_baseline_k0_average(test_instance_size=test_instance_size,

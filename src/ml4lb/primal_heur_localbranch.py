@@ -5,11 +5,11 @@ heuristic integrated into SCIP (via the PySCIPOpt Heur plugin interface).
 """
 
 from pyscipopt import Heur, SCIP_RESULT
-from utilities import copy_sol, copy_sol_from_subMIP_to_MIP, t_reward_types
+from ml4lb.utilities import copy_sol, copy_sol_from_subMIP_to_MIP, t_reward_types
 import numpy as np
 import torch
 
-from localbranching import LocalBranching
+from ml4lb.localbranching import LocalBranching
 
 
 class HeurLocalbranch(Heur):

@@ -9,12 +9,13 @@ with the REINFORCE objective. Checkpoints are stored under
 import ecole
 import numpy as np
 import pyscipopt
-from localbranching_ml import RlLocalbranch
-from utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_mode_for
+from ml4lb.localbranching_ml import RlLocalbranch
+from ml4lb.utilities import instancetypes, instancesizes, incumbent_modes, lbconstraint_mode_for
 import torch
 import random
 import argparse
 
+# Command-line arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=100, help='Random seed')
 parser.add_argument('--t_total', type=int, default=60,
@@ -26,12 +27,14 @@ parser.add_argument('--epsilon', type=float, default=0.0,
                     help='epsilon of the epsilon-greedy exploration')
 args = parser.parse_args()
 
+# Fix all random seeds for reproducibility.
 seed = args.seed
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 
+# Training configuration from the command line.
 total_time_limit = args.t_total
 node_time_limit = args.t_node
 lr = args.learning_rate
@@ -48,6 +51,7 @@ lbconstraint_mode = lbconstraint_mode_for(instance_type)
 reset_k_at_2nditeration = False
 use_checkpoint = False
 
+# Log the training configuration.
 print('learning rate = ', lr)
 print('epsilon = ', epsilon)
 
@@ -55,9 +59,12 @@ print(instance_type + instance_size)
 print(incumbent_mode)
 print(lbconstraint_mode)
 
+# Construct the trainer for this configuration.
 reinforce_localbranch = RlLocalbranch(instance_type, instance_size, lbconstraint_mode,
                                       incumbent_mode, seed=seed)
 
+# Train the k-policy with REINFORCE over the LB training episodes;
+# checkpoints are saved under ./result/saved_models/rl/reinforce/.
 reinforce_localbranch.train_agent_policy_k(train_instance_size=instance_size,
                                            train_incumbent_mode=incumbent_mode,
                                            total_time_limit=total_time_limit,

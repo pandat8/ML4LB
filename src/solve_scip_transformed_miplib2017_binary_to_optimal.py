@@ -24,6 +24,7 @@ except ImportError as e:
 
 
 def parse_args():
+    """Parse the command-line arguments of the script."""
     parser = argparse.ArgumentParser(description="Solve transformed miplib2017 MPS models with Gurobi and save objectives/solutions.")
     parser.add_argument(
         "--instance-dir",
@@ -86,6 +87,10 @@ def parse_args():
 
 
 def find_instance_files(instance_dir, selected_instance=None):
+    """Return the transformed MPS files of the directory, sorted by instance index.
+
+    :param selected_instance: optional base name to select a single instance.
+    """
     pattern = os.path.join(instance_dir, "*_transformed.mps")
     files = glob.glob(pattern)
     if selected_instance is not None:
@@ -104,6 +109,7 @@ def find_instance_files(instance_dir, selected_instance=None):
 
 
 def load_existing_results(output_pkl):
+    """Load the gzip-pickled results dictionary, or return {} if absent."""
     if not os.path.exists(output_pkl):
         return {}
     with gzip.open(output_pkl, "rb") as f:
@@ -111,12 +117,14 @@ def load_existing_results(output_pkl):
 
 
 def save_results(output_pkl, results):
+    """Write the results dictionary as a gzip-pickled file (dirs are created)."""
     os.makedirs(os.path.dirname(output_pkl), exist_ok=True)
     with gzip.open(output_pkl, "wb") as f:
         pickle.dump(results, f)
 
 
 def load_gurobi_mip_start(model, sol_path):
+    """Load a .sol file as a Gurobi MIP start; return True if any value was set."""
     if not os.path.exists(sol_path):
         return False
 
@@ -154,6 +162,11 @@ def load_gurobi_mip_start(model, sol_path):
 
 
 def solve_model_with_gurobi(mps_path, time_limit, threads, solution_dir, root_solution_dir=None):
+    """Solve one MPS instance with Gurobi and return its result record.
+
+    A previous solution (or the stored root solution) is used as MIP start
+    when available; the best found solution is written to solution_dir.
+    """
     instance_name = os.path.splitext(os.path.basename(mps_path))[0]
     print(f"Solving {instance_name}...", flush=True)
     model = gp.read(mps_path)
@@ -222,11 +235,13 @@ def solve_model_with_gurobi(mps_path, time_limit, threads, solution_dir, root_so
 
 
 def main():
+    """Solve all selected instances and store the results incrementally."""
     args = parse_args()
     instance_files = find_instance_files(args.instance_dir, selected_instance=args.instance)
     results = load_existing_results(args.output_pkl)
     os.makedirs(args.solution_dir, exist_ok=True)
 
+    # Select the instances to solve, honoring --skip-existing / --resume-unsolved.
     selected_files = []
     for mps_path in instance_files:
         instance_name = os.path.splitext(os.path.basename(mps_path))[0]
@@ -240,6 +255,8 @@ def main():
                 continue
         selected_files.append(mps_path)
 
+    # Solve each instance; results are saved after every solve so an
+    # interrupted run can be resumed without losing completed instances.
     for mps_path in selected_files:
         instance_name = os.path.splitext(os.path.basename(mps_path))[0]
         try:

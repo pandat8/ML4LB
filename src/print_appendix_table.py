@@ -70,6 +70,7 @@ def generate_latex_table(csv_path):
         instance = instance_short.replace("_", "\\_")
 
         def format_val(val, is_time=False):
+            """Format a table cell: '-' for NaN, 1 decimal for times, 2 for gaps."""
             if pd.isna(val):
                 return "-"
             if is_time:

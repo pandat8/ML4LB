@@ -16,8 +16,8 @@ import ecole
 import numpy as np
 import pyscipopt
 import argparse
-from execute_heuristics import ExecuteHeuristic
-from utilities import instancetypes, instancesizes, lbconstraint_mode_for
+from ml4lb.execute_heuristics import ExecuteHeuristic
+from ml4lb.utilities import instancetypes, instancesizes, lbconstraint_mode_for
 import torch
 import random
 import pathlib
@@ -32,7 +32,7 @@ parser.add_argument('--seeds', type=int, nargs='+',
 parser.add_argument('--mean', type=str, default='geometric',
                     help="averaging mode for the metrics: 'arithmetic' or 'geometric'")
 parser.add_argument('--dataset_id', type=int, default=4,
-                    help='dataset to aggregate, index into utilities.instancetypes '
+                    help='dataset to aggregate, index into ml4lb.utilities.instancetypes '
                          "(4: 'miplib_39binary', 5: 'miplib2017_binary')")
 parser.add_argument('--t_total', type=int, default=3600,
                     help='total time limit (s) of the evaluation runs to aggregate')
@@ -61,13 +61,15 @@ node_time_limit = args.t_node
 print('total time limit:', total_time_limit)
 print('node time limit:', node_time_limit)
 
+# Metrics are additionally reported at these intermediate cutoff times
+# (only cutoffs within the total time limit are kept, without duplicates).
 eval_cutoff_times = [total_time_limit]
 for cutoff in cutoff_times:
     cutoff = int(cutoff)
     if cutoff > 0 and cutoff <= total_time_limit and cutoff not in eval_cutoff_times:
         eval_cutoff_times.append(cutoff)
 
-# figure out dataset configuration
+# Select the dataset and the LB constraint mode used for it in the paper.
 instance_type = instancetypes[args.dataset_id]
 lbconstraint_mode = lbconstraint_mode_for(instance_type)
 
@@ -79,14 +81,17 @@ for incumbent_mode in ['rootsol']:
         print(incumbent_mode)
         print(lbconstraint_mode)
 
+        # Output directory for the generated plots and comparison tables.
         plots_directory = './result/plots/'
         pathlib.Path(plots_directory).mkdir(parents=True, exist_ok=True)
 
-        # construct evaluation directories template (without seed)
+        # Base of the result directories written by the evaluation scripts
+        # (the per-seed sub-directories are appended below).
         evaluation_directory = './result/generated_instances/' + instance_type + '/' + instance_size + '/' + incumbent_mode + '/' + 'scip/'
         evaluation_directory = evaluation_directory + 'heuristic_mode/'
 
-        # collect results for each seed
+        # Step 1: run the single-seed comparison for every seed and collect
+        # the returned metrics and per-instance records.
         seed_results = []
         for seed in args.seeds:
             print(f"Processing seed {seed}")
@@ -96,7 +101,9 @@ for incumbent_mode in ['rootsol']:
             np.random.seed(seed)
             random.seed(seed)
 
-            # directories for this seed
+            # Result directories of this seed: the SCIP baseline (rd1) and
+            # the scip-lb-regression-rl runs with freq 0, 1 and 100 (rd2-rd4);
+            # they must match the paths written by the evaluation scripts.
             rd1 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
                 total_time_limit) + 's' + instance_size + '_scip_baseline' + '-' + 'cpu' + '/seed' + str(seed) + '/'
             rd2 = evaluation_directory + 'lb-from-' + incumbent_mode + '-t_total' + str(
@@ -108,13 +115,15 @@ for incumbent_mode in ['rootsol']:
                 total_time_limit) + 's' + '-t_node' + str(
                 node_time_limit) + 's' + instance_size + '_lb_k0_regression_rl_beforenode_freq_100' + '-' + device_str + '/seed' + str(seed) + '/'
 
+            # Input directories: test instances and their stored incumbents.
             source_directory = './data/generated_instances/' + instance_type + '/' + instance_size + '/'
             instance_directory = source_directory + 'transformedmodel' + '/' + 'test/'
             solution_directory = source_directory + incumbent_mode + '/' + 'test/'
 
             run_localbranch = ExecuteHeuristic(instance_type, instance_directory, solution_directory, rd1, seed=seed)
 
-            # call comparison and request return value with csv suffix
+            # Run the comparison of this seed; a per-seed CSV is written
+            # (csv_suffix) and the metrics are returned for averaging.
             res = run_localbranch.primal_integral_scip_comparison(
                 seed_mcts=seed,
                 instance_type=instance_type,
@@ -132,7 +141,7 @@ for incumbent_mode in ['rootsol']:
             )
             seed_results.append(res)
 
-        # now average across seeds
+        # Step 2: average the aggregate metrics over the seeds.
         if seed_results:
             # determine numeric keys to average
             numeric_keys = [k for k in seed_results[0].keys() if k not in ('per_instance_results',
@@ -149,13 +158,16 @@ for incumbent_mode in ['rootsol']:
             for k, v in avg_metrics.items():
                 print(f"{k}: {v}")
 
+            # Metric keys of the three scip-lb-regression-rl variants used in
+            # the summary table below.
             mapping = {
                 'freq0': ('primal_int_freq0_ave', 'primal_gap_final_freq0_ave'),
                 'freq1': ('primal_int_freq1_ave', 'primal_gap_final_freq1_ave'),
                 'freq100': ('primal_int_freq100_ave', 'primal_gap_final_freq100_ave'),
             }
 
-            # aggregate per-instance records
+            # Step 3: average the per-instance records over the seeds
+            # (solve times, final gaps and solved flags per instance).
             per_instance_map = {}
             for r in seed_results:
                 for rec in r['per_instance_results']:
@@ -179,6 +191,8 @@ for incumbent_mode in ['rootsol']:
                             agg[kk] = vals[0]
                 averaged_instances.append(agg)
 
+            # Step 4: write the seed-averaged per-instance table (the input
+            # of print_appendix_table.py).
             out_csv = f"./result/plots/scip_comparison_details_{instance_type}_{instance_size}_{incumbent_mode}_seeds_averaged_v2_202607.csv"
             os.makedirs(os.path.dirname(out_csv), exist_ok=True)
             with open(out_csv, 'w', newline='') as csvf:
@@ -188,8 +202,15 @@ for incumbent_mode in ['rootsol']:
                     writer.writerow(rec)
             print(f"Averaged per-instance table written to {out_csv}")
 
-            # now compute comparison summary metrics using the averaged instances
+            # Step 5: print the comparison summaries from the averaged records.
             def _summarize(records, suffix="", label="averaged"):
+                """Print speedup/gap-reduction summaries of each method vs the baseline.
+
+                Two groupings are reported: the intersection method (instances
+                solved/unsolved by both the baseline and the method) and the
+                fixed-baseline method (instances grouped only by the baseline
+                status).
+                """
                 for method in ['freq0', 'freq1', 'freq100']:
                     # --- OLD METHOD (Intersection - solved on at least ONE seed by both methods) ---
                     solved = [r for r in records if r[f'baseline_solved{suffix}'] > 0 and r[f'{method}_solved{suffix}'] > 0]
@@ -264,18 +285,24 @@ for incumbent_mode in ['rootsol']:
                         print(f"  rel gap red mean/med: {rel_red.mean():.2f}/{np.nanmedian(rel_red):.2f} %")
 
             def _count_solved_on_any_seed(records, method, suffix=""):
+                """Count instances solved by the method on at least one seed.
+
+                The averaged 'solved' flag is the proportion of seeds on which
+                the instance was solved, so > 0 means solved at least once.
+                """
                 key = f'{method}_solved{suffix}'
-                # An instance is considered solved if its average 'solved' status is > 0
-                # (i.e., solved on at least one seed).
                 return sum(1 for r in records if r.get(key, 0) > 0)
 
             def _append_suffix_to_ave_key(metric_key, suffix):
+                """Insert the cutoff suffix into a '*_ave' metric key name."""
                 if not suffix:
                     return metric_key
                 if metric_key.endswith('_ave'):
                     return metric_key.replace('_ave', f'{suffix}_ave')
                 return f'{metric_key}{suffix}'
 
+            # Print the summary table and comparisons for the full time limit
+            # and every intermediate cutoff time (Tables 11 and 12).
             for cutoff in eval_cutoff_times:
                 suffix = "" if cutoff == total_time_limit else f"_{cutoff}"
                 label = f"averaged {cutoff}s"
