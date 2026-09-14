@@ -5,6 +5,36 @@ Your computer should have at least 2 CPU cores with at least 64 GB RAM and 1 GPU
 
 ## Prerequisites & Installation
 
+### Automatic installation (recommended)
+
+From the root folder of this repository, run:
+
+```
+bash install_environment.sh
+```
+
+The script creates a conda environment named `mpc-test-01` (installing Miniconda first if
+no conda is found) with all required packages, builds the customized `ecole` library from
+the `ecole/` folder, and verifies the installation. Supported platforms: macOS (Intel and
+Apple Silicon) and Linux x86_64. On Apple Silicon, PyTorch 1.7.1 has no native build, so
+an x86_64 environment is created and runs transparently under Rosetta 2.
+
+On Linux machines with an NVIDIA GPU (e.g. a Tesla V100), the script automatically
+installs the CUDA build of PyTorch 1.7.1 (its bundled CUDA 11.0 runtime runs on any
+newer NVIDIA driver); pass `--cpu` or `--gpu` to override the auto-detection:
+
+```
+bash install_environment.sh mpc-test-01 --gpu
+```
+
+Afterwards, activate the environment with:
+
+```
+conda activate mpc-test-01
+```
+
+### Manual installation
+
 1. Install SCIP 7.03 and Python 3.8.17 with the following libraries (Pytorch 1.7.1, Pytorch Geometric 2.0.2, PySCIPOpt 3.1.1, GeCO 1.0.7, numpy 1.21.2, pickleshare 0.7.5, pathlib 1.0.1, scipy 1.10.1, matplotlib 3.4.3, pandas 2.0.3) on your computer. 
 
 2. Install internal library `ecole` according to the following instructions:
