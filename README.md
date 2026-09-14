@@ -1,7 +1,7 @@
 # Code and data for paper "Revisiting local branching with a machine learning lens"
 
 ## Hardware requirement
-Your computer should have at least 2 CPU cores with at least 64 GB RAM and 1 GPU (recommended GPU model: Tesla V100) with at least 16 GB memory.
+Your computer should have at least 4 CPU cores with at least 64 GB RAM and 1 GPU (recommended GPU model: Tesla V100) with at least 16 GB memory.
 
 ## Prerequisites & Installation
 
