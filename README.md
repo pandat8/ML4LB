@@ -19,6 +19,16 @@ the `ecole/` folder, and verifies the installation. Supported platforms: macOS (
 Apple Silicon) and Linux x86_64. On Apple Silicon, PyTorch 1.7.1 has no native build, so
 an x86_64 environment is created and runs transparently under Rosetta 2.
 
+PySCIPOpt is installed from our customized fork
+([pandat8/PySCIPOpt-folked](https://github.com/pandat8/PySCIPOpt-folked), branch `ml4lb`,
+pinned to commit `03b621514c14047df6dbcadad821e74026cee367`), which exposes the SCIP
+functions used by the local branching code (`createCopy`, `createCopyMipLns`,
+`createConsBasicLinear`, `releasePyCons`, `createLPSol`, `getFirstLpTime`). The script
+compiles it from source against the environment's SCIP 7.0.3, so that PySCIPOpt and
+`ecole` share one SCIP library. On Linux, this requires a C and a C++ compiler
+(Debian/Ubuntu: `sudo apt-get install build-essential`; RHEL/CentOS/Fedora:
+`sudo yum install gcc gcc-c++`); on macOS, the Xcode Command Line Tools.
+
 On Linux machines with an NVIDIA GPU (e.g. a Tesla V100), the script automatically
 installs the CUDA build of PyTorch 1.7.1 (its bundled CUDA 11.0 runtime runs on any
 newer NVIDIA driver); pass `--cpu` or `--gpu` to override the auto-detection:
@@ -35,9 +45,23 @@ conda activate mpc-test-01
 
 ### Manual installation
 
-1. Install SCIP 7.03 and Python 3.8.17 with the following libraries (Pytorch 1.7.1, Pytorch Geometric 2.0.2, PySCIPOpt 3.1.1, GeCO 1.0.7, numpy 1.21.2, pickleshare 0.7.5, pathlib 1.0.1, scipy 1.10.1, matplotlib 3.4.3, pandas 2.0.3) on your computer. 
+1. Install SCIP 7.0.3, Python 3.8.17 and Cython 0.29.x, for example in a conda environment:
 
-2. Install internal library `ecole` according to the following instructions:
+    ```
+    conda create -n mpc-test-01 -c conda-forge python=3.8.17 numpy=1.21.2 scip=7.0.3 cython=0.29.37
+    conda activate mpc-test-01
+    ```
+
+2. Build our customized PySCIPOpt (fork `pandat8/PySCIPOpt-folked`, branch `ml4lb`, pinned commit) against this SCIP. `SCIPOPTDIR` must point at the folder that contains SCIP's `include/` and `lib/` folders (the conda environment prefix above). `--no-build-isolation` makes pip compile with the installed Cython 0.29.x (Cython 3 cannot compile these sources). On Apple Silicon, where the environment is x86_64, prefix the command with `arch -x86_64`:
+
+    ```
+    SCIPOPTDIR="$CONDA_PREFIX" python -m pip install --no-build-isolation --no-deps \
+        https://github.com/pandat8/PySCIPOpt-folked/archive/03b621514c14047df6dbcadad821e74026cee367.tar.gz
+    ```
+
+3. Install the following libraries: Pytorch 1.7.1, Pytorch Geometric 2.0.2, GeCO 1.0.7, numpy 1.21.2, pickleshare 0.7.5, pathlib 1.0.1, scipy 1.10.1, matplotlib 3.4.3, pandas 2.0.3. Install them after step 2: GeCO depends on PySCIPOpt, and pip would otherwise install the PyPI release of PySCIPOpt instead of the fork.
+
+4. Install internal library `ecole` according to the following instructions:
     - go into the folder 'ecole'
     - install the package according to 'installation.rst'
 

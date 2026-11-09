@@ -6,7 +6,9 @@
 #   (default env name: mpc-test-01; default PyTorch build: auto-detected)
 #
 # Installs, into a conda environment:
-#   - Python 3.8.17, numpy 1.21.2, SCIP 7.0.3, PySCIPOpt 3.1.1 (conda-forge)
+#   - Python 3.8.17, numpy 1.21.2, SCIP 7.0.3, Cython 0.29.37 (conda-forge)
+#   - the authors' customized PySCIPOpt 3.1.1 (fork pandat8/PySCIPOpt-folked,
+#     branch ml4lb, pinned commit), compiled from source against SCIP 7.0.3
 #   - PyTorch 1.7.1 (CPU build, or CUDA 11.0 build on Linux GPU machines),
 #     torch-scatter 2.0.7, torch-sparse 0.6.9, PyTorch Geometric 2.0.2
 #   - GeCO 1.0.7, scipy 1.10.1, matplotlib 3.4.3, pandas 2.0.3,
@@ -44,6 +46,17 @@ ECOLE_DIR="$REPO_DIR/ecole"
 ECOLE_UPSTREAM_URL="https://github.com/ds4dm/ecole/archive/refs/tags/v0.6.0.tar.gz"
 MINICONDA_DIR="$HOME/miniconda3"
 
+# The local branching code calls SCIP functions that upstream PySCIPOpt 3.1.1
+# does not expose (createCopy, createCopyMipLns, createConsBasicLinear,
+# releasePyCons, createLPSol, getFirstLpTime), so PySCIPOpt is built from the
+# authors' fork. The commit is pinned (HEAD of branch ml4lb, dated 2023-03-09)
+# so that everyone installs exactly the code that produced the paper results.
+# To install the current tip of the branch instead, run the script with
+# PYSCIPOPT_FORK_REF=ml4lb in the environment.
+PYSCIPOPT_FORK_REPO="https://github.com/pandat8/PySCIPOpt-folked"
+PYSCIPOPT_FORK_REF="${PYSCIPOPT_FORK_REF:-03b621514c14047df6dbcadad821e74026cee367}"
+PYSCIPOPT_FORK_URL="$PYSCIPOPT_FORK_REPO/archive/$PYSCIPOPT_FORK_REF.tar.gz"
+
 # Use the official PyPI index (overriding any custom index configured in
 # ~/.pip/pip.conf) and never let packages leak in from the user site-packages
 # (~/.local), neither at build nor at run time of this script.
@@ -54,7 +67,7 @@ log()  { printf '\n=== %s\n' "$*"; }
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 # ---------------------------------------------------------------------------
-log "Step 1/7: checking prerequisites and detecting the platform"
+log "Step 1/8: checking prerequisites and detecting the platform"
 # ---------------------------------------------------------------------------
 command -v curl >/dev/null 2>&1 || fail "curl is required but not found."
 command -v tar  >/dev/null 2>&1 || fail "tar is required but not found."
@@ -101,6 +114,13 @@ case "$OS" in
         ;;
     Linux)
         [[ "$ARCH" == "x86_64" ]] || fail "Only x86_64 Linux is supported (PyTorch 1.7.1 constraint)."
+        # PySCIPOpt and ecole are compiled from source. Python extensions are
+        # built with gcc/g++ unless CC/CXX say otherwise.
+        cc_bin="${CC:-gcc}"
+        cxx_bin="${CXX:-g++}"
+        if ! command -v "${cc_bin%% *}" >/dev/null 2>&1 || ! command -v "${cxx_bin%% *}" >/dev/null 2>&1; then
+            fail "A C and a C++ compiler are required (PySCIPOpt and ecole are compiled from source). Install them first: Debian/Ubuntu: 'sudo apt-get install build-essential'; RHEL/CentOS/Fedora: 'sudo yum install gcc gcc-c++'."
+        fi
         MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
         ;;
     *)
@@ -123,7 +143,7 @@ fi
 echo "platform: $OS $ARCH | pytorch mode: $GPU_MODE"
 
 # ---------------------------------------------------------------------------
-log "Step 2/7: locating (or installing) conda"
+log "Step 2/8: locating (or installing) conda"
 # ---------------------------------------------------------------------------
 CONDA_BIN=""
 for candidate in "$(command -v conda || true)" "$MINICONDA_DIR/bin/conda" "$HOME/anaconda3/bin/conda" "/opt/miniconda3/bin/conda"; do
@@ -145,12 +165,13 @@ if "$CONDA_BIN" env list | awk '{print $1}' | grep -Fqx "$ENV_NAME"; then
 fi
 
 # ---------------------------------------------------------------------------
-log "Step 3/7: creating conda env '$ENV_NAME' (python, numpy, SCIP, PySCIPOpt, cmake)"
+log "Step 3/8: creating conda env '$ENV_NAME' (python, numpy, SCIP, Cython, cmake)"
 # ---------------------------------------------------------------------------
 # cmake < 4 is required: the vendored ecole 0.6.0 sub-projects use CMake
-# minimums that CMake 4.x no longer accepts.
+# minimums that CMake 4.x no longer accepts. Cython 0.29.x is required to
+# compile the 2021-era PySCIPOpt sources (Cython 3 rejects them).
 run_conda create -y -n "$ENV_NAME" -c conda-forge --override-channels \
-    python=3.8.17 numpy=1.21.2 scip=7.0.3 pyscipopt=3.1.1 'cmake>=3.15,<4' make
+    python=3.8.17 numpy=1.21.2 scip=7.0.3 cython=0.29.37 'cmake>=3.15,<4' make
 
 # Resolve the environment prefix robustly (users may have custom envs_dirs).
 ENV_PREFIX="$("$CONDA_BIN" env list | awk -v n="$ENV_NAME" '$1==n {print $NF; exit}')"
@@ -165,7 +186,23 @@ if [[ -n "$CONDA_PLATFORM" ]]; then
 fi
 
 # ---------------------------------------------------------------------------
-log "Step 4/7: repairing the vendored ecole sources (if needed)"
+log "Step 4/8: building the customized PySCIPOpt (fork, $PYSCIPOPT_FORK_REF) against SCIP 7.0.3"
+# ---------------------------------------------------------------------------
+# - SCIPOPTDIR points the fork's setup.py at the env's SCIP headers and
+#   library, so PySCIPOpt and ecole load the same libscip (they hand raw SCIP
+#   pointers to each other, which requires one libscip per process).
+# - --no-build-isolation: compile with the env's pinned Cython 0.29.37.
+# - --no-cache-dir: never reuse a wheel cached from another environment; the
+#   compiled extension embeds the absolute path of its env's lib/ folder.
+# - This must run before step 6: GeCO depends on pyscipopt, and pip would
+#   otherwise install a PySCIPOpt release from PyPI instead of the fork.
+(
+    export SCIPOPTDIR="$ENV_PREFIX"
+    run_native "$PY" -m pip install --no-build-isolation --no-deps --no-cache-dir "$PYSCIPOPT_FORK_URL"
+)
+
+# ---------------------------------------------------------------------------
+log "Step 5/8: repairing the vendored ecole sources (if needed)"
 # ---------------------------------------------------------------------------
 # Two historical repo problems can leave the vendored ecole incomplete:
 #   (a) '*.txt' files were tracked with git-lfs, but the LFS objects for the
@@ -231,7 +268,7 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-log "Step 5/7: installing the PyTorch stack and Python libraries (pip)"
+log "Step 6/8: installing the PyTorch stack and Python libraries (pip)"
 # ---------------------------------------------------------------------------
 # pytest-runner first: the old torch-sparse setup.py needs it at build time.
 run_native "$PY" -m pip install pytest-runner
@@ -266,7 +303,7 @@ run_native "$PY" -m pip install torch-geometric==2.0.2 geco==1.0.7 scipy==1.10.1
 run_native "$PY" -m pip install numpy==1.21.2
 
 # ---------------------------------------------------------------------------
-log "Step 6/7: building the customized ecole 0.6.0 from source"
+log "Step 7/8: building the customized ecole 0.6.0 from source"
 # ---------------------------------------------------------------------------
 CMAKE_ARCH_FLAG=""
 [[ -n "$CONDA_PLATFORM" ]] && CMAKE_ARCH_FLAG="-DCMAKE_OSX_ARCHITECTURES=x86_64"
@@ -289,11 +326,12 @@ rm -rf "$ECOLE_DIR/build"
 )
 
 # ---------------------------------------------------------------------------
-log "Step 7/7: verifying the installation"
+log "Step 8/8: verifying the installation"
 # ---------------------------------------------------------------------------
 export ML4LB_GPU_MODE="$GPU_MODE"
+export ML4LB_SRC_DIR="$REPO_DIR/src"
 run_native "$PY" - <<'VERIFY'
-import os
+import contextlib, ctypes, io, os, shutil, sys, tempfile, time
 import warnings; warnings.filterwarnings("ignore")
 
 import numpy, scipy, torch, torch_geometric, pyscipopt, matplotlib, pandas, geco, pickleshare, ecole
@@ -310,6 +348,31 @@ if os.environ.get("ML4LB_GPU_MODE") == "gpu":
     assert torch.cuda.is_available(), "CUDA build installed but torch.cuda.is_available() is False"
     print(f"  CUDA available: {torch.cuda.get_device_name(0)}  OK")
 
+# PySCIPOpt is the authors' fork: the methods that upstream 3.1.1 lacks and
+# that the local branching code calls must be present.
+fork_methods = ["createCopy", "createCopyMipLns", "createConsBasicLinear",
+                "releasePyCons", "createLPSol", "getFirstLpTime"]
+missing = [name for name in fork_methods if not hasattr(pyscipopt.Model, name)]
+assert not missing, f"pyscipopt is not the ml4lb fork, missing methods: {missing}"
+print("  pyscipopt fork methods present  OK")
+
+# PySCIPOpt and ecole must share one libscip (the env's SCIP 7.0.3), because
+# ecole and PySCIPOpt hand raw SCIP pointers to each other.
+def loaded_libscip():
+    if sys.platform == "darwin":
+        dyld = ctypes.CDLL(None)
+        dyld._dyld_image_count.restype = ctypes.c_uint32
+        dyld._dyld_get_image_name.restype = ctypes.c_char_p
+        images = [dyld._dyld_get_image_name(i).decode() for i in range(dyld._dyld_image_count())]
+    else:
+        with open("/proc/self/maps") as maps:
+            images = [line.split()[-1] for line in maps if "/" in line]
+    return sorted({os.path.realpath(p) for p in images if os.path.basename(p).startswith("libscip.")})
+libs = loaded_libscip()
+env_lib = os.path.realpath(os.path.join(sys.prefix, "lib"))
+assert len(libs) == 1 and os.path.dirname(libs[0]) == env_lib, f"expected one libscip from {env_lib}, got {libs}"
+print(f"  one shared libscip ({os.path.basename(libs[0])})  OK")
+
 # SCIP solves a MIP
 m = pyscipopt.Model(); m.hideOutput()
 x = m.addVar(vtype="B"); y = m.addVar(vtype="B")
@@ -325,6 +388,68 @@ env.seed(0)
 obs, _, _, _, _ = env.reset(next(gen))
 assert obs.variable_features.shape[1] == 10, "customized MilpBipartite feature count mismatch"
 print("  ecole 0.6.0 (customized) observation  OK")
+
+# ecole <-> PySCIPOpt model exchange (ecole requires an owning PySCIPOpt model)
+m = pyscipopt.Model(); m.hideOutput()
+m.addVar(vtype="B"); m.addVar(vtype="B")
+back = ecole.scip.Model.from_pyscipopt(m).as_pyscipopt()
+assert back.getNVars() == 2
+print("  ecole <-> pyscipopt model exchange  OK")
+
+# Smoke test of the project code paths that need the fork, on a tiny instance
+sys.path.insert(0, os.environ["ML4LB_SRC_DIR"])
+from ml4lb.localbranching import LocalBranching
+from ml4lb.primal_heur_localbranch import HeurLocalbranchMulticall
+from ml4lb.localbranching_ml import RegressionInitialK_KPrime
+
+t_start = time.time()
+tmp_dir = tempfile.mkdtemp()
+instance_file = os.path.join(tmp_dir, "smoke.lp")
+sol_file = os.path.join(tmp_dir, "smoke.sol")
+gen = ecole.instance.SetCoverGenerator(n_rows=60, n_cols=40, density=0.15); gen.seed(0)
+next(gen).write_problem(instance_file)
+m = pyscipopt.Model(); m.hideOutput(); m.readProblem(instance_file)
+m.setParam("limits/solutions", 1); m.optimize(); m.writeBestSol(sol_file)
+
+def load_instance():
+    model = pyscipopt.Model(); model.hideOutput(); model.readProblem(instance_file)
+    incumbent = model.readSolFile(sol_file); model.addSol(incumbent, False)
+    return model, incumbent
+
+quiet = contextlib.redirect_stdout(io.StringIO())
+
+# model copy (createCopy)
+m, _ = load_instance()
+copy, _, success = m.createCopy(problemName="smoke_copy", origcopy=True)
+assert success and copy.getNVars() == m.getNVars()
+
+# LB search of Section 5 (createConsBasicLinear, releasePyCons)
+m, sol = load_instance()
+lb = LocalBranching(MIP_model=m, MIP_sol_bar=sol, k=10, node_time_limit=0.5, total_time_limit=2)
+with quiet:
+    lb.mdp_localbranch(is_symmetric=True)
+
+# LB as a SCIP primal heuristic, as in Section 6 (createCopyMipLns)
+m, _ = load_instance()
+heur = HeurLocalbranchMulticall(k_0=10, node_time_limit=0.5, total_time_limit=2, is_symmetric=True,
+                                is_heuristic=True, reset_k_at_2nditeration=False,
+                                no_improve_iteration_limit=2, device="cpu")
+m.includeHeur(heur, "PyHeur_LB_smoke", "LB smoke test", "Y", priority=-130000, freq=0, freqofs=0,
+              maxdepth=-1, timingmask=pyscipopt.SCIP_HEURTIMING.BEFORENODE, usessubscip=True)
+m.setPresolve(pyscipopt.SCIP_PARAMSETTING.OFF); m.setParam("limits/time", 10)
+with quiet:
+    m.optimize()
+assert heur.n_lb_calls >= 1, "the LB primal heuristic was never executed"
+
+# k' from the root LP solution (createLPSol, getFirstLpTime)
+m, sol = load_instance()
+with quiet:
+    runner = RegressionInitialK_KPrime("setcovering", "-small", "symmetric", "firstsol", seed=0)
+    k_prime = runner.compute_k_prime(m, sol)
+assert k_prime >= 0 and m.getFirstLpTime() >= 0
+
+shutil.rmtree(tmp_dir)
+print(f"  local branching smoke test ({time.time() - t_start:.0f} s)  OK")
 
 print()
 print("Environment installed and verified successfully.")
