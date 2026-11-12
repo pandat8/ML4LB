@@ -30,8 +30,9 @@ compiles it from source against the environment's SCIP 7.0.3, so that PySCIPOpt 
 `sudo yum install gcc gcc-c++`); on macOS, the Xcode Command Line Tools.
 
 On Linux machines with an NVIDIA GPU (e.g. a Tesla V100), the script automatically
-installs the CUDA build of PyTorch 1.7.1 (its bundled CUDA 11.0 runtime runs on any
-newer NVIDIA driver); pass `--cpu` or `--gpu` to override the auto-detection:
+installs the CUDA build of PyTorch 1.7.1 and the CUDA 11.0 runtime in the conda
+environment (the host NVIDIA driver must support CUDA 11.0); pass `--cpu` or
+`--gpu` to override the auto-detection:
 
 ```
 bash install_environment.sh mpc-test-01 --gpu

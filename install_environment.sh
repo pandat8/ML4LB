@@ -20,9 +20,9 @@
 # the environment is created as x86_64 and runs transparently under Rosetta.
 #
 # GPU support (Linux only): if an NVIDIA GPU is detected (nvidia-smi), the
-# CUDA 11.0 build of PyTorch 1.7.1 is installed instead of the CPU build;
-# the bundled CUDA runtime works on any newer driver (e.g. a V100 with a
-# CUDA 13.0 driver). Use --cpu or --gpu to override the auto-detection:
+# CUDA 11.0 build of PyTorch 1.7.1 and its runtime are installed instead of
+# the CPU build. The host NVIDIA driver must support CUDA 11.0. Use --cpu or
+# --gpu to override the auto-detection:
 #
 #   bash install_environment.sh [env-name] [--cpu|--gpu]
 #
@@ -170,8 +170,15 @@ log "Step 3/8: creating conda env '$ENV_NAME' (python, numpy, SCIP, Cython, cmak
 # cmake < 4 is required: the vendored ecole 0.6.0 sub-projects use CMake
 # minimums that CMake 4.x no longer accepts. Cython 0.29.x is required to
 # compile the 2021-era PySCIPOpt sources (Cython 3 rejects them).
-run_conda create -y -n "$ENV_NAME" -c conda-forge --override-channels \
+CONDA_PACKAGES=(
     python=3.8.17 numpy=1.21.2 scip=7.0.3 cython=0.29.37 'cmake>=3.15,<4' make
+)
+if [[ "$OS" == "Linux" && "$GPU_MODE" == "gpu" ]]; then
+    # The torch-sparse cu110 wheel dynamically links against libcusparse.so.11.
+    CONDA_PACKAGES+=(cudatoolkit=11.0)
+fi
+run_conda create -y -n "$ENV_NAME" -c conda-forge --override-channels \
+    "${CONDA_PACKAGES[@]}"
 
 # Resolve the environment prefix robustly (users may have custom envs_dirs).
 ENV_PREFIX="$("$CONDA_BIN" env list | awk -v n="$ENV_NAME" '$1==n {print $NF; exit}')"
